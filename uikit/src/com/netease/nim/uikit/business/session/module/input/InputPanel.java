@@ -344,7 +344,9 @@ public class InputPanel implements IEmoticonSelectedListener, IAudioRecordCallba
             } else if (v == emojiButtonInInputBar) {
                 toggleEmojiLayout();
             } else if (v == openVideo) {
-                openVideo();
+                //暂停视频功能
+//                openVideo();
+                Toast.makeText(container.activity,"因付费问题，暂停视频功能",Toast.LENGTH_SHORT).show();
             }
         }
     };
@@ -420,25 +422,21 @@ public class InputPanel implements IEmoticonSelectedListener, IAudioRecordCallba
         }
     }
 
-    // 结束会话
-    private void closeVideo() {
-         Toast.makeText(container.activity, "结束会话", Toast.LENGTH_SHORT).show();
-    }
 
     // 打开视频
     private void openVideo() {
-        String OrderID = container.activity.getSharedPreferences("config", Context.MODE_PRIVATE).getString("OrderId","");
-        String token = container.activity.getSharedPreferences("config", Context.MODE_PRIVATE).getString("SP_Token","");
+        String OrderID = container.activity.getSharedPreferences("config", Context.MODE_PRIVATE).getString("OrderId", "");
+        String token = container.activity.getSharedPreferences("config", Context.MODE_PRIVATE).getString("SP_Token", "");
         Log.e("xiaowu", "extendMessage_id:" + OrderID);
-        loadData(token,OrderID);
+        loadData(token, OrderID);
 
     }
 
     private void loadData(String token, final String id) {
         NimHttpClient.getInstance().init(container.activity);
         Map<String, String> headers = new HashMap<>();
-        headers.put("Authorization", "Bearer "+token);
-        NimHttpClient.getInstance().execute("http://qa.api.legal.prisonpublic.com:8086/lawyer/my/legal-advice/"+id+"/video-duration",headers,"", new NimHttpClient.NimHttpCallback() {
+        headers.put("Authorization", "Bearer " + token);
+        NimHttpClient.getInstance().execute("http://qa.api.legal.prisonpublic.com:8086/lawyer/my/legal-advice/" + id + "/video-duration", headers, "", new NimHttpClient.NimHttpCallback() {
             @Override
             public void onResponse(String response, int code, Throwable e) {
                 Log.e("xiaowu", "inputPanel:" + response);
@@ -446,10 +444,10 @@ public class InputPanel implements IEmoticonSelectedListener, IAudioRecordCallba
                     try {
                         org.json.JSONObject d = new org.json.JSONObject(response);
                         String videoDuration = d.getString("videoDuration");
-                        if (Double.parseDouble(videoDuration)>0) {
-                            String extendMessage = "{\"legalAdviceId\":\""+id+"\",\"videoDuration\":"+videoDuration+"}";
+                        if (Double.parseDouble(videoDuration) > 0) {
+                            String extendMessage = "{\"legalAdviceId\":\"" + id + "\",\"videoDuration\":" + videoDuration + "}";
                             AVChatKit.outgoingCall(container.activity, container.account, UserInfoHelper.getUserDisplayName(container.account), AVChatType.VIDEO.getValue(), AVChatActivity.FROM_INTERNAL, extendMessage);
-                        }else {
+                        } else {
                             EasyAlertDialogHelper.showOneButtonDiolag(container.activity, "", "视频通话时长已用完", "确认", true, null);
                         }
                     } catch (JSONException e1) {
