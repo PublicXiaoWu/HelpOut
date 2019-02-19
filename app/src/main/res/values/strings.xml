@@ -1,0 +1,66 @@
+<resources>
+    <string name="app_name">法律咨询</string>
+
+
+    <!--下拉刷新-->
+    <string name="pull_to_refresh">下拉刷新</string>
+    <string name="release_to_refresh">释放刷新</string>
+    <string name="refreshing">正在刷新</string>
+    <string name="not_updated_yet">暂未更新过</string>
+    <string name="updated_at">最后更新：%1$s</string>
+    <string name="time_error">时间有问题</string>
+
+
+    <string name="have_send">已发送</string>
+    <string name="verify_number_error">验证码错误</string>
+    <string name="password_error">密码错误</string>
+    <string name="group_error">您的手机号码已注册用户版，请使用新号码注册</string>
+    <string name="group_error_disable">账号已禁用</string>
+    <string name="user_is_Existed">用户已存在</string>
+    <string name="get_verify">获取验证码</string>
+
+
+    <string name="save">保存</string>
+    <string name="family_call_permission_agree">同意相机和录音权限才能够使用亲情电话功能</string>
+    <string name="please_agree_permission">请同意权限申请</string>
+    <string name="please_choice_photo_from">请选择图片来源</string>
+    <string name="take_photo">拍照</string>
+    <string name="photo_album">相册</string>
+
+
+    <string name="certified_fail">您提交的认证申请没有通过审核，请重新认证～</string>
+    <string name="certified_wait">您提交的认证申请正在审核中，请耐心等待～</string>
+    <string name="certified_not">您还未进行资格认证</string>
+    <string name="certified_fail_send">重新认证</string>
+    <string name="certified_not_send">马上认证</string>
+    <string name="please_fill_in">请填写</string>
+    <string name="please_select">请选择</string>
+    <string name="send_message">立即沟通</string>
+
+
+    <string name="pause">暂停</string>
+    <string name="go_on">继续</string>
+    <string name="retry">重试</string>
+    <string name="skip">跳过</string>
+    <string name="status">在线</string>
+    <string name="install">安装</string>
+    <string name="update_now">现在更新</string>
+    <string name="download_background">后台下载</string>
+
+    <!-- location -->
+    <string name="location_navigate">导航</string>
+    <string name="location_loading">正在定位</string>
+    <string name="location_map">地图定位</string>
+    <string name="my_location">我的位置</string>
+    <string name="location_address_unkown">该位置信息暂无</string>
+    <string name="format_mylocation">我的位置：%s</string>
+    <string name="location_address_fail">获取位置信息失败</string>
+    <string name="tools_selected">选择工具</string>
+    <string name="friends_map_navigation_web">在网页中打开</string>
+    <string name="location_open_map_error">打开地图出错</string>
+
+
+    <string name="qualification_authentication_2"><u>《法律咨询协议》</u></string>
+
+
+</resources>
