@@ -17,14 +17,14 @@
         android:text="暂无明细"
         android:visibility="gone"/>
 
-    <com.gkzxhn.legalconsulting.customview.PullToRefreshLayout
+    <com.gkzxhn.helpout.customview.PullToRefreshLayout
         android:id="@+id/loading_refresh"
         android:layout_marginTop="48dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
     >
 
-        <com.gkzxhn.legalconsulting.customview.LoadMoreWrapper
+        <com.gkzxhn.helpout.customview.LoadMoreWrapper
             android:id="@+id/loading_more"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -36,9 +36,9 @@
             >
 
             </android.support.v7.widget.RecyclerView>
-        </com.gkzxhn.legalconsulting.customview.LoadMoreWrapper>
+        </com.gkzxhn.helpout.customview.LoadMoreWrapper>
 
-    </com.gkzxhn.legalconsulting.customview.PullToRefreshLayout>
+    </com.gkzxhn.helpout.customview.PullToRefreshLayout>
 
 
 

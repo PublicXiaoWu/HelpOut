@@ -4,13 +4,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.gkzxhn.legalconsulting.customview.PullToRefreshLayout
+    <com.gkzxhn.helpout.customview.PullToRefreshLayout
         android:id="@+id/loading_refresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
     >
 
-        <com.gkzxhn.legalconsulting.customview.LoadMoreWrapper
+        <com.gkzxhn.helpout.customview.LoadMoreWrapper
             android:id="@+id/loading_more"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -22,9 +22,9 @@
                 android:layout_weight="1">
 
             </android.support.v7.widget.RecyclerView>
-        </com.gkzxhn.legalconsulting.customview.LoadMoreWrapper>
+        </com.gkzxhn.helpout.customview.LoadMoreWrapper>
 
-    </com.gkzxhn.legalconsulting.customview.PullToRefreshLayout>
+    </com.gkzxhn.helpout.customview.PullToRefreshLayout>
 
     <TextView
         android:id="@+id/tv_item_order_receiving_bull"

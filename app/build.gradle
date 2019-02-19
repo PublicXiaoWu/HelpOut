@@ -9,7 +9,7 @@ apply plugin: 'org.greenrobot.greendao' // apply plugin
 android {
     compileSdkVersion 28
     defaultConfig {
-        applicationId "com.gkzxhn.legalconsulting"
+        applicationId "com.gkzxhn.helpout"
         minSdkVersion 19
         targetSdkVersion 26
         versionCode 9
@@ -108,7 +108,7 @@ greendao {
     //数据库schema版本，也可以理解为数据库版本号
     schemaVersion 1
     //设置DaoMaster、DaoSession、Dao包名
-    daoPackage "com.gkzxhn.legalconsulting.greendao.dao"
+    daoPackage "com.gkzxhn.helpout.greendao.dao"
     //设置DaoMaster、DaoSession、Dao目录
     targetGenDir 'src/main/java'
 }

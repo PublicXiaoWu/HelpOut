@@ -6,9 +6,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-
-
-
     <!-- 下面显示的主要是主界面内容 -->
     <RelativeLayout
         android:id="@+id/main_content_frame_parent"
@@ -17,14 +14,14 @@
         android:background="@android:color/transparent"
         android:gravity="center">
 
-        <com.gkzxhn.legalconsulting.customview.NoScrollViewPager
+        <com.gkzxhn.helpout.customview.NoScrollViewPager
             android:id="@+id/vp_main"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
 
 
-        </com.gkzxhn.legalconsulting.customview.NoScrollViewPager>
+        </com.gkzxhn.helpout.customview.NoScrollViewPager>
 
 
     </RelativeLayout>

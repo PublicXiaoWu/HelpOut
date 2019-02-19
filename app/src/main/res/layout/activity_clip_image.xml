@@ -33,7 +33,7 @@
 
     </RelativeLayout>
 
-    <com.gkzxhn.legalconsulting.customview.ClipViewLayout
+    <com.gkzxhn.helpout.customview.ClipViewLayout
         android:id="@+id/clipViewLayout1"
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -43,7 +43,7 @@
         app:mHorizontalPadding="30dp"/>
 
     <!--矩形裁剪框示例 -->
-    <com.gkzxhn.legalconsulting.customview.ClipViewLayout
+    <com.gkzxhn.helpout.customview.ClipViewLayout
         android:id="@+id/clipViewLayout2"
         android:layout_width="match_parent"
         android:layout_height="0dp"
