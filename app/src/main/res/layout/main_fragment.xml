@@ -13,18 +13,6 @@
         app:layout_constraintTop_toTopOf="parent"/>
 
     <ImageView
-        android:id="@+id/iv_main_menu"
-        android:layout_width="26dp"
-        android:layout_height="26dp"
-        android:layout_marginStart="15dp"
-        android:paddingStart="5dp"
-        android:paddingTop="5dp"
-        android:src="@mipmap/ic_menu"
-        app:layout_constraintBottom_toBottomOf="@+id/iv_main_message_top"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/iv_main_message_top"
-    />
-    <ImageView
         android:id="@+id/iv_main_message_top"
         android:layout_width="26dp"
         android:layout_height="26dp"

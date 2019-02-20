@@ -97,7 +97,7 @@ class LoginPresenter(context: Context, view: LoginView) : BasePresenter<ILoginMo
         map["phoneNumber"] = mView?.getPhone().toString()
         map["verificationCode"] = mView?.getCode().toString()
         map["name"] = mView?.getPhone().toString()
-        map["group"] = "LAWYER"
+        map["group"] = "CUSTOMER"
         var body = RequestBody.create(MediaType.parse("application/json; charset=utf-8"),
                 Gson().toJson(map))
         mModel.login(mContext!!, body)

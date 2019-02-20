@@ -14,7 +14,6 @@ class RxBusBean {
     /****** 拒绝订单 true为接受 false为拒绝 ******/
     class AcceptOrder(var show: Boolean)
 
-    class ShowMenu(var show: Boolean)
     class HomeTopRedPoint(var show: Boolean)
     class LoginOut(var show: Boolean)
     /****** 刷新订单数据 ******/

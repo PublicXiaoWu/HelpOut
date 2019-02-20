@@ -77,6 +77,7 @@
         <activity android:name=".activity.MainActivity" android:launchMode="singleTop"/>
         <activity android:name=".activity.OrderGetSettingActivity"/>
         <activity android:name=".activity.BountyActivity"/>
+        <activity android:name=".activity.LegalConsultingActivity"/>
         <activity android:name=".activity.SettingActivity"/>
         <activity android:name=".activity.UserSettingActivity"/>
         <activity android:name=".activity.AllOrderActivity"/>

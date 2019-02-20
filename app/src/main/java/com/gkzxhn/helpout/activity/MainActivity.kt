@@ -12,20 +12,25 @@ import com.gkzxhn.helpout.entity.LawyersInfo
 import com.gkzxhn.helpout.entity.RxBusBean
 import com.gkzxhn.helpout.entity.UpdateInfo
 import com.gkzxhn.helpout.fragment.BaseFragment
-import com.gkzxhn.helpout.fragment.MainFragment
+import com.gkzxhn.helpout.fragment.HomeFragment
+import com.gkzxhn.helpout.fragment.MyConsultFragment
+import com.gkzxhn.helpout.fragment.UserFragment
 import com.gkzxhn.helpout.net.HttpObserver
 import com.gkzxhn.helpout.net.RetrofitClient
 import com.gkzxhn.helpout.net.error_exception.ApiException
-import com.gkzxhn.helpout.utils.*
-import kotlinx.android.synthetic.main.activity_main.*
+import com.gkzxhn.helpout.utils.ObtainVersion
+import com.gkzxhn.helpout.utils.TsClickDialog
+import com.gkzxhn.helpout.utils.TsDialog
+import com.gkzxhn.helpout.utils.showToast
 import kotlinx.android.synthetic.main.dialog_ts.*
-import kotlinx.android.synthetic.main.layout_user_info.*
 import retrofit2.adapter.rxjava.HttpException
 import rx.android.schedulers.AndroidSchedulers
-import rx.schedulers.Schedulers
 import java.io.IOException
 import java.net.ConnectException
 import java.util.*
+import kotlinx.android.synthetic.main.activity_main.tv_main_conversation as mainConversation
+import kotlinx.android.synthetic.main.activity_main.tv_main_home as mainHome
+import kotlinx.android.synthetic.main.activity_main.tv_main_my as mainMy
 import kotlinx.android.synthetic.main.activity_main.vp_main as vpMain
 
 /**
@@ -33,7 +38,7 @@ import kotlinx.android.synthetic.main.activity_main.vp_main as vpMain
  * @author LSX
  *    -----2018/9/11
  */
-class MainActivity : BaseActivity(), View.OnClickListener {
+class MainActivity : BaseActivity() {
 
     var tbList: MutableList<BaseFragment>? = null
     private var mainAdapter: MainAdapter? = null
@@ -48,126 +53,65 @@ class MainActivity : BaseActivity(), View.OnClickListener {
 
         tbList = ArrayList()
 
-        tbList?.add(MainFragment())
-//        tbList?.add(ConversationFragment())
-//        tbList?.add(UserFragment())
+        tbList?.add(HomeFragment())
+        tbList?.add(MyConsultFragment())
+        tbList?.add(UserFragment())
         mainAdapter = MainAdapter(supportFragmentManager, tbList)
         vpMain.adapter = mainAdapter
-//        vpMain.offscreenPageLimit = 3
+        vpMain.offscreenPageLimit = 3
 
         updateApp()
-        getLawyersInfo()
-
-        RxBus.instance.toObserverable(RxBusBean.ShowMenu::class.java)
-                .cache()
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({
-                    openLeftLayout()
-                }, {
-                    it.message.toString().logE(this)
-                })
-
-        v_user_rz_bg.setOnClickListener(this)
-        v_user_my_money_bg.setOnClickListener(this)
-        v_user_all_order_bg.setOnClickListener(this)
-        v_user_set_bg.setOnClickListener(this)
-        v_user_top_bg.setOnClickListener(this)
-        /****** 给个人信息栏设置背影触摸变化 ******/
-        ProjectUtils.addViewTouchChange(v_user_top_bg)
 
     }
 
-    override fun onClick(v: View) {
-        when (v.id) {
-            R.id.v_user_my_money_bg -> {
-                startActivity(Intent(this, BountyActivity::class.java))
-            }
-            R.id.v_user_rz_bg -> {
-                when (App.SP.getString(Constants.SP_CERTIFICATIONSTATUS, "")) {
-                /****** 已认证 ******/
-                    Constants.CERTIFIED -> {
-                        startActivity(Intent(this, QualificationAuthenticationShowActivity::class.java))
-                    }
-                    else -> {
-                        startActivity(Intent(this, QualificationAuthenticationActivity::class.java))
-                    }
-                }
-            }
-//            所有订单
-            R.id.v_user_all_order_bg -> {
-                startActivity(Intent(this, AllOrderActivity::class.java))
-            }
-//            设置
-            R.id.v_user_set_bg -> {
-                startActivity(Intent(this, SettingActivity::class.java))
-            }
-//            个人信息栏
-            R.id.v_user_top_bg -> {
-                val intent = Intent(this, UserSettingActivity::class.java)
-                intent.putExtra("name", if (lawyersInfo != null) lawyersInfo?.name else "")
-                intent.putExtra("phoneNumber", if (lawyersInfo != null) lawyersInfo?.phoneNumber else "")
-                startActivity(intent)
-            }
-        }
-        openLeftLayout()
-    }
-
-
-    fun openLeftLayout() {
-        if (drawerLayout.isDrawerOpen(main_left_drawer_layout)) {
-            drawerLayout.closeDrawer(main_left_drawer_layout);
-        } else {
-            drawerLayout.openDrawer(main_left_drawer_layout);
-        }
-    }
 
     /**
      * Explanation: 首页的点击方法
      * @author LSX
      *    -----2018/9/11
      */
-//    fun onClickGoHome(view: View) {
-//        vpMain.currentItem = 0
-//        mainHome.setDrawable(resources.getDrawable(R.mipmap.ic_home_purple))
-//        mainConversation.setDrawable(resources.getDrawable(R.mipmap.ic_conversation_black))
-//        mainMy.setDrawable(resources.getDrawable(R.mipmap.ic_my_black))
-//        resources?.getColor(R.color.main_bottom_purple)?.let { it1 -> mainHome.setTextColor(it1) }
-//        resources?.getColor(R.color.main_bottom_black)?.let { it1 -> mainConversation.setTextColor(it1) }
-//        resources?.getColor(R.color.main_bottom_black)?.let { it1 -> mainMy.setTextColor(it1) }
-//
-//    }
+    fun onClickGoHome(view: View) {
+        vpMain.currentItem = 0
+        mainHome.setDrawable(resources.getDrawable(R.mipmap.ic_home_purple))
+        mainConversation.setDrawable(resources.getDrawable(R.mipmap.ic_conversation_black))
+        mainMy.setDrawable(resources.getDrawable(R.mipmap.ic_my_black))
+        resources?.getColor(R.color.main_bottom_purple)?.let { it1 -> mainHome.setTextColor(it1) }
+        resources?.getColor(R.color.main_bottom_black)?.let { it1 -> mainConversation.setTextColor(it1) }
+        resources?.getColor(R.color.main_bottom_black)?.let { it1 -> mainMy.setTextColor(it1) }
+
+    }
 
     /**
      * Explanation: 会话页面的点击方法
      * @author LSX
      *    -----2018/9/11
      */
-//    fun onClickConversation(view: View) {
-//        vpMain.currentItem = 1
-//        mainHome.setDrawable(resources.getDrawable(R.mipmap.ic_home_black))
-//        mainConversation.setDrawable(resources.getDrawable(R.mipmap.ic_conversation_purple))
-//        mainMy.setDrawable(resources.getDrawable(R.mipmap.ic_my_black))
-//        resources?.getColor(R.color.main_bottom_black)?.let { it1 -> mainHome.setTextColor(it1) }
-//        resources?.getColor(R.color.main_bottom_purple)?.let { it1 -> mainConversation.setTextColor(it1) }
-//        resources?.getColor(R.color.main_bottom_black)?.let { it1 -> mainMy.setTextColor(it1) }
-//
-//    }
+    fun onClickConversation(view: View) {
+        vpMain.currentItem = 1
+        mainHome.setDrawable(resources.getDrawable(R.mipmap.ic_home_black))
+        mainConversation.setDrawable(resources.getDrawable(R.mipmap.ic_conversation_purple))
+        mainMy.setDrawable(resources.getDrawable(R.mipmap.ic_my_black))
+        resources?.getColor(R.color.main_bottom_black)?.let { it1 -> mainHome.setTextColor(it1) }
+        resources?.getColor(R.color.main_bottom_purple)?.let { it1 -> mainConversation.setTextColor(it1) }
+        resources?.getColor(R.color.main_bottom_black)?.let { it1 -> mainMy.setTextColor(it1) }
+
+    }
 
     /**
      * Explanation: 我的页面的点击方法
      * @author LSX
      *    -----2018/9/11
      */
-//    fun onClickGoUser(view: View) {
-//        vpMain.currentItem = 2
-//        mainHome.setDrawable(resources.getDrawable(R.mipmap.ic_home_black))
-//        mainConversation.setDrawable(resources.getDrawable(R.mipmap.ic_conversation_black))
-//        mainMy.setDrawable(resources.getDrawable(R.mipmap.ic_my_purple))
-//        resources?.getColor(R.color.main_bottom_black)?.let { it1 -> mainHome.setTextColor(it1) }
-//        resources?.getColor(R.color.main_bottom_black)?.let { it1 -> mainConversation.setTextColor(it1) }
-//        resources?.getColor(R.color.main_bottom_purple)?.let { it1 -> mainMy.setTextColor(it1) }
-//
-//    }
+    fun onClickGoUser(view: View) {
+        vpMain.currentItem = 2
+        mainHome.setDrawable(resources.getDrawable(R.mipmap.ic_home_black))
+        mainConversation.setDrawable(resources.getDrawable(R.mipmap.ic_conversation_black))
+        mainMy.setDrawable(resources.getDrawable(R.mipmap.ic_my_purple))
+        resources?.getColor(R.color.main_bottom_black)?.let { it1 -> mainHome.setTextColor(it1) }
+        resources?.getColor(R.color.main_bottom_black)?.let { it1 -> mainConversation.setTextColor(it1) }
+        resources?.getColor(R.color.main_bottom_purple)?.let { it1 -> mainMy.setTextColor(it1) }
+
+    }
 
 
     /**
@@ -222,37 +166,9 @@ class MainActivity : BaseActivity(), View.OnClickListener {
                 }))
     }
 
-    /**
-     * @methodName： created by liushaoxiang on 2018/10/22 3:31 PM.
-     * @description：获取律师信息
-     */
-    private fun getLawyersInfo() {
-        mCompositeSubscription?.add(RetrofitClient.getInstance(this).mApi?.getLawyersInfo()
-                ?.subscribeOn(Schedulers.io())
-                ?.unsubscribeOn(AndroidSchedulers.mainThread())
-                ?.observeOn(AndroidSchedulers.mainThread())
-                ?.subscribe(object : HttpObserver<LawyersInfo>(this) {
-                    override fun success(data: LawyersInfo) {
-                        App.EDIT.putString(Constants.SP_CERTIFICATIONSTATUS, data.certificationStatus)?.commit()
-                        lawyersInfo = data
-                        tv_user_phone.text = StringUtils.phoneChange(data.phoneNumber!!)
-                        tv_user_name.text = data.name
-                        tv_user_money.text = "￥" + data.rewardAmount
-
-                        App.EDIT.putString(Constants.SP_PHONE, data.phoneNumber)?.commit()
-                        App.EDIT.putString(Constants.SP_NAME, data.name)?.commit()
-                        App.EDIT.putString(Constants.SP_LAWOFFICE, data.lawOffice)?.commit()
-
-
-                        RxBus.instance.post(RxBusBean.HomeUserInfo(data))
-
-                    }
-                }))
-    }
 
     override fun onResume() {
         super.onResume()
-        getLawyersInfo()
         /****** 刷新订单数据 ******/
         RxBus.instance.post(RxBusBean.RefreshOrder(true))
 

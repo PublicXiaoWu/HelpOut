@@ -22,7 +22,7 @@ class CacheInterceptorLogin(context: Context) : Interceptor {
 
         var request = chain?.request()
         if (NetworkUtils.isNetConneted(context)) {
-            val credentials = "lawyer.app" + ":" + "506a7b6dfc5d42fe857ea9494bb24014"
+            val credentials = "consumer.m.app" + ":" + "1688c4f69fc6404285aadbc996f5e429"
             val basic = "Basic " + Base64.encodeToString(credentials.toByteArray(), Base64.NO_WRAP)
             val addHeader = request?.newBuilder()?.addHeader("Authorization", basic)
 

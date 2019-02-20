@@ -34,7 +34,7 @@ import kotlinx.android.synthetic.main.main_fragment.v_home_select_line2 as vSele
 import kotlinx.android.synthetic.main.main_fragment.vp_home as VpHome
 
 /**
- * Explanation: 首页
+ * Explanation: 律师抢单页面
  * @author LSX
  *    -----2018/9/7
  */
@@ -178,10 +178,6 @@ class MainFragment : BaseFragment(), CompoundButton.OnCheckedChangeListener {
         }
         ivMessageTop.setOnClickListener {
             startActivity(Intent(context, NotificationActivity::class.java))
-        }
-
-        iv_main_menu.setOnClickListener {
-            RxBus.instance.post(RxBusBean.ShowMenu(true))
         }
 
         iv_main_icon.setOnClickListener {
