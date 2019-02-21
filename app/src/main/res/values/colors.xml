@@ -50,4 +50,7 @@
     <color name="bind_blue">#ff5159a2</color>
     <color name="bind_gary">#ff666666</color>
 
+    <color name="text_black">#333333</color>
+    <color name="gray_line">#EAEBEE</color>
+
 </resources>

@@ -108,6 +108,7 @@
             android:label="@string/location_navigate"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"/>
+        <activity android:name=".activity.FeedBackActivity"/>
 
         <provider
             android:name="android.support.v4.content.FileProvider"
