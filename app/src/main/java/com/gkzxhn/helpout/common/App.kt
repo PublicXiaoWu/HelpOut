@@ -126,7 +126,6 @@ class App : Application() {
                         }
                     }, true)
         }
-
     }
 
 

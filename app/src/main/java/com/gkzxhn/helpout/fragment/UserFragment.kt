@@ -41,7 +41,11 @@ class UserFragment : BaseFragment(), View.OnClickListener {
     }
 
     override fun init() {
-        getLawyersInfo()
+
+
+        if (ProjectUtils.certificationStatus()) {
+            getLawyersInfo()
+        }
 
         /****** 接受控件小红点的消息 ******/
         RxBus.instance.toObserverable(RxBusBean.HomeTopRedPoint::class.java)
@@ -55,7 +59,7 @@ class UserFragment : BaseFragment(), View.OnClickListener {
     }
 
     override fun initListener() {
-               v_user_my_money_bg.setOnClickListener(this)
+        v_user_my_money_bg.setOnClickListener(this)
         v_user_rz_bg.setOnClickListener(this)
         v_user_all_order_bg.setOnClickListener(this)
         v_user_set_bg.setOnClickListener(this)
@@ -138,7 +142,7 @@ class UserFragment : BaseFragment(), View.OnClickListener {
         }
     }
 
-       /**
+    /**
      * @methodName： created by liushaoxiang on 2018/10/22 3:31 PM.
      * @description：获取律师信息
      */
@@ -195,7 +199,7 @@ class UserFragment : BaseFragment(), View.OnClickListener {
         App.EDIT.putString(Constants.SP_NAME, date.name)?.commit()
         App.EDIT.putString(Constants.SP_LAWOFFICE, date.lawOffice)?.commit()
 
-        ProjectUtils.loadMyIcon(context,iv_user_icon)
+        ProjectUtils.loadMyIcon(context, iv_user_icon)
 
         RxBus.instance.post(RxBusBean.HomeUserInfo(date))
 
