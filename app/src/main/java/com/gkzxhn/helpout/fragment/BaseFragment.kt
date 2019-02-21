@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import rx.subscriptions.CompositeSubscription
 
-
 /**
  * Explanation:
  * @author LSX
