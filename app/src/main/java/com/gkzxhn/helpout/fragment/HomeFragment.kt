@@ -19,12 +19,18 @@ class HomeFragment : BaseFragment() {
     }
 
     override fun initListener() {
-        iv_home_legal_advice.setOnClickListener {
+        v_home_psychological.setOnClickListener {
+            context?.showToast("心理咨询")
+        }
+        v_home_legal_advice.setOnClickListener {
             if (ProjectUtils.certificationStatus()) {
                 startActivity(Intent(context, LegalConsultingActivity::class.java))
             } else {
                 context?.showToast("尚未认证")
             }
+        }
+        v_home_business.setOnClickListener {
+            context?.showToast("敬请期待")
         }
     }
 

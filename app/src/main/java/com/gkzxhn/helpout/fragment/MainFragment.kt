@@ -115,12 +115,6 @@ class MainFragment : BaseFragment(), CompoundButton.OnCheckedChangeListener {
         /****** 恢复监听 ******/
         st_home_get_order_state.setOnCheckedChangeListener(this)
 
-
-//        val avatarStr = App.SP.getString(Constants.SP_AVATARFILE, "")
-//        if (avatarStr?.isNotEmpty()!!) {
-//            val decodeFile = BitmapFactory.decodeFile(avatarStr)
-//            iv_main_icon.setImageBitmap(decodeFile)
-//        }
         ProjectUtils.loadMyIcon(context,iv_main_icon)
 
         when (App.SP.getString(Constants.SP_CERTIFICATIONSTATUS, "")) {
