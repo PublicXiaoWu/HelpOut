@@ -76,7 +76,7 @@
     <TextView
         android:id="@+id/tv_account_info_send"
         android:layout_width="137dp"
-        android:layout_height="48dp"
+        android:layout_height="44dp"
         android:layout_marginBottom="67dp"
         android:background="@mipmap/ic_login_bg_tv"
         android:gravity="center"
