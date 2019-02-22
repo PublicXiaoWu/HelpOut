@@ -2,16 +2,16 @@ package com.gkzxhn.helpout.presenter
 
 import android.content.Context
 import android.content.Intent
-import android.os.Handler
 import android.text.TextUtils
 import android.util.Log
 import com.gkzxhn.helpout.R
+import com.gkzxhn.helpout.activity.AccountInfoUpActivity
 import com.gkzxhn.helpout.activity.LoginActivity
 import com.gkzxhn.helpout.activity.MainActivity
 import com.gkzxhn.helpout.common.App
 import com.gkzxhn.helpout.common.Constants
+import com.gkzxhn.helpout.entity.AccountInfo
 import com.gkzxhn.helpout.entity.ImInfo
-import com.gkzxhn.helpout.entity.LawyersInfo
 import com.gkzxhn.helpout.model.ILoginModel
 import com.gkzxhn.helpout.model.iml.LoginModel
 import com.gkzxhn.helpout.net.HttpObserver
@@ -45,11 +45,6 @@ import java.util.*
 
 class LoginPresenter(context: Context, view: LoginView) : BasePresenter<ILoginModel, LoginView>(context, LoginModel(), view) {
 
-
-    val handler = Handler(Handler.Callback {
-        getImInfo()
-        false
-    })
     fun login() {
         if (mView?.getCode()?.isEmpty()!! || mView?.getPhone()?.isEmpty()!!) {
             mContext?.showToast("请填写完成后操作！")
@@ -180,7 +175,7 @@ class LoginPresenter(context: Context, view: LoginView) : BasePresenter<ILoginMo
                                     }
                                     App.EDIT.putString(Constants.SP_TOKEN, token)?.commit()
                                     App.EDIT.putString(Constants.SP_REFRESH_TOKEN, refreshToken)?.commit()
-                                    getLawyersInfo()
+                                    getImInfo()
                                 }
                             } else if (t.code() == 400) {
                                 when (JSONObject(t.errorBody().string()).getString("error")) {
@@ -235,29 +230,28 @@ class LoginPresenter(context: Context, view: LoginView) : BasePresenter<ILoginMo
 
     /**
      * @methodName： created by liushaoxiang on 2018/10/22 3:31 PM.
-     * @description：获取律师信息
+     * @description：获取我的账号明细
      */
-    private fun getLawyersInfo() {
+    private fun getAccountInfo() {
         mContext?.let {
-            mModel.getLawyersInfo(it)
+            mModel.getAccountInfo(it)
                     .unsubscribeOn(AndroidSchedulers.mainThread())
                     ?.observeOn(AndroidSchedulers.mainThread())
-                    ?.subscribe(object : HttpObserver<LawyersInfo>(mContext!!) {
-                        override fun success(date: LawyersInfo) {
-                            App.EDIT.putString(Constants.SP_CERTIFICATIONSTATUS, date.certificationStatus)?.commit()
-                            App.EDIT.putString(Constants.SP_PHONE, date.phoneNumber)?.commit()
-                            App.EDIT.putString(Constants.SP_NAME, date.name)?.commit()
-                            App.EDIT.putString(Constants.SP_LAWOFFICE, date.lawOffice)?.commit()
-                            mContext?.startActivity(Intent(mContext, MainActivity::class.java))
-                            handler.sendEmptyMessageDelayed(0, 0)
-                            mView?.onFinish()
+                    ?.subscribe(object : HttpObserverNoDialog<AccountInfo>(mContext!!) {
+                        override fun success(t: AccountInfo) {
+                            if (t.nickname.isNullOrEmpty()) {
+                                val intent = Intent(mContext, AccountInfoUpActivity::class.java)
+                                intent.putExtra("name",t.name)
+                                intent.putExtra("phoneNumber",t.phoneNumber)
+                                mContext?.startActivity(intent)
+                                mView?.onFinish()
+                            } else {
+                                mContext?.startActivity(Intent(mContext, MainActivity::class.java))
+                                mView?.onFinish()
+                            }
                         }
 
                         override fun onError(t: Throwable?) {
-                            super.onError(t)
-                            mContext?.startActivity(Intent(mContext, MainActivity::class.java))
-                            handler.sendEmptyMessageDelayed(0, 0)
-                            mView?.onFinish()
                         }
                     })
         }
@@ -295,6 +289,7 @@ class LoginPresenter(context: Context, view: LoginView) : BasePresenter<ILoginMo
                 App.EDIT.putString(Constants.SP_IM_ACCOUNT, param.account).commit()
                 App.EDIT.putString(Constants.SP_IM_TOKEN, param.token).commit()
                 NimUIKit.setAccount(account)
+                getAccountInfo()
             }
 
             override fun onFailed(code: Int) {

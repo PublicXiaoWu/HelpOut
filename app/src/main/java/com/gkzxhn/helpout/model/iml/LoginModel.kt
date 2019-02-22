@@ -1,6 +1,7 @@
 package com.gkzxhn.helpout.model.iml
 
 import android.content.Context
+import com.gkzxhn.helpout.entity.AccountInfo
 import com.gkzxhn.helpout.entity.ImInfo
 import com.gkzxhn.helpout.entity.LawyersInfo
 import com.gkzxhn.helpout.model.ILoginModel
@@ -55,6 +56,13 @@ class LoginModel : BaseModel(), ILoginModel {
                 ?.getImInfo()
                 ?.subscribeOn(Schedulers.io())
                 as Observable<ImInfo>
+    }
+
+    override fun getAccountInfo(context: Context): Observable<AccountInfo> {
+        return RetrofitClientLogin.Companion.getInstance(context).mApi
+                ?.getAccountInfo()
+                ?.subscribeOn(Schedulers.io())
+                as Observable<AccountInfo>
     }
 
 }

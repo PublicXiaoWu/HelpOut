@@ -41,7 +41,7 @@ class UserFragment : BaseFragment(), View.OnClickListener {
     }
 
     override fun init() {
-
+        ProjectUtils.loadMyIcon(context, iv_user_icon)
 
         if (ProjectUtils.certificationStatus()) {
             getLawyersInfo()
