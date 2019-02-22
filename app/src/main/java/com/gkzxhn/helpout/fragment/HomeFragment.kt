@@ -2,6 +2,7 @@ package com.gkzxhn.helpout.fragment
 
 import android.content.Intent
 import com.gkzxhn.helpout.R
+import com.gkzxhn.helpout.activity.LawsServiceActivity
 import com.gkzxhn.helpout.activity.LegalConsultingActivity
 import com.gkzxhn.helpout.utils.ProjectUtils
 import com.gkzxhn.helpout.utils.showToast
@@ -25,6 +26,10 @@ class HomeFragment : BaseFragment() {
             } else {
                 context?.showToast("尚未认证")
             }
+        }
+
+        bt_temp.setOnClickListener {
+            activity?.let { it1 -> LawsServiceActivity.launch(it1) }
         }
     }
 

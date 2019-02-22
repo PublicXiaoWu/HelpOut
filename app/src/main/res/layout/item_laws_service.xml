@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:orientation="vertical"
+              android:background="@drawable/ripple_bg"
+              android:layout_width="match_parent"
+              android:layout_height="140dp">
+
+    <ImageView
+        android:id="@+id/iv_channel"
+        android:layout_gravity="center_horizontal"
+        android:src="@mipmap/icon_property_dispute"
+        android:layout_marginTop="@dimen/dimen_15"
+        android:layout_width="84dp"
+        android:layout_height="64dp"/>
+
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="财产纠纷"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/dimen_8"
+        android:textColor="@color/dark_blue"
+        android:textSize="@dimen/text_common"
+        />
+
+    <TextView
+        android:id="@+id/tv_desc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="最大化维护您的合法权益"
+        android:layout_marginTop="@dimen/dimen_5"
+        android:layout_gravity="center_horizontal"
+        android:textColor="@color/text_gray"
+        android:textSize="@dimen/text_little"
+        />
+</LinearLayout>

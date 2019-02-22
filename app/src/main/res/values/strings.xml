@@ -62,6 +62,35 @@
 
     <string name="qualification_authentication_2"><u>《法律咨询协议》</u></string>
     <string name="feedback">意见反馈</string>
+    <string name="laws_counsel">法律咨询</string>
 
+    <string name="property_dispute">财产纠纷</string>
+    <string name="property_dispute_tips">最大化维护您的合法权益</string>
+    <string name="msttishr_family">婚姻家庭</string>
+    <string name="msttishr_family_tips">让法律守护你我他</string>
+    <string name="traffic_accident">交通事故</string>
+    <string name="traffic_accident_tips">优质、高效的法律帮助</string>
+    <string name="work_cover">工伤赔偿</string>
+    <string name="work_cover_tips">尽职尽责，专业诚信</string>
+    <string name="icon_contract_dispute">合同纠纷</string>
+    <string name="icon_contract_dispute_tips">专业高效，值得托付</string>
+    <string name="criminal_defense">刑事辩护</string>
+    <string name="criminal_defense_tips">好律师就在身边</string>
+    <string name="property_disputes">房产纠纷</string>
+    <string name="property_disputes_tips">认证律师，高效出函</string>
+    <string name="labour_employment">劳动就业</string>
+    <string name="labour_employment_tips">资深专业，经验丰富</string>
+    <string name="counsel_category">咨询类别</string>
+    <string name="publish_order">发布抢单</string>
+    <string name="consulting_fees">咨询费用</string>
+    <string name="cost20_at_least">最低金额不低于20元</string>
+    <string name="more_consulting_fee">咨询费用越多</string>
+    <string name="reply">回复</string>
+    <string name="efficient">效率</string>
+    <string name="and_yu">与</string>
+    <string name="quality">质量</string>
+    <string name="higher">越高</string>
+    <string name="yuan">元</string>
+    <string name="price_least_tips">最低金额不低于</string>
 
 </resources>

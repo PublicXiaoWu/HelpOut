@@ -109,6 +109,8 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity android:name=".activity.FeedBackActivity"/>
+        <activity android:name=".activity.LawsServiceActivity"/>
+        <activity android:name=".activity.PublishOrderActivity"/>
 
         <provider
             android:name="android.support.v4.content.FileProvider"

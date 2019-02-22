@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
+<LinearLayout
+    android:orientation="vertical"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent" android:layout_height="match_parent">
 
 
@@ -17,9 +19,11 @@
         android:layout_marginTop="10dp"
         android:layout_height="wrap_content"
         android:text="法律咨询"
-        app:layout_constraintEnd_toEndOf="@id/iv_home_legal_advice"
-        app:layout_constraintStart_toStartOf="@id/iv_home_legal_advice"
-        app:layout_constraintTop_toBottomOf="@id/iv_home_legal_advice"
     />
 
-</android.support.constraint.ConstraintLayout>
+    <Button
+        android:id="@+id/bt_temp"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/dimen_40"
+        android:text="用户端入口"/>
+</LinearLayout>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+
+    <include
+        layout="@layout/default_top"/>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_laws_service"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:paddingBottom="@dimen/dimen_100">
+
+        </android.support.v7.widget.RecyclerView>
+
+        <Button
+            android:id="@+id/tv_buy_again"
+            android:layout_width="@dimen/dimen_100"
+            android:layout_height="40dp"
+            android:layout_gravity="center_horizontal|bottom"
+            android:layout_marginBottom="@dimen/dimen_20"
+            android:layout_marginTop="@dimen/dimen_30"
+            android:background="@drawable/ripple_button_stroke"
+            android:gravity="center"
+            android:text="发布抢单"
+            android:textColor="@color/dark_blue"
+            android:textSize="@dimen/text_normal"
+            />
+    </FrameLayout>
+
+</LinearLayout>

@@ -52,5 +52,8 @@
 
     <color name="text_black">#333333</color>
     <color name="gray_line">#EAEBEE</color>
+    <color name="ripple_bg">#FFaaaaaa</color>
+    <color name="dark_blue_ripple">#36455e</color>
+    <color name="light_blue">#5a82cc</color>
 
 </resources>

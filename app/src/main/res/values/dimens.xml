@@ -29,4 +29,13 @@
     <dimen name="text_ll_large">24sp</dimen>
     <dimen name="text_countdown_number">60sp</dimen>
     <dimen name="dimen_10">10dp</dimen>
+    <dimen name="dimen_20">20dp</dimen>
+    <dimen name="dimen_30">30dp</dimen>
+    <dimen name="dimen_100">100dp</dimen>
+    <dimen name="dimen_45">45dp</dimen>
+    <dimen name="dimen_3">3dp</dimen>
+    <dimen name="dimen_34">34dp</dimen>
+    <dimen name="dimen_330">330dp</dimen>
+    <dimen name="dimen_44">44dp</dimen>
+
 </resources>
