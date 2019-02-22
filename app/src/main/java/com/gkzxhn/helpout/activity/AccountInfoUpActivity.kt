@@ -9,19 +9,20 @@ import android.provider.MediaStore
 import android.support.v4.content.FileProvider
 import android.util.Log
 import android.view.View
+import android.view.WindowManager
 import com.afollestad.materialdialogs.GravityEnum
 import com.afollestad.materialdialogs.MaterialDialog
 import com.gkzxhn.helpout.R
 import com.gkzxhn.helpout.common.App
 import com.gkzxhn.helpout.common.Constants
-import com.gkzxhn.helpout.customview.ClipViewLayout.getRealFilePathFromUri
+import com.gkzxhn.helpout.customview.ClipViewLayout
 import com.gkzxhn.helpout.net.HttpObserver
 import com.gkzxhn.helpout.net.RetrofitClientLogin
 import com.gkzxhn.helpout.utils.*
+import com.google.gson.Gson
 import com.tbruyelle.rxpermissions2.Permission
 import com.tbruyelle.rxpermissions2.RxPermissions
-import kotlinx.android.synthetic.main.activity_user_setting.*
-import kotlinx.android.synthetic.main.default_top.*
+import kotlinx.android.synthetic.main.activity_accountinfoup.*
 import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -29,68 +30,106 @@ import retrofit2.Response
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
 import java.io.File
+import java.util.*
 
 /**
- * @classname：UserSettingActivity
+ * @classname：
  * @author：liushaoxiang
- * @date：2018/10/12 3:52 PM
- * @description：个人账号设置
+ * @date：2019/2/22 11:12 AM
+ * @description：账号的信息上传
  */
-class UserSettingActivity : BaseActivity() {
-
+class AccountInfoUpActivity : BaseActivity() {
 
     private val TAKE_PHOTO_IMAGE = 101       //拍头像
     private val CHOOSE_PHOTO_IMAGE = 102      //选择头像
     private val REQUEST_CROP_PHOTO = 104     //简单裁剪头像
     lateinit var photoDir: File
     var mTakePhotoUri: Uri? = null      //拍照uri
-    private var name = ""
-    private var phoneNumber = ""
+    private var photoIsUp = false //头像是否上传
 
     override fun provideContentViewId(): Int {
-        return R.layout.activity_user_setting
+        window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
+
+        return R.layout.activity_accountinfoup
     }
 
     override fun init() {
-        initTopTitle()
-        ProjectUtils.addViewTouchChange(tv_user_setting_change_phone)
-        name = intent.getStringExtra("name")
-        phoneNumber = intent.getStringExtra("phoneNumber")
-        tv_user_setting_change_name.text = name
+        /****** 进入这个界面表示没有完成头像和昵称的上传 ******/
+        App.EDIT.putBoolean(Constants.SP_ACCOUNT_COMPLETE, false).commit()
 
-        ProjectUtils.loadMyIcon(this,iv_user_setting_image)
-        tv_user_setting_phone.text = StringUtils.phoneChange(phoneNumber)
-
-        photoDir = File(externalCacheDir, "photo")
-        if (!photoDir.exists()) {
-            photoDir.mkdirs()
-        }
-    }
-
-    private fun initTopTitle() {
-        tv_default_top_title.text = "个人账号"
-        iv_default_top_back.setOnClickListener {
-            finish()
-        }
     }
 
 
-    fun onClickUserSetting(view: View) {
-        when (view.id) {
+    /****** 上传用户头像 ******/
+    fun upUserImage(view: View) {
+        showListDialog("id_head.jpg", false)
+    }
 
-        /****** 个人头像 ******/
-            R.id.v_user_setting_photo_bg -> {
-                showListDialog("id_head.jpg", false)
-
-            }
-        /****** 更换手机号 ******/
-            R.id.tv_user_setting_change_phone -> {
-                var intent = Intent(this, ChangePhoneFirstActivity::class.java)
-                intent.putExtra("phoneNumber", phoneNumber)
-                startActivity(intent)
-                finish()
-            }
+    /****** 上传数据 ******/
+    fun sendUpload(view: View) {
+        val nickName = ev_account_info_nickname.text.toString().trim()
+        if (photoIsUp && nickName.isNotEmpty()) {
+            modifyNickname(nickName)
+        } else {
+            showToast("请完成上传和填写昵称")
         }
+    }
+
+
+    /**
+     * @methodName： created by liushaoxiang on 2018/10/26 2:07 PM.
+     * @description：修改头像
+     */
+    private fun modifyAvatar(file: File) {
+        val requestFile = RequestBody.create(MediaType.parse("image/jpeg"), file)
+        val body = MultipartBody.Part.createFormData("file", file.name, requestFile)
+        RetrofitClientLogin.getInstance(this).mApi?.modifyAvatar(body)
+                ?.subscribeOn(Schedulers.io())
+                ?.unsubscribeOn(AndroidSchedulers.mainThread())
+                ?.observeOn(AndroidSchedulers.mainThread())
+                ?.subscribe(object : HttpObserver<Response<Void>>(this) {
+                    override fun success(t: Response<Void>) {
+                        if (t.code() == 204) {
+                            showToast("上传成功")
+                            App.EDIT.putString(Constants.SP_MY_ICON, System.currentTimeMillis().toString()).commit()
+                            ProjectUtils.loadMyIcon(this@AccountInfoUpActivity, iv_account_info_image)
+                            photoIsUp = true
+                        } else {
+                            showToast("上传失败")
+                        }
+                    }
+                })
+    }
+
+
+    /**
+     * @methodName： created by liushaoxiang on 2019/2/22 2:51 PM.
+     * @description：修改昵称
+     */
+    private fun modifyNickname(nickname: String) {
+        var map = LinkedHashMap<String, String>()
+        map["name"] = intent.getStringExtra("name")
+        map["phoneNumber"] = intent.getStringExtra("phoneNumber")
+        map["nickname"] = nickname
+        var body = RequestBody.create(MediaType.parse("application/json; charset=utf-8"),
+                Gson().toJson(map))
+
+        RetrofitClientLogin.getInstance(this).mApi?.modifyAccountInfo(body)
+                ?.subscribeOn(Schedulers.io())
+                ?.unsubscribeOn(AndroidSchedulers.mainThread())
+                ?.observeOn(AndroidSchedulers.mainThread())
+                ?.subscribe(object : HttpObserver<Response<Void>>(this) {
+                    override fun success(t: Response<Void>) {
+                        if (t.code() == 204) {
+                            /****** 这里已经完成头像和昵称的上传 ******/
+                            App.EDIT.putBoolean(Constants.SP_ACCOUNT_COMPLETE, true).commit()
+                            startActivity(Intent(this@AccountInfoUpActivity, MainActivity::class.java))
+                        } else {
+                            showToast("修改昵称失败")
+                        }
+                    }
+                })
+
     }
 
 
@@ -252,7 +291,7 @@ class UserSettingActivity : BaseActivity() {
                             return
                         }
                         var uri = data.data
-                        val cropImagePath = getRealFilePathFromUri(applicationContext, uri)
+                        val cropImagePath = ClipViewLayout.getRealFilePathFromUri(applicationContext, uri)
                         //此处后面可以将bitMap转为二进制上传后台网络
 //                        uploadFiles(File(cropImagePath))
                         modifyAvatar(File(cropImagePath))
@@ -284,33 +323,6 @@ class UserSettingActivity : BaseActivity() {
         intent.putExtra("type", 2)
         intent.data = uri
         startActivityForResult(intent, REQUEST_CROP_PHOTO)
-    }
-
-
-
-
-    /**
-     * @methodName： created by liushaoxiang on 2018/10/26 2:07 PM.
-     * @description：修改头像
-     */
-    private fun modifyAvatar(file: File) {
-        val requestFile = RequestBody.create(MediaType.parse("image/jpeg"), file)
-        val body = MultipartBody.Part.createFormData("file", file.name, requestFile)
-        RetrofitClientLogin.getInstance(this).mApi?.modifyAvatar(body)
-                ?.subscribeOn(Schedulers.io())
-                ?.unsubscribeOn(AndroidSchedulers.mainThread())
-                ?.observeOn(AndroidSchedulers.mainThread())
-                ?.subscribe(object : HttpObserver<Response<Void>>(this) {
-                    override fun success(date: Response<Void>) {
-                        if (date.code() == 204) {
-                            showToast("上传成功")
-                            App.EDIT.putString(Constants.SP_MY_ICON, System.currentTimeMillis().toString()).commit()
-                            ProjectUtils.loadMyIcon(this@UserSettingActivity,iv_user_setting_image)
-                        } else {
-                            showToast("上传失败")
-                        }
-                    }
-                })
     }
 
 }

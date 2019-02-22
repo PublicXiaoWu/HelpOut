@@ -1,6 +1,7 @@
 package com.gkzxhn.helpout.model
 
 import android.content.Context
+import com.gkzxhn.helpout.entity.AccountInfo
 import com.gkzxhn.helpout.entity.ImInfo
 import com.gkzxhn.helpout.entity.LawyersInfo
 import okhttp3.RequestBody
@@ -28,4 +29,5 @@ interface ILoginModel : IBaseModel {
     fun uploadCrash(context: Context, body: RequestBody): Observable<Response<Void>>
 
     fun getIMInfo(context: Context): Observable<ImInfo>
+    fun getAccountInfo(context: Context): Observable<AccountInfo>
 }

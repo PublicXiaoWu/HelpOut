@@ -6,7 +6,7 @@ import kotlinx.android.synthetic.main.conversation_fragment.*
 
 
 /**
- * Explanation: 会话
+ * Explanation: 网易会话列表页面
  * @author LSX
  *    -----2018/9/7
  */

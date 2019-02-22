@@ -2,7 +2,6 @@ package com.gkzxhn.helpout.fragment
 
 import android.content.Intent
 import com.gkzxhn.helpout.R
-import com.gkzxhn.helpout.activity.LawsServiceActivity
 import com.gkzxhn.helpout.activity.LegalConsultingActivity
 import com.gkzxhn.helpout.utils.ProjectUtils
 import com.gkzxhn.helpout.utils.showToast
@@ -20,16 +19,18 @@ class HomeFragment : BaseFragment() {
     }
 
     override fun initListener() {
-        iv_home_legal_advice.setOnClickListener {
+        v_home_psychological.setOnClickListener {
+            context?.showToast("心理咨询")
+        }
+        v_home_legal_advice.setOnClickListener {
             if (ProjectUtils.certificationStatus()) {
                 startActivity(Intent(context, LegalConsultingActivity::class.java))
             } else {
                 context?.showToast("尚未认证")
             }
         }
-
-        bt_temp.setOnClickListener {
-            activity?.let { it1 -> LawsServiceActivity.launch(it1) }
+        v_home_business.setOnClickListener {
+            context?.showToast("敬请期待")
         }
     }
 

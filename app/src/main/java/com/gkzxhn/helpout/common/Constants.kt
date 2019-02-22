@@ -32,7 +32,9 @@ object Constants {
     val SP_LAWOFFICE = "sp_user_lawOffice"
     val SP_IM_ACCOUNT = "SP_IM_ACCOUNT"
     val SP_IM_TOKEN = "SP_IM_TOKEN"
-    
+    /****** 头像和昵称已完成上传 ******/
+    val SP_ACCOUNT_COMPLETE = "SP_ACCOUNT_COMPLETE"
+
     /******  自己头像的变更时间  ******/
     val SP_MY_ICON = "SP_MY_ICON"
 

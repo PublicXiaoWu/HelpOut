@@ -30,6 +30,10 @@ interface ApiService {
     @GET("im/users/me")
     fun getImInfo(): Observable<ImInfo>
 
+    //    获取我的账号明细
+    @GET("users/me")
+    fun getAccountInfo(): Observable<AccountInfo>
+
     //    获取网易云信的账号
     @GET("im/users/{username}/account")
     fun getImAccount(@Path("username") username: String): Observable<ImInfo>
@@ -96,14 +100,14 @@ interface ApiService {
     @POST("lawyer/app-crash-log")
     fun uploadCrash(@Body map: RequestBody): Observable<Response<Void>>
 
-    /*****  上传头像  */
-    @POST("lawyer/profiles/avatar")
-    fun uploadAvatar(@Body map: RequestBody): Observable<Response<Void>>
-
     /*****  修改头像  */
     @PUT("users/me/avatar")
     @Multipart
     fun modifyAvatar(@Part file: MultipartBody.Part): Observable<Response<Void>>
+
+    /*****  修改我的账号明细  */
+    @PUT("users/me")
+    fun modifyAccountInfo(@Body map: RequestBody): Observable<Response<Void>>
 
     /*****  上传文件  */
     @POST("/files")

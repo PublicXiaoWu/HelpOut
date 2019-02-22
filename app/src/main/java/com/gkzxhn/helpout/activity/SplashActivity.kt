@@ -38,7 +38,7 @@ class SplashActivity : BaseActivity() {
     }
 
     val handler = Handler(Handler.Callback {
-        if (App.SP.getString(Constants.SP_TOKEN, "")?.isNotEmpty()!!) {
+        if (App.SP.getString(Constants.SP_TOKEN, "")?.isNotEmpty()!!&&App.SP.getBoolean(Constants.SP_ACCOUNT_COMPLETE,true)) {
             startActivity(Intent(this@SplashActivity, MainActivity::class.java))
         } else {
             startActivity(Intent(this@SplashActivity, LoginActivity::class.java))
