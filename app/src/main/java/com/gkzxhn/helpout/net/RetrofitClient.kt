@@ -68,7 +68,7 @@ class RetrofitClient private constructor(context: Context, baseUrl: String) {
     }
 
     companion object {
-        var instance: RetrofitClient? = null
+        private var instance: RetrofitClient? = null
         fun getInstance(context: Context, baseUrl: String): RetrofitClient {
             if (instance == null) {
                 synchronized(RetrofitClient::class) {

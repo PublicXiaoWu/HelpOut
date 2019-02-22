@@ -11,8 +11,8 @@ public interface NetWorkCodeInfo {
     //String BASE_URL_PROJECT ="http://api.legal.prisonpublic.com";
 
     /***** 内网请求的开发网址 *****/
-    String BASE_URL = "http://192.168.0.230:8081";
-    String BASE_URL_PROJECT = "http://192.168.0.230:8086";
+    String BASE_URL = "http://192.168.0.230:8081";          //公共平台
+    String BASE_URL_PROJECT = "http://192.168.0.230:8086";  //法律咨询
 
     /***** 外网请求的测试网址 *****/
 //    String BASE_URL = "http://qa.api.auth.prisonpublic.com:8081";
