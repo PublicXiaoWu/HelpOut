@@ -2,6 +2,7 @@ package com.gkzxhn.helpout.fragment
 
 import android.content.Intent
 import com.gkzxhn.helpout.R
+import com.gkzxhn.helpout.activity.LawsServiceActivity
 import com.gkzxhn.helpout.activity.LegalConsultingActivity
 import com.gkzxhn.helpout.utils.ProjectUtils
 import com.gkzxhn.helpout.utils.showToast
@@ -20,7 +21,7 @@ class HomeFragment : BaseFragment() {
 
     override fun initListener() {
         v_home_psychological.setOnClickListener {
-            context?.showToast("心理咨询")
+            activity?.let { it1 -> LawsServiceActivity.launch(it1) }
         }
         v_home_legal_advice.setOnClickListener {
             if (ProjectUtils.certificationStatus()) {
