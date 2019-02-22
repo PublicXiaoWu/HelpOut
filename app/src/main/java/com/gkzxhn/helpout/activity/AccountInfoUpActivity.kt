@@ -57,12 +57,16 @@ class AccountInfoUpActivity : BaseActivity() {
         /****** 进入这个界面表示没有完成头像和昵称的上传 ******/
         App.EDIT.putBoolean(Constants.SP_ACCOUNT_COMPLETE, false).commit()
 
+        photoDir = File(externalCacheDir, "photo")
+        if (!photoDir.exists()) {
+            photoDir.mkdirs()
+        }
     }
 
 
     /****** 上传用户头像 ******/
     fun upUserImage(view: View) {
-        showListDialog("id_head.jpg", false)
+        showListDialog("account_info.jpg", false)
     }
 
     /****** 上传数据 ******/
@@ -111,7 +115,7 @@ class AccountInfoUpActivity : BaseActivity() {
         map["name"] = intent.getStringExtra("name")
         map["phoneNumber"] = intent.getStringExtra("phoneNumber")
         map["nickname"] = nickname
-        var body = RequestBody.create(MediaType.parse("application/json; charset=utf-8"),
+        val body = RequestBody.create(MediaType.parse("application/json; charset=utf-8"),
                 Gson().toJson(map))
 
         RetrofitClientLogin.getInstance(this).mApi?.modifyAccountInfo(body)
@@ -124,6 +128,7 @@ class AccountInfoUpActivity : BaseActivity() {
                             /****** 这里已经完成头像和昵称的上传 ******/
                             App.EDIT.putBoolean(Constants.SP_ACCOUNT_COMPLETE, true).commit()
                             startActivity(Intent(this@AccountInfoUpActivity, MainActivity::class.java))
+                            finish()
                         } else {
                             showToast("修改昵称失败")
                         }
@@ -247,10 +252,8 @@ class AccountInfoUpActivity : BaseActivity() {
                         }
                         permission.shouldShowRequestPermissionRationale -> // 用户拒绝了该权限，没有选中『不再询问』（Never ask again）,那么下次再次启动时，还会提示请求权限的对话框
                             Log.d(javaClass.simpleName, permission.name + " is denied. More info should be provided.")
-                    //                        showMessage(getString(R.string.please_agree_permission))
                         else -> // 用户拒绝了该权限，并且选中『不再询问』
                             Log.d(javaClass.simpleName, permission.name + " is denied.")
-                    //                        showMessage(getString(R.string.please_agree_permission))
                     }
                 }, {
                     it.message.toString().logE(this)
@@ -293,7 +296,6 @@ class AccountInfoUpActivity : BaseActivity() {
                         var uri = data.data
                         val cropImagePath = ClipViewLayout.getRealFilePathFromUri(applicationContext, uri)
                         //此处后面可以将bitMap转为二进制上传后台网络
-//                        uploadFiles(File(cropImagePath))
                         modifyAvatar(File(cropImagePath))
                     }
                 }
