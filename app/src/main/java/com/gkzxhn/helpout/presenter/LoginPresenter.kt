@@ -241,7 +241,7 @@ class LoginPresenter(context: Context, view: LoginView) : BasePresenter<ILoginMo
                         override fun success(t: AccountInfo) {
                             if (t.nickname.isNullOrEmpty()) {
                                 val intent = Intent(mContext, AccountInfoUpActivity::class.java)
-                                intent.putExtra("name",t.name)
+                                intent.putExtra("name",t.username)
                                 intent.putExtra("phoneNumber",t.phoneNumber)
                                 mContext?.startActivity(intent)
                                 mView?.onFinish()
