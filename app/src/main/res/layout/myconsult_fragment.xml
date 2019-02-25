@@ -1,18 +1,158 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
+    android:layout_height="match_parent"
+    android:background="#F9F8FE">
 
     <TextView
-        android:id="@+id/textView3"
+        android:id="@+id/tv_consult_title"
         android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="@color/white"
         android:gravity="center"
-        android:textSize="35dp"
-        android:layout_height="100dp"
-        android:text="我的法律咨询"
+        android:text="我的咨询"
+        android:textColor="#ff333333"
+        android:textSize="16sp"
     />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="15dp"
+        android:src="@mipmap/ic_consult_top_red_point"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_consult_title"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tv_consult_title"/>
+
+
+    <!--切换tab-->
+
+    <View
+        android:id="@+id/v_consult_line1"
+        android:layout_width="match_parent"
+        android:layout_height="0.7dp"
+        android:layout_marginTop="15dp"
+        android:background="@color/view_line_user"
+        app:layout_constraintTop_toBottomOf="@+id/tv_consult_title"/>
+
+    <View
+        android:id="@+id/v_tab_1"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:background="@drawable/selector_item_white_to_gary"
+        app:layout_constraintEnd_toStartOf="@+id/v_tab_2"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/v_consult_line1"/>
+    <ImageView
+        android:id="@+id/iv_tab1"
+        android:layout_width="13dp"
+        android:layout_height="13dp"
+        android:src="@mipmap/ic_consult_tab_1"
+        app:layout_constraintBottom_toBottomOf="@id/v_tab_1"
+        app:layout_constraintEnd_toStartOf="@id/tv_tab_1"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="@id/v_tab_1"
+        app:layout_constraintTop_toTopOf="@id/v_tab_1"/>
+    <TextView
+        android:id="@+id/tv_tab_1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="7dp"
+        android:background="@drawable/selector_item_white_to_gary"
+        android:gravity="center"
+        android:text="法律咨询"
+        android:textColor="@color/main_top_blue"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="@id/iv_tab1"
+        app:layout_constraintEnd_toEndOf="@id/v_tab_1"
+        app:layout_constraintStart_toEndOf="@id/iv_tab1"
+        app:layout_constraintTop_toTopOf="@id/iv_tab1"
+    />
+
+    <View
+        android:id="@+id/v_tab_2"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:background="@drawable/selector_item_white_to_gary"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/v_tab_1"
+        app:layout_constraintTop_toBottomOf="@+id/v_consult_line1"/>
+
+    <ImageView
+        android:id="@+id/iv_tab_2"
+        android:layout_width="13dp"
+        android:layout_height="13dp"
+        android:src="@mipmap/ic_consult_tab_2"
+        app:layout_constraintBottom_toBottomOf="@id/v_tab_2"
+        app:layout_constraintEnd_toStartOf="@id/tv_tab_2"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="@id/v_tab_2"
+        app:layout_constraintTop_toTopOf="@id/v_tab_2"/>
+    <TextView
+        android:id="@+id/tv_tab_2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="7dp"
+        android:background="@drawable/selector_item_white_to_gary"
+        android:gravity="center"
+        android:text="心理咨询"
+        android:textColor="#999999"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="@id/iv_tab_2"
+        app:layout_constraintEnd_toEndOf="@id/v_tab_2"
+        app:layout_constraintStart_toEndOf="@id/iv_tab_2"
+        app:layout_constraintTop_toTopOf="@id/iv_tab_2"
+    />
+
+    <View
+        android:id="@+id/v_centre"
+        android:layout_width="1dp"
+        android:layout_height="25dp"
+        android:layout_marginStart="0.5dp"
+        android:background="#E5E5E5"
+        app:layout_constraintBottom_toBottomOf="@id/v_tab_2"
+        app:layout_constraintEnd_toStartOf="@+id/v_tab_2"
+        app:layout_constraintTop_toTopOf="@id/v_tab_2"/>
+    <View
+        android:id="@+id/v_consult_select_line1"
+        android:layout_width="94dp"
+        android:layout_height="5dp"
+        android:background="@mipmap/ic_consult_tab_select_line"
+        app:layout_constraintBottom_toTopOf="@id/v_consult_line2"
+        app:layout_constraintEnd_toEndOf="@+id/v_tab_1"
+        app:layout_constraintStart_toStartOf="@+id/v_tab_1"/>
+
+    <View
+        android:id="@+id/v_consult_select_line2"
+        android:layout_width="94dp"
+        android:layout_height="5dp"
+        android:background="@mipmap/ic_consult_tab_select_line"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@id/v_consult_line2"
+        app:layout_constraintEnd_toEndOf="@id/v_tab_2"
+        app:layout_constraintStart_toStartOf="@+id/v_tab_2"/>
+
+    <View
+        android:id="@+id/v_consult_line2"
+        android:layout_width="match_parent"
+        android:layout_height="0.7dp"
+        android:background="@color/view_line_user"
+        app:layout_constraintTop_toBottomOf="@+id/v_tab_2"/>
+
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/vp_consult"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/v_consult_line2"
+    >
+
+    </android.support.v4.view.ViewPager>
 
 </android.support.constraint.ConstraintLayout>
