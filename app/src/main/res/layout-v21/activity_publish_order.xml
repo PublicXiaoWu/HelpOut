@@ -106,7 +106,7 @@
                     <EditText
                         android:id="@+id/et_reward"
                         android:maxLength="5"
-                        android:inputType="number"
+                        android:inputType="numberDecimal"
                         android:layout_width="0dp"
                         android:layout_weight="1"
                         android:layout_height="@dimen/dimen_34"

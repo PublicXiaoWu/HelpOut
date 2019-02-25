@@ -5,6 +5,8 @@ import android.app.Dialog
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.view.Gravity
+import android.view.View
 import android.widget.TextView
 import com.gkzxhn.helpout.R
 
@@ -134,4 +136,24 @@ fun Context.UpDialog(context: Context, message: String, flag: Boolean, url: Stri
     progressDialog.show()
 }
 
+var bottomDialog: Dialog? = null
+
+/**
+ * 显示底部弹窗
+ */
+fun Context.showBottomDialog(contentView: View) {
+    if (bottomDialog == null) {
+        bottomDialog = Dialog(this, R.style.BottomDialog)
+    }
+    bottomDialog?.setContentView(contentView)
+    bottomDialog?.setCanceledOnTouchOutside(true)
+    val layoutParams = contentView.getLayoutParams()
+    layoutParams.width = resources.displayMetrics.widthPixels
+    contentView.setLayoutParams(layoutParams)
+    bottomDialog?.window!!.setGravity(Gravity.BOTTOM)
+    bottomDialog?.window!!.setWindowAnimations(R.style.BottomDialog_Animation)
+    if (bottomDialog?.isShowing != true) {
+        bottomDialog?.show()
+    }
+}
 

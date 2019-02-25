@@ -103,5 +103,8 @@
     <string name="laws_contract">法律咨询协议</string>
     <string name="use_intro">使用说明</string>
     <string name="please_agree_laws_contract">请同意法律咨询协议</string>
+    <string name="pay_success">支付成功</string>
+    <string name="confirm">确定</string>
+    <string name="pay_success_laws_tips">您已成功发布咨询，请耐心等待律师接单</string>
 
 </resources>

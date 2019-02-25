@@ -183,4 +183,10 @@ interface ApiService {
      */
     @POST("/customer/legal-advice/rush")
     fun publishOrder(@Body map: RequestBody): Observable<PublishOrderInfo>
+
+    /**
+     * 获取支付宝订单
+     */
+    @GET("/legal-advice/{id}/alipay")
+    fun getAliOrder(@Path("id") id: String): Observable<ResponseBody>
 }

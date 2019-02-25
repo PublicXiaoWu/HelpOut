@@ -1,5 +1,6 @@
 package com.gkzxhn.helpout.view
 
 interface PublishOrderView : BaseView {
-    fun showPayPop(reward: Int)
+    fun showPayPop(reward: Double)
+    fun alipay(orderInfo: String)
 }

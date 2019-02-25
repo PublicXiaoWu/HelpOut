@@ -8,7 +8,7 @@ data class PublishOrderInfo(
     var paymentStatus: String? = "",
     var category: String? = "",
     var lawyer: Lawyer? = Lawyer(),
-    var reward: Int? = 0,
+    var reward: Double? = 0.0,
     var videoDuration: Int? = 0,
     var createdTime: String? = "",
     var acceptedTime: String? = "",
