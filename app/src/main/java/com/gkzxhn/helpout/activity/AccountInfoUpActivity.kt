@@ -16,6 +16,7 @@ import com.gkzxhn.helpout.R
 import com.gkzxhn.helpout.common.App
 import com.gkzxhn.helpout.common.Constants
 import com.gkzxhn.helpout.customview.ClipViewLayout
+import com.gkzxhn.helpout.extensions.filterEmoji
 import com.gkzxhn.helpout.net.HttpObserver
 import com.gkzxhn.helpout.net.RetrofitClientLogin
 import com.gkzxhn.helpout.utils.*
@@ -71,7 +72,7 @@ class AccountInfoUpActivity : BaseActivity() {
 
     /****** 上传数据 ******/
     fun sendUpload(view: View) {
-        val nickName = ev_account_info_nickname.text.toString().trim()
+        val nickName = ev_account_info_nickname.text.toString().trim().filterEmoji()
         if (photoIsUp && nickName.isNotEmpty()) {
             modifyNickname(nickName)
         } else {

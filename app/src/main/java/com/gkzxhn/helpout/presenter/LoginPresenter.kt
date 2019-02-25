@@ -239,9 +239,9 @@ class LoginPresenter(context: Context, view: LoginView) : BasePresenter<ILoginMo
                     ?.observeOn(AndroidSchedulers.mainThread())
                     ?.subscribe(object : HttpObserverNoDialog<AccountInfo>(mContext!!) {
                         override fun success(t: AccountInfo) {
-                            if (!t.nickname.isNullOrEmpty()) {
+                            if (t.nickname.isNullOrEmpty()) {
                                 val intent = Intent(mContext, AccountInfoUpActivity::class.java)
-                                intent.putExtra("name",t.name)
+                                intent.putExtra("name",t.username)
                                 intent.putExtra("phoneNumber",t.phoneNumber)
                                 mContext?.startActivity(intent)
                                 mView?.onFinish()
