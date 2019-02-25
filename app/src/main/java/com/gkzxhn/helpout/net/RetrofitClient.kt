@@ -21,11 +21,11 @@ class RetrofitClient private constructor(context: Context, baseUrl: String) {
     val mContext: Context = context
     var cache: Cache? = null
     var okHttpClient: OkHttpClient? = null
-    var retrofit: Retrofit? = null
+    lateinit var retrofit: Retrofit
     /****** 超时时间（秒） ******/
     val DEFAULT_TIMEOUT: Long = 3
     val url = baseUrl
-    var mApi: ApiService? = null
+    lateinit var mApi: ApiService
 
     init {
         //缓存地址
@@ -44,7 +44,7 @@ class RetrofitClient private constructor(context: Context, baseUrl: String) {
 
     }
 
-    fun provideHotApi(): ApiService? {
+    fun provideHotApi(): ApiService {
         //okhttp创建了
         okHttpClient = OkHttpClient.Builder()
                 .cache(cache)
@@ -64,7 +64,7 @@ class RetrofitClient private constructor(context: Context, baseUrl: String) {
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .baseUrl(url)
                 .build()
-        return retrofit?.create(ApiService::class.java)
+        return retrofit.create(ApiService::class.java)
     }
 
     companion object {

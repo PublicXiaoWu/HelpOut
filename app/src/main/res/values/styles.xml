@@ -107,5 +107,17 @@
         <item name="android:textColor">#9b9b9b</item>
     </style>
 
+    <style name="register_radio_button">
+        <item name="android:button">@null</item>
+        <item name="android:gravity">center</item>
+        <item name="android:drawableLeft">@drawable/selector_login_check</item>
+        <item name="android:drawablePadding">@dimen/dimen_8</item>
+        <item name="android:textSize">@dimen/text_common</item>
+        <item name="android:textColor">@color/text_gray</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+
 
 </resources>

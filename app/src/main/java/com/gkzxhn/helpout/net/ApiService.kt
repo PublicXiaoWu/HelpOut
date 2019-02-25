@@ -182,5 +182,5 @@ interface ApiService {
      * 发布抢单
      */
     @POST("/customer/legal-advice/rush")
-    fun publishOrder(@Body map: RequestBody): Observable<PublishiOrderInfo>
+    fun publishOrder(@Body map: RequestBody): Observable<PublishOrderInfo>
 }

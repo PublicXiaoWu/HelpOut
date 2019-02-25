@@ -93,4 +93,15 @@
     <string name="yuan">元</string>
     <string name="price_least_tips">最低金额不低于</string>
 
+    <string name="select_pay_type">选择支付方式</string>
+    <string name="need_pay_this_time">本次购买需要支付</string>
+    <string name="ali_pay">支付宝支付</string>
+    <string name="wx_pay">微信支付</string>
+    <string name="pay_confirm">确认支付</string>
+    <string name="please_enter_price">请输入金额</string>
+    <string name="minutes_20">20分钟</string>
+    <string name="laws_contract">法律咨询协议</string>
+    <string name="use_intro">使用说明</string>
+    <string name="please_agree_laws_contract">请同意法律咨询协议</string>
+
 </resources>

@@ -4,6 +4,7 @@
               xmlns:tools="http://schemas.android.com/tools"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
+              android:id="@+id/ll_content"
               android:orientation="vertical">
 
     <include
@@ -64,7 +65,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:paddingBottom="@dimen/dimen_20"
+                android:paddingBottom="@dimen/dimen_12"
                 android:paddingEnd="@dimen/dimen_15"
                 android:paddingStart="@dimen/dimen_15"
                 android:paddingTop="@dimen/dimen_30">
@@ -103,8 +104,11 @@
                         android:textSize="@dimen/text_common"/>
 
                     <EditText
-                        android:id="@+id/rb_4"
-                        android:layout_width="match_parent"
+                        android:id="@+id/et_reward"
+                        android:maxLength="5"
+                        android:inputType="number"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
                         android:layout_height="@dimen/dimen_34"
                         android:layout_marginStart="@dimen/dimen_10"
                         android:background="@drawable/shape_rectangle_stroke_gray_4r"
@@ -113,21 +117,27 @@
                         android:paddingEnd="@dimen/dimen_10"
                         android:paddingStart="@dimen/dimen_10"
                         android:textColor="@color/text_gray"
-                        android:textSize="@dimen/text_little"/>
+                        android:textSize="@dimen/text_common"/>
 
+                    <TextView
+                        android:layout_marginStart="@dimen/dimen_10"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/minutes_20"
+                        android:textColor="@color/dark_blue"
+                        android:textSize="@dimen/text_common"/>
 
                 </LinearLayout>
 
-                <TextView
+                <CheckBox
+                    android:id="@+id/cb_use_contract"
+                    style="@style/register_radio_button"
                     android:layout_gravity="end"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/dimen_8"
-                    tools:text="最低金额不低于20元"
-                    android:id="@+id/tv_price_tips"
-                    android:textColor="#ff999999"
-                    android:textSize="@dimen/text_little"
-                    />
+                    android:layout_marginTop="@dimen/dimen_5"
+                    android:layout_weight="0"
+                    android:checked="true"
+                    android:text="@string/laws_contract"
+                    android:padding="@dimen/dimen_5"/>
 
             </LinearLayout>
         </android.support.v7.widget.CardView>
@@ -137,25 +147,31 @@
             android:layout_height="37dp"
             android:layout_below="@+id/cv_category"
             android:layout_marginStart="@dimen/dimen_30"
-            android:elevation="@dimen/dimen_2"
             android:layout_marginTop="-15dp"
+            android:elevation="@dimen/dimen_3"
             android:background="@mipmap/family_server_link"/>
     </RelativeLayout>
 
-    <View
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_weight="1"/>
 
     <Button
-        android:id="@+id/bt_apply_meeting"
-        android:layout_width="@dimen/dimen_330"
+        android:layout_marginTop="@dimen/dimen_30"
+        android:id="@+id/bt_publish_order"
+        android:layout_width="match_parent"
+        android:layout_marginStart="18dp"
+        android:layout_marginEnd="18dp"
         android:layout_height="@dimen/dimen_44"
         android:layout_gravity="center_horizontal|bottom"
-        android:layout_marginBottom="@dimen/dimen_20"
         android:background="@drawable/ripple_button_blue_light_bg"
         android:text="@string/publish_order"
         android:textColor="@color/white"
         android:textSize="@dimen/text_big"/>
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/use_intro"
+        android:layout_marginTop="@dimen/dimen_20"
+        android:textColor="@color/text_gray"
+        android:layout_marginStart="@dimen/dimen_15"
+        android:textSize="@dimen/text_common"/>
 </LinearLayout>

@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:orientation="vertical"
+              android:id="@+id/ll_pop_pay"
+              android:background="@drawable/shape_rectangle_8dp_ff"
+              android:layout_width="@dimen/dimen_330"
+              android:layout_height="315dp">
+
+    <FrameLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="47dp">
+        
+        <FrameLayout
+            android:layout_gravity="end"
+            android:id="@+id/fl_close"
+            android:layout_width="55dp"
+            android:layout_height="match_parent">
+
+            <View
+                android:layout_gravity="center"
+                android:background="@drawable/pay_closed"
+                android:layout_width="@dimen/dimen_14"
+                android:layout_height="@dimen/dimen_14"/>
+        </FrameLayout>
+
+        <TextView
+            android:layout_gravity="center"
+            android:text="@string/select_pay_type"
+            android:textColor="@color/text_gray"
+            android:textSize="@dimen/text_big"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        
+    </FrameLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:layout_gravity="center_horizontal"
+        android:background="@color/background_f7"
+        android:layout_width="@dimen/dimen_265"
+        android:layout_height="@dimen/dimen_100">
+
+        <TextView
+            android:layout_marginTop="@dimen/dimen_20"
+            android:text="@string/need_pay_this_time"
+            android:textSize="@dimen/text_common"
+            android:textColor="@color/text_5b"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:id="@+id/tv_amount"
+            android:text="¥50.00"
+            android:textSize="@dimen/dimen_35"
+            android:textColor="@color/text_5b"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:ignore="SpUsage"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_alipay"
+        android:paddingStart="@dimen/dimen_40"
+        android:paddingEnd="@dimen/dimen_30"
+        android:layout_marginTop="@dimen/dimen_30"
+        android:paddingTop="@dimen/dimen_5"
+        android:paddingBottom="@dimen/dimen_5"
+        android:background="@drawable/ripple_bg"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_35">
+
+        <View
+            android:background="@mipmap/ali_pay"
+            android:layout_width="@dimen/dimen_25"
+            android:layout_height="@dimen/dimen_25"/>
+
+        <TextView
+            android:text="@string/ali_pay"
+            android:textColor="@color/text_black"
+            android:layout_marginStart="@dimen/dimen_15"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <View
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="0dp"/>
+
+        <CheckBox
+            android:id="@+id/cb_ali_pay"
+            android:checked="true"
+            android:clickable="false"
+            android:background="@drawable/pay_checkbox_selector"
+            android:button="@null"
+            android:layout_width="@dimen/dimen_15"
+            android:layout_height="@dimen/dimen_15"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_wx_pay"
+        android:paddingTop="@dimen/dimen_5"
+        android:paddingBottom="@dimen/dimen_5"
+        android:layout_width="match_parent"
+        android:layout_height="34dp"
+        android:background="@drawable/ripple_bg"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingEnd="@dimen/dimen_30"
+        android:paddingStart="@dimen/dimen_40">
+
+        <View
+            android:layout_width="@dimen/dimen_25"
+            android:layout_height="@dimen/dimen_25"
+            android:background="@mipmap/wx_pay"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dimen_15"
+            android:text="@string/wx_pay"
+            android:textColor="@color/text_black"/>
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
+
+        <CheckBox
+            android:id="@+id/cb_wx_pay"
+            android:layout_width="@dimen/dimen_15"
+            android:layout_height="@dimen/dimen_15"
+            android:clickable="false"
+            android:background="@drawable/pay_checkbox_selector"
+            android:button="@null"/>
+    </LinearLayout>
+
+    <Button
+        android:layout_marginTop="@dimen/dimen_16"
+        android:id="@+id/bt_pay_confirm"
+        android:layout_width="@dimen/dimen_300"
+        android:layout_height="@dimen/dimen_40"
+        android:layout_gravity="center_horizontal|bottom"
+        android:layout_marginBottom="@dimen/dimen_20"
+        android:background="@drawable/ripple_button_blue_light_bg"
+        android:text="@string/pay_confirm"
+        android:textColor="@color/white"
+        android:textSize="@dimen/text_big"/>
+
+
+</LinearLayout>

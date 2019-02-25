@@ -1,7 +1,7 @@
 package com.gkzxhn.helpout.entity
 
 
-data class PublishiOrderInfo(
+data class PublishOrderInfo(
     var id: String? = "",
     var number: String? = "",
     var status: String? = "",

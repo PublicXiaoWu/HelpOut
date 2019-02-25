@@ -37,5 +37,12 @@
     <dimen name="dimen_34">34dp</dimen>
     <dimen name="dimen_330">330dp</dimen>
     <dimen name="dimen_44">44dp</dimen>
+    <dimen name="dimen_14">14dp</dimen>
+    <dimen name="dimen_265">265dp</dimen>
+    <dimen name="dimen_35">35dp</dimen>
+    <dimen name="dimen_25">25dp</dimen>
+    <dimen name="dimen_300">300dp</dimen>
+    <dimen name="dimen_16">16dp</dimen>
+    <dimen name="dimen_12">12dp</dimen>
 
 </resources>

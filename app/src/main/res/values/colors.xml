@@ -56,4 +56,7 @@
     <color name="dark_blue_ripple">#36455e</color>
     <color name="light_blue">#5a82cc</color>
 
+    <color name="background_f7">#f7f7f7</color>
+    <color name="text_5b">#5b5b5b</color>
+
 </resources>
