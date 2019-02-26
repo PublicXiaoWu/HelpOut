@@ -157,8 +157,8 @@
     <View
         android:id="@+id/v_user_my_money_bg"
         android:layout_width="0dp"
-        android:layout_height="50dp"
         android:layout_marginTop="10dp"
+        android:layout_height="50dp"
         android:background="@drawable/selector_item_white_to_gary"
         android:gravity="center_vertical"
         android:orientation="horizontal"
@@ -177,6 +177,7 @@
         app:layout_constraintTop_toTopOf="@id/v_user_my_money_bg"/>
 
     <TextView
+        android:id="@+id/tv_user_get_money"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
@@ -214,6 +215,7 @@
         app:layout_constraintTop_toTopOf="@id/v_user_my_money_bg"/>
 
     <View
+        android:id="@+id/v_user_my_money_line_bg"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/white"

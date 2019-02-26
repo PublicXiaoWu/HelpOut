@@ -2,29 +2,28 @@ package com.gkzxhn.helpout.fragment
 
 import android.content.Intent
 import android.text.TextUtils
-import android.util.Log
 import android.view.View
 import com.gkzxhn.helpout.R
 import com.gkzxhn.helpout.activity.*
 import com.gkzxhn.helpout.common.App
 import com.gkzxhn.helpout.common.Constants
 import com.gkzxhn.helpout.common.RxBus
+import com.gkzxhn.helpout.entity.AccountInfo
 import com.gkzxhn.helpout.entity.LawyersInfo
 import com.gkzxhn.helpout.entity.RxBusBean
 import com.gkzxhn.helpout.net.HttpObserver
+import com.gkzxhn.helpout.net.HttpObserverNoDialog
 import com.gkzxhn.helpout.net.RetrofitClient
 import com.gkzxhn.helpout.net.RetrofitClientLogin
-import com.gkzxhn.helpout.net.error_exception.ApiException
-import com.gkzxhn.helpout.utils.*
+import com.gkzxhn.helpout.utils.ProjectUtils
+import com.gkzxhn.helpout.utils.StringUtils
+import com.gkzxhn.helpout.utils.logE
 import kotlinx.android.synthetic.main.user_fragment.*
 import okhttp3.ResponseBody
 import org.json.JSONObject
 import retrofit2.Response
-import retrofit2.adapter.rxjava.HttpException
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
-import java.io.IOException
-import java.net.ConnectException
 
 
 /**
@@ -34,25 +33,23 @@ import java.net.ConnectException
  */
 
 class UserFragment : BaseFragment(), View.OnClickListener {
-    var lawyersInfo: LawyersInfo? = null
+    var accountInfo: AccountInfo? = null
 
     override fun provideContentViewId(): Int {
         return R.layout.user_fragment
     }
 
     override fun init() {
-        ProjectUtils.loadMyIcon(context, iv_user_icon)
-
-        if (ProjectUtils.certificationStatus()) {
-            getLawyersInfo()
-        }
+        getAccountInfo()
+        getLawyersState()
 
         /****** 接受控件小红点的消息 ******/
         RxBus.instance.toObserverable(RxBusBean.HomeTopRedPoint::class.java)
                 .cache()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
-                    getLawyersInfo()
+                    getAccountInfo()
+                    getLawyersState()
                 }, {
                     it.message.toString().logE(this)
                 })
@@ -76,8 +73,8 @@ class UserFragment : BaseFragment(), View.OnClickListener {
         when (v.id) {
             R.id.v_user_edit_info_bg -> {
                 val intent = Intent(context, UserSettingActivity::class.java)
-                intent.putExtra("name", if (lawyersInfo != null) lawyersInfo?.name else "")
-                intent.putExtra("phoneNumber", if (lawyersInfo != null) lawyersInfo?.phoneNumber else "")
+                intent.putExtra("name", if (accountInfo != null) accountInfo?.nickname else "")
+                intent.putExtra("phoneNumber", if (accountInfo != null) accountInfo?.phoneNumber else "")
                 context?.startActivity(intent)
             }
             R.id.v_user_my_money_bg -> {
@@ -109,8 +106,8 @@ class UserFragment : BaseFragment(), View.OnClickListener {
 //            个人信息栏
             R.id.v_user_top_bg -> {
                 val intent = Intent(context, UserSettingActivity::class.java)
-                intent.putExtra("name", if (lawyersInfo != null) lawyersInfo?.name else "")
-                intent.putExtra("phoneNumber", if (lawyersInfo != null) lawyersInfo?.phoneNumber else "")
+                intent.putExtra("name", if (accountInfo != null) accountInfo?.nickname else "")
+                intent.putExtra("phoneNumber", if (accountInfo != null) accountInfo?.phoneNumber else "")
                 context?.startActivity(intent)
             }
         }
@@ -160,39 +157,13 @@ class UserFragment : BaseFragment(), View.OnClickListener {
      */
     private fun getLawyersInfo() {
         context?.let {
-            RetrofitClient.getInstance(it).mApi?.getLawyersInfo()
-                    ?.subscribeOn(Schedulers.io())
+            RetrofitClient.getInstance(it).mApi.getLawyersInfo()
+                    .subscribeOn(Schedulers.io())
                     ?.unsubscribeOn(AndroidSchedulers.mainThread())
                     ?.observeOn(AndroidSchedulers.mainThread())
                     ?.subscribe(object : HttpObserver<LawyersInfo>(it) {
                         override fun success(t: LawyersInfo) {
                             App.EDIT.putString(Constants.SP_CERTIFICATIONSTATUS, t.certificationStatus)?.commit()
-                            lawyersInfo = t
-                            loadUI(t)
-                        }
-
-                        override fun onError(e: Throwable?) {
-                            loadDialog?.dismiss()
-                            when (e) {
-                                is ConnectException -> context?.TsDialog("服务器异常", false)
-                                is HttpException -> {
-                                    if (e.code() == 401) {
-                                        getRefreshToken(App.SP.getString(Constants.SP_REFRESH_TOKEN, ""))
-                                    } else {
-                                        context?.TsDialog("服务器异常，请重试", false)
-                                    }
-                                }
-                                is IOException -> context?.TsDialog("数据加载失败，请检查您的网络", false)
-                            //后台返回的message
-                                is ApiException -> {
-                                    context?.TsDialog(e.message!!, false)
-                                    Log.e("ApiErrorHelper", e.message, e)
-                                }
-                                else -> {
-                                    context?.showToast("数据异常")
-                                    Log.e("ApiErrorHelper", e?.message, e)
-                                }
-                            }
                         }
 
                     })
@@ -200,21 +171,101 @@ class UserFragment : BaseFragment(), View.OnClickListener {
     }
 
     /**
+     * @methodName： created by liushaoxiang on 2019/2/26 12:00 PM.
+     * @description：获取律师认证状态
+     */
+    private fun getLawyersState() {
+        context?.let {
+            RetrofitClient.getInstance(it).mApi.getLawyersState()
+                    .subscribeOn(Schedulers.io())
+                    ?.unsubscribeOn(AndroidSchedulers.mainThread())
+                    ?.observeOn(AndroidSchedulers.mainThread())
+                    ?.subscribe(object : HttpObserver<LawyersInfo>(it) {
+                        override fun success(t: LawyersInfo) {
+                            App.EDIT.putBoolean(Constants.SP_LAWYER_CERTIFICATION_STATUS, t.lawyer!!)?.commit()
+                            loadUIByLawyerState(t.lawyer!!)
+                        }
+
+                    })
+        }
+    }
+
+    /**
+     * @methodName： created by liushaoxiang on 2019/2/26 1:51 PM.
+     * @description：加载用户或者律师不同的UI
+     */
+    private fun loadUIByLawyerState(lawyer: Boolean) {
+        if (lawyer) {
+            /****** 律师 ******/
+            getLawyersInfo()
+            
+            v_user_info_rz_bg.visibility=View.VISIBLE
+            iv_user_info_rz.visibility=View.VISIBLE
+            tv_user_info_rz.visibility=View.VISIBLE
+
+            /****** 金额那一栏 ******/
+            v_user_my_money_bg.visibility=View.VISIBLE
+            iv_user_get_money_start.visibility=View.VISIBLE
+            tv_user_get_money.visibility=View.VISIBLE
+            tv_user_money.visibility=View.VISIBLE
+            iv_user_get_money_end.visibility=View.VISIBLE
+            v_user_my_money_line_bg.visibility=View.VISIBLE
+            v_user_my_money.visibility=View.VISIBLE
+
+            v_user_edit_info.visibility=View.VISIBLE
+
+        }else{
+            /****** 用户 ******/
+            
+            v_user_info_rz_bg.visibility=View.INVISIBLE
+            iv_user_info_rz.visibility=View.INVISIBLE
+            tv_user_info_rz.visibility=View.INVISIBLE
+
+            v_user_my_money_bg.visibility=View.GONE
+            iv_user_get_money_start.visibility=View.GONE
+            tv_user_get_money.visibility=View.GONE
+            tv_user_money.visibility=View.GONE
+            iv_user_get_money_end.visibility=View.GONE
+            v_user_my_money_line_bg.visibility=View.VISIBLE
+            v_user_my_money.visibility=View.VISIBLE
+
+            v_user_edit_info.visibility=View.GONE
+
+        }
+
+    }
+
+    /**
+     * @methodName： created by liushaoxiang on 2018/10/22 3:31 PM.
+     * @description：获取我的账号明细
+     */
+    private fun getAccountInfo() {
+        context?.let {
+            RetrofitClientLogin.getInstance(it).mApi
+                    ?.getAccountInfo()
+                    ?.subscribeOn(Schedulers.io())
+                    ?.unsubscribeOn(AndroidSchedulers.mainThread())
+                    ?.observeOn(AndroidSchedulers.mainThread())
+                    ?.subscribe(object : HttpObserverNoDialog<AccountInfo>(it) {
+                        override fun success(t: AccountInfo) {
+                            loadUI(t)
+                            accountInfo = t
+                        }
+                    })
+        }
+    }
+
+
+    /**
      * @methodName： created by liushaoxiang on 2018/10/26 3:46 PM.
      * @description：处理UI数据
      */
-    private fun loadUI(date: LawyersInfo) {
+    private fun loadUI(date: AccountInfo) {
         tv_user_phone.text = StringUtils.phoneChange(date.phoneNumber!!)
-        tv_user_name.text = date.name
-        tv_user_money.text = "￥" + date.rewardAmount
+        tv_user_name.text = date.nickname
         App.EDIT.putString(Constants.SP_PHONE, date.phoneNumber)?.commit()
-        App.EDIT.putString(Constants.SP_NAME, date.name)?.commit()
-        App.EDIT.putString(Constants.SP_LAWOFFICE, date.lawOffice)?.commit()
-
+        App.EDIT.putString(Constants.SP_NAME, date.nickname)?.commit()
         ProjectUtils.loadMyIcon(context, iv_user_icon)
-
-        RxBus.instance.post(RxBusBean.HomeUserInfo(date))
-
     }
 
 }

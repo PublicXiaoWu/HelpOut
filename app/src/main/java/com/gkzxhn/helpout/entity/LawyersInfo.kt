@@ -31,5 +31,7 @@ data class LawyersInfo(
         var level: String? ,
         var description: String?,
         var alipayBind: Boolean?,
+        /****** 律师状态 ******/
+        var lawyer: Boolean?,
         var categories: List<String>?
 )

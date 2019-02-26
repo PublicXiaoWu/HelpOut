@@ -20,6 +20,5 @@ class RxBusBean {
     class RefreshOrder(var show: Boolean)
     /****** 刷新抢单数据 ******/
     class RefreshGrabOrder(var show: Boolean)
-    class HomeUserInfo(var lawyersInfo: LawyersInfo)
 
 }

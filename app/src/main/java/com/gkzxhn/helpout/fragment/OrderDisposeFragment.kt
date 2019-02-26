@@ -58,25 +58,6 @@ class OrderDisposeFragment : BaseFragment(), OrderDisposeView {
             initRecyclerView()
         }
 
-        /****** 接受更新的律师信息 ******/
-        RxBus.instance.toObserverable(RxBusBean.HomeUserInfo::class.java)
-                .cache()
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({
-                    /****** 认证未通过时显示空状态  ******/
-                    if (!ProjectUtils.certificationStatus()) {
-                        loading_refresh.visibility = View.GONE
-                        tv_order_disposer_null_2.visibility = View.VISIBLE
-                        tv_order_disposer_null.visibility = View.GONE
-                    } else {
-                        loading_refresh.visibility = View.VISIBLE
-                        tv_order_disposer_null_2.visibility = View.GONE
-
-                        initRecyclerView()
-                    }
-                }, {
-                    it.message.toString().logE(this)
-                })
 
         /****** 收到接单成功的消息 ******/
         RxBus.instance.toObserverable(RxBusBean.HomePoint::class.java)

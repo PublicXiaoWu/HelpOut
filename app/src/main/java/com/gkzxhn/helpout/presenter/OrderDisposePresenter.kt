@@ -8,6 +8,7 @@ import com.gkzxhn.helpout.entity.VideoDuration
 import com.gkzxhn.helpout.model.IOrderModel
 import com.gkzxhn.helpout.model.iml.OrderModel
 import com.gkzxhn.helpout.net.HttpObserver
+import com.gkzxhn.helpout.utils.ProjectUtils
 import com.gkzxhn.helpout.utils.TsDialog
 import com.gkzxhn.helpout.view.OrderDisposeView
 import com.netease.nim.uikit.api.NimUIKit
@@ -23,6 +24,10 @@ import rx.subscriptions.CompositeSubscription
 class OrderDisposePresenter(context: Context, view: OrderDisposeView) : BasePresenter<IOrderModel, OrderDisposeView>(context, OrderModel(), view) {
 
     fun getOrderDispose(page: String, mCompositeSubscription: CompositeSubscription?) {
+        if (!ProjectUtils.certificationStatus()) {
+            mView?.offLoadMore()
+            return
+        }
         mContext?.let {
             mCompositeSubscription?.add(mModel.getOrderDispose(it, page, "10")
                     .unsubscribeOn(AndroidSchedulers.mainThread())
@@ -70,7 +75,7 @@ class OrderDisposePresenter(context: Context, view: OrderDisposeView) : BasePres
 
     }
 
-    fun getVideoDuration(id:String,userName: String) {
+    fun getVideoDuration(id: String, userName: String) {
         mContext?.let {
             mModel.getVideoDuration(it, id)
                     .unsubscribeOn(AndroidSchedulers.mainThread())
@@ -79,7 +84,7 @@ class OrderDisposePresenter(context: Context, view: OrderDisposeView) : BasePres
                         override fun success(t: VideoDuration) {
                             if (t.videoDuration!! <= 0) {
                                 mContext?.TsDialog("视频通话时长已用完", false)
-                            }else{
+                            } else {
                                 getImAccount(userName)
                             }
 
