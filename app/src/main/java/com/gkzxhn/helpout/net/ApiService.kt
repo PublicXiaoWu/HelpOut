@@ -189,4 +189,10 @@ interface ApiService {
      */
     @GET("/legal-advice/{id}/alipay")
     fun getAliOrder(@Path("id") id: String): Observable<ResponseBody>
+
+    /**
+     * 客户获取指定法律咨询明细
+     */
+    @GET("/customer/legal-advice/{id}")
+    fun getCustomerOrderDetail(@Path("id") id: String): Observable<CustomerOrderDetailInfo>
 }

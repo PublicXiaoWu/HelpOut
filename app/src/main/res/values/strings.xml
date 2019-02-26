@@ -106,5 +106,15 @@
     <string name="pay_success">支付成功</string>
     <string name="confirm">确定</string>
     <string name="pay_success_laws_tips">您已成功发布咨询，请耐心等待律师接单</string>
+    <string name="order_detail">订单详情</string>
+    <string name="serial_number">编号</string>
+    <string name="have_paid">已支付</string>
+    <string name="waiting_4_pay">待支付</string>
+    <string name="order_pay_tips">＊三天内无人接单，系统自动取消;  无人接单／律师拒单后，付款金额将于7个工作日内原路返回。  每笔订单视频通话时长为20分钟，通话时长未用完结束订单一律不退还费用</string>
+    <string name="authorized">已授权</string>
+    <string name="have_refunded">已退款</string>
+    <string name="have_cancelled">已取消</string>
+    <string name="unknown_status">未知状态</string>
+    <string name="waiting_4_receiving">待接单</string>
 
 </resources>

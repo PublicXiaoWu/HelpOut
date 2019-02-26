@@ -83,6 +83,18 @@ object Constants {
     // ("已取消")
     val ORDER_STATE_CANCELLED = "CANCELLED"
 
+    //PENDING AUTHORIZED PAID REFUNDED VOIDED
+    //待支付
+    val PAYMENT_STATE_PENDING = "PENDING"
+    //已授权
+    val PAYMENT_STATE_AUTHORIZED = "AUTHORIZED"
+    //已支付
+    val PAYMENT_STATE_PAID = "PAID"
+    //已退款
+    val PAYMENT_STATE_REFUNDED = "REFUNDED"
+    //已取消
+    val PAYMENT_STATE_VOIDED = "VOIDED"
+
 
     /****** 与后台约定的前缀 ******/
     val BASE_64_START = "data:image/png;base64,"

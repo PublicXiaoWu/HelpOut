@@ -20,12 +20,8 @@ import com.gkzxhn.helpout.R
 import com.gkzxhn.helpout.common.IntentConstants
 import com.gkzxhn.helpout.customview.PaySelectPopupWindow
 import com.gkzxhn.helpout.entity.UIInfo.LawChannel
-import com.gkzxhn.helpout.extensions.dp2px
 import com.gkzxhn.helpout.presenter.PublishOrderPresenter
-import com.gkzxhn.helpout.utils.HtmlTextUtils
-import com.gkzxhn.helpout.utils.PayResult
-import com.gkzxhn.helpout.utils.showBottomDialog
-import com.gkzxhn.helpout.utils.showToast
+import com.gkzxhn.helpout.utils.*
 import com.gkzxhn.helpout.view.PublishOrderView
 import kotlinx.android.synthetic.main.activity_publish_order.*
 import kotlinx.android.synthetic.main.default_top.*
@@ -75,6 +71,7 @@ class PublishOrderActivity : BaseActivity(), PublishOrderView {
                 showToast(getString(R.string.cost20_at_least))
                 return@setOnClickListener
             } else if (reward <= 0) {
+                CustomerOrderDetailActivity.launch(this, mPresenter.orderId?:"3cb8a4bb-1eca-4dff-86b9-af94947a043c")
                 showToast(getString(R.string.please_enter_price))
                 return@setOnClickListener
             }
@@ -158,7 +155,7 @@ class PublishOrderActivity : BaseActivity(), PublishOrderView {
         popupWindow?.setBackgroundAlpha(0.5f)
         (popupWindow as PaySelectPopupWindow).setAmount(reward.toDouble())
         popupWindow?.showAtLocation(ll_content, Gravity.BOTTOM or Gravity.CENTER_HORIZONTAL,
-                0, ((20f).dp2px()).toInt())
+                0, 0)
     }
 
     /**
@@ -215,11 +212,11 @@ class PublishOrderActivity : BaseActivity(), PublishOrderView {
         val confirmDialog = LayoutInflater.from(this).inflate(R.layout.bottom_confirm_dialog, null)
         showBottomDialog(confirmDialog)
         confirmDialog.findViewById<TextView>(R.id.tv_cancel).setOnClickListener {
-//            dismissBottomDialog()
+            dismissBottomDialog()
         }
         confirmDialog.findViewById<TextView>(R.id.tv_confirm).setOnClickListener {
-//            dismissBottomDialog()
-//            presenter.requestRealMeeting(dateStr)
+            mPresenter.orderId?.let { it1 -> CustomerOrderDetailActivity.launch(this, it1) }
+            dismissBottomDialog()
         }
     }
 }

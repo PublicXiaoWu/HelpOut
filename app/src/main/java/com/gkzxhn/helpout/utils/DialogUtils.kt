@@ -157,3 +157,12 @@ fun Context.showBottomDialog(contentView: View) {
     }
 }
 
+/**
+ * 关闭底部弹窗
+ */
+fun dismissBottomDialog() {
+    if (bottomDialog?.isShowing == true) {
+        bottomDialog?.dismiss()
+    }
+}
+

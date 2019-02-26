@@ -48,13 +48,13 @@
             android:layout_weight="1"/>
 
         <TextView
-            android:id="@+id/tv_confirm"
+            android:id="@+id/tv_cancel"
             android:layout_width="80dp"
             android:layout_height="30dp"
             android:background="@drawable/shape_rectangle_stroke_20r"
             android:gravity="center"
-            android:text="@string/confirm"
-            android:textColor="@color/dark_blue"
+            android:text="@string/cancel"
+            android:textColor="@color/text_gray"
             android:textSize="@dimen/text_common"/>
 
         <View
@@ -63,13 +63,13 @@
             android:layout_weight="1"/>
 
         <TextView
-            android:id="@+id/tv_cancel"
+            android:id="@+id/tv_confirm"
             android:layout_width="80dp"
             android:layout_height="30dp"
             android:background="@drawable/shape_rectangle_stroke_20r"
             android:gravity="center"
-            android:text="@string/cancel"
-            android:textColor="@color/text_gray"
+            android:text="@string/confirm"
+            android:textColor="@color/dark_blue"
             android:textSize="@dimen/text_common"/>
 
         <View

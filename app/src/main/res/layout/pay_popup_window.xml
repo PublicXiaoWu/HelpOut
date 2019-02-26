@@ -3,7 +3,7 @@
               xmlns:tools="http://schemas.android.com/tools"
               android:orientation="vertical"
               android:id="@+id/ll_pop_pay"
-              android:background="@drawable/shape_rectangle_8dp_ff"
+              android:background="@color/white"
               android:layout_width="@dimen/dimen_330"
               android:layout_height="315dp">
 

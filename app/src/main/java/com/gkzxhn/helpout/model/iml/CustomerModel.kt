@@ -1,6 +1,7 @@
 package com.gkzxhn.helpout.model.iml
 
 import android.content.Context
+import com.gkzxhn.helpout.entity.CustomerOrderDetailInfo
 import com.gkzxhn.helpout.entity.PublishOrderInfo
 import com.gkzxhn.helpout.entity.PublishRequestInfo
 import com.gkzxhn.helpout.extensions.getRequestBody
@@ -29,6 +30,16 @@ class CustomerModel (val context: Context) : BaseModel() {
         return RetrofitClient.getInstance(context)
                 .mApi
                 .getAliOrder(id)
+                .subscribeOn(Schedulers.io())
+    }
+
+    /**
+     * 获取支付宝订单
+     */
+    fun getCustomerOrderDetail(id: String) :Observable<CustomerOrderDetailInfo>{
+        return RetrofitClient.getInstance(context)
+                .mApi
+                .getCustomerOrderDetail(id)
                 .subscribeOn(Schedulers.io())
     }
 }

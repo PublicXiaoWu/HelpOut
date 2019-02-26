@@ -29,7 +29,7 @@ class PaySelectPopupWindow : PopupWindow {
         //设置SelectPicPopupWindow的View
         this.contentView = mMenuView
         //设置SelectPicPopupWindow弹出窗体的宽
-        this.width = 330f.dp2px().toInt()
+        this.width = mMenuView.resources.displayMetrics.widthPixels
         //设置SelectPicPopupWindow弹出窗体的高
         this.height = 315f.dp2px().toInt()
         //设置SelectPicPopupWindow弹出窗体可点击
