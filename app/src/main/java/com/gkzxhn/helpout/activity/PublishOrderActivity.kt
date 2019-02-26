@@ -5,12 +5,15 @@ import android.content.Context
 import android.content.Intent
 import android.os.Handler
 import android.os.Message
+import android.text.Editable
 import android.text.Html
 import android.text.TextUtils
+import android.text.TextWatcher
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.PopupWindow
+import android.widget.TextView
 import com.alipay.sdk.app.PayTask
 import com.gkzxhn.helpout.BuildConfig
 import com.gkzxhn.helpout.R
@@ -91,6 +94,25 @@ class PublishOrderActivity : BaseActivity(), PublishOrderView {
                         Pair("${getString(R.string.higher)}!", "#666666")
                 )
         )
+        et_reward.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+
+            @SuppressLint("SetTextI18n")
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                if (s?.toString()?.contains(".") == true) {
+                    if (s.length - 1 - s.toString().indexOf(".") > 2) {
+                        val str = s.toString().subSequence(0,
+                                s.toString().indexOf(".") + 3)
+                        et_reward.setText(str)
+                        et_reward.setSelection(str.length)
+                    }
+                }
+            }
+        })
     }
 
     lateinit var popupWindow: PaySelectPopupWindow
@@ -192,5 +214,12 @@ class PublishOrderActivity : BaseActivity(), PublishOrderView {
     fun showPaySuccess() {
         val confirmDialog = LayoutInflater.from(this).inflate(R.layout.bottom_confirm_dialog, null)
         showBottomDialog(confirmDialog)
+        confirmDialog.findViewById<TextView>(R.id.tv_cancel).setOnClickListener {
+//            dismissBottomDialog()
+        }
+        confirmDialog.findViewById<TextView>(R.id.tv_confirm).setOnClickListener {
+//            dismissBottomDialog()
+//            presenter.requestRealMeeting(dateStr)
+        }
     }
 }
