@@ -71,7 +71,7 @@ class PublishOrderActivity : BaseActivity(), PublishOrderView {
                 showToast(getString(R.string.cost20_at_least))
                 return@setOnClickListener
             } else if (reward <= 0) {
-                CustomerOrderDetailActivity.launch(this, mPresenter.orderId?:"3cb8a4bb-1eca-4dff-86b9-af94947a043c")
+//                CustomerOrderDetailActivity.launch(this, mPresenter.orderId?:"3cb8a4bb-1eca-4dff-86b9-af94947a043c")
                 showToast(getString(R.string.please_enter_price))
                 return@setOnClickListener
             }
