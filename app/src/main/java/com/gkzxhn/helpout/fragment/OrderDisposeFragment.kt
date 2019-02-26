@@ -23,7 +23,7 @@ import kotlinx.android.synthetic.main.order_disposer_fragment.*
 import rx.android.schedulers.AndroidSchedulers
 
 /**
- * Explanation：我的咨询里面（指定单）
+ * Explanation：我的咨询
  * @author LSX
  * Created on 2018/9/10.
  */

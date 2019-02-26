@@ -6,7 +6,6 @@ import android.view.View
 import android.widget.CompoundButton
 import com.gkzxhn.helpout.R
 import com.gkzxhn.helpout.activity.NotificationActivity
-import com.gkzxhn.helpout.activity.UserSettingActivity
 import com.gkzxhn.helpout.adapter.MainAdapter
 import com.gkzxhn.helpout.common.App
 import com.gkzxhn.helpout.common.Constants
@@ -172,13 +171,6 @@ class MainFragment : BaseFragment(), CompoundButton.OnCheckedChangeListener {
         }
         ivMessageTop.setOnClickListener {
             startActivity(Intent(context, NotificationActivity::class.java))
-        }
-
-        iv_main_icon.setOnClickListener {
-            val intent = Intent(context, UserSettingActivity::class.java)
-            intent.putExtra("name",  App.SP.getString(Constants.SP_NAME,""))
-            intent.putExtra("phoneNumber", App.SP.getString(Constants.SP_PHONE,""))
-            startActivity(intent)
         }
 
         VpHome.setOnPageChangeListener(object : ViewPager.OnPageChangeListener {

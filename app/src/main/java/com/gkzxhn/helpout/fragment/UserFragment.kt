@@ -61,9 +61,11 @@ class UserFragment : BaseFragment(), View.OnClickListener {
     override fun initListener() {
         v_user_my_money_bg.setOnClickListener(this)
         v_user_rz_bg.setOnClickListener(this)
-        v_user_all_order_bg.setOnClickListener(this)
+        v_user_idea_submit_bg.setOnClickListener(this)
         v_user_set_bg.setOnClickListener(this)
         v_user_top_bg.setOnClickListener(this)
+        v_user_edit_info_bg.setOnClickListener(this)
+        v_user_bill_bg.setOnClickListener(this)
         /****** 给个人信息栏设置背影触摸变化 ******/
         ProjectUtils.addViewTouchChange(v_user_top_bg)
 
@@ -72,6 +74,12 @@ class UserFragment : BaseFragment(), View.OnClickListener {
 
     override fun onClick(v: View) {
         when (v.id) {
+            R.id.v_user_edit_info_bg -> {
+                val intent = Intent(context, UserSettingActivity::class.java)
+                intent.putExtra("name", if (lawyersInfo != null) lawyersInfo?.name else "")
+                intent.putExtra("phoneNumber", if (lawyersInfo != null) lawyersInfo?.phoneNumber else "")
+                context?.startActivity(intent)
+            }
             R.id.v_user_my_money_bg -> {
                 context?.startActivity(Intent(context, BountyActivity::class.java))
             }
@@ -87,12 +95,16 @@ class UserFragment : BaseFragment(), View.OnClickListener {
                 }
             }
 //            所有订单
-            R.id.v_user_all_order_bg -> {
-                context?.startActivity(Intent(context, AllOrderActivity::class.java))
+            R.id.v_user_idea_submit_bg -> {
+                context?.startActivity(Intent(context, IdeaSubmitActivity::class.java))
             }
 //            设置
             R.id.v_user_set_bg -> {
                 context?.startActivity(Intent(context, SettingActivity::class.java))
+            }
+//            账单
+            R.id.v_user_bill_bg -> {
+                startActivity(Intent(context, MoneyListActivity::class.java))
             }
 //            个人信息栏
             R.id.v_user_top_bg -> {
