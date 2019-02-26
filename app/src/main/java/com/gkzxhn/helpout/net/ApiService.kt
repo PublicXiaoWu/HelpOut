@@ -61,6 +61,12 @@ interface ApiService {
     fun getLawyersInfo(): Observable<LawyersInfo>
 
     /**
+     *获取律师身份状态
+     */
+    @GET("/user/lawyer-identity ")
+    fun getLawyersState(): Observable<LawyersInfo>
+
+    /**
      *获取android最新版本
      */
     @GET("lawyer/app-version/android/latest")

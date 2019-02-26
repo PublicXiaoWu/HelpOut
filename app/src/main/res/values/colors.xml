@@ -3,7 +3,7 @@
     <color name="colorPrimary">#FF5159A2</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="main_blue">#ff5159a2</color>
-    <color name="main_gary_bg">#FFEAE8F1</color>
+    <color name="main_gary_bg">#fff9f8fe</color>
     <color name="colorAccent">#FF4081</color>
     <color name="white">#ffffff</color>
     <color name="red">#ff0000</color>
@@ -58,5 +58,8 @@
 
     <color name="background_f7">#f7f7f7</color>
     <color name="text_5b">#5b5b5b</color>
+
+    <!--个人中心阴影线颜色-->
+    <color name="user_line_shadow_bg">#0b0e2755</color>
 
 </resources>

@@ -62,8 +62,7 @@ object ProjectUtils {
      * @description：认证是否通过
      */
     fun certificationStatus(): Boolean {
-        val certificationStatus = App.SP.getString(Constants.SP_CERTIFICATIONSTATUS, "")
-        return certificationStatus == Constants.CERTIFIED
+        return App.SP.getBoolean(Constants.SP_LAWYER_CERTIFICATION_STATUS, false)
     }
 
     /**
@@ -184,7 +183,7 @@ object ProjectUtils {
                 options.error(R.mipmap.ic_user_icon)
                 options.transform(RoundedCorners(120))
                 /****** 加上一个时间让其每次都更新 ******/
-                options.signature(ObjectKey(App.SP.getString(Constants.SP_MY_ICON,"defValue")))
+                options.signature(ObjectKey(App.SP.getString(Constants.SP_MY_ICON, "defValue")))
                 Glide.with(context).load(glideUrl)
                         .apply(options)
                         .into(imageview)

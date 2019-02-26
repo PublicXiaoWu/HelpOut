@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" android:orientation="vertical"
+>
+
+    <include
+        android:id="@+id/in_top"
+        layout="@layout/default_top"/>
+
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@mipmap/ic_expert_bg"
+        app:layout_constraintTop_toBottomOf="@+id/in_top">
+
+
+        <ImageView
+            android:id="@+id/iv_expert_icon1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="52dp"
+            android:src="@mipmap/ic_expert_icon1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <ImageView
+            android:id="@+id/iv_expert_icon2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="14dp"
+            android:src="@mipmap/ic_expert_icon2"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/iv_expert_icon1"
+        />
+
+        <!--白色背景-->
+        <View
+            android:id="@+id/v_expert_bg"
+            android:layout_width="match_parent"
+            android:layout_height="380dp"
+            android:layout_marginEnd="12dp"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="17dp"
+            android:background="@drawable/shape_expert_white_bg"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/iv_expert_icon2"
+            app:layout_constraintVertical_bias="0.33"
+        />
+
+
+        <!--我是心理咨询师-->
+
+        <View
+            android:id="@+id/v_expert_bg_1"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:layout_marginEnd="24dp"
+            android:layout_marginStart="24dp"
+            android:background="@drawable/shape_expert_bg1"
+            app:layout_constraintBottom_toTopOf="@id/v_expert_bg_2"
+            app:layout_constraintEnd_toEndOf="@id/v_expert_bg"
+            app:layout_constraintStart_toStartOf="@id/v_expert_bg"
+            app:layout_constraintTop_toTopOf="@id/v_expert_bg"
+            app:layout_constraintVertical_chainStyle="packed"
+        />
+
+        <ImageView
+            android:id="@+id/iv_expert_bg_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="21dp"
+            android:src="@mipmap/ic_expert_xl"
+            app:layout_constraintBottom_toBottomOf="@id/v_expert_bg_1"
+            app:layout_constraintStart_toStartOf="@id/v_expert_bg_1"
+            app:layout_constraintTop_toTopOf="@id/v_expert_bg_1"/>
+
+        <TextView
+            android:id="@+id/tv_expert_11"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:text="我是心理咨询师"
+            android:textColor="#ffffffff"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toTopOf="@id/tv_expert_12"
+            app:layout_constraintStart_toEndOf="@id/iv_expert_bg_1"
+            app:layout_constraintTop_toTopOf="@id/v_expert_bg_1"
+            app:layout_constraintVertical_chainStyle="packed"
+        />
+
+        <TextView
+            android:id="@+id/tv_expert_12"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="15dp"
+            android:text="立即入驻心理咨询师"
+            android:textColor="#ffffffff"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="@id/v_expert_bg_1"
+            app:layout_constraintStart_toEndOf="@id/iv_expert_bg_1"
+            app:layout_constraintTop_toBottomOf="@id/tv_expert_11"
+        />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="20dp"
+            android:src="@mipmap/ic_expert_arrow"
+            app:layout_constraintBottom_toBottomOf="@id/v_expert_bg_1"
+            app:layout_constraintEnd_toEndOf="@id/v_expert_bg_1"
+            app:layout_constraintTop_toTopOf="@id/v_expert_bg_1"
+        />
+
+        <!--我是法律咨询师-->
+        <View android:id="@+id/v_expert_bg_2"
+              android:layout_width="match_parent"
+              android:layout_height="120dp"
+              android:layout_marginEnd="24dp"
+              android:layout_marginStart="24dp"
+              android:layout_marginTop="@dimen/dp_36"
+              android:background="@drawable/shape_expert_bg2"
+              app:layout_constraintBottom_toBottomOf="@id/v_expert_bg"
+              app:layout_constraintEnd_toEndOf="@id/v_expert_bg"
+              app:layout_constraintStart_toStartOf="@id/v_expert_bg"
+              app:layout_constraintTop_toBottomOf="@id/v_expert_bg_1"
+        />
+
+        <ImageView
+            android:id="@+id/iv_expert_bg_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="21dp"
+            android:src="@mipmap/ic_expert_fl"
+            app:layout_constraintBottom_toBottomOf="@id/v_expert_bg_2"
+            app:layout_constraintStart_toStartOf="@id/v_expert_bg_2"
+            app:layout_constraintTop_toTopOf="@id/v_expert_bg_2"/>
+
+
+        <TextView
+            android:id="@+id/tv_expert_21"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:text="我是法律咨询师"
+            android:textColor="#ffffffff"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toTopOf="@+id/tv_expert_22"
+            app:layout_constraintStart_toEndOf="@id/iv_expert_bg_2"
+            app:layout_constraintTop_toTopOf="@id/v_expert_bg_2"
+            app:layout_constraintVertical_chainStyle="packed"
+        />
+
+        <TextView
+            android:id="@+id/tv_expert_22"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="15dp"
+            android:text="立即入驻心理咨询师"
+            android:textColor="#ffffffff"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="@id/v_expert_bg_2"
+            app:layout_constraintStart_toEndOf="@id/iv_expert_bg_2"
+            app:layout_constraintTop_toBottomOf="@id/tv_expert_21"
+        />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="20dp"
+            android:src="@mipmap/ic_expert_arrow"
+            app:layout_constraintBottom_toBottomOf="@id/v_expert_bg_2"
+            app:layout_constraintEnd_toEndOf="@id/v_expert_bg_2"
+            app:layout_constraintTop_toTopOf="@id/v_expert_bg_2"
+        />
+
+    </android.support.constraint.ConstraintLayout>
+
+
+</LinearLayout>

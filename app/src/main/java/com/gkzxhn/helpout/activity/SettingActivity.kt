@@ -100,6 +100,7 @@ class SettingActivity : BaseActivity() {
             App.EDIT.putString(Constants.SP_NAME, "")?.commit()
             App.EDIT.putString(Constants.SP_LAWOFFICE, "")?.commit()
             App.EDIT.putString(Constants.SP_CERTIFICATIONSTATUS, "")?.commit()
+            App.EDIT.putBoolean(Constants.SP_LAWYER_CERTIFICATION_STATUS,false)?.commit()
 
             /****** 清空数消息数据库 ******/
             GreenDaoManager.getInstance().newSession.notificationInfoDao.deleteAll()

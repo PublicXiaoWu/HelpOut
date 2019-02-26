@@ -15,7 +15,6 @@ import com.gkzxhn.helpout.entity.RxBusBean
 import com.gkzxhn.helpout.presenter.OrderDisposePresenter
 import com.gkzxhn.helpout.utils.DisplayUtils
 import com.gkzxhn.helpout.utils.ItemDecorationHelper
-import com.gkzxhn.helpout.utils.ProjectUtils
 import com.gkzxhn.helpout.utils.logE
 import com.gkzxhn.helpout.view.OrderDisposeView
 import com.zhy.adapter.recyclerview.MultiItemTypeAdapter
@@ -23,7 +22,7 @@ import kotlinx.android.synthetic.main.order_disposer_fragment.*
 import rx.android.schedulers.AndroidSchedulers
 
 /**
- * Explanation：我的咨询里面（指定单）
+ * Explanation：我的咨询
  * @author LSX
  * Created on 2018/9/10.
  */
@@ -49,34 +48,7 @@ class OrderDisposeFragment : BaseFragment(), OrderDisposeView {
     override fun init() {
         mPresenter = OrderDisposePresenter(context!!, this)
 
-        /****** 认证未通过时显示空状态  ******/
-        if (!ProjectUtils.certificationStatus()) {
-            loading_refresh.visibility = View.GONE
-            tv_order_disposer_null_2.visibility = View.VISIBLE
-            tv_order_disposer_null.visibility = View.GONE
-        } else {
-            initRecyclerView()
-        }
-
-        /****** 接受更新的律师信息 ******/
-        RxBus.instance.toObserverable(RxBusBean.HomeUserInfo::class.java)
-                .cache()
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({
-                    /****** 认证未通过时显示空状态  ******/
-                    if (!ProjectUtils.certificationStatus()) {
-                        loading_refresh.visibility = View.GONE
-                        tv_order_disposer_null_2.visibility = View.VISIBLE
-                        tv_order_disposer_null.visibility = View.GONE
-                    } else {
-                        loading_refresh.visibility = View.VISIBLE
-                        tv_order_disposer_null_2.visibility = View.GONE
-
-                        initRecyclerView()
-                    }
-                }, {
-                    it.message.toString().logE(this)
-                })
+        initRecyclerView()
 
         /****** 收到接单成功的消息 ******/
         RxBus.instance.toObserverable(RxBusBean.HomePoint::class.java)
@@ -186,7 +158,6 @@ class OrderDisposeFragment : BaseFragment(), OrderDisposeView {
         if (show) {
             tv_order_disposer_null.text = string
             tv_order_disposer_null.visibility = View.VISIBLE
-            tv_order_disposer_null_2.visibility = View.GONE
         } else {
             tv_order_disposer_null.visibility = View.GONE
         }

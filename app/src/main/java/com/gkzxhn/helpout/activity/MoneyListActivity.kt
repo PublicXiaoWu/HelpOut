@@ -20,7 +20,7 @@ import rx.schedulers.Schedulers
  * @classname：AllOrderActivity
  * @author：liushaoxiang
  * @date：2018/10/12 11:55 AM
- * @description：交易明细
+ * @description：账单
  */
 
 class MoneyListActivity : BaseActivity() {
@@ -65,7 +65,7 @@ class MoneyListActivity : BaseActivity() {
     }
 
     private fun initTopTitle() {
-        tv_default_top_title.text = "交易明细"
+        tv_default_top_title.text = "账单"
         iv_default_top_back.setOnClickListener {
             finish()
         }
