@@ -15,16 +15,6 @@
         android:textSize="14sp"
         android:visibility="gone"
     />
-    <TextView
-        android:id="@+id/tv_order_disposer_null_2"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:text="未认证不能接单"
-        android:textColor="#ff666666"
-        android:textSize="14sp"
-        android:visibility="gone"
-    />
 
     <com.gkzxhn.helpout.customview.PullToRefreshLayout
         android:id="@+id/loading_refresh"

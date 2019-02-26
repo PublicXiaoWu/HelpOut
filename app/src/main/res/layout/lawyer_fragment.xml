@@ -21,7 +21,6 @@
             android:background="@mipmap/ic_user_info_bg"
             app:layout_constraintTop_toTopOf="parent"/>
 
-
         <ImageView
             android:id="@+id/iv_main_icon"
             android:layout_width="64dp"

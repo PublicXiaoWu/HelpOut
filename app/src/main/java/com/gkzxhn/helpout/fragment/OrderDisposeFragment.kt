@@ -15,7 +15,6 @@ import com.gkzxhn.helpout.entity.RxBusBean
 import com.gkzxhn.helpout.presenter.OrderDisposePresenter
 import com.gkzxhn.helpout.utils.DisplayUtils
 import com.gkzxhn.helpout.utils.ItemDecorationHelper
-import com.gkzxhn.helpout.utils.ProjectUtils
 import com.gkzxhn.helpout.utils.logE
 import com.gkzxhn.helpout.view.OrderDisposeView
 import com.zhy.adapter.recyclerview.MultiItemTypeAdapter
@@ -49,15 +48,7 @@ class OrderDisposeFragment : BaseFragment(), OrderDisposeView {
     override fun init() {
         mPresenter = OrderDisposePresenter(context!!, this)
 
-        /****** 认证未通过时显示空状态  ******/
-        if (!ProjectUtils.certificationStatus()) {
-            loading_refresh.visibility = View.GONE
-            tv_order_disposer_null_2.visibility = View.VISIBLE
-            tv_order_disposer_null.visibility = View.GONE
-        } else {
-            initRecyclerView()
-        }
-
+        initRecyclerView()
 
         /****** 收到接单成功的消息 ******/
         RxBus.instance.toObserverable(RxBusBean.HomePoint::class.java)
@@ -167,7 +158,6 @@ class OrderDisposeFragment : BaseFragment(), OrderDisposeView {
         if (show) {
             tv_order_disposer_null.text = string
             tv_order_disposer_null.visibility = View.VISIBLE
-            tv_order_disposer_null_2.visibility = View.GONE
         } else {
             tv_order_disposer_null.visibility = View.GONE
         }

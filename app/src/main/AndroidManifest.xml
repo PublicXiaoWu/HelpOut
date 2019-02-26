@@ -110,6 +110,7 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity android:name=".activity.FeedBackActivity"/>
+        <activity android:name=".activity.ExpertActivity"/>
         <activity android:name=".activity.LawsServiceActivity"/>
         <activity android:name=".activity.PublishOrderActivity"/>
 

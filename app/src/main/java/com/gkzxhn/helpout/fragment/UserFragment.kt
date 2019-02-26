@@ -81,15 +81,7 @@ class UserFragment : BaseFragment(), View.OnClickListener {
                 context?.startActivity(Intent(context, BountyActivity::class.java))
             }
             R.id.v_user_rz_bg -> {
-                when (App.SP.getString(Constants.SP_CERTIFICATIONSTATUS, "")) {
-                /****** 已认证 ******/
-                    Constants.CERTIFIED -> {
-                        context?.startActivity(Intent(context, QualificationAuthenticationShowActivity::class.java))
-                    }
-                    else -> {
-                        context?.startActivity(Intent(context, QualificationAuthenticationActivity::class.java))
-                    }
-                }
+                context?.startActivity(Intent(context, ExpertActivity::class.java))
             }
 //            所有订单
             R.id.v_user_idea_submit_bg -> {
@@ -164,6 +156,7 @@ class UserFragment : BaseFragment(), View.OnClickListener {
                     ?.subscribe(object : HttpObserver<LawyersInfo>(it) {
                         override fun success(t: LawyersInfo) {
                             App.EDIT.putString(Constants.SP_CERTIFICATIONSTATUS, t.certificationStatus)?.commit()
+                            tv_user_money.text="￥"+t.rewardAmount
                         }
 
                     })
