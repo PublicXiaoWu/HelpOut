@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#FF5159A2</color>
+    <color name="colorPrimary">#FF5377B9</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="main_blue">#ff5159a2</color>
     <color name="main_gary_bg">#fff9f8fe</color>
@@ -19,7 +19,7 @@
 
     <!--首页-->
     <color name="main_top_gary">#999999</color>
-    <color name="main_top_blue">#5159A2</color>
+    <color name="main_top_blue">#5377B9</color>
 
     <!--dialog-->
     <color name="catalog_text">#808080</color>

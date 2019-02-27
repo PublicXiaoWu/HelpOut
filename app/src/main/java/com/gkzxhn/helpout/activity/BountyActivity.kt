@@ -1,7 +1,6 @@
 package com.gkzxhn.helpout.activity
 
 import android.app.Activity
-import android.content.Intent
 import android.view.View
 import com.gkzxhn.helpout.R
 import com.gkzxhn.helpout.presenter.BountyPresenter
@@ -13,7 +12,7 @@ import kotlinx.android.synthetic.main.default_top.*
  * @classname：BountyActivity
  * @author：liushaoxiang
  * @date：2018/10/11 1:39 PM
- * @description：我的赏金
+ * @description：账户余额
  */
 class BountyActivity : BaseActivity(), BountyView {
 
@@ -34,7 +33,7 @@ class BountyActivity : BaseActivity(), BountyView {
     }
 
     private fun initTopTitle() {
-        tv_default_top_title.text = "我的赏金"
+        tv_default_top_title.text = "账户余额"
 
         iv_default_top_back.setOnClickListener {
             finish()
@@ -47,9 +46,6 @@ class BountyActivity : BaseActivity(), BountyView {
             R.id.v_bounty_get_money -> {
                 mPresenter.getMoney()
 
-            }
-            R.id.v_bounty_money_list -> {
-                startActivity(Intent(this, MoneyListActivity::class.java))
             }
         /****** 绑定支付宝 ******/
             R.id.v_bounty_get_alipay -> {
