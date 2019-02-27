@@ -19,7 +19,6 @@
     />
 
 
-
     <ImageView
         android:id="@+id/iv_main_message_top"
         android:layout_width="26dp"
@@ -69,7 +68,7 @@
         android:layout_height="206dp"
         android:layout_marginStart="17dp"
         android:layout_marginTop="5dp"
-        android:background="@mipmap/ic_home_zx_bg"
+        android:background="@drawable/selector_home_fl"
         app:layout_constraintEnd_toStartOf="@id/v_home_psychological"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/iv_home_have_a_tree"
@@ -119,7 +118,7 @@
         android:layout_height="100dp"
         android:layout_marginEnd="17dp"
         android:layout_marginStart="6dp"
-        android:background="@mipmap/ic_home_xl_bg"
+        android:background="@drawable/selector_home_xl"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/v_home_legal_advice"
         app:layout_constraintTop_toTopOf="@+id/v_home_legal_advice"
@@ -165,7 +164,7 @@
         android:layout_width="0dp"
         android:layout_height="100dp"
         android:layout_marginEnd="17dp"
-        android:background="@mipmap/ic_home_xl_bg"
+        android:background="@drawable/selector_home_xl"
         app:layout_constraintBottom_toBottomOf="@+id/v_home_legal_advice"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@id/v_home_psychological"
