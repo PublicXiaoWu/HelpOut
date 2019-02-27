@@ -201,4 +201,28 @@ interface ApiService {
      */
     @GET("/customer/legal-advice/{id}")
     fun getCustomerOrderDetail(@Path("id") id: String): Observable<CustomerOrderDetailInfo>
+
+    /**
+     * 模拟通话
+     */
+    @GET("/notifications/netease/{id}/processed")
+    fun mockVideoChart(@Path("id") id: String): Observable<ResponseBody?>
+
+    /**
+     * 删除法律咨询订单
+     */
+    @DELETE("/customer/legal-advice/{id}")
+    fun deleteOrder(@Path("id") id: String):Observable<ResponseBody?>
+
+    /**
+     * 取消法律咨询
+     */
+    @POST("/customer/legal-advice/{id}/cancelled")
+    fun cancelOrder(@Path("id") id: String):Observable<ResponseBody?>
+
+    /**
+     * 评论订单
+     */
+    @POST("/customer/comments")
+    fun applyOrderComments(@Body requestBody: RequestBody): Observable<ResponseBody>
 }

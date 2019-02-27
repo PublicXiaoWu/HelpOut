@@ -110,11 +110,25 @@
     <string name="serial_number">编号</string>
     <string name="have_paid">已支付</string>
     <string name="waiting_4_pay">待支付</string>
-    <string name="order_pay_tips">＊三天内无人接单，系统自动取消;  无人接单／律师拒单后，付款金额将于7个工作日内原路返回。  每笔订单视频通话时长为20分钟，通话时长未用完结束订单一律不退还费用</string>
+    <string name="order_pay_tips">＊三天内无人接单，系统自动取消; \n 无人接单／律师拒单后，付款金额将于7个工作日内原路返回。 \n 每笔订单视频通话时长为20分钟，通话时长未用完结束订单一律不退还费用</string>
     <string name="authorized">已授权</string>
     <string name="have_refunded">已退款</string>
     <string name="have_cancelled">已取消</string>
     <string name="unknown_status">未知状态</string>
     <string name="waiting_4_receiving">待接单</string>
+    <string name="unknow">未知</string>
+    <string name="have_accepted_order">已接单</string>
+    <string name="accepted_time">接单时间</string>
+    <string name="finish_time">完成时间</string>
+    <string name="linkup_now">立即沟通</string>
+    <string name="end_consult">结束咨询</string>
+    <string name="canceled_time">取消时间</string>
+    <string name="have_completed">已完成</string>
+    <string name="delete_order">删除订单</string>
+    <string name="please_enter_service_comment">请填写本次服务评价，200字以内！</string>
+    <string name="resolve_problem_y_o_n">是否解决问题</string>
+    <string name="yes">是</string>
+    <string name="no">否</string>
+    <string name="please_score_the_server">请对本次服务进行打分</string>
 
 </resources>

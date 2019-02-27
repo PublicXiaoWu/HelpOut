@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/dimen_30">
+
+    <View
+        android:id="@+id/view_line"
+        style="@style/view_order_line"/>
+
+    <TextView
+        android:id="@+id/tv_order_server_comment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="32dp"
+        android:text="律师服务："
+        android:textColor="#ff333333"
+        android:textSize="14sp"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view_line"/>
+
+    <com.gkzxhn.helpout.customview.RatingBarView
+        android:id="@+id/rbv_service_comment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@id/tv_order_server_comment"
+        app:layout_constraintTop_toTopOf="@id/tv_order_server_comment"
+        app:starCount="5"
+        app:starEmpty="@mipmap/ic_star_back"
+        app:starFill="@mipmap/ic_star"
+        app:starImageSize="@dimen/dimen_16">
+
+    </com.gkzxhn.helpout.customview.RatingBarView>
+
+    <EditText
+        android:id="@+id/et_service_comment"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_90"
+        android:layout_marginEnd="@dimen/dimen_15"
+        android:layout_marginStart="@dimen/dimen_15"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/shape_rectangle_stroke_gray_4r"
+        android:gravity="top"
+        android:hint="@string/please_enter_service_comment"
+        android:maxLength="200"
+        android:padding="@dimen/dimen_12"
+        android:textColor="@color/text_black"
+        android:textSize="@dimen/text_common"
+        app:layout_constraintTop_toBottomOf="@id/tv_order_server_comment"/>
+
+
+    <TextView
+        android:id="@+id/tv_have_solve_problem"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="40dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="@dimen/dimen_15"
+        android:text="@string/resolve_problem_y_o_n"
+        android:textColor="#ff333333"
+        android:textSize="12sp"
+        app:layout_constraintStart_toStartOf="@+id/et_service_comment"
+        app:layout_constraintTop_toBottomOf="@+id/et_service_comment"/>
+
+    <RadioGroup
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:layout_marginEnd="@dimen/dimen_15"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/tv_have_solve_problem">
+
+        <RadioButton
+            android:id="@+id/rb_solve_problem_yes"
+            style="@style/normal_blue_radio_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:text="@string/yes"/>
+
+        <RadioButton
+            android:id="@+id/rb_solve_problem_no"
+            style="@style/normal_blue_radio_button"
+            android:layout_marginStart="@dimen/dimen_20"
+            android:text="@string/no"/>
+    </RadioGroup>
+
+
+</android.support.constraint.ConstraintLayout>
