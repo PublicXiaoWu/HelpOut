@@ -25,7 +25,8 @@ class OrderDisposePresenter(context: Context, view: OrderDisposeView) : BasePres
 
     fun getOrderDispose(page: String, mCompositeSubscription: CompositeSubscription?) {
         if (!ProjectUtils.certificationStatus()) {
-            mView?.offLoadMore()
+            getMyLawsConsult(page.toInt(), mCompositeSubscription)
+//            mView?.offLoadMore()
             return
         }
         mContext?.let {
@@ -90,6 +91,32 @@ class OrderDisposePresenter(context: Context, view: OrderDisposeView) : BasePres
 
                         }
                     })
+        }
+    }
+
+    fun getMyLawsConsult(page: Int, mCompositeSubscription: CompositeSubscription?) {
+        mContext?.let {
+            mCompositeSubscription?.add(mModel.getMyLawOrder(it, page)
+                    .observeOn(AndroidSchedulers.mainThread())
+                    ?.subscribe(object : HttpObserver<OrderDispose>(it) {
+                        override fun success(t: OrderDispose) {
+                            mView?.offLoadMore()
+                            mView?.setLastPage(t.last, t.number)
+                            mView?.updateData(t.first, t.content)
+
+                            mView?.showNullView(t.content!!.isEmpty(), "您还没有咨询订单")
+
+                            if (t.content!!.isNotEmpty()) {
+                                App.EDIT.putString("OrderId", t.content!![0].id).commit()
+                            }
+
+                        }
+
+                        override fun onError(t: Throwable?) {
+                            super.onError(t)
+                            mView?.offLoadMore()
+                        }
+                    }))
         }
     }
 

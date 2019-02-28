@@ -54,6 +54,7 @@ package com.gkzxhn.helpout.entity
         var type: String? = null
         var receivingTime: Any? = null
         var category: String?= null
+        var lawyer: Lawyer? = null
 
         class CustomerBean {
             /**

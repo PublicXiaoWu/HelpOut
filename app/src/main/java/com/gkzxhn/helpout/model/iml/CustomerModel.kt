@@ -101,4 +101,14 @@ class CustomerModel (val context: Context) : BaseModel() {
                 .deleteOrder(orderId)
                 .subscribeOn(Schedulers.io())
     }
+
+    /**
+     * 获取我的法律咨询订单列表
+     */
+    fun getMyLawOrder(page: Int): Observable<OrderDispose> {
+        return RetrofitClient.getInstance(context)
+                .mApi
+                .getMyLawsOrder(page)
+                .subscribeOn(Schedulers.io())
+    }
 }

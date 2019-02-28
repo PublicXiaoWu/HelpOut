@@ -216,13 +216,13 @@ interface ApiService {
      * 删除法律咨询订单
      */
     @DELETE("/customer/legal-advice/{id}")
-    fun deleteOrder(@Path("id") id: String):Observable<ResponseBody?>
+    fun deleteOrder(@Path("id") id: String): Observable<ResponseBody?>
 
     /**
      * 取消法律咨询
      */
     @POST("/customer/legal-advice/{id}/cancelled")
-    fun cancelOrder(@Path("id") id: String):Observable<ResponseBody?>
+    fun cancelOrder(@Path("id") id: String): Observable<ResponseBody?>
 
     /**
      * 评论订单
@@ -234,5 +234,13 @@ interface ApiService {
      * 获取法律咨询订单评论
      */
     @GET("/customer/legal-advice/{id}/comment")
-    fun getOrderComments(@Path("id") id: String):Observable<CommentInfo>
+    fun getOrderComments(@Path("id") id: String): Observable<CommentInfo>
+
+    /**
+     * 查询我的法律咨询
+     */
+    @GET("/customer/legal-advice")
+    fun getMyLawsOrder(@Query("page") page: Int,
+                       @Query("size") size: Int = 10,
+                       @Query("sort") sort: String? = null): Observable<OrderDispose>
 }

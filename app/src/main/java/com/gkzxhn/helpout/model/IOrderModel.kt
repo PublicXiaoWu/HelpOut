@@ -24,5 +24,6 @@ interface IOrderModel : IBaseModel {
     fun getImAccount(context: Context, account: String): Observable<ImInfo>
     fun getOrderComment(context: Context, id: String): Observable<OrderComment>
     fun getVideoDuration(context: Context, id: String): Observable<VideoDuration>
+    fun getMyLawOrder(context: Context, page: Int): Observable<OrderDispose>
     fun mockVideoChart(context: Context, id: String): Observable<ResponseBody?>
 }

@@ -3,6 +3,7 @@ package com.gkzxhn.helpout.adapter
 import android.annotation.SuppressLint
 import android.content.Context
 import android.support.v7.widget.RecyclerView
+import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,6 +11,7 @@ import android.widget.LinearLayout
 import com.gkzxhn.helpout.R
 import com.gkzxhn.helpout.common.Constants
 import com.gkzxhn.helpout.entity.OrderDispose
+import com.gkzxhn.helpout.entity.UIInfo.LawChannel
 import com.gkzxhn.helpout.utils.ProjectUtils
 import com.gkzxhn.helpout.utils.StringUtils
 import com.zhy.adapter.recyclerview.MultiItemTypeAdapter
@@ -73,45 +75,50 @@ class OrderDisposeAdapter(private val mContext: Context, private val data: List<
 
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        if (!ProjectUtils.certificationStatus()) {
+            //填充用户数据
+            fillCustomerData(holder, position)
+            return
+        }
         with(holder.itemView) {
             val entity = mDatas[position]
             tv_order_dispose_name.text = entity.customer!!.name
-            ProjectUtils.loadRoundImageByUserName(context, entity.customer  !!.username, iv_order_dispose_item)
+            ProjectUtils.loadRoundImageByUserName(context, entity.customer!!.username, iv_order_dispose_item)
             v_item_order_receiving_type.text = ProjectUtils.categoriesConversion(entity.category!!)
             /****** 价格 ******/
             tv_main_top_end.text = "￥" + entity.reward
             tv_order_dispose_time.text = StringUtils.parseDate(entity.createdTime)
 
             when (entity.status) {
-                Constants.ORDER_STATE_ACCEPTED ->{
+                Constants.ORDER_STATE_ACCEPTED -> {
                     iv_order_dispose_state.setImageResource(R.mipmap.ic_order_yjd)
-                    tv_order_dispose_open.visibility=View.GONE
-                    tv_tv_order_next.visibility=View.VISIBLE
+                    tv_order_dispose_open.visibility = View.GONE
+                    tv_tv_order_next.visibility = View.VISIBLE
                 }
-                Constants.ORDER_STATE_PROCESSING ->{
+                Constants.ORDER_STATE_PROCESSING -> {
                     iv_order_dispose_state.setImageResource(R.mipmap.ic_order_clz)
-                    tv_order_dispose_open.visibility=View.VISIBLE
-                    tv_tv_order_next.visibility=View.GONE
+                    tv_order_dispose_open.visibility = View.VISIBLE
+                    tv_tv_order_next.visibility = View.GONE
                 }
-                Constants.ORDER_STATE_COMPLETE ->{
+                Constants.ORDER_STATE_COMPLETE -> {
                     iv_order_dispose_state.setImageResource(R.mipmap.ic_order_ywc)
-                    tv_order_dispose_open.visibility=View.VISIBLE
-                    tv_tv_order_next.visibility=View.GONE
+                    tv_order_dispose_open.visibility = View.VISIBLE
+                    tv_tv_order_next.visibility = View.GONE
                 }
-                Constants.ORDER_STATE_CANCELLED ->{
+                Constants.ORDER_STATE_CANCELLED -> {
                     iv_order_dispose_state.setImageResource(R.mipmap.ic_order_yqx)
-                    tv_order_dispose_open.visibility=View.VISIBLE
-                    tv_tv_order_next.visibility=View.GONE
+                    tv_order_dispose_open.visibility = View.VISIBLE
+                    tv_tv_order_next.visibility = View.GONE
                 }
-                Constants.ORDER_STATE_REFUSED ->{
+                Constants.ORDER_STATE_REFUSED -> {
                     iv_order_dispose_state.setImageResource(R.mipmap.ic_order_ygb)
-                    tv_order_dispose_open.visibility=View.VISIBLE
-                    tv_tv_order_next.visibility=View.GONE
+                    tv_order_dispose_open.visibility = View.VISIBLE
+                    tv_tv_order_next.visibility = View.GONE
                 }
-                else ->{
+                else -> {
                     iv_order_dispose_state.setImageResource(R.mipmap.ic_order_clz)
-                    tv_order_dispose_open.visibility=View.VISIBLE
-                    tv_tv_order_next.visibility=View.GONE
+                    tv_order_dispose_open.visibility = View.VISIBLE
+                    tv_tv_order_next.visibility = View.GONE
 
                 }
             }
@@ -122,7 +129,68 @@ class OrderDisposeAdapter(private val mContext: Context, private val data: List<
             })
 
             tv_tv_order_next.setOnClickListener({
-                mCurrentIndex=position
+                mCurrentIndex = position
+                onItemOrderListener?.onRefusedListener()
+            })
+        }
+    }
+
+    fun fillCustomerData(holder: ViewHolder, position: Int) {
+        with(holder.itemView) {
+            val entity = mDatas[position]
+            tv_order_dispose_name.text = entity.lawyer?.name?:""
+
+            if (TextUtils.isEmpty(entity.lawyer?.username)) {
+                entity.category?.let { LawChannel.find(it)?.imgRes }?.let { iv_order_dispose_item.setImageResource(it)}
+            }else {
+                ProjectUtils.loadRoundImageByUserName(context, entity.lawyer?.username, iv_order_dispose_item)
+            }
+            v_item_order_receiving_type.text = entity.category?.let { LawChannel.find(it)?.name }?:""
+            /****** 价格 ******/
+            tv_main_top_end.text = "￥${entity.reward}"
+            tv_order_dispose_time.text = StringUtils.parseDate(entity.createdTime)
+
+            when (entity.status) {
+                Constants.ORDER_STATE_ACCEPTED -> {
+                    iv_order_dispose_state.setImageResource(R.mipmap.ic_order_yjd)
+                    tv_order_dispose_open.visibility = View.GONE
+                    tv_tv_order_next.visibility = View.VISIBLE
+                }
+                Constants.ORDER_STATE_PROCESSING -> {
+                    iv_order_dispose_state.setImageResource(R.mipmap.ic_order_clz)
+                    tv_order_dispose_open.visibility = View.VISIBLE
+                    tv_tv_order_next.visibility = View.GONE
+                }
+                Constants.ORDER_STATE_COMPLETE -> {
+                    iv_order_dispose_state.setImageResource(R.mipmap.ic_order_ywc)
+                    tv_order_dispose_open.visibility = View.VISIBLE
+                    tv_tv_order_next.visibility = View.GONE
+                }
+                Constants.ORDER_STATE_CANCELLED -> {
+                    iv_order_dispose_state.setImageResource(R.mipmap.ic_order_yqx)
+                    tv_order_dispose_open.visibility = View.VISIBLE
+                    tv_tv_order_next.visibility = View.GONE
+                }
+                Constants.ORDER_STATE_REFUSED -> {
+                    iv_order_dispose_state.setImageResource(R.mipmap.ic_order_ygb)
+                    tv_order_dispose_open.visibility = View.VISIBLE
+                    tv_tv_order_next.visibility = View.GONE
+                }
+                else -> {
+                    iv_order_dispose_state.setImageResource(R.mipmap.ic_order_clz)
+                    tv_order_dispose_open.visibility = View.VISIBLE
+                    tv_tv_order_next.visibility = View.GONE
+
+                }
+            }
+
+            holder.itemView.setOnClickListener({
+                mCurrentIndex = position
+                onItemClickListener?.onItemClick(this, holder, position)
+            })
+
+            tv_tv_order_next.setOnClickListener({
+                mCurrentIndex = position
                 onItemOrderListener?.onRefusedListener()
             })
         }

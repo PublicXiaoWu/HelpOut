@@ -5,6 +5,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import com.gkzxhn.helpout.R
+import com.gkzxhn.helpout.activity.CustomerOrderDetailActivity
 import com.gkzxhn.helpout.activity.OrderActivity
 import com.gkzxhn.helpout.adapter.OrderDisposeAdapter
 import com.gkzxhn.helpout.common.App
@@ -15,6 +16,7 @@ import com.gkzxhn.helpout.entity.RxBusBean
 import com.gkzxhn.helpout.presenter.OrderDisposePresenter
 import com.gkzxhn.helpout.utils.DisplayUtils
 import com.gkzxhn.helpout.utils.ItemDecorationHelper
+import com.gkzxhn.helpout.utils.ProjectUtils
 import com.gkzxhn.helpout.utils.logE
 import com.gkzxhn.helpout.view.OrderDisposeView
 import com.zhy.adapter.recyclerview.MultiItemTypeAdapter
@@ -126,18 +128,28 @@ class OrderDisposeFragment : BaseFragment(), OrderDisposeView {
             }
 
             override fun onItemClick(view: View?, holder: RecyclerView.ViewHolder?, position: Int) {
-                val intent = Intent(context, OrderActivity::class.java)
-                val data = mAdapter!!.getCurrentItem()
-                intent.putExtra("orderId", data.id)
-                intent.putExtra("orderState", 2)
-                startActivity(intent)
+                if (ProjectUtils.certificationStatus()) {
+                    val intent = Intent(context, OrderActivity::class.java)
+                    val data = mAdapter!!.getCurrentItem()
+                    intent.putExtra("orderId", data.id)
+                    intent.putExtra("orderState", 2)
+                    startActivity(intent)
+                } else {
+                    activity?.let { mAdapter!!.getCurrentItem().id?.let { it1 -> CustomerOrderDetailActivity.launch(it, it1) } }
+                }
             }
         })
 
         mAdapter?.setOnItemOrderListener(object : OrderDisposeAdapter.ItemOrderListener {
             override fun onRefusedListener() {
                 val data = mAdapter!!.getCurrentItem()
-                mPresenter?.getVideoDuration(data.id!!, data.customer?.username!!)
+                var username: String? = null
+                if (ProjectUtils.certificationStatus()) {
+                    username = data.customer?.username
+                } else {
+                    username = data.lawyer?.username
+                }
+                data.id?.let { username?.let { it1 -> mPresenter?.getVideoDuration(it, it1) } }
             }
 
         })
@@ -145,7 +157,7 @@ class OrderDisposeFragment : BaseFragment(), OrderDisposeView {
 
     override fun offLoadMore() {
         //加载更多取消
-        if (loading_more!!.isLoading) {
+        if (loading_more.isLoading) {
             loading_more?.finishLoading()
         }
     }
