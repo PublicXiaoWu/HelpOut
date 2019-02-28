@@ -44,11 +44,11 @@
         />
 
     <TextView
-        android:id="@+id/tv_order_intro_time"
+        android:id="@+id/tv_law_firm_practicing"
         android:layout_width="wrap_content"
         android:layout_height="19dp"
         android:layout_marginTop="5dp"
-        tools:text="职业律所:..."
+        tools:text="执业律所:..."
         android:textColor="#ff999999"
         android:textSize="12sp"
         app:layout_constraintStart_toStartOf="@id/tv_order_intro_name"
@@ -65,8 +65,8 @@
         android:textColor="#ff999999"
         android:textSize="12sp"
         android:visibility="visible"
-        app:layout_constraintStart_toStartOf="@id/tv_order_intro_time"
-        app:layout_constraintTop_toBottomOf="@id/tv_order_intro_time"
+        app:layout_constraintStart_toStartOf="@id/tv_law_firm_practicing"
+        app:layout_constraintTop_toBottomOf="@id/tv_law_firm_practicing"
         />
     <TextView
         android:id="@+id/tv_order_intro_grade"
@@ -78,7 +78,7 @@
         android:textColor="#ff999999"
         android:textSize="12sp"
         android:visibility="visible"
-        app:layout_constraintStart_toStartOf="@id/tv_order_intro_time"
+        app:layout_constraintStart_toStartOf="@id/tv_law_firm_practicing"
         app:layout_constraintTop_toBottomOf="@id/tv_order_intro_number"
         />
 </android.support.constraint.ConstraintLayout>

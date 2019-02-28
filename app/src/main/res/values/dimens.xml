@@ -46,5 +46,7 @@
     <dimen name="dimen_12">12dp</dimen>
     <dimen name="dimen_62">62dp</dimen>
     <dimen name="dimen_200">200dp</dimen>
+    <dimen name="dimen_84">84dp</dimen>
+    <dimen name="dimen_90">90dp</dimen>
 
 </resources>

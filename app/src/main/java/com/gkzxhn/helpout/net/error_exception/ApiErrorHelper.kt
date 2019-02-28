@@ -37,8 +37,16 @@ object ApiErrorHelper {
                     }
                     400 -> {
                         val errorBody = e.response().errorBody().string()
-                        val code = JSONObject(errorBody).getString("code")
-                        val message = JSONObject(errorBody).getString("message")
+                        val code = try {
+                            JSONObject(errorBody).getString("code")
+                        } catch (e: Exception) {
+                            ""
+                        }
+                        val message = try {
+                            JSONObject(errorBody).getString("message")
+                        } catch (e: Exception) {
+                            ""
+                        }
                         when (code) {
                             "lawyer.CanNotRushToAcceptIsBusy" -> {
                                 context.TsDialog("您有订单未处理，请处理", false)

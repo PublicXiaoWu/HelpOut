@@ -118,6 +118,17 @@
         <item name="android:layout_height">wrap_content</item>
     </style>
 
+    <style name="normal_blue_radio_button">
+        <item name="android:button">@null</item>
+        <item name="android:gravity">center</item>
+        <item name="android:drawableLeft">@drawable/selector_y_o_n_check</item>
+        <item name="android:drawablePadding">@dimen/dimen_8</item>
+        <item name="android:textSize">@dimen/text_common</item>
+        <item name="android:textColor">@color/text_gray</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
     <!--底部弹窗-->
     <style name="BottomDialog" parent="@style/Base.V7.Theme.AppCompat.Light.Dialog">
         <item name="android:windowNoTitle">true</item>
@@ -129,4 +140,5 @@
         <item name="android:windowEnterAnimation">@anim/translate_dialog_in</item>
         <item name="android:windowExitAnimation">@anim/translate_dialog_out</item>
     </style>
+
 </resources>

@@ -7,15 +7,20 @@ import android.view.View
 import com.gkzxhn.helpout.R
 import com.gkzxhn.helpout.common.Constants
 import com.gkzxhn.helpout.common.IntentConstants
+import com.gkzxhn.helpout.customview.RatingBarView
 import com.gkzxhn.helpout.entity.CustomerOrderDetailInfo
 import com.gkzxhn.helpout.entity.UIInfo.LawChannel
 import com.gkzxhn.helpout.presenter.CustomerOrderDetailPresenter
+import com.gkzxhn.helpout.utils.ProjectUtils
 import com.gkzxhn.helpout.utils.StringUtils
+import com.gkzxhn.helpout.utils.showToast
 import com.gkzxhn.helpout.view.CustomerOrderDetailView
 import kotlinx.android.synthetic.main.activity_customer_order_detail.*
 import kotlinx.android.synthetic.main.default_top.*
+import kotlinx.android.synthetic.main.layout_law_service_comment.*
 import kotlinx.android.synthetic.main.layout_order_content.*
 import kotlinx.android.synthetic.main.layout_order_head.*
+import kotlinx.android.synthetic.main.layout_order_intro_head.*
 
 class CustomerOrderDetailActivity : BaseActivity(), CustomerOrderDetailView {
 
@@ -27,7 +32,11 @@ class CustomerOrderDetailActivity : BaseActivity(), CustomerOrderDetailView {
         }
     }
 
+    //订单id
     private lateinit var orderId: String
+    //律师username
+    private var lawUsername: String? = null
+    private var ratingScore = 0
 
     private lateinit var mPresenter: CustomerOrderDetailPresenter
 
@@ -48,24 +57,11 @@ class CustomerOrderDetailActivity : BaseActivity(), CustomerOrderDetailView {
     }
 
     private fun initListener() {
-        /*bt_publish_order.setOnClickListener {
-            val reward = try {
-                et_reward.text.toString().trim().toDouble()
-            } catch (e: Exception) {
-                0.0
+        rbv_service_comment.setOnRatingListener(object : RatingBarView.OnRatingListener{
+            override fun onRating(bindObject: Any?, ratingScore: Int) {
+                this@CustomerOrderDetailActivity.ratingScore = ratingScore
             }
-            if (!cb_use_contract.isChecked) {
-                showToast(getString(R.string.please_agree_laws_contract))
-                return@setOnClickListener
-            }
-            if (!BuildConfig.DEBUG && 20 > reward) {
-                showToast(getString(R.string.cost20_at_least))
-                return@setOnClickListener
-            } else if (reward <= 0) {
-                showToast(getString(R.string.please_enter_price))
-                return@setOnClickListener
-            }
-        }*/
+        })
     }
 
     private fun initContent() {
@@ -76,6 +72,7 @@ class CustomerOrderDetailActivity : BaseActivity(), CustomerOrderDetailView {
 
     @SuppressLint("SetTextI18n")
     override fun setData(customerOrderDetailInfo: CustomerOrderDetailInfo) {
+        lawUsername = customerOrderDetailInfo.lawyer?.username
         tv_order_state.text = when (customerOrderDetailInfo.paymentStatus) {
             Constants.PAYMENT_STATE_AUTHORIZED -> {
                 getString(R.string.authorized)
@@ -96,36 +93,156 @@ class CustomerOrderDetailActivity : BaseActivity(), CustomerOrderDetailView {
                 getString(R.string.unknown_status)
             }
         }
+        //订单编号
+        val orderNumber = "${getString(R.string.serial_number)}: ${customerOrderDetailInfo.number}"
+        //订单类别
+        val orderCategory = customerOrderDetailInfo.category?.let { LawChannel.find(it) }
+        //订单金额
+        val reward = "¥${customerOrderDetailInfo.reward.toString()}"
+        //律师名字
+        val lawyerName = customerOrderDetailInfo.lawyer?.name ?: ""
+        //执业律所
+        val lawyerOffice = customerOrderDetailInfo.lawyer?.lawOffice ?: ""
+        //律师评分
+        val lawyerRate = customerOrderDetailInfo.lawyer?.rate?.toString() ?: ""
+        //创建时间
+        val createTime = customerOrderDetailInfo.createdTime?.let { StringUtils.parseDate(it) }
+        //接单时间
+        val acceptedTime = customerOrderDetailInfo.acceptedTime?.let { "${getString(R.string.accepted_time)}: ${StringUtils.parseDate(it)}" }
+        //完成时间
+        val finishTime = customerOrderDetailInfo.endTime?.let { "${getString(R.string.finish_time)}: ${StringUtils.parseDate(it)}" }
+        //取消时间
+        val canceledTime = customerOrderDetailInfo.endTime?.let { "${getString(R.string.canceled_time)}: ${StringUtils.parseDate(it)}" }
+        //处理时间
+        val processTime = customerOrderDetailInfo.processedTime?.let { "${getString(R.string.finish_time)}: ${StringUtils.parseDate(it)}" }
+
+        var orderHeaderVisible = View.VISIBLE
+        var orderIntroHeaderVisible = View.GONE
+        var lawServiceCommentVisible = View.GONE
+        var lawServiceVisible = View.GONE
+
+        var colorTitleStr: String? = null
+        var orderBodyStr1: String? = null
+        var orderBodyStr2: String? = null
+        var btn1Str: String? = null
+        var btn2Visible = View.GONE
         when (customerOrderDetailInfo.status) {
             Constants.ORDER_STATE_PENDING_PAYMENT, Constants.ORDER_STATE_PENDING_RECEIVING -> {
                 //待支付, 待接单
-                layout_order_head.visibility = View.VISIBLE
-                layout_order_intro_head.visibility = View.GONE
-                customerOrderDetailInfo.category?.let {
-                    LawChannel.find(it)?.let { it1 ->
-                        tv_order_type1.text = it1.name
-                        it1.imgRes?.let { iv_oder_icon.setImageResource(it) }
-                    }
-                }
-                tv_order_time.text = StringUtils.parseDate(customerOrderDetailInfo.createdTime)
-                tv_order_number.text = "${getString(R.string.serial_number)}: ${customerOrderDetailInfo.number}"
-                tv_order_price.text = "¥${customerOrderDetailInfo.reward.toString()}"
+                orderHeaderVisible = View.VISIBLE
+                orderIntroHeaderVisible = View.GONE
+                lawServiceCommentVisible = View.GONE
+                lawServiceVisible = View.GONE
+                btn2Visible = View.GONE
 
-                tv_color_title.text = getString(R.string.waiting_4_receiving)
-                tv_order_body1.visibility = View.GONE
-                tv_order_body2.visibility = View.GONE
+                colorTitleStr = getString(R.string.waiting_4_receiving)
+                btn1Str= getString(R.string.delete_order)
             }
-            Constants.ORDER_STATE_ACCEPTED, Constants.ORDER_STATE_CANCELLED -> {
-                //已接单, 已取消
-                layout_order_head.visibility = View.GONE
-                layout_order_intro_head.visibility = View.VISIBLE
+            Constants.ORDER_STATE_ACCEPTED -> {
+                //已接单
+                orderHeaderVisible = View.GONE
+                orderIntroHeaderVisible = View.VISIBLE
+                lawServiceCommentVisible = View.GONE
+                lawServiceVisible = View.GONE
+                btn2Visible = View.GONE
 
+                colorTitleStr = "${getString(R.string.have_accepted_order)}($lawyerName)"
+                orderBodyStr1 = acceptedTime
+                btn1Str = getString(R.string.linkup_now)
+            }
+            Constants.ORDER_STATE_CANCELLED -> {
+                // 已取消
+                orderHeaderVisible = View.GONE
+                orderIntroHeaderVisible = View.VISIBLE
+                lawServiceCommentVisible = View.GONE
+                lawServiceVisible = View.GONE
+                btn2Visible = View.GONE
 
+                colorTitleStr = "${getString(R.string.have_accepted_order)}($lawyerName)"
+                orderBodyStr1 = canceledTime
+//                orderBodyStr2 = 取消原因
+                btn1Str= getString(R.string.delete_order)
+            }
+            Constants.ORDER_STATE_PROCESSING -> {
+                // 处理中
+                orderHeaderVisible = View.GONE
+                orderIntroHeaderVisible = View.VISIBLE
+                lawServiceCommentVisible = View.VISIBLE
+                lawServiceVisible = View.GONE
+                btn2Visible = View.VISIBLE
+
+                colorTitleStr = "${getString(R.string.have_accepted_order)}($lawyerName)"
+                orderBodyStr1 = acceptedTime
+                orderBodyStr2 = processTime
+                btn1Str = getString(R.string.linkup_now)
+            }
+            Constants.ORDER_STATE_COMPLETE, Constants.ORDER_STATE_REFUSED -> {
+                //已完成, 已关闭
+                orderHeaderVisible = View.GONE
+                orderIntroHeaderVisible = View.VISIBLE
+                lawServiceCommentVisible = View.GONE
+                lawServiceVisible = View.VISIBLE
+                btn2Visible = View.GONE
+
+                colorTitleStr = getString(R.string.have_completed)
+                orderBodyStr1 = acceptedTime
+                orderBodyStr2 = finishTime
+                btn1Str= getString(R.string.delete_order)
             }
             else -> {
                 layout_order_head.visibility = View.GONE
                 layout_order_intro_head.visibility = View.VISIBLE
+                lawServiceCommentVisible = View.GONE
+                lawServiceVisible = View.GONE
             }
+        }
+
+        layout_order_head.visibility = orderHeaderVisible
+        layout_order_intro_head.visibility = orderIntroHeaderVisible
+        layout_law_service.visibility = lawServiceVisible
+        layout_law_service_comment.visibility = lawServiceCommentVisible
+
+        orderCategory?.let {
+            tv_order_type1.text = it.name
+            it.imgRes?.let { iv_oder_icon.setImageResource(it) }
+        }
+        createTime?.let { tv_order_time.text = it }
+        tv_order_number.text = orderNumber
+        tv_order_price.text = reward
+
+        ProjectUtils.loadRoundImageByUserName(this, lawUsername, iv_oder_intro_icon)
+        tv_order_intro_name.text = lawyerName
+        tv_order_intro_price.text = reward
+        tv_law_firm_practicing.text = lawyerOffice
+        tv_order_intro_number.text = orderNumber
+        tv_order_intro_grade.text = lawyerRate
+
+        tv_color_title.text = colorTitleStr
+        tv_order_body1.visibility = View.VISIBLE.takeIf { orderBodyStr1 != null } ?: View.GONE
+        tv_order_body1.text = orderBodyStr1
+        tv_order_body2.visibility = View.VISIBLE.takeIf { orderBodyStr2 != null } ?: View.GONE
+        tv_order_body2.text = orderBodyStr2
+
+        bt_order_1.text = btn1Str
+        bt_order_1.setOnClickListener {
+            if (btn1Str == getString(R.string.delete_order)){
+                mPresenter.deleteOrder(orderId)
+            }else {
+                lawUsername?.let { it1 ->
+//                    mPresenter.getImInfo(it1)
+                    //模拟通话
+                    mPresenter.mockVideoChart(orderId)
+                }
+            }
+        }
+        bt_order_2.visibility = btn2Visible
+        bt_order_2.setOnClickListener{
+            if (ratingScore == 0) {
+                showToast(getString(R.string.please_score_the_server))
+                return@setOnClickListener
+            }
+            val content = et_service_comment.text.toString()
+            mPresenter.endOrder(orderId, content, ratingScore, rb_solve_problem_yes.isChecked)
         }
     }
 
