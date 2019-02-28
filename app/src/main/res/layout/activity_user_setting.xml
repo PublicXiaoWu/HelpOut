@@ -28,7 +28,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="18dp"
         android:onClick="onClickUserSetting"
-        android:text="上传头像"
+        android:text="更换头像"
         android:textColor="#ff5159a2"
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -45,7 +45,6 @@
           app:layout_constraintBottom_toBottomOf="@+id/v_user_setting_phone_bg"
           app:layout_constraintTop_toBottomOf="@+id/tv_user_setting_up_image"
     />
-
 
     <!--昵称-->
     <View android:id="@+id/v_user_setting_name_bg"
