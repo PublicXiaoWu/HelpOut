@@ -132,8 +132,8 @@ interface ApiService {
     @GET("lawyer/rush/legal-advice")
     fun getOrderReceiving(@Query("page") page: String, @Query("size") size: String): Observable<OrderReceiving>
 
-    //    获取交易明细列表
-    @GET("/lawyer/transaction-logs")
+    //    获取账单列表
+    @GET("/bill")
     fun getTransaction(@Query("page") page: String, @Query("size") size: String): Observable<MoneyList>
 
     //    获取抢单的明细

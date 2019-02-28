@@ -15,7 +15,7 @@ import kotlinx.android.synthetic.main.item_money_list.view.*
 import java.util.*
 
 /**
- * Explanation：
+ * Explanation：账单
  * @author LSX
  * Created on 2018/9/10.
  */
@@ -79,20 +79,35 @@ class MoneyListAdapter(private val mContext: Context) : RecyclerView.Adapter<Mon
         with(holder.itemView) {
             val entity = mDatas[position]
             val type = entity.type.toString()
+            val source = entity.source.toString()
+            tv_money_list_money.text = entity.amount.toString()
+            val payType = when (source) {
+                "ALIPAY" -> "支付宝"
+                "WE_CHAT_PAY" -> "微信支付"
+                else -> "其它"
+            }
             var typeStr = when (type) {
-                "REWARD" -> {
-                    tv_money_list_money.text = entity.amount.toString()
-                    "赏金"
+                "SERVICE_CHARGE" -> {
+                    "提现平台使用费"
                 }
-                "WITHDRAWAL" -> {
-                    tv_money_list_money.text = entity.amount.toString()
+                "PAYMENT" -> {
+                    "支付"
+                }
+                "REFUND" -> {
+                    "退款"
+                }
+                "WITHDRAW" -> {
                     tv_money_list_money.setTextColor(resources.getColor(R.color.main_bottom_black))
                     "提现"
                 }
                 else -> "其它"
             }
             tv_money_list_type.text = typeStr
-            tv_money_list_time.text = StringUtils.parseDate(entity.createdTime.toString())
+            tv_money_list_pay_type.text = "支付方式：$payType"
+            tv_money_list_number.text = "订单编号：${entity.orderNumber}"
+            tv_money_list_time.text = StringUtils.parseDate(entity.successTime.toString())
+
+
         }
     }
 

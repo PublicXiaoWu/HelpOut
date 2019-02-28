@@ -68,8 +68,12 @@ class LoginPresenter(context: Context, view: LoginView) : BasePresenter<ILoginMo
                         ?.observeOn(AndroidSchedulers.mainThread())
                         ?.subscribe(object : HttpObserver<Response<Void>>(it) {
                             override fun success(t: Response<Void>) {
-                                mView?.startCountDown(60)
-                                it.showToast(it.getString(R.string.have_send).toString())
+                                if (t.code() == 201) {
+                                    mView?.startCountDown(60)
+                                    it.showToast(it.getString(R.string.have_send).toString())
+                                }else{
+                                    it.showToast("服务器异常，请重试")
+                                }
                             }
 
                             override fun onError(t: Throwable?) {

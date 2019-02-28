@@ -22,7 +22,6 @@ import java.util.concurrent.TimeUnit
 
 class ChangePhoneFirstActivity : BaseActivity(), PhoneChangeView {
 
-
     override fun onFinish() {
         finish()
     }

@@ -21,7 +21,6 @@ import com.netease.nimlib.sdk.msg.MsgService
 import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum
 import rx.android.schedulers.AndroidSchedulers
 
-
 /**
  * @classname：接单详情
  * @author：liushaoxiang
@@ -174,6 +173,8 @@ class OrderPresenter(context: Context, view: OrderView) : BasePresenter<IOrderMo
                             if (t.status == Constants.ORDER_STATE_ACCEPTED) {
                                 mContext?.showToast("抢单成功")
                                 RxBus.instance.post(RxBusBean.HomePoint(true))
+                                /****** 改变订单的状态为已接单 ******/
+                                mView?.setOrderState(2)
                                 initOrderInfo(t)
                             } else {
                                 mContext?.showToast("抢单失败")

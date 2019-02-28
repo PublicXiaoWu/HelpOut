@@ -57,8 +57,13 @@ class OrderActivity : BaseActivity(), OrderView {
 
     }
 
+
     override fun onFinish() {
         finish()
+    }
+
+    override fun setOrderState(orderState: Int) {
+        intent.putExtra("orderState", orderState)
     }
 
     override fun setName(name: String) {
@@ -88,7 +93,7 @@ class OrderActivity : BaseActivity(), OrderView {
         tv_order_price.text = reward
     }
 
-    override fun setNextText(visibility :Int,str: String) {
+    override fun setNextText(visibility: Int, str: String) {
         tv_order_next.visibility = visibility
         tv_order_next.text = str
     }
