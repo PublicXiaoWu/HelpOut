@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
@@ -9,19 +10,25 @@
     <include android:id="@+id/in_top"
              layout="@layout/default_top"/>
 
+    <View android:layout_width="match_parent"
+          android:layout_height="1dp"
+          android:background="#E5E5E5"
+          app:layout_constraintTop_toBottomOf="@+id/in_top"
+    />
+
     <TextView
         android:id="@+id/tv_null"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
-        android:text="暂无明细"
+        android:text="暂无账单"
         android:visibility="gone"/>
 
     <com.gkzxhn.helpout.customview.PullToRefreshLayout
         android:id="@+id/loading_refresh"
-        android:layout_marginTop="48dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="49dp"
     >
 
         <com.gkzxhn.helpout.customview.LoadMoreWrapper
@@ -39,8 +46,6 @@
         </com.gkzxhn.helpout.customview.LoadMoreWrapper>
 
     </com.gkzxhn.helpout.customview.PullToRefreshLayout>
-
-
 
 
 </android.support.constraint.ConstraintLayout>

@@ -23,4 +23,5 @@ interface OrderView : BaseView {
     fun setShowGetMoney(visibility: Int, getMoney: String, getMoneyTime: String)
     fun setOrderStateNameColor(color: Int)
     fun setShowEvaluation(visibility: Int, ServiceSesults: String, ServiceInfo: String, star: Int)
+    fun setOrderState(orderState: Int)
 }

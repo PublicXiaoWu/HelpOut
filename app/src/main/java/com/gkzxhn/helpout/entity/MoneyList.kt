@@ -38,10 +38,21 @@ class MoneyList {
          * createdTime : 2018-11-19T01:40:53.863+0000
          */
 
+//        type：
+//        PAYMENT("支付"),
+//        REFUND("退款"),
+//        WITHDRAW("提现"),
+//        SERVICE_CHARGE("提现平台使用费");
+//        source：
+//        ALIPAY("支付宝"),
+//        WE_CHAT_PAY("微信支付");
+
         var id: String? = null
         var type: String? = null
+        var orderNumber: String? = null
+        var source: String? = null
         var amount: Double = 0.toDouble()
-        var createdTime: String? = null
+        var successTime: String? = null
     }
 
     class SortBean {
