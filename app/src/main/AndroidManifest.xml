@@ -93,6 +93,7 @@
         <activity android:name=".activity.ImageCropActivity"/>
         <activity android:name=".activity.ClipImageActivity"/>
         <activity android:name=".activity.EditAddressActivity"/>
+        <activity android:name=".activity.EditNicknameActivity"/>
         <activity android:name=".activity.MoneyListActivity"/>
         <activity android:name=".activity.NotificationActivity"/>
 

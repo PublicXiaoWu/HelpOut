@@ -7,9 +7,9 @@
         android:color="#999"/>
 
     <!-- 圆角 -->
-    <corners android:radius="4dp"
+    <corners android:radius="10dp"
     />
 
-    <gradient android:startColor="#7498DC" android:endColor="#5377B9"/>
+    <gradient android:startColor="@color/main_gary_bg" android:endColor="@color/main_gary_bg"/>
 
 </shape>

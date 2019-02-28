@@ -53,12 +53,11 @@ class UserSettingActivity : BaseActivity() {
 
     override fun init() {
         initTopTitle()
-        ProjectUtils.addViewTouchChange(tv_user_setting_change_phone)
         name = intent.getStringExtra("name")
         phoneNumber = intent.getStringExtra("phoneNumber")
         tv_user_setting_change_name.text = name
 
-        ProjectUtils.loadMyIcon(this,iv_user_setting_image)
+        ProjectUtils.loadMyIcon(this, iv_user_setting_image)
         tv_user_setting_phone.text = StringUtils.phoneChange(phoneNumber)
 
         photoDir = File(externalCacheDir, "photo")
@@ -79,12 +78,29 @@ class UserSettingActivity : BaseActivity() {
         when (view.id) {
 
         /****** 个人头像 ******/
-            R.id.v_user_setting_photo_bg -> {
+            R.id.tv_user_setting_up_image -> {
                 showListDialog("id_head.jpg", false)
-
             }
+        /****** 个人头像 ******/
+            R.id.iv_user_setting_image -> {
+                showListDialog("id_head.jpg", false)
+            }
+        /****** 修改昵称 ******/
+            R.id.v_user_setting_name_bg -> {
+                val intent = Intent(this, EditNicknameActivity::class.java)
+                intent.putExtra("phoneNumber",phoneNumber)
+                startActivityForResult(intent, Constants.RESULTCODE_EDIT_NICK)
+            }
+//     /****** 家庭地址 ******/
+//            R.id.v_user_address_bg -> {
+//                showToast("家庭地址")
+//            }
+//     /****** 邮政编码 ******/
+//            R.id.v_user_postcode_bg -> {
+//                showToast("邮政编码")
+//            }
         /****** 更换手机号 ******/
-            R.id.tv_user_setting_change_phone -> {
+            R.id.v_user_setting_phone_bg -> {
                 var intent = Intent(this, ChangePhoneFirstActivity::class.java)
                 intent.putExtra("phoneNumber", phoneNumber)
                 startActivity(intent)
@@ -222,6 +238,16 @@ class UserSettingActivity : BaseActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == Constants.RESULTCODE_EDIT_NICK) {
+            when (resultCode) {
+            /****** 昵称返回 ******/
+                Constants.RESULTCODE_EDIT_NICKNAME -> {
+                    var nickname = data?.getStringExtra(Constants.RESULT_EDIT_NICKNAME).toString()
+                    tv_user_setting_change_name.text = nickname
+                }
+            }
+        }
         if (resultCode == Activity.RESULT_OK) {
             mTakePhotoUri.toString().logE(this)
             when (requestCode) {
@@ -287,8 +313,6 @@ class UserSettingActivity : BaseActivity() {
     }
 
 
-
-
     /**
      * @methodName： created by liushaoxiang on 2018/10/26 2:07 PM.
      * @description：修改头像
@@ -305,7 +329,7 @@ class UserSettingActivity : BaseActivity() {
                         if (date.code() == 204) {
                             showToast("上传成功")
                             App.EDIT.putString(Constants.SP_MY_ICON, System.currentTimeMillis().toString()).commit()
-                            ProjectUtils.loadMyIcon(this@UserSettingActivity,iv_user_setting_image)
+                            ProjectUtils.loadMyIcon(this@UserSettingActivity, iv_user_setting_image)
                         } else {
                             showToast("上传失败")
                         }

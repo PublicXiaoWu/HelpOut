@@ -14,7 +14,6 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:background="@color/white"
-        app:layout_constraintBottom_toBottomOf="@+id/iv_bounty_money_list"
         app:layout_constraintTop_toBottomOf="@+id/in_top"/>
 
     <ImageView
@@ -109,6 +108,7 @@
         app:layout_constraintBottom_toBottomOf="@id/v_bounty_get_alipay"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/v_bounty_get_alipay"/>
+
     <View
         android:id="@+id/v_bounty_get_alipay_line"
         android:layout_width="match_parent"
@@ -118,6 +118,7 @@
         android:background="#EAEBEE"
         app:layout_constraintTop_toBottomOf="@+id/v_bounty_get_alipay"
     />
+
     <!--申请提现-->
     <View
         android:id="@+id/v_bounty_get_money"
@@ -126,7 +127,6 @@
         android:background="@drawable/selector_item_white_to_gary"
         android:onClick="onClickBounty"
         app:layout_constraintTop_toBottomOf="@+id/v_bounty_get_alipay_line"/>
-
 
     <ImageView
         android:id="@+id/iv_bounty_get_money"
@@ -151,7 +151,6 @@
         app:layout_constraintTop_toTopOf="@+id/v_bounty_get_money"
     />
 
-
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -160,58 +159,5 @@
         app:layout_constraintBottom_toBottomOf="@id/v_bounty_get_money"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/v_bounty_get_money"/>
-
-
-    <View
-        android:id="@+id/v_bounty_get_money_line"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginEnd="15dp"
-        android:layout_marginStart="15dp"
-        android:background="#EAEBEE"
-        app:layout_constraintTop_toBottomOf="@+id/v_bounty_get_money"
-    />
-
-    <!--交易明细-->
-    <View
-        android:id="@+id/v_bounty_money_list"
-        android:layout_width="0dp"
-        android:layout_height="43dp"
-        android:background="@drawable/selector_item_white_to_gary"
-        android:onClick="onClickBounty"
-        app:layout_constraintTop_toBottomOf="@+id/v_bounty_get_money_line"/>
-
-    <ImageView
-        android:id="@+id/iv_bounty_money_list"
-        android:layout_width="13dp"
-        android:layout_height="13dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginStart="25dp"
-        android:src="@mipmap/ic_bounty_2"
-        app:layout_constraintBottom_toBottomOf="@id/v_bounty_money_list"
-        app:layout_constraintStart_toStartOf="@id/v_bounty_money_list"
-        app:layout_constraintTop_toTopOf="@+id/v_bounty_money_list"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:text="交易明细"
-        android:textColor="#666666"
-        android:textSize="12sp"
-        app:layout_constraintBottom_toBottomOf="@id/v_bounty_money_list"
-        app:layout_constraintStart_toEndOf="@id/iv_bounty_money_list"
-        app:layout_constraintTop_toTopOf="@+id/v_bounty_money_list"
-    />
-
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="15dp"
-        android:src="@mipmap/ic_arrow_left"
-        app:layout_constraintBottom_toBottomOf="@id/v_bounty_money_list"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/v_bounty_money_list"/>
-
 
 </android.support.constraint.ConstraintLayout>

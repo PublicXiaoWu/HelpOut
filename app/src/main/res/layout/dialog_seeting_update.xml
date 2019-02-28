@@ -98,7 +98,7 @@
         android:background="@drawable/selector_item_white_to_gary"
         android:gravity="center"
         android:text="立即更新"
-        android:textColor="#FF5159A2"
+        android:textColor="#FF5377B9"
         android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

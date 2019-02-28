@@ -163,7 +163,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="15dp"
             android:layout_marginTop="15dp"
-            android:text="立即入驻心理咨询师"
+            android:text="立即入驻法律咨询师"
             android:textColor="#ffffffff"
             android:textSize="12sp"
             app:layout_constraintBottom_toBottomOf="@id/v_expert_bg_2"

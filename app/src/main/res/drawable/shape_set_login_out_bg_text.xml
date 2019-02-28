@@ -1,15 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
-    <solid android:color="@color/dialog_bg"/>
-
+    <solid android:color="@color/dialog_bg"
+    />
     <stroke
         android:width="0dp"
         android:color="#999"/>
-
     <!-- 圆角 -->
-    <corners android:radius="4dp"
-    />
+    <corners android:radius="4dp"/>
 
-    <gradient android:startColor="#7498DC" android:endColor="#5377B9"/>
-
+    <gradient android:startColor="#5377B9" android:endColor="#648CD6"/>
 </shape>

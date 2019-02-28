@@ -18,9 +18,12 @@ object Constants {
     val INTENT_SELECTSTRING = "INTENT_SELECTSTRING"
     val REQUESTCODE_CHOOSE_MAJORS = 0x111
     val RESULTCODE_CHOOSE_MAJORS = 0x112
+    /****** 昵称返回 ******/
+    val RESULTCODE_EDIT_NICK = 0x113
     //地址填写返回值
     val RESULT_EDIT_ADDRESS = "RESULT_eidt_address"
     val RESULTCODE_EDIT_ADDRESS = 23
+    val RESULTCODE_EDIT_NICKNAME = 24
     /****** SharedPreferences 相关******/
 
 //    存储项目验证Token的状态
@@ -109,5 +112,9 @@ object Constants {
     val RESULT_EDIT_ADDRESS_CITYCODE = "RESULT_EDIT_ADDRESS_CITYCODE"
     val RESULT_EDIT_ADDRESS_COUNTYCODE = "RESULT_EDIT_ADDRESS_COUNTYCODE"
     val RESULT_EDIT_ADDRESS_COUNTYNAME = "RESULT_EDIT_ADDRESS_COUNTYNAME"
+
+
+    /****** 昵称返回 ******/
+    val RESULT_EDIT_NICKNAME = "RESULT_EDIT_NICKNAME"
 
 }
