@@ -12,13 +12,13 @@ import com.gkzxhn.helpout.model.iml.OrderModel
 import com.gkzxhn.helpout.net.HttpObserver
 import com.gkzxhn.helpout.utils.ProjectUtils
 import com.gkzxhn.helpout.utils.StringUtils
-import com.gkzxhn.helpout.utils.TsDialog
 import com.gkzxhn.helpout.utils.showToast
 import com.gkzxhn.helpout.view.OrderView
 import com.netease.nim.uikit.api.NimUIKit
 import com.netease.nimlib.sdk.NIMClient
 import com.netease.nimlib.sdk.msg.MsgService
 import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum
+import okhttp3.ResponseBody
 import rx.android.schedulers.AndroidSchedulers
 
 /**
@@ -32,6 +32,7 @@ class OrderPresenter(context: Context, view: OrderView) : BasePresenter<IOrderMo
     /****** 客户的网易ID ******/
     var userName = ""
     var videoDuration = 3.0
+    var orderId = ""
 
     /****** 1，获取 抢单的明细 ******/
     fun getOrderRushInfo(id: String) {
@@ -61,6 +62,7 @@ class OrderPresenter(context: Context, view: OrderView) : BasePresenter<IOrderMo
 
     /****** 2，获取 指定订单的明细 ******/
     fun getOrderMyInfo(id: String) {
+        orderId=id
         mContext?.let {
             mModel.getOrderMyInfo(it, id)
                     .unsubscribeOn(AndroidSchedulers.mainThread())
@@ -69,6 +71,24 @@ class OrderPresenter(context: Context, view: OrderView) : BasePresenter<IOrderMo
                         override fun success(t: OrderMyInfo) {
                             initOrderInfo(t)
 
+                        }
+                    })
+        }
+    }
+
+
+    /**
+     * 模拟通话
+     */
+    fun mockVideoChart(orderId: String) {
+        mContext?.let {
+            it.showToast("模拟通话...")
+            mModel.mockVideoChart(it,orderId)
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(object : HttpObserver<ResponseBody?>(it) {
+                        override fun success(t: ResponseBody?) {
+                            getOrderMyInfo(orderId)
+                            it.showToast("模拟通话完成...")
                         }
                     })
         }
@@ -204,11 +224,12 @@ class OrderPresenter(context: Context, view: OrderView) : BasePresenter<IOrderMo
     }
 
     fun sendMessage() {
-        if (videoDuration > 0) {
-            getImAccount(userName)
-        } else {
-            mContext?.TsDialog("视频通话时长已用完", false)
-        }
+        mockVideoChart(orderId)
+//        if (videoDuration > 0) {
+//            getImAccount(userName)
+//        } else {
+//            mContext?.TsDialog("视频通话时长已用完", false)
+//        }
     }
 
     /**

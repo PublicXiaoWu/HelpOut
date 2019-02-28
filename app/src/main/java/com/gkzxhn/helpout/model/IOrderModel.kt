@@ -2,6 +2,7 @@ package com.gkzxhn.helpout.model
 
 import android.content.Context
 import com.gkzxhn.helpout.entity.*
+import okhttp3.ResponseBody
 import rx.Observable
 
 
@@ -23,4 +24,5 @@ interface IOrderModel : IBaseModel {
     fun getImAccount(context: Context, account: String): Observable<ImInfo>
     fun getOrderComment(context: Context, id: String): Observable<OrderComment>
     fun getVideoDuration(context: Context, id: String): Observable<VideoDuration>
+    fun mockVideoChart(context: Context, id: String): Observable<ResponseBody?>
 }

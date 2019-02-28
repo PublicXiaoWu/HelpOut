@@ -33,7 +33,7 @@ class CustomerModel (val context: Context) : BaseModel() {
     }
 
     /**
-     * 获取支付宝订单
+     * 获取订单详情
      */
     fun getCustomerOrderDetail(id: String) :Observable<CustomerOrderDetailInfo>{
         return RetrofitClient.getInstance(context)
