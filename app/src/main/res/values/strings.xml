@@ -125,10 +125,20 @@
     <string name="canceled_time">取消时间</string>
     <string name="have_completed">已完成</string>
     <string name="delete_order">删除订单</string>
+    <string name="cancel_order">取消订单</string>
     <string name="please_enter_service_comment">请填写本次服务评价，200字以内！</string>
     <string name="resolve_problem_y_o_n">是否解决问题</string>
     <string name="yes">是</string>
     <string name="no">否</string>
     <string name="please_score_the_server">请对本次服务进行打分</string>
+    <string name="laws_service_">律师服务：</string>
+    <string name="have_solved_problem">已解决问题</string>
+    <string name="have_not_solved_problem">未解决问题</string>
+    <string name="service_comment">服务评价</string>
+    <string name="the_user_have_not_comment">此用户没有填写评价</string>
+    <string name="delete_success">删除成功</string>
+    <string name="cancel_reason">取消原因</string>
+    <string name="auto_cancel_in_3_days">三天内无人接单，系统自动取消</string>
+    <string name="user_cancel_order">用户取消订单</string>
 
 </resources>

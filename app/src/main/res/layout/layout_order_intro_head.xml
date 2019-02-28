@@ -81,4 +81,17 @@
         app:layout_constraintStart_toStartOf="@id/tv_law_firm_practicing"
         app:layout_constraintTop_toBottomOf="@id/tv_order_intro_number"
         />
+    <com.gkzxhn.helpout.customview.RatingBarView
+        android:id="@+id/rbv_service_star"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@id/tv_order_intro_grade"
+        app:layout_constraintTop_toTopOf="@id/tv_order_intro_grade"
+        app:starCount="5"
+        app:starEmpty="@android:color/transparent"
+        app:starFill="@mipmap/ic_star"
+        app:starImageSize="@dimen/dimen_16">
+
+    </com.gkzxhn.helpout.customview.RatingBarView>
+
 </android.support.constraint.ConstraintLayout>

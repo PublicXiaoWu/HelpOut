@@ -1,7 +1,8 @@
 package com.gkzxhn.helpout.presenter
 
 import android.content.Context
-import com.gkzxhn.helpout.entity.CommentRequestInfo
+import com.gkzxhn.helpout.R
+import com.gkzxhn.helpout.entity.CommentInfo
 import com.gkzxhn.helpout.entity.CustomerOrderDetailInfo
 import com.gkzxhn.helpout.entity.ImInfo
 import com.gkzxhn.helpout.model.iml.CustomerModel
@@ -49,7 +50,31 @@ class CustomerOrderDetailPresenter(context: Context, view: CustomerOrderDetailVi
      * 删除订单
      */
     fun deleteOrder(orderId: String) {
-        mContext?.showToast("删除$orderId")
+        mContext?.let {
+            mModel.deleteOrder(orderId)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(object : HttpObserver<ResponseBody?>(it) {
+                    override fun success(t: ResponseBody?) {
+                        it.showToast(it.getString(R.string.delete_success))
+                        mView?.close()
+                    }
+                })
+        }
+    }
+
+    /**
+     * 取消订单
+     */
+    fun cancelOrder(orderId: String) {
+        mContext?.let {
+            mModel.cancelOrder(orderId)
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(object : HttpObserver<ResponseBody?>(it) {
+                        override fun success(t: ResponseBody?) {
+                            getCustomerOrderDetail(orderId)
+                        }
+                    })
+        }
     }
 
     /**
@@ -57,7 +82,7 @@ class CustomerOrderDetailPresenter(context: Context, view: CustomerOrderDetailVi
      */
     fun endOrder(orderId: String, comment:String?, rate: Int, isResolved: Boolean) {
         mContext?.let {
-            mModel.applyOrderComment(CommentRequestInfo(rate, comment, isResolved))
+            mModel.applyOrderComment(CommentInfo(rate, comment, isResolved, orderId))
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(object : HttpObserver<ResponseBody>(it) {
                     override fun success(t: ResponseBody) {
@@ -78,8 +103,25 @@ class CustomerOrderDetailPresenter(context: Context, view: CustomerOrderDetailVi
                     .subscribe(object : HttpObserver<ResponseBody?>(it) {
                         override fun success(t: ResponseBody?) {
                             getCustomerOrderDetail(orderId)
+                            it.showToast("模拟通话完成...")
                         }
                     })
+        }
+    }
+
+    /**
+     * 获取订单评价
+     */
+    fun getComments(orderId: String) {
+        mContext?.let {
+            mModel.getComment(orderId)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(object : HttpObserver<CommentInfo>(it) {
+                    override fun success(t: CommentInfo) {
+                        mView?.setCommentsData(t)
+                    }
+
+                })
         }
     }
 }

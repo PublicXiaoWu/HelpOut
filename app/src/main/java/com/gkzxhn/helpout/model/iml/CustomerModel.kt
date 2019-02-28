@@ -65,10 +65,40 @@ class CustomerModel (val context: Context) : BaseModel() {
     /**
      * 提交评论
      */
-    fun applyOrderComment(commentRequestInfo: CommentRequestInfo): Observable<ResponseBody> {
+    fun applyOrderComment(commentRequestInfo: CommentInfo): Observable<ResponseBody> {
         return RetrofitClient.getInstance(context)
                 .mApi
                 .applyOrderComments(Gson().getRequestBody(commentRequestInfo))
+                .subscribeOn(Schedulers.io())
+    }
+
+    /**
+     * 获取评论
+     */
+    fun getComment(orderId: String) : Observable<CommentInfo> {
+        return RetrofitClient.getInstance(context)
+                .mApi
+                .getOrderComments(orderId)
+                .subscribeOn(Schedulers.io())
+    }
+
+    /**
+     * 取消订单
+     */
+    fun cancelOrder(orderId: String): Observable<ResponseBody?> {
+        return RetrofitClient.getInstance(context)
+                .mApi
+                .cancelOrder(orderId)
+                .subscribeOn(Schedulers.io())
+    }
+
+    /**
+     * 删除订单
+     */
+    fun deleteOrder(orderId: String): Observable<ResponseBody?> {
+        return RetrofitClient.getInstance(context)
+                .mApi
+                .deleteOrder(orderId)
                 .subscribeOn(Schedulers.io())
     }
 }

@@ -11,6 +11,7 @@
         layout="@layout/default_top"/>
 
     <ScrollView
+        android:id="@+id/scrollview_order"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clipToPadding="false"
@@ -36,6 +37,7 @@
                 layout="@layout/layout_order_content"/>
 
             <include
+                android:visibility="gone"
                 android:id="@+id/layout_law_service_comment"
                 layout="@layout/layout_law_service_comment"/>
 
@@ -49,6 +51,8 @@
 
     <LinearLayout
         android:layout_width="match_parent"
+        android:visibility="gone"
+        android:id="@+id/ll_bottom_btn"
         android:layout_height="@dimen/dimen_84"
         android:layout_marginTop="-84dp"
         android:background="@color/white"

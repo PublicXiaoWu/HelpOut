@@ -3,11 +3,14 @@ package com.gkzxhn.helpout.activity
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
+import android.text.TextUtils
 import android.view.View
+import android.widget.ScrollView
 import com.gkzxhn.helpout.R
 import com.gkzxhn.helpout.common.Constants
 import com.gkzxhn.helpout.common.IntentConstants
 import com.gkzxhn.helpout.customview.RatingBarView
+import com.gkzxhn.helpout.entity.CommentInfo
 import com.gkzxhn.helpout.entity.CustomerOrderDetailInfo
 import com.gkzxhn.helpout.entity.UIInfo.LawChannel
 import com.gkzxhn.helpout.presenter.CustomerOrderDetailPresenter
@@ -17,6 +20,7 @@ import com.gkzxhn.helpout.utils.showToast
 import com.gkzxhn.helpout.view.CustomerOrderDetailView
 import kotlinx.android.synthetic.main.activity_customer_order_detail.*
 import kotlinx.android.synthetic.main.default_top.*
+import kotlinx.android.synthetic.main.layout_law_service.*
 import kotlinx.android.synthetic.main.layout_law_service_comment.*
 import kotlinx.android.synthetic.main.layout_order_content.*
 import kotlinx.android.synthetic.main.layout_order_head.*
@@ -56,12 +60,24 @@ class CustomerOrderDetailActivity : BaseActivity(), CustomerOrderDetailView {
         iv_default_top_back.setOnClickListener { finish() }
     }
 
+    var hasScrollDown = false
+
     private fun initListener() {
-        rbv_service_comment.setOnRatingListener(object : RatingBarView.OnRatingListener{
+        rbv_service_comment.setOnRatingListener(object : RatingBarView.OnRatingListener {
             override fun onRating(bindObject: Any?, ratingScore: Int) {
                 this@CustomerOrderDetailActivity.ratingScore = ratingScore
             }
         })
+        et_service_comment.setOnFocusChangeListener { v, hasFocus ->
+            if (hasFocus && !hasScrollDown) {
+                scrollview_order.post {
+                    scrollview_order.fullScroll(ScrollView.FOCUS_DOWN)
+                    hasScrollDown = true
+                    et_service_comment.requestFocus()
+                }
+            } else {
+            }
+        }
     }
 
     private fun initContent() {
@@ -73,6 +89,7 @@ class CustomerOrderDetailActivity : BaseActivity(), CustomerOrderDetailView {
     @SuppressLint("SetTextI18n")
     override fun setData(customerOrderDetailInfo: CustomerOrderDetailInfo) {
         lawUsername = customerOrderDetailInfo.lawyer?.username
+        ll_bottom_btn.visibility = View.VISIBLE
         tv_order_state.text = when (customerOrderDetailInfo.paymentStatus) {
             Constants.PAYMENT_STATE_AUTHORIZED -> {
                 getString(R.string.authorized)
@@ -104,7 +121,7 @@ class CustomerOrderDetailActivity : BaseActivity(), CustomerOrderDetailView {
         //执业律所
         val lawyerOffice = customerOrderDetailInfo.lawyer?.lawOffice ?: ""
         //律师评分
-        val lawyerRate = customerOrderDetailInfo.lawyer?.rate?.toString() ?: ""
+        val lawyerRate = customerOrderDetailInfo.lawyer?.rate
         //创建时间
         val createTime = customerOrderDetailInfo.createdTime?.let { StringUtils.parseDate(it) }
         //接单时间
@@ -127,8 +144,18 @@ class CustomerOrderDetailActivity : BaseActivity(), CustomerOrderDetailView {
         var btn1Str: String? = null
         var btn2Visible = View.GONE
         when (customerOrderDetailInfo.status) {
-            Constants.ORDER_STATE_PENDING_PAYMENT, Constants.ORDER_STATE_PENDING_RECEIVING -> {
-                //待支付, 待接单
+            Constants.ORDER_STATE_PENDING_PAYMENT -> {
+                //待支付
+                orderHeaderVisible = View.VISIBLE
+                orderIntroHeaderVisible = View.GONE
+                lawServiceCommentVisible = View.GONE
+                lawServiceVisible = View.GONE
+                btn2Visible = View.GONE
+
+                btn1Str = getString(R.string.delete_order)
+            }
+            Constants.ORDER_STATE_PENDING_RECEIVING -> {
+                //待接单
                 orderHeaderVisible = View.VISIBLE
                 orderIntroHeaderVisible = View.GONE
                 lawServiceCommentVisible = View.GONE
@@ -136,7 +163,7 @@ class CustomerOrderDetailActivity : BaseActivity(), CustomerOrderDetailView {
                 btn2Visible = View.GONE
 
                 colorTitleStr = getString(R.string.waiting_4_receiving)
-                btn1Str= getString(R.string.delete_order)
+                btn1Str = getString(R.string.cancel_order)
             }
             Constants.ORDER_STATE_ACCEPTED -> {
                 //已接单
@@ -152,16 +179,18 @@ class CustomerOrderDetailActivity : BaseActivity(), CustomerOrderDetailView {
             }
             Constants.ORDER_STATE_CANCELLED -> {
                 // 已取消
-                orderHeaderVisible = View.GONE
-                orderIntroHeaderVisible = View.VISIBLE
+                orderHeaderVisible = View.VISIBLE
+                orderIntroHeaderVisible = View.GONE
                 lawServiceCommentVisible = View.GONE
                 lawServiceVisible = View.GONE
                 btn2Visible = View.GONE
 
-                colorTitleStr = "${getString(R.string.have_accepted_order)}($lawyerName)"
+                colorTitleStr = getString(R.string.have_cancelled)
                 orderBodyStr1 = canceledTime
-//                orderBodyStr2 = 取消原因
-                btn1Str= getString(R.string.delete_order)
+                orderBodyStr2 = getString(R.string.cancel_reason) + "：" +
+                        if (customerOrderDetailInfo.isAutoEnd == true) getString(R.string.auto_cancel_in_3_days) else
+                            getString(R.string.user_cancel_order)
+                btn1Str = getString(R.string.delete_order)
             }
             Constants.ORDER_STATE_PROCESSING -> {
                 // 处理中
@@ -187,7 +216,8 @@ class CustomerOrderDetailActivity : BaseActivity(), CustomerOrderDetailView {
                 colorTitleStr = getString(R.string.have_completed)
                 orderBodyStr1 = acceptedTime
                 orderBodyStr2 = finishTime
-                btn1Str= getString(R.string.delete_order)
+                btn1Str = getString(R.string.delete_order)
+                mPresenter.getComments(orderId)
             }
             else -> {
                 layout_order_head.visibility = View.GONE
@@ -215,9 +245,9 @@ class CustomerOrderDetailActivity : BaseActivity(), CustomerOrderDetailView {
         tv_order_intro_price.text = reward
         tv_law_firm_practicing.text = lawyerOffice
         tv_order_intro_number.text = orderNumber
-        tv_order_intro_grade.text = lawyerRate
+        lawyerRate?.let { rbv_service_star.setStar(it, true) }
 
-        tv_color_title.text = colorTitleStr
+        colorTitleStr?.let { tv_color_title.text = it }
         tv_order_body1.visibility = View.VISIBLE.takeIf { orderBodyStr1 != null } ?: View.GONE
         tv_order_body1.text = orderBodyStr1
         tv_order_body2.visibility = View.VISIBLE.takeIf { orderBodyStr2 != null } ?: View.GONE
@@ -225,18 +255,20 @@ class CustomerOrderDetailActivity : BaseActivity(), CustomerOrderDetailView {
 
         bt_order_1.text = btn1Str
         bt_order_1.setOnClickListener {
-            if (btn1Str == getString(R.string.delete_order)){
+            if (btn1Str == getString(R.string.delete_order)) {
                 mPresenter.deleteOrder(orderId)
-            }else {
+            } else if (btn1Str == getString(R.string.cancel_order)) {
+                mPresenter.cancelOrder(orderId)
+            } else {
                 lawUsername?.let { it1 ->
-//                    mPresenter.getImInfo(it1)
+                    //                    mPresenter.getImInfo(it1)
                     //模拟通话
                     mPresenter.mockVideoChart(orderId)
                 }
             }
         }
         bt_order_2.visibility = btn2Visible
-        bt_order_2.setOnClickListener{
+        bt_order_2.setOnClickListener {
             if (ratingScore == 0) {
                 showToast(getString(R.string.please_score_the_server))
                 return@setOnClickListener
@@ -246,4 +278,20 @@ class CustomerOrderDetailActivity : BaseActivity(), CustomerOrderDetailView {
         }
     }
 
+    /**
+     * 设置律师评价数据
+     */
+    override fun setCommentsData(commentInfo: CommentInfo) {
+        commentInfo.rate?.let { rbv_service_comment_star.setStar(it, true) }
+        tv_order_server_end.text = getString(R.string.have_solved_problem).takeIf { commentInfo.isResolved == true } ?: getString(R.string.have_not_solved_problem)
+        tv_order_evaluation.text =
+                commentInfo.content.takeIf { TextUtils.isEmpty(it) } ?: getString(R.string.the_user_have_not_comment).let {
+            getString(R.string.service_comment) + ": " + it
+        }
+
+    }
+
+    override fun close() {
+        finish()
+    }
 }

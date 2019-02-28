@@ -225,4 +225,10 @@ interface ApiService {
      */
     @POST("/customer/comments")
     fun applyOrderComments(@Body requestBody: RequestBody): Observable<ResponseBody>
+
+    /**
+     * 获取法律咨询订单评论
+     */
+    @GET("/customer/legal-advice/{id}/comment")
+    fun getOrderComments(@Path("id") id: String):Observable<CommentInfo>
 }
