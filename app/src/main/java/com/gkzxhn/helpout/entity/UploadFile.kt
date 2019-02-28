@@ -9,7 +9,7 @@ package com.gkzxhn.helpout.entity
 
 data class UploadFile(
         val id: String?,
-        val mime: String?,
+        val filename: String?,
         val size: Int?,
         val originalFilename: String?
 )

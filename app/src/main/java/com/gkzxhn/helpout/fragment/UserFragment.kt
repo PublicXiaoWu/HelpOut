@@ -48,8 +48,10 @@ class UserFragment : BaseFragment(), View.OnClickListener {
                 .cache()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
-                    getAccountInfo()
-                    getLawyersState()
+                    if (it.show) {
+                        getAccountInfo()
+                        getLawyersState()
+                    }
                 }, {
                     it.message.toString().logE(this)
                 })

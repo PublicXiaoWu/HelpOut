@@ -136,6 +136,10 @@ interface ApiService {
     @GET("/bill")
     fun getTransaction(@Query("page") page: String, @Query("size") size: String): Observable<MoneyList>
 
+     //    获取我的IM通知
+    @GET("im/notifications/my")
+    fun getNotifications(@Query("page") page: String, @Query("size") size: String): Observable<NotificationInfoList>
+
     //    获取抢单的明细
     @GET("/lawyer/rush/legal-advice/{id}")
     fun getOrderRushInfo(@Path("id") id: String): Observable<OrderRushInfo>

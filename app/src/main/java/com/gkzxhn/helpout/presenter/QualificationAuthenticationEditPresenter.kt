@@ -73,15 +73,15 @@ class QualificationAuthenticationEditPresenter(context: Context, view: Qualifica
                     ?.observeOn(AndroidSchedulers.mainThread())
                     ?.subscribe(object : HttpObserver<UploadFile>(it) {
                         override fun success(t: UploadFile) {
-                            t.id?.let {
+                            t.filename?.let {
                                 when (position) {
-                                    1 -> mView?.setImage1(t.id)
-                                    2 -> mView?.setImage2(t.id)
-                                    3 -> mView?.setImage3(t.id)
-                                    4 -> mView?.setImage4(t.id)
+                                    1 -> mView?.setImage1(t.filename)
+                                    2 -> mView?.setImage2(t.filename)
+                                    3 -> mView?.setImage3(t.filename)
+                                    4 -> mView?.setImage4(t.filename)
                                 }
-                                map[STRING_ID + position] = t.id
-                                map[STRING_64 + position] = t.id
+                                map[STRING_ID + position] = t.filename
+                                map[STRING_64 + position] = t.filename
                             }
                         }
                     })
@@ -177,7 +177,6 @@ class QualificationAuthenticationEditPresenter(context: Context, view: Qualifica
                     }
                 })
     }
-
 
     /**
      * @methodName： created by liushaoxiang on 2018/11/20 7:13 PM.
@@ -365,7 +364,7 @@ class QualificationAuthenticationEditPresenter(context: Context, view: Qualifica
      * @description：弹窗的动画
      */
     private fun slideToUp(view: View) {
-        var slide = TranslateAnimation(Animation.RELATIVE_TO_SELF, 0.0f,
+        val slide = TranslateAnimation(Animation.RELATIVE_TO_SELF, 0.0f,
                 Animation.RELATIVE_TO_SELF, 0.0f, Animation.RELATIVE_TO_SELF,
                 1.0f, Animation.RELATIVE_TO_SELF, 0.0f)
 

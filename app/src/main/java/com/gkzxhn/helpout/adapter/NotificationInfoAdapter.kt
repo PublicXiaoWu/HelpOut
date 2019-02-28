@@ -8,7 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import com.gkzxhn.helpout.R
-import com.gkzxhn.helpout.entity.NotificationInfo
+import com.gkzxhn.helpout.entity.NotificationInfoList
 import com.gkzxhn.helpout.utils.StringUtils
 import com.zhy.adapter.recyclerview.MultiItemTypeAdapter
 import kotlinx.android.synthetic.main.item_notification_list.view.*
@@ -22,14 +22,14 @@ import java.util.*
 
 class NotificationInfoAdapter(private val mContext: Context) : RecyclerView.Adapter<NotificationInfoAdapter.ViewHolder>() {
 
-    private var mDatas: ArrayList<NotificationInfo> = ArrayList()
+    private var mDatas: ArrayList<NotificationInfoList.ContentBean> = ArrayList()
     private var onItemClickListener: MultiItemTypeAdapter.OnItemClickListener? = null
     private var mCurrentIndex = -1
 
     /**
      *  获取当前项实体
      */
-    fun getCurrentItem(): NotificationInfo {
+    fun getCurrentItem(): NotificationInfoList.ContentBean {
         return mDatas[mCurrentIndex]
     }
 
@@ -41,7 +41,7 @@ class NotificationInfoAdapter(private val mContext: Context) : RecyclerView.Adap
     /**
      * 更新数据
      */
-    fun updateItems(clear: Boolean, mDatas: List<NotificationInfo>?) {
+    fun updateItems(clear: Boolean, mDatas: List<NotificationInfoList.ContentBean>?) {
         if (clear) {
             this.mDatas.clear()
         }
@@ -68,7 +68,7 @@ class NotificationInfoAdapter(private val mContext: Context) : RecyclerView.Adap
             val entity = mDatas[position]
             tv_notification_type.text = "通知消息"
             tv_notification_context.text = entity.content
-            tv_notification_time.text = StringUtils.MstoDate(entity.time.toString())
+            tv_notification_time.text = StringUtils.MstoDate(entity.createdTime.toString())
         }
     }
 

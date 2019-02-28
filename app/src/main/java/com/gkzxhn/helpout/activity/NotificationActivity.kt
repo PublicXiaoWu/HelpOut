@@ -7,13 +7,16 @@ import com.gkzxhn.helpout.adapter.NotificationInfoAdapter
 import com.gkzxhn.helpout.common.App
 import com.gkzxhn.helpout.common.RxBus
 import com.gkzxhn.helpout.customview.PullToRefreshLayout
-import com.gkzxhn.helpout.entity.NotificationInfo
+import com.gkzxhn.helpout.entity.NotificationInfoList
 import com.gkzxhn.helpout.entity.RxBusBean
-import com.gkzxhn.helpout.greendao.dao.GreenDaoManager
+import com.gkzxhn.helpout.net.HttpObserver
+import com.gkzxhn.helpout.net.RetrofitClient
 import com.gkzxhn.helpout.utils.DisplayUtils
 import com.gkzxhn.helpout.utils.ItemDecorationHelper
 import kotlinx.android.synthetic.main.activity_money_list.*
 import kotlinx.android.synthetic.main.default_top.*
+import rx.android.schedulers.AndroidSchedulers
+import rx.schedulers.Schedulers
 
 /**
  * @classname：消息
@@ -23,9 +26,9 @@ import kotlinx.android.synthetic.main.default_top.*
  */
 
 class NotificationActivity : BaseActivity() {
-
+    var loadMore = false
+    var page = 0
     lateinit var mAdapter: NotificationInfoAdapter
-    var notificationList: List<NotificationInfo>?=null
     override fun provideContentViewId(): Int {
         return R.layout.activity_notification_list
     }
@@ -40,22 +43,26 @@ class NotificationActivity : BaseActivity() {
         rcl_money_list.adapter = mAdapter
         val decoration = DisplayUtils.dp2px(App.mContext, 0f)
         rcl_money_list.addItemDecoration(ItemDecorationHelper(decoration, decoration, decoration, 0, decoration))
-        getData()
+        getData("0")
 
 
         //加载更多
         loading_more.setOnLoadMoreListener(object : com.gkzxhn.helpout.customview.LoadMoreWrapper.OnLoadMoreListener {
             override fun onLoadMore() {
+                if (loadMore) {
+                    getData((page + 1).toString())
+                } else {
                     offLoadMore()
+                }
             }
         })
 
         //下啦刷新
         loading_refresh.setOnRefreshListener(object : PullToRefreshLayout.OnRefreshListener {
-            override fun onRefresh() {
-                getData()
-                loading_refresh?.finishRefreshing()
-            }
+                override fun onRefresh() {
+                    getData("0")
+                    loading_refresh?.finishRefreshing()
+                }
         }, 1)
     }
 
@@ -66,10 +73,28 @@ class NotificationActivity : BaseActivity() {
         }
     }
 
-    fun getData() {
-        notificationList = GreenDaoManager.getInstance().newSession.notificationInfoDao.loadAll()
-        showNullView(notificationList?.isEmpty()!!)
-        mAdapter.updateItems(true,notificationList)
+    fun getData(p: String) {
+
+        RetrofitClient.Companion.getInstance(this).mApi
+                .getNotifications(p, "10")
+                .subscribeOn(Schedulers.io())
+                ?.unsubscribeOn(AndroidSchedulers.mainThread())
+                ?.observeOn(AndroidSchedulers.mainThread())
+                ?.subscribe(object : HttpObserver<NotificationInfoList>(this) {
+                    override fun success(t: NotificationInfoList) {
+                        offLoadMore()
+                        loadMore = !t.isLast
+                        page = t.number
+                        showNullView(t.content!!.isEmpty())
+                        mAdapter.updateItems(t.isFirst, t.content)
+                    }
+
+                    override fun onError(t: Throwable?) {
+                        loadDialog?.dismiss()
+                        showNullView(true)
+                        offLoadMore()
+                    }
+                })
     }
 
 
@@ -91,7 +116,6 @@ class NotificationActivity : BaseActivity() {
     override fun onDestroy() {
         super.onDestroy()
         RxBus.instance.post(RxBusBean.HomeTopRedPoint(false))
-
     }
 
 }
