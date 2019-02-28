@@ -285,9 +285,7 @@ class CustomerOrderDetailActivity : BaseActivity(), CustomerOrderDetailView {
         commentInfo.rate?.let { rbv_service_comment_star.setStar(it, true) }
         tv_order_server_end.text = getString(R.string.have_solved_problem).takeIf { commentInfo.isResolved == true } ?: getString(R.string.have_not_solved_problem)
         tv_order_evaluation.text =
-                commentInfo.content.takeIf { TextUtils.isEmpty(it) } ?: getString(R.string.the_user_have_not_comment).let {
-            getString(R.string.service_comment) + ": " + it
-        }
+                commentInfo.content.takeIf { !TextUtils.isEmpty(it) }?.let { getString(R.string.service_comment) + ": " + it } ?: getString(R.string.the_user_have_not_comment)
 
     }
 
