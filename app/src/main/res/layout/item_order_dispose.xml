@@ -2,23 +2,45 @@
 <android.support.constraint.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:background="@drawable/selector_item_shape_order"
     android:layout_height="wrap_content"
->
+    android:background="@drawable/selector_item_shape_order"
+    >
+
+    <View
+        android:id="@+id/view_perch"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_width="@dimen/dimen_20"
+        android:layout_height="1dp"/>
+
+    <View
+        android:id="@+id/view_notify_red_point"
+        android:layout_width="@dimen/dimen_15"
+        android:layout_height="@dimen/dimen_15"
+        android:layout_marginEnd="@dimen/dimen_10"
+        android:layout_marginTop="@dimen/dimen_35"
+        android:background="@mipmap/ic_no_deal_red_point"
+        app:layout_constraintStart_toEndOf="@id/view_perch"
+        app:layout_constraintEnd_toStartOf="@id/iv_order_dispose_item"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintTop_toTopOf="parent"/>
+
 
     <ImageView
         android:id="@+id/iv_order_dispose_item"
         android:layout_width="64dp"
         android:layout_height="64dp"
         android:layout_marginBottom="17dp"
-        android:layout_marginStart="15dp"
         android:layout_marginTop="11dp"
         android:src="@mipmap/ic_user_icon"
+        android:layout_marginStart="@dimen/dimen_10"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/view_notify_red_point"
         app:layout_constraintTop_toTopOf="parent"
-    />
+        app:layout_constraintVertical_bias="1.0"/>
+
+
 
     <TextView
         android:id="@+id/tv_order_dispose_name"
@@ -30,28 +52,28 @@
         android:textSize="14sp"
         app:layout_constraintStart_toEndOf="@id/iv_order_dispose_item"
         app:layout_constraintTop_toTopOf="@id/iv_order_dispose_item"
-    />
+        />
 
     <TextView
         android:id="@+id/tv_main_top_end"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="¥--.--"
-        android:textColor="#FFF34800"
+        android:textColor="@color/orange"
         android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="@id/tv_order_dispose_name"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintEnd_toStartOf="@id/iv_order_dispose_state"
         app:layout_constraintTop_toTopOf="@id/tv_order_dispose_name"
-    />
+        />
 
     <TextView
         android:id="@+id/tv_order_dispose_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="15dp"
-        android:text="2018-08-10 11:15"
         android:layout_marginTop="6dp"
+        android:text="2018-08-10 11:15"
         android:textColor="#ff999999"
         android:textSize="10sp"
         app:layout_constraintStart_toEndOf="@id/iv_order_dispose_item"
@@ -70,7 +92,7 @@
         android:textSize="11sp"
         app:layout_constraintStart_toEndOf="@id/iv_order_dispose_item"
         app:layout_constraintTop_toBottomOf="@id/tv_order_dispose_time"
-    />
+        />
 
     <ImageView
         android:id="@+id/iv_order_dispose_state"
@@ -79,7 +101,7 @@
         android:src="@mipmap/ic_order_yjd"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-    />
+        />
 
     <TextView
         android:id="@+id/tv_order_dispose_open"
@@ -98,7 +120,6 @@
         android:id="@+id/tv_tv_order_next"
         android:layout_width="68dp"
         android:layout_height="24dp"
-        android:visibility="gone"
         android:layout_marginBottom="15dp"
         android:layout_marginEnd="14dp"
         android:layout_marginTop="10dp"
@@ -108,9 +129,10 @@
         android:text="立即沟通"
         android:textColor="@color/white"
         android:textSize="10sp"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-    />
+        />
 
 </android.support.constraint.ConstraintLayout>
 

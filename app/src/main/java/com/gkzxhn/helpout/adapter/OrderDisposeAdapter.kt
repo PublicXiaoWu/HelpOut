@@ -88,6 +88,7 @@ class OrderDisposeAdapter(private val mContext: Context, private val data: List<
             /****** 价格 ******/
             tv_main_top_end.text = "￥" + entity.reward
             tv_order_dispose_time.text = StringUtils.parseDate(entity.createdTime)
+            view_notify_red_point.visibility = View.VISIBLE.takeIf { entity.missedCallStatus == 0 }?:View.GONE
 
             when (entity.status) {
                 Constants.ORDER_STATE_ACCEPTED -> {
@@ -138,7 +139,8 @@ class OrderDisposeAdapter(private val mContext: Context, private val data: List<
     fun fillCustomerData(holder: ViewHolder, position: Int) {
         with(holder.itemView) {
             val entity = mDatas[position]
-            tv_order_dispose_name.text = entity.lawyer?.name?:""
+            tv_order_dispose_name.text = "￥${entity.reward}"
+            tv_order_dispose_name.setTextColor(context.resources.getColor(R.color.orange))
 
             if (TextUtils.isEmpty(entity.lawyer?.username)) {
                 entity.category?.let { LawChannel.find(it)?.imgRes }?.let { iv_order_dispose_item.setImageResource(it)}
@@ -147,10 +149,21 @@ class OrderDisposeAdapter(private val mContext: Context, private val data: List<
             }
             v_item_order_receiving_type.text = entity.category?.let { LawChannel.find(it)?.name }?:""
             /****** 价格 ******/
-            tv_main_top_end.text = "￥${entity.reward}"
+            tv_main_top_end.visibility = View.GONE
             tv_order_dispose_time.text = StringUtils.parseDate(entity.createdTime)
 
+            view_notify_red_point.visibility = View.VISIBLE.takeIf { entity.missedCallStatus == 1 }?:View.GONE
             when (entity.status) {
+                Constants.ORDER_STATE_PENDING_PAYMENT -> {
+                    iv_order_dispose_state.setImageResource(R.mipmap.ic_order_dzf)
+                    tv_order_dispose_open.visibility = View.VISIBLE
+                    tv_tv_order_next.visibility = View.GONE
+                }
+                Constants.ORDER_STATE_PENDING_RECEIVING -> {
+                    iv_order_dispose_state.setImageResource(R.mipmap.ic_order_djd)
+                    tv_order_dispose_open.visibility = View.VISIBLE
+                    tv_tv_order_next.visibility = View.GONE
+                }
                 Constants.ORDER_STATE_ACCEPTED -> {
                     iv_order_dispose_state.setImageResource(R.mipmap.ic_order_yjd)
                     tv_order_dispose_open.visibility = View.GONE
@@ -184,15 +197,15 @@ class OrderDisposeAdapter(private val mContext: Context, private val data: List<
                 }
             }
 
-            holder.itemView.setOnClickListener({
+            holder.itemView.setOnClickListener {
                 mCurrentIndex = position
                 onItemClickListener?.onItemClick(this, holder, position)
-            })
+            }
 
-            tv_tv_order_next.setOnClickListener({
+            tv_tv_order_next.setOnClickListener {
                 mCurrentIndex = position
                 onItemOrderListener?.onRefusedListener()
-            })
+            }
         }
     }
 

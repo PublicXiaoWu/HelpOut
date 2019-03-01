@@ -61,5 +61,6 @@
 
     <!--个人中心阴影线颜色-->
     <color name="user_line_shadow_bg">#0b0e2755</color>
+    <color name="orange">#FFF34800</color>
 
 </resources>

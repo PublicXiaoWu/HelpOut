@@ -55,6 +55,7 @@ package com.gkzxhn.helpout.entity
         var receivingTime: Any? = null
         var category: String?= null
         var lawyer: Lawyer? = null
+        var missedCallStatus: Int? = null  //未接状态，0：律师未接，1：客户未接
 
         class CustomerBean {
             /**

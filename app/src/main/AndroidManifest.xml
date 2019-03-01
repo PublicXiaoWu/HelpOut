@@ -110,11 +110,21 @@
             android:label="@string/location_navigate"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"/>
-        <activity android:name=".activity.FeedBackActivity"/>
-        <activity android:name=".activity.ExpertActivity"/>
-        <activity android:name=".activity.LawsServiceActivity"/>
-        <activity android:name=".activity.PublishOrderActivity"/>
-        <activity android:name=".activity.CustomerOrderDetailActivity"/>
+        <activity android:name=".activity.FeedBackActivity"
+                  android:screenOrientation="portrait"
+            />
+        <activity android:name=".activity.ExpertActivity"
+                  android:screenOrientation="portrait"
+            />
+        <activity android:name=".activity.LawsServiceActivity"
+                  android:screenOrientation="portrait"
+            />
+        <activity android:name=".activity.PublishOrderActivity"
+                  android:screenOrientation="portrait"
+            />
+        <activity android:name=".activity.CustomerOrderDetailActivity"
+                  android:screenOrientation="portrait"
+            />
 
         <provider
             android:name="android.support.v4.content.FileProvider"

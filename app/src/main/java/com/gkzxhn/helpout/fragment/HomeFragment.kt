@@ -46,13 +46,13 @@ class HomeFragment : BaseFragment() {
 
     override fun initListener() {
         v_home_psychological.setOnClickListener {
-            activity?.let { it1 -> LawsServiceActivity.launch(it1) }
+            context?.showToast("敬请期待")
         }
         v_home_legal_advice.setOnClickListener {
             if (ProjectUtils.certificationStatus()) {
                 startActivity(Intent(context, LegalConsultingActivity::class.java))
             } else {
-                context?.showToast("尚未认证")
+                activity?.let { it1 -> LawsServiceActivity.launch(it1) }
             }
         }
         v_home_business.setOnClickListener {

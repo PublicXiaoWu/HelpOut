@@ -70,12 +70,21 @@ class CustomerOrderDetailActivity : BaseActivity(), CustomerOrderDetailView {
         })
         et_service_comment.setOnFocusChangeListener { v, hasFocus ->
             if (hasFocus && !hasScrollDown) {
-                scrollview_order.post {
+                scrollview_order.postDelayed({
                     scrollview_order.fullScroll(ScrollView.FOCUS_DOWN)
                     hasScrollDown = true
-                    et_service_comment.requestFocus()
-                }
+//                    et_service_comment.requestFocus()
+                }, 200)
             } else {
+            }
+        }
+        et_service_comment.setOnClickListener {
+            if (et_service_comment.isFocused) {
+                scrollview_order.postDelayed({
+                    scrollview_order.fullScroll(ScrollView.FOCUS_DOWN)
+                    hasScrollDown = true
+//                    et_service_comment.requestFocus()
+                }, 200)
             }
         }
     }
