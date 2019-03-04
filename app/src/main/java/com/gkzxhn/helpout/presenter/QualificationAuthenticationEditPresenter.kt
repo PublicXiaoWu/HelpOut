@@ -93,21 +93,21 @@ class QualificationAuthenticationEditPresenter(context: Context, view: Qualifica
      * @description ：  律师认证
      */
     private fun certification() {
-        var qualificationAuthentication = QualificationAuthentication()
-        var lawOfficeAddress: LawOfficeAddress? = LawOfficeAddress()
+        val qualificationAuthentication = QualificationAuthentication()
+        val lawOfficeAddress: LawOfficeAddress? = LawOfficeAddress()
 
-        var certificatePictures: CertificatePictures? = CertificatePictures()
+        val certificatePictures: CertificatePictures? = CertificatePictures()
         val certificatePicturesList: ArrayList<CertificatePictures>? = ArrayList()
-        var categories: ArrayList<String>? = ArrayList()
+        val categories: ArrayList<String>? = ArrayList()
 
 
-        var assessmentPictures: AssessmentPictures? = AssessmentPictures()
-        var assessmentPicturesList: ArrayList<AssessmentPictures>? = ArrayList()
+        val assessmentPictures: AssessmentPictures? = AssessmentPictures()
+        val assessmentPicturesList: ArrayList<AssessmentPictures>? = ArrayList()
 
 
-        var identificationPictures: IdentificationPictures? = IdentificationPictures()
-        var identificationPictures2: IdentificationPictures? = IdentificationPictures()
-        var identificationPicturesList: ArrayList<IdentificationPictures>? = ArrayList()
+        val identificationPictures: IdentificationPictures? = IdentificationPictures()
+        val identificationPictures2: IdentificationPictures? = IdentificationPictures()
+        val identificationPicturesList: ArrayList<IdentificationPictures>? = ArrayList()
 
         qualificationAuthentication.name = mView?.getName()
         qualificationAuthentication.gender = mView?.getGender()

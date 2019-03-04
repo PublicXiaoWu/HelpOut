@@ -77,7 +77,7 @@ class LoginPresenter(context: Context, view: LoginView) : BasePresenter<ILoginMo
                             }
 
                             override fun onError(t: Throwable?) {
-                                loadDialog?.dismiss()
+                                super.onError(t)
                                 mView?.stopCountDown()
                             }
                         })

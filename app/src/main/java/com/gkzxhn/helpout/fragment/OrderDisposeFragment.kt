@@ -144,10 +144,10 @@ class OrderDisposeFragment : BaseFragment(), OrderDisposeView {
             override fun onRefusedListener() {
                 val data = mAdapter!!.getCurrentItem()
                 var username: String? = null
-                if (ProjectUtils.certificationStatus()) {
-                    username = data.customer?.username
+                username = if (ProjectUtils.certificationStatus()) {
+                    data.customer?.username
                 } else {
-                    username = data.lawyer?.username
+                    data.lawyer?.username
                 }
                 data.id?.let { username?.let { it1 -> mPresenter?.getVideoDuration(it, it1) } }
             }

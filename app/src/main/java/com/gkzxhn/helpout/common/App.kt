@@ -98,7 +98,7 @@ class App : Application() {
                 val type = JSONObject(json).getString("type")
                 val ext = JSONObject(json).getString("ext")
                 val content = JSONObject(json).getString("content")
-                initNotification(p0!!,content)
+                Log.e("okhttp",json)
 
                 when (type) {
                 /****** 普通通知 ******/
@@ -106,6 +106,7 @@ class App : Application() {
                         /****** 保存数据到数据库 ******/
                         GreenDaoManager.getInstance().newSession.notificationInfoDao.insert(NotificationInfo(null, p0.sessionId, p0.fromAccount, p0.time, content))
                         RxBus.instance.post(RxBusBean.HomeTopRedPoint(true))
+                        initNotification(p0!!,content)
                     }
                 /****** 法律咨询通知 ******/
                     "NOTIFICATION_LEGAL_ADVICE" -> {

@@ -216,7 +216,6 @@ abstract class BaseActivity : AppCompatActivity() {
         when {
             mCompositeSubscription?.hasSubscriptions()!! -> mCompositeSubscription?.unsubscribe()
         }
-
     }
 
 
