@@ -21,7 +21,6 @@ class PhoneChangeModel : BaseModel(), IPhoneChangeModel {
         return RetrofitClientLogin.Companion.getInstance(context).mApi
                 ?.login(body)
                 ?.subscribeOn(Schedulers.io()) as Observable<Response<Void>>
-
     }
 
     override fun updatePhoneNumber(context: Context, body: RequestBody): Observable<Response<Void>> {

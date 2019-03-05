@@ -138,7 +138,7 @@ interface ApiService {
 
      //    获取我的IM通知
     @GET("im/notifications/my")
-    fun getNotifications(@Query("page") page: String, @Query("size") size: String): Observable<NotificationInfoList>
+    fun getNotifications(@Query("page") page: String, @Query("size") size: String,@Query("sort") sort: String): Observable<NotificationInfoList>
 
     //    获取抢单的明细
     @GET("/lawyer/rush/legal-advice/{id}")

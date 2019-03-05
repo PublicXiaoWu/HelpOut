@@ -204,5 +204,4 @@ class WithdrawPresenter(context: Context, view: WithdrawView) : BasePresenter<IW
         view.startAnimation(slide)
     }
 
-
 }

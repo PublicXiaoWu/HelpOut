@@ -70,6 +70,8 @@ class NotificationInfoAdapter(private val mContext: Context) : RecyclerView.Adap
         with(holder.itemView) {
             val entity = mDatas[position]
             tv_notification_type.text = "通知消息"
+            tv_notification_time.text = StringUtils.parseDate2(entity.createdTime.toString())
+
             val json = entity.content
             Log.e("xiaowu", json)
             try {
@@ -77,18 +79,9 @@ class NotificationInfoAdapter(private val mContext: Context) : RecyclerView.Adap
                 val ext = JSONObject(json).getString("ext")
                 val content = JSONObject(json).getString("content")
                 tv_notification_context.text = content
-                if (content=="null") {
+                if (type=="RUSH_PAGE_REFRESH") {
                     tv_notification_context.text = "有新的可接订单，快去接单吧！"
                 }
-                tv_notification_time.text = StringUtils.parseDate2(entity.createdTime.toString())
-                return@with
-            } catch (e: Exception) {
-
-            }
-            try {
-                val content = JSONObject(json).getString("msg")
-                tv_notification_context.text = content
-                tv_notification_time.text = StringUtils.parseDate2(entity.createdTime.toString())
             } catch (e: Exception) {
 
             }
