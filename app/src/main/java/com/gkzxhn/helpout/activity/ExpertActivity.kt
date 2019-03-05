@@ -2,10 +2,17 @@ package com.gkzxhn.helpout.activity
 
 import android.content.Intent
 import com.gkzxhn.helpout.R
+import com.gkzxhn.helpout.common.App
+import com.gkzxhn.helpout.common.Constants
+import com.gkzxhn.helpout.entity.LawyersInfo
+import com.gkzxhn.helpout.net.HttpObserver
+import com.gkzxhn.helpout.net.RetrofitClient
 import com.gkzxhn.helpout.utils.ProjectUtils
 import com.gkzxhn.helpout.utils.showToast
 import kotlinx.android.synthetic.main.default_top.*
 import kotlinx.android.synthetic.main.expert_activity.*
+import rx.android.schedulers.AndroidSchedulers
+import rx.schedulers.Schedulers
 
 /**
  * @classname：ExpertActivity
@@ -40,6 +47,27 @@ class ExpertActivity : BaseActivity() {
         iv_default_top_back.setOnClickListener {
             finish()
         }
+    }
+
+    /**
+     * @methodName： created by liushaoxiang on 2018/10/22 3:31 PM.
+     * @description：更新律师状态
+     */
+    private fun getLawyersInfo() {
+            RetrofitClient.getInstance(this).mApi.getLawyersInfo()
+                    .subscribeOn(Schedulers.io())
+                    ?.unsubscribeOn(AndroidSchedulers.mainThread())
+                    ?.observeOn(AndroidSchedulers.mainThread())
+                    ?.subscribe(object : HttpObserver<LawyersInfo>(this) {
+                        override fun success(t: LawyersInfo) {
+                            App.EDIT.putString(Constants.SP_CERTIFICATIONSTATUS, t.certificationStatus)?.commit()
+                        }
+                    })
+    }
+
+    override fun onResume() {
+        super.onResume()
+        getLawyersInfo()
     }
 
 

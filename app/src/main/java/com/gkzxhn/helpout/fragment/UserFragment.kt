@@ -1,7 +1,6 @@
 package com.gkzxhn.helpout.fragment
 
 import android.content.Intent
-import android.text.TextUtils
 import android.view.View
 import com.gkzxhn.helpout.R
 import com.gkzxhn.helpout.activity.*
@@ -19,9 +18,6 @@ import com.gkzxhn.helpout.utils.ProjectUtils
 import com.gkzxhn.helpout.utils.StringUtils
 import com.gkzxhn.helpout.utils.logE
 import kotlinx.android.synthetic.main.user_fragment.*
-import okhttp3.ResponseBody
-import org.json.JSONObject
-import retrofit2.Response
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
 
@@ -41,7 +37,8 @@ class UserFragment : BaseFragment(), View.OnClickListener {
 
     override fun init() {
         getAccountInfo()
-        getLawyersState()
+//        getLawyersState()
+        getLawyersInfo()
 
         /****** 接受控件小红点的消息 ******/
         RxBus.instance.toObserverable(RxBusBean.HomeTopRedPoint::class.java)
@@ -113,38 +110,6 @@ class UserFragment : BaseFragment(), View.OnClickListener {
         init()
     }
 
-    /****** 刷新新的token ******/
-    private fun getRefreshToken(refresh_token: String) {
-        context?.let {
-            RetrofitClientLogin.Companion.getInstance(it)
-                    .mApi?.getToken("refresh_token", refreshToken = refresh_token)
-                    ?.subscribeOn(Schedulers.io())
-                    ?.unsubscribeOn(AndroidSchedulers.mainThread())
-                    ?.observeOn(AndroidSchedulers.mainThread())
-                    ?.subscribe(object : HttpObserver<Response<ResponseBody>>(it) {
-                        override fun success(t: Response<ResponseBody>) {
-                            if (t.code() == 200) {
-                                val string = t.body().string()
-                                if (!TextUtils.isEmpty(string)) {
-                                    var token: String? = null
-                                    var refreshToken: String? = null
-                                    try {
-                                        token = JSONObject(string).getString("access_token")
-                                        refreshToken = JSONObject(string).getString("refresh_token")
-                                    } catch (e: Exception) {
-
-                                    }
-                                    App.EDIT.putString(Constants.SP_TOKEN, token)?.commit()
-                                    App.EDIT.putString(Constants.SP_REFRESH_TOKEN, refreshToken)?.commit()
-                                    getLawyersInfo()
-                                }
-                            }
-                        }
-
-                    })
-        }
-    }
-
     /**
      * @methodName： created by liushaoxiang on 2018/10/22 3:31 PM.
      * @description：获取律师信息
@@ -158,9 +123,12 @@ class UserFragment : BaseFragment(), View.OnClickListener {
                     ?.subscribe(object : HttpObserver<LawyersInfo>(it) {
                         override fun success(t: LawyersInfo) {
                             App.EDIT.putString(Constants.SP_CERTIFICATIONSTATUS, t.certificationStatus)?.commit()
-                            tv_user_money.text="￥"+t.rewardAmount
+                            val lawyerState=t.certificationStatus==Constants.CERTIFIED
+                            loadUIByLawyerState(lawyerState)
+                            if (lawyerState) {
+                                tv_user_money.text="￥"+t.rewardAmount
+                            }
                         }
-
                     })
         }
     }
@@ -177,10 +145,8 @@ class UserFragment : BaseFragment(), View.OnClickListener {
                     ?.observeOn(AndroidSchedulers.mainThread())
                     ?.subscribe(object : HttpObserver<LawyersInfo>(it) {
                         override fun success(t: LawyersInfo) {
-                            App.EDIT.putBoolean(Constants.SP_LAWYER_CERTIFICATION_STATUS, t.lawyer!!)?.commit()
                             loadUIByLawyerState(t.lawyer!!)
                         }
-
                     })
         }
     }

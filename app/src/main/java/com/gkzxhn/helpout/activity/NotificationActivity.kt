@@ -6,6 +6,7 @@ import com.gkzxhn.helpout.R
 import com.gkzxhn.helpout.adapter.NotificationInfoAdapter
 import com.gkzxhn.helpout.common.App
 import com.gkzxhn.helpout.common.RxBus
+import com.gkzxhn.helpout.customview.LoadMoreWrapper
 import com.gkzxhn.helpout.customview.PullToRefreshLayout
 import com.gkzxhn.helpout.entity.NotificationInfoList
 import com.gkzxhn.helpout.entity.RxBusBean
@@ -43,7 +44,7 @@ class NotificationActivity : BaseActivity() {
         rcl_money_list.addItemDecoration(ItemDecorationHelper(decoration, decoration, decoration, 0, decoration))
         getData("0")
         //加载更多
-        loading_more.setOnLoadMoreListener(object : com.gkzxhn.helpout.customview.LoadMoreWrapper.OnLoadMoreListener {
+        loading_more.setOnLoadMoreListener(object : LoadMoreWrapper.OnLoadMoreListener {
             override fun onLoadMore() {
                 if (loadMore) {
                     getData((page + 1).toString())
@@ -91,7 +92,6 @@ class NotificationActivity : BaseActivity() {
                     }
                 })
     }
-
 
     fun offLoadMore() {
         //加载更多取消

@@ -1,6 +1,7 @@
 package com.gkzxhn.helpout.presenter
 
 import android.content.Context
+import android.content.Intent
 import android.view.Gravity
 import android.view.View
 import android.view.WindowManager
@@ -9,6 +10,7 @@ import android.view.animation.TranslateAnimation
 import android.widget.ImageView
 import android.widget.TextView
 import com.gkzxhn.helpout.R
+import com.gkzxhn.helpout.activity.QualificationAuthenticationSuccessActivity
 import com.gkzxhn.helpout.entity.*
 import com.gkzxhn.helpout.model.IQualificationAuthenticationModel
 import com.gkzxhn.helpout.model.iml.QualificationAuthenticationModel
@@ -167,7 +169,7 @@ class QualificationAuthenticationEditPresenter(context: Context, view: Qualifica
                     override fun success(t: Response<Void>) {
                         when (t.code()) {
                             201 -> {
-                                mContext?.showToast("提交成功")
+                                mContext?.startActivity(Intent(mContext, QualificationAuthenticationSuccessActivity::class.java))
                                 mView?.onFinish()
                             }
                             else -> {

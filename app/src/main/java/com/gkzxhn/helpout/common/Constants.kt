@@ -48,8 +48,6 @@ object Constants {
     CERTIFIED("已认证");
      */
     val SP_CERTIFICATIONSTATUS = "SP_CERTIFICATIONSTATUS"
-    /****** 律师是否认证 ******/
-    val SP_LAWYER_CERTIFICATION_STATUS = "SP_LAWYER_CERTIFICATION_STATUS"
 
     /**
      * 头像裁剪URI
