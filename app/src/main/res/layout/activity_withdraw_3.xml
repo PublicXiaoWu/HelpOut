@@ -41,6 +41,31 @@
           app:layout_constraintBottom_toBottomOf="@+id/v_withdraw_3_bg_null"
           app:layout_constraintTop_toBottomOf="@+id/tv_withdraw_3_title"/>
 
+    <!--提现申请时间-->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:text="提现申请时间"
+        android:textColor="#ff666666"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_withdraw_3_to_time"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tv_withdraw_3_to_time"
+    />
+    <TextView
+        android:id="@+id/tv_withdraw_3_to_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="15dp"
+        android:layout_marginTop="15dp"
+        android:text="2018-09-28  13:16:18"
+        android:textColor="#ff333333"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/v_withdraw_3_bg"
+    />
+
     <!--预计到账时间-->
     <TextView
         android:layout_width="wrap_content"
@@ -63,9 +88,35 @@
         android:textColor="#ff333333"
         android:textSize="12sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/v_withdraw_3_bg"
+        app:layout_constraintTop_toBottomOf="@id/tv_withdraw_3_to_time"
     />
 
+
+    <!--支付宝-->
+    <TextView
+        android:id="@+id/tv_withdraw_3_name_start"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:text="支付宝姓名"
+        android:textColor="#ff666666"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_withdraw_3_name"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tv_withdraw_3_name"
+    />
+    <TextView
+        android:id="@+id/tv_withdraw_3_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="15dp"
+        android:layout_marginTop="15dp"
+        android:text="---"
+        android:textColor="#ff333333"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_withdraw_3_time"
+    />
 
     <!--支付宝-->
     <TextView
@@ -73,7 +124,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="15dp"
-        android:text="支付宝"
+        android:text="支付宝账户"
         android:textColor="#ff666666"
         android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="@+id/tv_withdraw_3_acount"
@@ -86,12 +137,13 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="15dp"
         android:layout_marginTop="15dp"
-        android:text="13897762678"
+        android:text="------------"
         android:textColor="#ff333333"
         android:textSize="12sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_withdraw_3_time"
+        app:layout_constraintTop_toBottomOf="@id/tv_withdraw_3_name"
     />
+
 
 
     <!--提现金额-->
@@ -113,7 +165,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="15dp"
         android:layout_marginTop="15dp"
-        android:text="¥6000"
+        android:text="¥0000"
         android:textColor="#ff333333"
         android:textSize="12sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -126,25 +178,6 @@
         app:layout_constraintTop_toBottomOf="@+id/tv_withdraw_3_money"
         android:layout_width="wrap_content"
         android:layout_height="1dp"/>
-
-
-    <!--确认-->
-    <TextView
-        android:id="@+id/tv_withdraw_3_send"
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_marginEnd="15dp"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="29dp"
-        android:background="@drawable/shape_idea_submit_send_bg"
-        android:gravity="center"
-        android:onClick="onClickWithdraw"
-        android:text="确认"
-        android:textColor="@color/white"
-        android:textSize="14dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/v_withdraw_3_bg"/>
 
 
 </android.support.constraint.ConstraintLayout>

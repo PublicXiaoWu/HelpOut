@@ -34,6 +34,7 @@ import java.util.*
 
 class WithdrawPresenter(context: Context, view: WithdrawView) : BasePresenter<IWithdrawModel, WithdrawView>(context, WithdrawModel(), view) {
 
+    var payAccount=""
     fun sendCode() {
         if (mView?.getMoney()!!.isNotEmpty()) {
             mContext?.let {
@@ -64,6 +65,7 @@ class WithdrawPresenter(context: Context, view: WithdrawView) : BasePresenter<IW
                         ?.subscribe(object : HttpObserver<AlipayInfo>(it) {
                             override fun success(t: AlipayInfo) {
                                 mView?.setPayInfo(t.nickName!!,t.avatar)
+                                payAccount= t.account!!
                             }
 
                         })
@@ -93,7 +95,8 @@ class WithdrawPresenter(context: Context, view: WithdrawView) : BasePresenter<IW
                                     it.showToast("提现成功")
                                     val intent = Intent(mContext, WithdrawThirdActivity::class.java)
                                     intent.putExtra("pay_type", 1)
-                                    intent.putExtra("pay_Account", mView?.getName().toString())
+                                    intent.putExtra("pay_Account", payAccount)
+                                    intent.putExtra("pay_Name", mView?.getName())
                                     intent.putExtra("money", mView?.getMoney()!!.toDouble().toString())
                                     mContext?.startActivity(intent)
                                     mView?.onFinish()
