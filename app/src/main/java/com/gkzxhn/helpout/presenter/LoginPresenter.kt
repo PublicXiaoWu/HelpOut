@@ -71,7 +71,7 @@ class LoginPresenter(context: Context, view: LoginView) : BasePresenter<ILoginMo
                                 if (t.code() == 201) {
                                     mView?.startCountDown(60)
                                     it.showToast(it.getString(R.string.have_send).toString())
-                                }else{
+                                } else {
                                     it.showToast("服务器异常，请重试")
                                 }
                             }
@@ -192,8 +192,11 @@ class LoginPresenter(context: Context, view: LoginView) : BasePresenter<ILoginMo
                                     "invalid_grant" -> {
                                         mContext?.TsDialog(mContext?.getString(R.string.group_error_disable).toString(), false)
                                     }
+                                    "user.sms.verification-code.NotMatched" -> {
+                                        mContext?.TsDialog(mContext?.getString(R.string.verify_number_error).toString(), false)
+                                    }
                                     else -> {
-
+                                        mContext?.TsDialog("数据异常", false)
                                     }
                                 }
                             }
@@ -243,10 +246,10 @@ class LoginPresenter(context: Context, view: LoginView) : BasePresenter<ILoginMo
                     ?.observeOn(AndroidSchedulers.mainThread())
                     ?.subscribe(object : HttpObserverNoDialog<AccountInfo>(mContext!!) {
                         override fun success(t: AccountInfo) {
-                            if (t.nickname.isNullOrEmpty()||t.avatar.isNullOrEmpty()) {
+                            if (t.nickname.isNullOrEmpty() || t.avatar.isNullOrEmpty()) {
                                 val intent = Intent(mContext, AccountInfoUpActivity::class.java)
-                                intent.putExtra("name",t.username)
-                                intent.putExtra("phoneNumber",t.phoneNumber)
+                                intent.putExtra("name", t.username)
+                                intent.putExtra("phoneNumber", t.phoneNumber)
                                 mContext?.startActivity(intent)
                                 mView?.onFinish()
                             } else {

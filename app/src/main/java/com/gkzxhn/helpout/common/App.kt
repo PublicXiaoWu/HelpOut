@@ -100,7 +100,8 @@ class App : Application() {
                     }
                 /****** 法律咨询通知 ******/
                     "NOTIFICATION_LEGAL_ADVICE" -> {
-
+                        RxBus.instance.post(RxBusBean.HomeTopRedPoint(true))
+                        initNotification(p0!!,content)
                     }
                 /****** 刷新抢单页 ******/
                     "RUSH_PAGE_REFRESH" -> {

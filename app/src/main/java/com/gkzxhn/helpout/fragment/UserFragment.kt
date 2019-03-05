@@ -157,9 +157,6 @@ class UserFragment : BaseFragment(), View.OnClickListener {
      */
     private fun loadUIByLawyerState(lawyer: Boolean) {
         if (lawyer) {
-            /****** 律师 ******/
-            getLawyersInfo()
-            
             v_user_info_rz_bg.visibility=View.VISIBLE
             iv_user_info_rz.visibility=View.VISIBLE
             tv_user_info_rz.visibility=View.VISIBLE

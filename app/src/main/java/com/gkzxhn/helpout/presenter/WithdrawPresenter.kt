@@ -65,7 +65,7 @@ class WithdrawPresenter(context: Context, view: WithdrawView) : BasePresenter<IW
                         ?.subscribe(object : HttpObserver<AlipayInfo>(it) {
                             override fun success(t: AlipayInfo) {
                                 mView?.setPayInfo(t.nickName!!,t.avatar)
-                                payAccount= t.account!!
+//                                payAccount= t.account!!
                             }
 
                         })
