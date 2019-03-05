@@ -10,7 +10,6 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.graphics.Color
 import android.os.Environment
-import android.support.multidex.MultiDex
 import android.support.v4.app.NotificationCompat
 import android.text.TextUtils
 import android.util.Log
@@ -18,9 +17,7 @@ import com.gkzxhn.helpout.R
 import com.gkzxhn.helpout.activity.MainActivity
 import com.gkzxhn.helpout.activity.NotificationActivity
 import com.gkzxhn.helpout.activity.SplashActivity
-import com.gkzxhn.helpout.entity.NotificationInfo
 import com.gkzxhn.helpout.entity.RxBusBean
-import com.gkzxhn.helpout.greendao.dao.GreenDaoManager
 import com.gkzxhn.helpout.net.ApiService
 import com.gkzxhn.helpout.net.RetrofitClient
 import com.gkzxhn.helpout.utils.LogHelper
@@ -65,11 +62,6 @@ class App : Application() {
         EDIT = SP.edit()
         mApi = RetrofitClient.getInstance(this).mApi!!
 
-//        初始化数据库
-        //解决greendao android5.0一下版本就会报错的问题
-        MultiDex.install(this)
-        GreenDaoManager.getInstance()
-
         /****** 崩溃日志初始化 ******/
         CrashHandler.instance.init(this)
         initWY()
@@ -103,8 +95,6 @@ class App : Application() {
                 when (type) {
                 /****** 普通通知 ******/
                     "NOTIFICATION" -> {
-                        /****** 保存数据到数据库 ******/
-                        GreenDaoManager.getInstance().newSession.notificationInfoDao.insert(NotificationInfo(null, p0.sessionId, p0.fromAccount, p0.time, content))
                         RxBus.instance.post(RxBusBean.HomeTopRedPoint(true))
                         initNotification(p0!!,content)
                     }
