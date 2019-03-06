@@ -163,6 +163,8 @@ object ProjectUtils {
                 options.placeholder(R.mipmap.ic_user_icon)
                 options.error(R.mipmap.ic_user_icon)
                 options.transform(RoundedCorners(120))
+                /****** 加上一个时间让其每5分钟更新 ******/
+                options.signature(ObjectKey(userName + System.currentTimeMillis() / 1000 / 60 / 5))
                 Glide.with(context).load(glideUrl)
                         .apply(options)
                         .into(imageview)

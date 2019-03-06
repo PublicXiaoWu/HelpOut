@@ -36,7 +36,7 @@ class RatingBarView(context: Context, attrs: AttributeSet) : LinearLayout(contex
         starCount = ta.getInteger(R.styleable.RatingBarView_starCount, 5)
         starEmptyDrawable = ta.getDrawable(R.styleable.RatingBarView_starEmpty)
         starFillDrawable = ta.getDrawable(R.styleable.RatingBarView_starFill)
-//        ta.recycle()
+        ta.recycle()
 
         for (i in 0 until starCount) {
             val imageView = getStarImageView(context, attrs)

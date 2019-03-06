@@ -1,0 +1,314 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+
+
+    <include
+        layout="@layout/default_top"/>
+
+    <ScrollView
+        android:id="@+id/scroll_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimen_10"
+                app:cardCornerRadius="0dp">
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rv_feedback_types"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:paddingEnd="@dimen/dimen_15"
+                    android:paddingStart="@dimen/dimen_15">
+
+                </android.support.v7.widget.RecyclerView>
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimen_15"
+                app:cardCornerRadius="0dp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="160dp"
+                    android:background="@color/white"
+                    android:paddingEnd="@dimen/dimen_15"
+                    android:paddingStart="@dimen/dimen_15">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/dimen_40"
+                        android:gravity="center_vertical"
+                        android:text="@string/please_add_advice"
+                        android:textColor="@color/text_black"
+                        android:textSize="@dimen/text_common"/>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/dimen_1"
+                        android:layout_above="@id/et_content_advice"
+                        android:background="@color/gray_line"/>
+
+                    <EditText
+                        android:id="@+id/et_content_advice"
+                        android:focusable="true"
+                        android:focusableInTouchMode="true"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/dimen_120"
+                        android:layout_alignParentBottom="true"
+                        android:background="@drawable/input_edit_bg"
+                        android:gravity="top"
+                        android:hint="@string/please_enter_content"
+                        android:maxLength="300"
+                        android:paddingBottom="@dimen/dimen_12"
+                        android:paddingTop="@dimen/dimen_12"
+                        android:textColor="@color/text_black"
+                        android:textColorHint="@color/gray_light"
+                        android:textSize="@dimen/text_middle"/>
+
+                    <TextView
+                        android:id="@+id/tv_text_count"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginBottom="@dimen/dimen_11"
+                        android:textColor="@color/text_gray"
+                        android:textSize="@dimen/text_middle"
+                        tools:text="12/300"/>
+
+                </RelativeLayout>
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimen_15"
+                app:cardCornerRadius="0dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:paddingTop="@dimen/dimen_15"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:orientation="vertical"
+                    android:paddingBottom="@dimen/dimen_15"
+                    android:paddingStart="@dimen/dimen_15">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/please_provide_picture_4_most"
+                        android:textColor="@color/text_black"
+                        android:textSize="@dimen/text_common"/>
+
+                    <HorizontalScrollView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:clipToPadding="false"
+                        android:paddingEnd="@dimen/dimen_15">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal"
+                            android:paddingTop="@dimen/dimen_15">
+
+                            <FrameLayout
+                                android:id="@+id/fl_evidence_pic1"
+                                android:layout_width="@dimen/dimen_75"
+                                android:layout_height="@dimen/dimen_75"
+                                android:visibility="gone"
+                                tools:showIn="@layout/activity_write_message">
+
+                                <ImageView
+                                    android:id="@+id/iv_evidence_pic1"
+                                    android:layout_width="67dp"
+                                    android:layout_height="67dp"
+                                    android:layout_gravity="bottom"
+                                    android:scaleType="centerCrop"/>
+
+                                <TextView
+                                    android:id="@+id/tv_upload_status1"
+                                    android:layout_width="67dp"
+                                    android:layout_height="67dp"
+                                    android:layout_gravity="bottom"
+                                    android:background="@color/trans_99"
+                                    android:gravity="center"
+                                    android:text="@string/uploading"
+                                    android:textColor="@color/white"
+                                    android:textSize="@dimen/text_common"/>
+
+                                <ImageView
+                                    android:id="@+id/iv_close_evidence1"
+                                    android:layout_width="@dimen/dimen_18"
+                                    android:layout_height="@dimen/dimen_18"
+                                    android:layout_gravity="end"
+                                    android:src="@mipmap/icon_closed"/>
+
+
+                            </FrameLayout>
+
+                            <FrameLayout
+                                android:id="@+id/fl_evidence_pic2"
+                                android:layout_width="@dimen/dimen_75"
+                                android:layout_height="@dimen/dimen_75"
+                                android:layout_marginStart="@dimen/dimen_12"
+                                android:visibility="gone"
+                                tools:showIn="@layout/activity_write_message">
+
+                                <ImageView
+                                    android:id="@+id/iv_evidence_pic2"
+                                    android:layout_width="67dp"
+                                    android:layout_height="67dp"
+                                    android:layout_gravity="bottom"
+                                    android:scaleType="centerCrop"/>
+
+                                <TextView
+                                    android:id="@+id/tv_upload_status2"
+                                    android:layout_width="67dp"
+                                    android:layout_height="67dp"
+                                    android:layout_gravity="bottom"
+                                    android:background="@color/trans_99"
+                                    android:gravity="center"
+                                    android:text="@string/uploading"
+                                    android:textColor="@color/white"
+                                    android:textSize="@dimen/text_common"/>
+
+                                <ImageView
+                                    android:id="@+id/iv_close_evidence2"
+                                    android:layout_width="@dimen/dimen_18"
+                                    android:layout_height="@dimen/dimen_18"
+                                    android:layout_gravity="end"
+                                    android:src="@mipmap/icon_closed"/>
+
+
+                            </FrameLayout>
+
+                            <FrameLayout
+                                android:id="@+id/fl_evidence_pic3"
+                                android:layout_width="@dimen/dimen_75"
+                                android:layout_height="@dimen/dimen_75"
+                                android:layout_marginStart="@dimen/dimen_12"
+                                android:visibility="gone"
+                                tools:showIn="@layout/activity_write_message">
+
+                                <ImageView
+                                    android:id="@+id/iv_evidence_pic3"
+                                    android:layout_width="67dp"
+                                    android:layout_height="67dp"
+                                    android:layout_gravity="bottom"
+                                    android:scaleType="centerCrop"/>
+
+                                <TextView
+                                    android:id="@+id/tv_upload_status3"
+                                    android:layout_width="67dp"
+                                    android:layout_height="67dp"
+                                    android:layout_gravity="bottom"
+                                    android:background="@color/trans_99"
+                                    android:gravity="center"
+                                    android:text="@string/uploading"
+                                    android:textColor="@color/white"
+                                    android:textSize="@dimen/text_common"/>
+
+                                <ImageView
+                                    android:id="@+id/iv_close_evidence3"
+                                    android:layout_width="@dimen/dimen_18"
+                                    android:layout_height="@dimen/dimen_18"
+                                    android:layout_gravity="end"
+                                    android:src="@mipmap/icon_closed"/>
+
+
+                            </FrameLayout>
+
+                            <FrameLayout
+                                android:id="@+id/fl_evidence_pic4"
+                                android:layout_width="@dimen/dimen_75"
+                                android:layout_height="@dimen/dimen_75"
+                                android:layout_marginStart="@dimen/dimen_12"
+                                android:visibility="gone"
+                                tools:showIn="@layout/activity_write_message">
+
+                                <ImageView
+                                    android:id="@+id/iv_evidence_pic4"
+                                    android:layout_width="67dp"
+                                    android:layout_height="67dp"
+                                    android:layout_gravity="bottom"
+                                    android:scaleType="centerCrop"/>
+
+                                <TextView
+                                    android:id="@+id/tv_upload_status4"
+                                    android:layout_width="67dp"
+                                    android:layout_height="67dp"
+                                    android:layout_gravity="bottom"
+                                    android:background="@color/trans_99"
+                                    android:gravity="center"
+                                    android:text="@string/uploading"
+                                    android:textColor="@color/white"
+                                    android:textSize="@dimen/text_common"/>
+
+                                <ImageView
+                                    android:id="@+id/iv_close_evidence4"
+                                    android:layout_width="@dimen/dimen_18"
+                                    android:layout_height="@dimen/dimen_18"
+                                    android:layout_gravity="end"
+                                    android:src="@mipmap/icon_closed"/>
+
+
+                            </FrameLayout>
+
+                            <TextView
+                                android:id="@+id/tv_upload_evidence"
+                                android:layout_width="67dp"
+                                android:layout_height="67dp"
+                                android:layout_marginStart="@dimen/dimen_12"
+                                android:layout_marginTop="@dimen/dimen_8"
+                                android:layout_marginBottom="@dimen/dimen_1"
+                                android:background="@drawable/shape_rectangle_dotted_stroke"
+                                android:drawablePadding="5dp"
+                                android:drawableTop="@mipmap/icon_upload_pic"
+                                android:gravity="center_horizontal"
+                                android:paddingTop="@dimen/dimen_20"
+                                android:text="@string/upload_evidence"
+                                android:textColor="@color/text_gray"
+                                android:textSize="@dimen/text_small"/>
+
+                        </LinearLayout>
+                    </HorizontalScrollView>
+
+                </LinearLayout>
+
+            </android.support.v7.widget.CardView>
+
+            <Button
+                android:id="@+id/bt_commit"
+                android:layout_width="@dimen/dimen_330"
+                android:layout_height="@dimen/dimen_44"
+                android:layout_gravity="center_horizontal|bottom"
+                android:layout_marginBottom="@dimen/dimen_20"
+                android:layout_marginTop="@dimen/dimen_30"
+                android:background="@drawable/ripple_button_blue_light_bg"
+                android:text="@string/commit"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_big"/>
+
+
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

@@ -141,4 +141,11 @@
     <string name="auto_cancel_in_3_days">三天内无人接单，系统自动取消</string>
     <string name="user_cancel_order">用户取消订单</string>
 
+    <string name="please_add_advice">请补充详细问题和意见</string>
+    <string name="please_enter_content">请输入不少于10个字的描述</string>
+    <string name="please_provide_picture_4_most">请提供相关问题的截图或照片（最多4张）</string>
+    <string name="uploading">上传中...</string>
+    <string name="upload_evidence">上传凭证</string>
+    <string name="commit">提交</string>
+
 </resources>

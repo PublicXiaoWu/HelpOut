@@ -237,7 +237,7 @@ interface ApiService {
     fun getOrderComments(@Path("id") id: String): Observable<CommentInfo>
 
     /**
-     * 查询我的法律咨询
+     * 查询法律咨询列表
      */
     @GET("/customer/legal-advice")
     fun getMyLawsOrder(@Query("page") page: Int,

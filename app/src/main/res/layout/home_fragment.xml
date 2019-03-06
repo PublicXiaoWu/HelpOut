@@ -3,6 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
+    android:background="@color/base_back"
     android:layout_height="match_parent">
 
 
@@ -12,11 +13,40 @@
         android:layout_height="0dp"
         android:background="@mipmap/ic_home_top_adv"
     />
-    <View android:layout_width="match_parent"
-          android:layout_height="44dp"
-          android:background="@mipmap/ic_home_top_water"
-          app:layout_constraintBottom_toBottomOf="@+id/v_home_top_bg"
-    />
+    <FrameLayout
+        app:layout_constraintBottom_toBottomOf="@+id/v_home_top_bg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.gkzxhn.helpout.customview.WaveView
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            app:speed="5"
+            app:speed2="30"
+            app:wave_color="#7096d6"
+            app:wave_color2="#88c3d5f4"
+            app:wave_height="14dp"
+            app:wave_height2="13dp"
+            app:wave_ratio="0.54"
+            app:wave_ratio2="0.79"
+            app:wave_width="139dp"
+            app:wave_width2="145dp"/>
+
+        <com.gkzxhn.helpout.customview.WaveView
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            app:speed="10"
+            app:speed2="50"
+            app:wave_color="@color/base_back"
+            app:wave_color2="#3f74ce"
+            app:wave_height="16dp"
+            app:wave_height2="17dp"
+            app:wave_ratio="0.5"
+            app:wave_ratio2="0.48"
+            app:wave_width="130dp"
+            app:wave_width2="125dp"/>
+    </FrameLayout>
+
 
 
     <ImageView
