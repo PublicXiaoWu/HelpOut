@@ -2,7 +2,7 @@ package com.gkzxhn.helpout.model.iml
 
 import android.content.Context
 import com.gkzxhn.helpout.model.IPhoneChangeModel
-import com.gkzxhn.helpout.net.RetrofitClientLogin
+import com.gkzxhn.helpout.net.RetrofitClientPublic
 import okhttp3.RequestBody
 import retrofit2.Response
 import rx.Observable
@@ -18,20 +18,20 @@ import rx.schedulers.Schedulers
 class PhoneChangeModel : BaseModel(), IPhoneChangeModel {
 
     override fun login(context: Context, body: RequestBody): Observable<Response<Void>> {
-        return RetrofitClientLogin.Companion.getInstance(context).mApi
+        return RetrofitClientPublic.Companion.getInstance(context).mApi
                 ?.login(body)
                 ?.subscribeOn(Schedulers.io()) as Observable<Response<Void>>
     }
 
     override fun updatePhoneNumber(context: Context, body: RequestBody): Observable<Response<Void>> {
-        return RetrofitClientLogin.Companion.getInstance(context).mApi
+        return RetrofitClientPublic.Companion.getInstance(context).mApi
                 ?.updatePhoneNumber(body)
                 ?.subscribeOn(Schedulers.io()) as Observable<Response<Void>>
 
     }
 
     override fun getCode(context: Context, phone: String): Observable<Response<Void>> {
-        return RetrofitClientLogin.Companion.getInstance(context).mApi
+        return RetrofitClientPublic.Companion.getInstance(context).mApi
                 ?.getCode(phone)
                 ?.subscribeOn(Schedulers.io()) as Observable<Response<Void>>
     }

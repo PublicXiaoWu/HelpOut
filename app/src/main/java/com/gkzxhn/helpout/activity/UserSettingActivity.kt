@@ -16,7 +16,7 @@ import com.gkzxhn.helpout.common.App
 import com.gkzxhn.helpout.common.Constants
 import com.gkzxhn.helpout.customview.ClipViewLayout.getRealFilePathFromUri
 import com.gkzxhn.helpout.net.HttpObserver
-import com.gkzxhn.helpout.net.RetrofitClientLogin
+import com.gkzxhn.helpout.net.RetrofitClientPublic
 import com.gkzxhn.helpout.utils.*
 import com.tbruyelle.rxpermissions2.Permission
 import com.tbruyelle.rxpermissions2.RxPermissions
@@ -320,7 +320,7 @@ class UserSettingActivity : BaseActivity() {
     private fun modifyAvatar(file: File) {
         val requestFile = RequestBody.create(MediaType.parse("image/jpeg"), file)
         val body = MultipartBody.Part.createFormData("file", file.name, requestFile)
-        RetrofitClientLogin.getInstance(this).mApi?.modifyAvatar(body)
+        RetrofitClientPublic.getInstance(this).mApi?.modifyAvatar(body)
                 ?.subscribeOn(Schedulers.io())
                 ?.unsubscribeOn(AndroidSchedulers.mainThread())
                 ?.observeOn(AndroidSchedulers.mainThread())

@@ -149,7 +149,7 @@ class OrderDisposeFragment : BaseFragment(), OrderDisposeView {
                 } else {
                     data.lawyer?.username
                 }
-                data.id?.let { username?.let { it1 -> mPresenter?.getVideoDuration(it, it1) } }
+                data.id?.let { username?.let { it1 -> mPresenter?.getVideoDuration(it, it1,mCompositeSubscription) } }
             }
 
         })

@@ -11,7 +11,7 @@ import com.gkzxhn.helpout.customview.PullToRefreshLayout
 import com.gkzxhn.helpout.entity.NotificationInfoList
 import com.gkzxhn.helpout.entity.RxBusBean
 import com.gkzxhn.helpout.net.HttpObserver
-import com.gkzxhn.helpout.net.RetrofitClientLogin
+import com.gkzxhn.helpout.net.RetrofitClientPublic
 import com.gkzxhn.helpout.utils.DisplayUtils
 import com.gkzxhn.helpout.utils.ItemDecorationHelper
 import kotlinx.android.synthetic.main.activity_money_list.*
@@ -71,7 +71,7 @@ class NotificationActivity : BaseActivity() {
     }
 
     fun getData(p: String) {
-        RetrofitClientLogin.Companion.getInstance(this).mApi
+        RetrofitClientPublic.Companion.getInstance(this).mApi
                 ?.getNotifications(p, "15","createdTime,desc")
                 ?.subscribeOn(Schedulers.io())
                 ?.unsubscribeOn(AndroidSchedulers.mainThread())

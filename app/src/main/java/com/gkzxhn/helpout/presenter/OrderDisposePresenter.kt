@@ -23,14 +23,14 @@ import rx.subscriptions.CompositeSubscription
  */
 class OrderDisposePresenter(context: Context, view: OrderDisposeView) : BasePresenter<IOrderModel, OrderDisposeView>(context, OrderModel(), view) {
 
-    fun getOrderDispose(page: String, mCompositeSubscription: CompositeSubscription?) {
+    fun getOrderDispose(page: String, mCompositeSubscription: CompositeSubscription) {
         if (!ProjectUtils.certificationStatus()) {
             getMyLawsConsult(page.toInt(), mCompositeSubscription)
 //            mView?.offLoadMore()
             return
         }
         mContext?.let {
-            mCompositeSubscription?.add(mModel.getOrderDispose(it, page, "10")
+            mCompositeSubscription.add(mModel.getOrderDispose(it, page, "10")
                     .unsubscribeOn(AndroidSchedulers.mainThread())
                     ?.observeOn(AndroidSchedulers.mainThread())
                     ?.subscribe(object : HttpObserver<OrderDispose>(it) {
@@ -60,9 +60,9 @@ class OrderDisposePresenter(context: Context, view: OrderDisposeView) : BasePres
      * @methodName： created by liushaoxiang on 2018/10/22 3:31 PM.
      * @description：获取网易信息
      */
-    fun getImAccount(userName: String) {
+    fun getImAccount(userName: String, mCompositeSubscription: CompositeSubscription) {
         mContext?.let {
-            mModel.getImAccount(it, userName)
+            mCompositeSubscription.add(mModel.getImAccount(it, userName)
                     .unsubscribeOn(AndroidSchedulers.mainThread())
                     ?.observeOn(AndroidSchedulers.mainThread())
                     ?.subscribe(object : HttpObserver<ImInfo>(mContext!!) {
@@ -71,14 +71,15 @@ class OrderDisposePresenter(context: Context, view: OrderDisposeView) : BasePres
                             NimUIKit.setMsgForwardFilter { false }
                             NimUIKit.setMsgRevokeFilter { false }
                         }
-                    })
+                    }))
+
         }
 
     }
 
-    fun getVideoDuration(id: String, userName: String) {
+    fun getVideoDuration(id: String, userName: String, mCompositeSubscription: CompositeSubscription) {
         mContext?.let {
-            mModel.getVideoDuration(it, id)
+            mCompositeSubscription.add(mModel.getVideoDuration(it, id)
                     .unsubscribeOn(AndroidSchedulers.mainThread())
                     ?.observeOn(AndroidSchedulers.mainThread())
                     ?.subscribe(object : HttpObserver<VideoDuration>(mContext!!) {
@@ -86,11 +87,11 @@ class OrderDisposePresenter(context: Context, view: OrderDisposeView) : BasePres
                             if (t.videoDuration!! <= 0) {
                                 mContext?.TsDialog("视频通话时长已用完", false)
                             } else {
-                                getImAccount(userName)
+                                getImAccount(userName, mCompositeSubscription)
                             }
 
                         }
-                    })
+                    }))
         }
     }
 

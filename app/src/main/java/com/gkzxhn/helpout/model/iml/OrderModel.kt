@@ -4,7 +4,7 @@ import android.content.Context
 import com.gkzxhn.helpout.entity.*
 import com.gkzxhn.helpout.model.IOrderModel
 import com.gkzxhn.helpout.net.RetrofitClient
-import com.gkzxhn.helpout.net.RetrofitClientLogin
+import com.gkzxhn.helpout.net.RetrofitClientPublic
 import okhttp3.ResponseBody
 import rx.Observable
 import rx.schedulers.Schedulers
@@ -72,7 +72,7 @@ class OrderModel : BaseModel(), IOrderModel {
     }
 
     override fun getImAccount(context: Context,account:String): Observable<ImInfo> {
-        return RetrofitClientLogin.Companion.getInstance(context).mApi
+        return RetrofitClientPublic.Companion.getInstance(context).mApi
                 ?.getImAccount(account)
                 ?.subscribeOn(Schedulers.io())
                 as Observable<ImInfo>

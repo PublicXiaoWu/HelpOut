@@ -4,7 +4,7 @@ import android.content.Context
 import com.gkzxhn.helpout.entity.AlipayInfo
 import com.gkzxhn.helpout.model.IWithdrawModel
 import com.gkzxhn.helpout.net.RetrofitClient
-import com.gkzxhn.helpout.net.RetrofitClientLogin
+import com.gkzxhn.helpout.net.RetrofitClientPublic
 import okhttp3.RequestBody
 import retrofit2.Response
 import rx.Observable
@@ -21,7 +21,7 @@ class WithdrawModel : BaseModel(), IWithdrawModel {
 
 
     override fun getCode(context: Context, phone: String): Observable<Response<Void>> {
-        return RetrofitClientLogin.Companion.getInstance(context).mApi
+        return RetrofitClientPublic.Companion.getInstance(context).mApi
                 ?.getCode(phone)
                 ?.subscribeOn(Schedulers.io()) as Observable<Response<Void>>
     }

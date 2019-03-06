@@ -12,22 +12,22 @@ import java.io.File
 import java.util.concurrent.TimeUnit
 
 
- /**
- * Explanation: 登录相关
+/**
+ * Explanation: 共同平台相关请求
  * @author LSX
  *    -----2018/9/6
  */
 
-class RetrofitClientLogin private constructor(context: Context, baseUrl: String){
+class RetrofitClientPublic private constructor(context: Context, baseUrl: String) {
 
-    var httpCacheDirectory : File? = null
-    val mContext : Context = context
-    var cache : Cache? = null
-    var okHttpClient : OkHttpClient? = null
-    var retrofit : Retrofit? = null
-    val DEFAULT_TIMEOUT : Long = 6
+    var httpCacheDirectory: File? = null
+    val mContext: Context = context
+    var cache: Cache? = null
+    var okHttpClient: OkHttpClient? = null
+    var retrofit: Retrofit? = null
+    val DEFAULT_TIMEOUT: Long = 6
     val url = baseUrl
-    var mApi : ApiService? = null
+    var mApi: ApiService? = null
 
     init {
         //缓存地址
@@ -70,12 +70,12 @@ class RetrofitClientLogin private constructor(context: Context, baseUrl: String)
     }
 
     companion object {
-        var instance: RetrofitClientLogin? = null
-        fun getInstance(context: Context) : RetrofitClientLogin {
+        var instance: RetrofitClientPublic? = null
+        fun getInstance(context: Context): RetrofitClientPublic {
             if (instance == null) {
-                synchronized(RetrofitClientLogin::class){
+                synchronized(RetrofitClientPublic::class) {
                     if (instance == null) {
-                        instance = RetrofitClientLogin(context, NetWorkCodeInfo.BASE_URL)
+                        instance = RetrofitClientPublic(context, NetWorkCodeInfo.BASE_URL)
                     }
                 }
             }

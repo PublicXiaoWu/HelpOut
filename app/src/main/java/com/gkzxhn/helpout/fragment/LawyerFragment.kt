@@ -67,7 +67,7 @@ class LawyerFragment : BaseFragment() {
      */
     private fun getLawyersInfo() {
         context?.let {
-            RetrofitClient.getInstance(it).mApi.getLawyersInfo()
+            mCompositeSubscription.add(RetrofitClient.getInstance(it).mApi.getLawyersInfo()
                     .subscribeOn(Schedulers.io())
                     ?.unsubscribeOn(AndroidSchedulers.mainThread())
                     ?.observeOn(AndroidSchedulers.mainThread())
@@ -78,7 +78,7 @@ class LawyerFragment : BaseFragment() {
 
                         }
 
-                    })
+                    }))
         }
     }
 

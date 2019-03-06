@@ -49,7 +49,7 @@ import java.io.File
 abstract class BaseActivity : AppCompatActivity() {
     var open = 0x00001
     var rxPermissions: RxPermissions? = null
-    var mCompositeSubscription: CompositeSubscription? = null
+    lateinit var mCompositeSubscription: CompositeSubscription
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -211,7 +211,7 @@ abstract class BaseActivity : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         when {
-            mCompositeSubscription?.hasSubscriptions()!! -> mCompositeSubscription?.unsubscribe()
+            mCompositeSubscription.hasSubscriptions() -> mCompositeSubscription.unsubscribe()
         }
     }
 
