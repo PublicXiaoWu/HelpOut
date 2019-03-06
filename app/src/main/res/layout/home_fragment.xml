@@ -21,7 +21,7 @@
         <com.gkzxhn.helpout.customview.WaveView
             android:layout_width="match_parent"
             android:layout_height="44dp"
-            app:speed="5"
+            app:speed="8"
             app:speed2="30"
             app:wave_color="#7096d6"
             app:wave_color2="#88c3d5f4"
@@ -36,7 +36,7 @@
             android:layout_width="match_parent"
             android:layout_height="44dp"
             app:speed="10"
-            app:speed2="50"
+            app:speed2="40"
             app:wave_color="@color/base_back"
             app:wave_color2="#3f74ce"
             app:wave_height="16dp"

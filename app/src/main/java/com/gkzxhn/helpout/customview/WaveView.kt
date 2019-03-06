@@ -8,6 +8,7 @@ import android.view.View
 import android.view.animation.LinearInterpolator
 import com.gkzxhn.helpout.R
 import com.gkzxhn.helpout.extensions.dp2px
+import com.netease.nim.uikit.common.util.log.LogUtil
 import kotlin.math.roundToInt
 
 
@@ -89,10 +90,9 @@ class WaveView : View {
         if (!hasInitWave) {
 
             wavePath = initWavePath(initPoints(waveWidth, waveRatio), waveWidth, waveHeight)
-            wavePath?.let { startWave(it, waveSpeed) }
-
             wavePath2 = initWavePath(initPoints(waveWidth2, waveRatio2), waveWidth2, waveHeight2)
-            wavePath2?.let { startWave2(it, waveSpeed2) }
+
+            startWave()
             hasInitWave = true
         }
 
@@ -137,41 +137,74 @@ class WaveView : View {
     }
 
     private var anim: ValueAnimator? = null
-    private var tempTranslateX = 0f
+    private var tempTime = 0L
 
-    private var anim2: ValueAnimator? = null
-    private var tempTranslateX2 = 0f
-    private fun startWave(wavePath: Path, speed: Int) {
-        anim = ValueAnimator.ofFloat(0f, -waveWidth)
-        anim?.duration = (waveWidth / speed.toFloat().dp2px() * 1000).toLong()
+    private var startTime = 0L
+    private var startTime2 = 0L
+    private var offsetCom = 0F
+    private var offsetCom2 = 0F
+    private fun startWave() {
+        anim = ValueAnimator.ofFloat(0f, 1f)
+        anim?.duration = 1 * 1000
         anim?.repeatCount = ValueAnimator.INFINITE
         anim?.repeatMode = ValueAnimator.RESTART
         anim?.interpolator = LinearInterpolator()
-        anim?.addUpdateListener {
-            wavePath.offset(it.animatedValue as Float - tempTranslateX, 0f)
-            tempTranslateX = it.animatedValue as Float
-            invalidate()
-        }
+        anim?.addUpdateListener(updateListener)
+        startTime = System.currentTimeMillis()
+        startTime2 = startTime
+        tempTime = startTime
         anim?.start()
     }
 
-    private fun startWave2(wavePath: Path, speed: Int) {
-        anim2 = ValueAnimator.ofFloat(0f, -waveWidth2)
-        anim2?.duration = (waveWidth2 / speed.toFloat().dp2px() * 1000).toLong()
-        anim2?.repeatCount = ValueAnimator.INFINITE
-        anim2?.repeatMode = ValueAnimator.RESTART
-        anim2?.interpolator = LinearInterpolator()
-        anim2?.addUpdateListener {
-            wavePath.offset(it.animatedValue as Float - tempTranslateX2, 0f)
-            tempTranslateX2 = it.animatedValue as Float
-            invalidate()
+    val updateListener = object : ValueAnimator.AnimatorUpdateListener {
+        override fun onAnimationUpdate(it: ValueAnimator?) {
+            val temp = System.currentTimeMillis()
+            LogUtil.d("temp time: ", (temp - tempTime).toString())
+            if ((temp - tempTime) > 30) {
+                //30毫秒/帧以上再刷新
+                //位移差
+                val offset = waveSpeed.toFloat().dp2px() * (temp - tempTime) / 1000
+                val offset2 = waveSpeed2.toFloat().dp2px() * (temp - tempTime) / 1000
+                //总时间
+                val time = temp - startTime
+                val time2 = temp - startTime2
+                if (time > waveWidth / waveSpeed.toFloat().dp2px() * 1000) {
+                    startTime = temp
+                    wavePath?.offset(offsetCom, 0f)
+                    offsetCom = 0F
+                } else {
+                    offsetCom += offset
+                    wavePath?.offset(-offset, 0f)
+                }
+                if (time2 > waveWidth2 / waveSpeed2.toFloat().dp2px() * 1000) {
+                    startTime2 = temp
+                    wavePath2?.offset(offsetCom2, 0f)
+                    offsetCom2 = 0F
+                } else {
+                    offsetCom2 += offset2
+                    wavePath2?.offset(-offset2, 0f)
+                }
+                invalidate()
+                tempTime = temp
+            }
         }
-        anim2?.start()
+    }
+
+
+    override fun onVisibilityChanged(changedView: View, visibility: Int) {
+        super.onVisibilityChanged(changedView, visibility)
+        if (visibility == View.GONE || visibility == View.INVISIBLE) {
+            anim?.cancel()
+        } else if(visibility == View.VISIBLE) {
+            if (anim?.isStarted == false) {
+                anim?.start()
+            }
+        }
     }
 
     override fun onDetachedFromWindow() {
         super.onDetachedFromWindow()
+        anim?.cancel()
         anim?.removeAllUpdateListeners()
-        anim2?.removeAllUpdateListeners()
     }
 }
