@@ -4,13 +4,10 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import com.gkzxhn.helpout.R
 import com.gkzxhn.helpout.adapter.MoneyListAdapter
-import com.gkzxhn.helpout.common.App
 import com.gkzxhn.helpout.customview.PullToRefreshLayout
 import com.gkzxhn.helpout.entity.MoneyList
 import com.gkzxhn.helpout.net.HttpObserver
 import com.gkzxhn.helpout.net.RetrofitClient
-import com.gkzxhn.helpout.utils.DisplayUtils
-import com.gkzxhn.helpout.utils.ItemDecorationHelper
 import kotlinx.android.synthetic.main.activity_money_list.*
 import kotlinx.android.synthetic.main.default_top.*
 import rx.android.schedulers.AndroidSchedulers
@@ -39,8 +36,6 @@ class MoneyListActivity : BaseActivity() {
         mAdapter = MoneyListAdapter(this)
         rcl_money_list.layoutManager = LinearLayoutManager(this, 1, false)
         rcl_money_list.adapter = mAdapter
-        val decoration = DisplayUtils.dp2px(App.mContext, 15f)
-        rcl_money_list.addItemDecoration(ItemDecorationHelper(decoration, decoration, decoration, 0, decoration))
         getMoneyList("0")
 
 
@@ -74,8 +69,8 @@ class MoneyListActivity : BaseActivity() {
 
     fun getMoneyList(p: String) {
         RetrofitClient.Companion.getInstance(this).mApi
-                ?.getTransaction(p, "10")
-                ?.subscribeOn(Schedulers.io())
+                .getTransaction(p, "10")
+                .subscribeOn(Schedulers.io())
                 ?.unsubscribeOn(AndroidSchedulers.mainThread())
                 ?.observeOn(AndroidSchedulers.mainThread())
                 ?.subscribe(object : HttpObserver<MoneyList>(this) {

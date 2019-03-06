@@ -20,28 +20,28 @@ class BountyModel : BaseModel(), IBountyModel {
 
     override fun getAlipaySign(context: Context): Observable<AlipaySign> {
         return RetrofitClient.Companion.getInstance(context).mApi
-                ?.getAlipaySign()
-                ?.subscribeOn(Schedulers.io())
+                .getAlipaySign()
+                .subscribeOn(Schedulers.io())
                 as Observable<AlipaySign>
     }
 
     override fun bingAlipay(context: Context, authCode: String): Observable<Response<Void>> {
         return RetrofitClient.Companion.getInstance(context).mApi
-                ?.bingAlipay(authCode)
-                ?.subscribeOn(Schedulers.io())
+                .bingAlipay(authCode)
+                .subscribeOn(Schedulers.io())
                 as Observable<Response<Void>>
     }
 
     override fun unbingAlipay(context: Context): Observable<Response<Void>> {
         return RetrofitClient.Companion.getInstance(context).mApi
-                ?.unbingAlipay()
-                ?.subscribeOn(Schedulers.io())
+                .unbingAlipay()
+                .subscribeOn(Schedulers.io())
                 as Observable<Response<Void>>
     }
 
     override fun getLawyersInfo(context: Context): Observable<LawyersInfo> {
-        return RetrofitClient.getInstance(context).mApi?.getLawyersInfo()
-                ?.subscribeOn(Schedulers.io()) as Observable<LawyersInfo>
+        return RetrofitClient.getInstance(context).mApi.getLawyersInfo()
+                .subscribeOn(Schedulers.io()) as Observable<LawyersInfo>
     }
 
 
