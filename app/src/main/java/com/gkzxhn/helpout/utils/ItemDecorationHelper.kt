@@ -3,13 +3,11 @@ package com.gkzxhn.helpout.utils
 import android.graphics.Rect
 import android.support.v7.widget.RecyclerView
 
-
 /**
  * Explanation：适配器间距帮助类
  * @author LSX
  * Created on 2018/9/10.
  */
-
 
 class ItemDecorationHelper(left: Int, top: Int, right: Int, bottom: Int, firstTop: Int) : RecyclerView.ItemDecoration() {
 

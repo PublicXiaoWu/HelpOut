@@ -3,6 +3,7 @@
     <color name="colorPrimary">#FF5377B9</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="main_blue">#ff5159a2</color>
+    <color name="main_orange">#FF6000</color>
     <color name="main_gary_bg">#fff9f8fe</color>
     <color name="colorAccent">#FF4081</color>
     <color name="white">#ffffff</color>

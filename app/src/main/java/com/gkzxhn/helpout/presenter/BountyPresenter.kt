@@ -177,9 +177,9 @@ class BountyPresenter(context: Context, view: BountyView) : BasePresenter<IBount
      * @description：
      */
     fun showDialog() {
-        var dialog = android.app.Dialog(mContext)//可以在style中设定dialog的样式
+        val dialog = android.app.Dialog(mContext)//可以在style中设定dialog的样式
         dialog.setContentView(R.layout.dialog_bind)
-        var lp = dialog.window.attributes
+        val lp = dialog.window.attributes
         lp.gravity = Gravity.BOTTOM
         lp.height = WindowManager.LayoutParams.WRAP_CONTENT
         lp.width = WindowManager.LayoutParams.MATCH_PARENT
@@ -216,7 +216,7 @@ class BountyPresenter(context: Context, view: BountyView) : BasePresenter<IBount
      * @description：弹窗的动画
      */
     private fun slideToUp(view: View) {
-        var slide = TranslateAnimation(Animation.RELATIVE_TO_SELF, 0.0f,
+        val slide = TranslateAnimation(Animation.RELATIVE_TO_SELF, 0.0f,
                 Animation.RELATIVE_TO_SELF, 0.0f, Animation.RELATIVE_TO_SELF,
                 1.0f, Animation.RELATIVE_TO_SELF, 0.0f)
 

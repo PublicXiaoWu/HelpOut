@@ -49,7 +49,6 @@ class MoneyListAdapter(private val mContext: Context) : RecyclerView.Adapter<Mon
         fun onRushListener()
     }
 
-
     /**
      * 更新数据
      */
@@ -73,7 +72,6 @@ class MoneyListAdapter(private val mContext: Context) : RecyclerView.Adapter<Mon
 
     class ViewHolder(view: View?) : RecyclerView.ViewHolder(view!!)
 
-
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         with(holder.itemView) {
@@ -86,19 +84,22 @@ class MoneyListAdapter(private val mContext: Context) : RecyclerView.Adapter<Mon
                 "WE_CHAT_PAY" -> "微信支付"
                 else -> "其它"
             }
-            var typeStr = when (type) {
+            val typeStr = when (type) {
                 "SERVICE_CHARGE" -> {
+                    tv_money_list_money.setTextColor(resources.getColor(R.color.main_bottom_black))
                     "提现平台使用费"
                 }
                 "PAYMENT" -> {
-                    "支付"
+                    tv_money_list_money.setTextColor(resources.getColor(R.color.main_bottom_black))
+                    "法律咨询费用"
                 }
                 "REFUND" -> {
-                    "退款"
+                    tv_money_list_money.setTextColor(resources.getColor(R.color.main_orange))
+                    "法律咨询退费"
                 }
                 "WITHDRAW" -> {
                     tv_money_list_money.setTextColor(resources.getColor(R.color.main_bottom_black))
-                    "提现"
+                    "账户提现"
                 }
                 else -> "其它"
             }
@@ -106,7 +107,6 @@ class MoneyListAdapter(private val mContext: Context) : RecyclerView.Adapter<Mon
             tv_money_list_pay_type.text = "支付方式：$payType"
             tv_money_list_number.text = "订单编号：${entity.orderNumber}"
             tv_money_list_time.text = StringUtils.parseDate(entity.successTime.toString())
-
 
         }
     }
