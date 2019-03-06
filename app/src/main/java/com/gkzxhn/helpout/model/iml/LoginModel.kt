@@ -6,7 +6,7 @@ import com.gkzxhn.helpout.entity.ImInfo
 import com.gkzxhn.helpout.entity.LawyersInfo
 import com.gkzxhn.helpout.model.ILoginModel
 import com.gkzxhn.helpout.net.RetrofitClient
-import com.gkzxhn.helpout.net.RetrofitClientLogin
+import com.gkzxhn.helpout.net.RetrofitClientPublic
 import okhttp3.RequestBody
 import okhttp3.ResponseBody
 import retrofit2.Response
@@ -22,14 +22,14 @@ import rx.schedulers.Schedulers
 
 class LoginModel : BaseModel(), ILoginModel {
     override fun login(context: Context, body: RequestBody): Observable<Response<Void>> {
-        return RetrofitClientLogin.Companion.getInstance(context).mApi
+        return RetrofitClientPublic.Companion.getInstance(context).mApi
                 ?.login(body)
                 ?.subscribeOn(Schedulers.io()) as Observable<Response<Void>>
 
     }
 
     override fun getCode(context: Context, phone: String): Observable<Response<Void>> {
-        return RetrofitClientLogin.Companion.getInstance(context).mApi
+        return RetrofitClientPublic.Companion.getInstance(context).mApi
                 ?.getCode(phone)
                 ?.subscribeOn(Schedulers.io()) as Observable<Response<Void>>
     }
@@ -39,7 +39,7 @@ class LoginModel : BaseModel(), ILoginModel {
     }
 
     override fun getToken(context: Context, phoneNumber: String, code: String): Observable<Response<ResponseBody>>? {
-        return RetrofitClientLogin.Companion.getInstance(context)
+        return RetrofitClientPublic.Companion.getInstance(context)
                 .mApi?.getToken("password", phoneNumber, code)
                 ?.subscribeOn(Schedulers.io())
     }
@@ -52,14 +52,14 @@ class LoginModel : BaseModel(), ILoginModel {
     }
 
     override fun getIMInfo(context: Context): Observable<ImInfo> {
-        return RetrofitClientLogin.Companion.getInstance(context).mApi
+        return RetrofitClientPublic.Companion.getInstance(context).mApi
                 ?.getImInfo()
                 ?.subscribeOn(Schedulers.io())
                 as Observable<ImInfo>
     }
 
     override fun getAccountInfo(context: Context): Observable<AccountInfo> {
-        return RetrofitClientLogin.Companion.getInstance(context).mApi
+        return RetrofitClientPublic.Companion.getInstance(context).mApi
                 ?.getAccountInfo()
                 ?.subscribeOn(Schedulers.io())
                 as Observable<AccountInfo>

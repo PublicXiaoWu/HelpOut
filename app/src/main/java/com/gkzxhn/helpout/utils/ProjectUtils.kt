@@ -62,7 +62,8 @@ object ProjectUtils {
      * @description：认证是否通过
      */
     fun certificationStatus(): Boolean {
-        return App.SP.getBoolean(Constants.SP_LAWYER_CERTIFICATION_STATUS, false)
+        val certificationStatus = App.SP.getString(Constants.SP_CERTIFICATIONSTATUS, "")
+        return certificationStatus == Constants.CERTIFIED
     }
 
     /**

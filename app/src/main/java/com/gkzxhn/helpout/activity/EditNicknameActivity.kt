@@ -4,7 +4,7 @@ import android.content.Intent
 import com.gkzxhn.helpout.R
 import com.gkzxhn.helpout.common.Constants
 import com.gkzxhn.helpout.net.HttpObserver
-import com.gkzxhn.helpout.net.RetrofitClientLogin
+import com.gkzxhn.helpout.net.RetrofitClientPublic
 import com.gkzxhn.helpout.utils.showToast
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.activity_edit_nikename.*
@@ -56,7 +56,7 @@ class EditNicknameActivity : BaseActivity() {
         val body = RequestBody.create(MediaType.parse("application/json; charset=utf-8"),
                 Gson().toJson(map))
 
-        RetrofitClientLogin.getInstance(this).mApi?.modifyAccountInfo(body)
+        RetrofitClientPublic.getInstance(this).mApi?.modifyAccountInfo(body)
                 ?.subscribeOn(Schedulers.io())
                 ?.unsubscribeOn(AndroidSchedulers.mainThread())
                 ?.observeOn(AndroidSchedulers.mainThread())

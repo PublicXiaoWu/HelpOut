@@ -8,7 +8,7 @@ import com.gkzxhn.helpout.R
 import com.gkzxhn.helpout.common.App
 import com.gkzxhn.helpout.common.Constants
 import com.gkzxhn.helpout.net.HttpObserver
-import com.gkzxhn.helpout.net.RetrofitClientLogin
+import com.gkzxhn.helpout.net.RetrofitClientPublic
 import okhttp3.ResponseBody
 import org.json.JSONObject
 import retrofit2.Response
@@ -49,7 +49,7 @@ class SplashActivity : BaseActivity() {
 
     /****** 刷新新的token ******/
     private fun getRefreshToken(refresh_token: String) {
-        RetrofitClientLogin.Companion.getInstance(this)
+        RetrofitClientPublic.Companion.getInstance(this)
                 .mApi?.getToken("refresh_token", refreshToken = refresh_token)
                 ?.subscribeOn(Schedulers.io())
                 ?.unsubscribeOn(AndroidSchedulers.mainThread())

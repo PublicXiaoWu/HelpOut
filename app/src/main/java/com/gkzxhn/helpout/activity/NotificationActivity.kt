@@ -6,11 +6,12 @@ import com.gkzxhn.helpout.R
 import com.gkzxhn.helpout.adapter.NotificationInfoAdapter
 import com.gkzxhn.helpout.common.App
 import com.gkzxhn.helpout.common.RxBus
+import com.gkzxhn.helpout.customview.LoadMoreWrapper
 import com.gkzxhn.helpout.customview.PullToRefreshLayout
 import com.gkzxhn.helpout.entity.NotificationInfoList
 import com.gkzxhn.helpout.entity.RxBusBean
 import com.gkzxhn.helpout.net.HttpObserver
-import com.gkzxhn.helpout.net.RetrofitClient
+import com.gkzxhn.helpout.net.RetrofitClientPublic
 import com.gkzxhn.helpout.utils.DisplayUtils
 import com.gkzxhn.helpout.utils.ItemDecorationHelper
 import kotlinx.android.synthetic.main.activity_money_list.*
@@ -37,17 +38,13 @@ class NotificationActivity : BaseActivity() {
         initTopTitle()
         mAdapter = NotificationInfoAdapter(this)
         val linearLayoutManager = LinearLayoutManager(this, 1, false)
-        linearLayoutManager.stackFromEnd = true;//列表再底部开始展示，反转后由上面开始展示
-        linearLayoutManager.reverseLayout = true;//列表翻转
         rcl_money_list.layoutManager = linearLayoutManager
         rcl_money_list.adapter = mAdapter
         val decoration = DisplayUtils.dp2px(App.mContext, 0f)
         rcl_money_list.addItemDecoration(ItemDecorationHelper(decoration, decoration, decoration, 0, decoration))
         getData("0")
-
-
         //加载更多
-        loading_more.setOnLoadMoreListener(object : com.gkzxhn.helpout.customview.LoadMoreWrapper.OnLoadMoreListener {
+        loading_more.setOnLoadMoreListener(object : LoadMoreWrapper.OnLoadMoreListener {
             override fun onLoadMore() {
                 if (loadMore) {
                     getData((page + 1).toString())
@@ -74,29 +71,27 @@ class NotificationActivity : BaseActivity() {
     }
 
     fun getData(p: String) {
-
-        RetrofitClient.Companion.getInstance(this).mApi
-                .getNotifications(p, "10")
-                .subscribeOn(Schedulers.io())
+        RetrofitClientPublic.Companion.getInstance(this).mApi
+                ?.getNotifications(p, "15","createdTime,desc")
+                ?.subscribeOn(Schedulers.io())
                 ?.unsubscribeOn(AndroidSchedulers.mainThread())
                 ?.observeOn(AndroidSchedulers.mainThread())
                 ?.subscribe(object : HttpObserver<NotificationInfoList>(this) {
                     override fun success(t: NotificationInfoList) {
                         offLoadMore()
-                        loadMore = !t.isLast
+                        loadMore = !t.last
                         page = t.number
                         showNullView(t.content!!.isEmpty())
-                        mAdapter.updateItems(t.isFirst, t.content)
+                        mAdapter.updateItems(t.first, t.content)
                     }
 
                     override fun onError(t: Throwable?) {
-                        loadDialog?.dismiss()
+                        super.onError(t)
                         showNullView(true)
                         offLoadMore()
                     }
                 })
     }
-
 
     fun offLoadMore() {
         //加载更多取消

@@ -22,12 +22,12 @@ class NotificationInfoList {
      */
 
     var totalElements: Int = 0
-    var isLast: Boolean = false
+    var last: Boolean = false
     var totalPages: Int = 0
     var number: Int = 0
     var size: Int = 0
     var numberOfElements: Int = 0
-    var isFirst: Boolean = false
+    var first: Boolean = false
     var content: List<ContentBean>? = null
     var sort: List<SortBean>? = null
 

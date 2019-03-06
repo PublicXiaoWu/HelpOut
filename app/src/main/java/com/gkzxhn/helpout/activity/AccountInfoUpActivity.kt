@@ -18,7 +18,7 @@ import com.gkzxhn.helpout.common.Constants
 import com.gkzxhn.helpout.customview.ClipViewLayout
 import com.gkzxhn.helpout.extensions.filterEmoji
 import com.gkzxhn.helpout.net.HttpObserver
-import com.gkzxhn.helpout.net.RetrofitClientLogin
+import com.gkzxhn.helpout.net.RetrofitClientPublic
 import com.gkzxhn.helpout.utils.*
 import com.google.gson.Gson
 import com.tbruyelle.rxpermissions2.Permission
@@ -88,7 +88,7 @@ class AccountInfoUpActivity : BaseActivity() {
     private fun modifyAvatar(file: File) {
         val requestFile = RequestBody.create(MediaType.parse("image/jpeg"), file)
         val body = MultipartBody.Part.createFormData("file", file.name, requestFile)
-        RetrofitClientLogin.getInstance(this).mApi?.modifyAvatar(body)
+        RetrofitClientPublic.getInstance(this).mApi?.modifyAvatar(body)
                 ?.subscribeOn(Schedulers.io())
                 ?.unsubscribeOn(AndroidSchedulers.mainThread())
                 ?.observeOn(AndroidSchedulers.mainThread())
@@ -119,7 +119,7 @@ class AccountInfoUpActivity : BaseActivity() {
         val body = RequestBody.create(MediaType.parse("application/json; charset=utf-8"),
                 Gson().toJson(map))
 
-        RetrofitClientLogin.getInstance(this).mApi?.modifyAccountInfo(body)
+        RetrofitClientPublic.getInstance(this).mApi?.modifyAccountInfo(body)
                 ?.subscribeOn(Schedulers.io())
                 ?.unsubscribeOn(AndroidSchedulers.mainThread())
                 ?.observeOn(AndroidSchedulers.mainThread())

@@ -119,11 +119,11 @@ class MainActivity : BaseActivity() {
      * @description：检查更新
      */
     private fun updateApp() {
-        mCompositeSubscription?.add(RetrofitClient.getInstance(this).mApi?.updateApp()
-                ?.subscribeOn(rx.schedulers.Schedulers.io())
-                ?.unsubscribeOn(AndroidSchedulers.mainThread())
-                ?.observeOn(AndroidSchedulers.mainThread())
-                ?.subscribe(object : HttpObserver<UpdateInfo>(this) {
+        mCompositeSubscription.add(RetrofitClient.getInstance(this).mApi.updateApp()
+                .subscribeOn(rx.schedulers.Schedulers.io())
+                .unsubscribeOn(AndroidSchedulers.mainThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(object : HttpObserver<UpdateInfo>(this) {
                     override fun success(t: UpdateInfo) {
                         val versionCode = ObtainVersion.getVersionCode(App.mContext)
                         if (t.number!! > versionCode) {

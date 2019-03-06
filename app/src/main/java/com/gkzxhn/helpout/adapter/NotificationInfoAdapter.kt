@@ -3,6 +3,7 @@ package com.gkzxhn.helpout.adapter
 import android.annotation.SuppressLint
 import android.content.Context
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,7 +13,9 @@ import com.gkzxhn.helpout.entity.NotificationInfoList
 import com.gkzxhn.helpout.utils.StringUtils
 import com.zhy.adapter.recyclerview.MultiItemTypeAdapter
 import kotlinx.android.synthetic.main.item_notification_list.view.*
+import org.json.JSONObject
 import java.util.*
+
 
 /**
  * Explanation：
@@ -67,8 +70,21 @@ class NotificationInfoAdapter(private val mContext: Context) : RecyclerView.Adap
         with(holder.itemView) {
             val entity = mDatas[position]
             tv_notification_type.text = "通知消息"
-            tv_notification_context.text = entity.content
-            tv_notification_time.text = StringUtils.MstoDate(entity.createdTime.toString())
+            tv_notification_time.text = StringUtils.parseDate2(entity.createdTime.toString())
+
+            val json = entity.content
+            Log.e("xiaowu", json)
+            try {
+                val type = JSONObject(json).getString("type")
+                val ext = JSONObject(json).getString("ext")
+                val content = JSONObject(json).getString("content")
+                tv_notification_context.text = content
+                if (type=="RUSH_PAGE_REFRESH") {
+                    tv_notification_context.text = "有新的可接订单，快去接单吧！"
+                }
+            } catch (e: Exception) {
+
+            }
         }
     }
 

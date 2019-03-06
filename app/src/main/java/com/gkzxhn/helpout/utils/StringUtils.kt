@@ -103,6 +103,22 @@ object StringUtils {
 //        sdf.timeZone = TimeZone.getTimeZone("GMT")
         return sdf.format(result)
     }
+    /**
+     * @methodName： created by liushaoxiang on 2018/11/7 2:40 PM.
+     * @description： 将2019-03-04T14:44:35  改成标准时间
+     */
+    @Throws(ParseException::class)
+    fun parseDate2(dateStr: String?): String {
+        if (dateStr == null) {
+            return "0000-00-00 00:00:00"
+        }
+        val df = SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss")
+        val result: Date
+        result = df.parse(dateStr)
+        val sdf = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+//        sdf.timeZone = TimeZone.getTimeZone("GMT")
+        return sdf.format(result)
+    }
 
     /**
      * @methodName： created by liushaoxiang on 2018/11/20 4:49 PM.

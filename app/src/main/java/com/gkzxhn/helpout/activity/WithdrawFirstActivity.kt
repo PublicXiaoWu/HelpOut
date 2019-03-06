@@ -30,8 +30,6 @@ import java.util.concurrent.TimeUnit
 
 class WithdrawFirstActivity : BaseActivity(), WithdrawView {
 
-
-
     lateinit var mPresenter: WithdrawPresenter
     var timeDisposable: Disposable? = null      //倒计时任务
 

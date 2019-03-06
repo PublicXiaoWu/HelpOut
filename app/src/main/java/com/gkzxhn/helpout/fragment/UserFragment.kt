@@ -1,7 +1,6 @@
 package com.gkzxhn.helpout.fragment
 
 import android.content.Intent
-import android.text.TextUtils
 import android.view.View
 import com.gkzxhn.helpout.R
 import com.gkzxhn.helpout.activity.*
@@ -14,14 +13,11 @@ import com.gkzxhn.helpout.entity.RxBusBean
 import com.gkzxhn.helpout.net.HttpObserver
 import com.gkzxhn.helpout.net.HttpObserverNoDialog
 import com.gkzxhn.helpout.net.RetrofitClient
-import com.gkzxhn.helpout.net.RetrofitClientLogin
+import com.gkzxhn.helpout.net.RetrofitClientPublic
 import com.gkzxhn.helpout.utils.ProjectUtils
 import com.gkzxhn.helpout.utils.StringUtils
 import com.gkzxhn.helpout.utils.logE
 import kotlinx.android.synthetic.main.user_fragment.*
-import okhttp3.ResponseBody
-import org.json.JSONObject
-import retrofit2.Response
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
 
@@ -41,7 +37,8 @@ class UserFragment : BaseFragment(), View.OnClickListener {
 
     override fun init() {
         getAccountInfo()
-        getLawyersState()
+//        getLawyersState()
+        getLawyersInfo()
 
         /****** 接受控件小红点的消息 ******/
         RxBus.instance.toObserverable(RxBusBean.HomeTopRedPoint::class.java)
@@ -113,55 +110,26 @@ class UserFragment : BaseFragment(), View.OnClickListener {
         init()
     }
 
-    /****** 刷新新的token ******/
-    private fun getRefreshToken(refresh_token: String) {
-        context?.let {
-            RetrofitClientLogin.Companion.getInstance(it)
-                    .mApi?.getToken("refresh_token", refreshToken = refresh_token)
-                    ?.subscribeOn(Schedulers.io())
-                    ?.unsubscribeOn(AndroidSchedulers.mainThread())
-                    ?.observeOn(AndroidSchedulers.mainThread())
-                    ?.subscribe(object : HttpObserver<Response<ResponseBody>>(it) {
-                        override fun success(t: Response<ResponseBody>) {
-                            if (t.code() == 200) {
-                                val string = t.body().string()
-                                if (!TextUtils.isEmpty(string)) {
-                                    var token: String? = null
-                                    var refreshToken: String? = null
-                                    try {
-                                        token = JSONObject(string).getString("access_token")
-                                        refreshToken = JSONObject(string).getString("refresh_token")
-                                    } catch (e: Exception) {
-
-                                    }
-                                    App.EDIT.putString(Constants.SP_TOKEN, token)?.commit()
-                                    App.EDIT.putString(Constants.SP_REFRESH_TOKEN, refreshToken)?.commit()
-                                    getLawyersInfo()
-                                }
-                            }
-                        }
-
-                    })
-        }
-    }
-
     /**
      * @methodName： created by liushaoxiang on 2018/10/22 3:31 PM.
      * @description：获取律师信息
      */
     private fun getLawyersInfo() {
         context?.let {
-            RetrofitClient.getInstance(it).mApi.getLawyersInfo()
+            mCompositeSubscription.add(RetrofitClient.getInstance(it).mApi.getLawyersInfo()
                     .subscribeOn(Schedulers.io())
                     ?.unsubscribeOn(AndroidSchedulers.mainThread())
                     ?.observeOn(AndroidSchedulers.mainThread())
                     ?.subscribe(object : HttpObserver<LawyersInfo>(it) {
                         override fun success(t: LawyersInfo) {
                             App.EDIT.putString(Constants.SP_CERTIFICATIONSTATUS, t.certificationStatus)?.commit()
-                            tv_user_money.text="￥"+t.rewardAmount
+                            val lawyerState = t.certificationStatus == Constants.CERTIFIED
+                            loadUIByLawyerState(lawyerState)
+                            if (lawyerState) {
+                                tv_user_money.text = "￥" + t.rewardAmount
+                            }
                         }
-
-                    })
+                    }))
         }
     }
 
@@ -171,17 +139,16 @@ class UserFragment : BaseFragment(), View.OnClickListener {
      */
     private fun getLawyersState() {
         context?.let {
-            RetrofitClient.getInstance(it).mApi.getLawyersState()
+            mCompositeSubscription.add(RetrofitClient.getInstance(it).mApi.getLawyersState()
                     .subscribeOn(Schedulers.io())
                     ?.unsubscribeOn(AndroidSchedulers.mainThread())
                     ?.observeOn(AndroidSchedulers.mainThread())
                     ?.subscribe(object : HttpObserver<LawyersInfo>(it) {
                         override fun success(t: LawyersInfo) {
-                            App.EDIT.putBoolean(Constants.SP_LAWYER_CERTIFICATION_STATUS, t.lawyer!!)?.commit()
                             loadUIByLawyerState(t.lawyer!!)
                         }
+                    }))
 
-                    })
         }
     }
 
@@ -191,40 +158,37 @@ class UserFragment : BaseFragment(), View.OnClickListener {
      */
     private fun loadUIByLawyerState(lawyer: Boolean) {
         if (lawyer) {
-            /****** 律师 ******/
-            getLawyersInfo()
-            
-            v_user_info_rz_bg.visibility=View.VISIBLE
-            iv_user_info_rz.visibility=View.VISIBLE
-            tv_user_info_rz.visibility=View.VISIBLE
+            v_user_info_rz_bg.visibility = View.VISIBLE
+            iv_user_info_rz.visibility = View.VISIBLE
+            tv_user_info_rz.visibility = View.VISIBLE
 
             /****** 金额那一栏 ******/
-            v_user_my_money_bg.visibility=View.VISIBLE
-            iv_user_get_money_start.visibility=View.VISIBLE
-            tv_user_get_money.visibility=View.VISIBLE
-            tv_user_money.visibility=View.VISIBLE
-            iv_user_get_money_end.visibility=View.VISIBLE
-            v_user_my_money_line_bg.visibility=View.VISIBLE
-            v_user_my_money.visibility=View.VISIBLE
+            v_user_my_money_bg.visibility = View.VISIBLE
+            iv_user_get_money_start.visibility = View.VISIBLE
+            tv_user_get_money.visibility = View.VISIBLE
+            tv_user_money.visibility = View.VISIBLE
+            iv_user_get_money_end.visibility = View.VISIBLE
+            v_user_my_money_line_bg.visibility = View.VISIBLE
+            v_user_my_money.visibility = View.VISIBLE
 
-            v_user_edit_info.visibility=View.VISIBLE
+            v_user_edit_info.visibility = View.VISIBLE
 
-        }else{
+        } else {
             /****** 用户 ******/
-            
-            v_user_info_rz_bg.visibility=View.INVISIBLE
-            iv_user_info_rz.visibility=View.INVISIBLE
-            tv_user_info_rz.visibility=View.INVISIBLE
 
-            v_user_my_money_bg.visibility=View.GONE
-            iv_user_get_money_start.visibility=View.GONE
-            tv_user_get_money.visibility=View.GONE
-            tv_user_money.visibility=View.GONE
-            iv_user_get_money_end.visibility=View.GONE
-            v_user_my_money_line_bg.visibility=View.VISIBLE
-            v_user_my_money.visibility=View.VISIBLE
+            v_user_info_rz_bg.visibility = View.INVISIBLE
+            iv_user_info_rz.visibility = View.INVISIBLE
+            tv_user_info_rz.visibility = View.INVISIBLE
 
-            v_user_edit_info.visibility=View.GONE
+            v_user_my_money_bg.visibility = View.GONE
+            iv_user_get_money_start.visibility = View.GONE
+            tv_user_get_money.visibility = View.GONE
+            tv_user_money.visibility = View.GONE
+            iv_user_get_money_end.visibility = View.GONE
+            v_user_my_money_line_bg.visibility = View.VISIBLE
+            v_user_my_money.visibility = View.VISIBLE
+
+            v_user_edit_info.visibility = View.GONE
 
         }
 
@@ -236,7 +200,7 @@ class UserFragment : BaseFragment(), View.OnClickListener {
      */
     private fun getAccountInfo() {
         context?.let {
-            RetrofitClientLogin.getInstance(it).mApi
+            mCompositeSubscription.add(RetrofitClientPublic.getInstance(it).mApi
                     ?.getAccountInfo()
                     ?.subscribeOn(Schedulers.io())
                     ?.unsubscribeOn(AndroidSchedulers.mainThread())
@@ -246,7 +210,7 @@ class UserFragment : BaseFragment(), View.OnClickListener {
                             loadUI(t)
                             accountInfo = t
                         }
-                    })
+                    }))
         }
     }
 

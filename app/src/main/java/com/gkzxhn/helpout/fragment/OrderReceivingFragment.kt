@@ -32,7 +32,7 @@ class OrderReceivingFragment : BaseFragment(), OrderReceivingView {
 
     private var mAdapter: OrderReceivingAdapter? = null
 
-    var mPresenter: OrderReceivingPresenter? = null
+    lateinit var mPresenter: OrderReceivingPresenter
 
 
     var loadMore = false
@@ -54,7 +54,7 @@ class OrderReceivingFragment : BaseFragment(), OrderReceivingView {
         rcl_order_receiving.adapter = mAdapter
         val decoration = DisplayUtils.dp2px(App.mContext, 15f)
         rcl_order_receiving.addItemDecoration(ItemDecorationHelper(0, decoration, 0, 0, decoration))
-        mPresenter?.getOrderReceiving("0", mCompositeSubscription)
+        mPresenter.getOrderReceiving("0", mCompositeSubscription)
 
 
         /****** 收到抢单成功的消息 ******/

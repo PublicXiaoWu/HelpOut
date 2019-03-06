@@ -12,7 +12,7 @@ import java.io.File
 import java.util.concurrent.TimeUnit
 
 /**
- * Explanation:
+ * Explanation:项目后台相关请求
  * @author LSX
  *    -----2018/9/6
  */

@@ -9,7 +9,6 @@ import com.gkzxhn.helpout.R
 import com.gkzxhn.helpout.common.App
 import com.gkzxhn.helpout.common.Constants
 import com.gkzxhn.helpout.entity.UpdateInfo
-import com.gkzxhn.helpout.greendao.dao.GreenDaoManager
 import com.gkzxhn.helpout.net.HttpObserver
 import com.gkzxhn.helpout.net.RetrofitClient
 import com.gkzxhn.helpout.net.error_exception.ApiException
@@ -100,10 +99,7 @@ class SettingActivity : BaseActivity() {
             App.EDIT.putString(Constants.SP_NAME, "")?.commit()
             App.EDIT.putString(Constants.SP_LAWOFFICE, "")?.commit()
             App.EDIT.putString(Constants.SP_CERTIFICATIONSTATUS, "")?.commit()
-            App.EDIT.putBoolean(Constants.SP_LAWYER_CERTIFICATION_STATUS,false)?.commit()
 
-            /****** 清空数消息数据库 ******/
-            GreenDaoManager.getInstance().newSession.notificationInfoDao.deleteAll()
             /****** 清除缓存 ******/
             SystemUtil.clearAllCache(this)
 

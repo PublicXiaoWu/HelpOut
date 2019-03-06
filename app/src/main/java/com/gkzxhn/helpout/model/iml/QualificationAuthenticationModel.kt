@@ -5,7 +5,7 @@ import com.gkzxhn.helpout.entity.QualificationAuthentication
 import com.gkzxhn.helpout.entity.UploadFile
 import com.gkzxhn.helpout.model.IQualificationAuthenticationModel
 import com.gkzxhn.helpout.net.RetrofitClient
-import com.gkzxhn.helpout.net.RetrofitClientLogin
+import com.gkzxhn.helpout.net.RetrofitClientPublic
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Response
@@ -23,18 +23,18 @@ class QualificationAuthenticationModel : BaseModel(), IQualificationAuthenticati
 
     override fun getCertification(context: Context): Observable<QualificationAuthentication> {
         return RetrofitClient.Companion.getInstance(context).mApi
-                ?.getCertification()
-                ?.subscribeOn(Schedulers.io()) as Observable<QualificationAuthentication>
+                .getCertification()
+                .subscribeOn(Schedulers.io()) as Observable<QualificationAuthentication>
     }
 
     override fun certification(context: Context, body: RequestBody): Observable<Response<Void>> {
         return RetrofitClient.Companion.getInstance(context).mApi
-                ?.certification(body)
-                ?.subscribeOn(Schedulers.io()) as Observable<Response<Void>>
+                .certification(body)
+                .subscribeOn(Schedulers.io()) as Observable<Response<Void>>
     }
 
     override fun uploadFiles(context: Context, body: MultipartBody.Part): Observable<UploadFile> {
-        return RetrofitClientLogin.getInstance(context).mApi?.uploadFiles(body,"PROTECTED")
+        return RetrofitClientPublic.getInstance(context).mApi?.uploadFiles(body,"PROTECTED")
                 ?.subscribeOn(Schedulers.io()) as Observable<UploadFile>
     }
 

@@ -23,7 +23,6 @@ import com.gkzxhn.helpout.common.Constants
 import com.gkzxhn.helpout.common.RxBus
 import com.gkzxhn.helpout.entity.RxBusBean
 import com.gkzxhn.helpout.entity.UpdateInfo
-import com.gkzxhn.helpout.greendao.dao.GreenDaoManager
 import com.gkzxhn.helpout.net.NetWorkCodeInfo
 import com.gkzxhn.helpout.utils.SystemUtil
 import com.gkzxhn.helpout.utils.TsClickDialog
@@ -50,7 +49,7 @@ import java.io.File
 abstract class BaseActivity : AppCompatActivity() {
     var open = 0x00001
     var rxPermissions: RxPermissions? = null
-    var mCompositeSubscription: CompositeSubscription? = null
+    lateinit var mCompositeSubscription: CompositeSubscription
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -89,8 +88,6 @@ abstract class BaseActivity : AppCompatActivity() {
                             App.EDIT.putString(Constants.SP_LAWOFFICE, "")?.commit()
                             App.EDIT.putString(Constants.SP_CERTIFICATIONSTATUS, "")?.commit()
 
-                            /****** 清空数消息数据库 ******/
-                            GreenDaoManager.getInstance().newSession.notificationInfoDao.deleteAll()
                             /****** 清除缓存 ******/
                             SystemUtil.clearAllCache(this)
 
@@ -214,9 +211,8 @@ abstract class BaseActivity : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         when {
-            mCompositeSubscription?.hasSubscriptions()!! -> mCompositeSubscription?.unsubscribe()
+            mCompositeSubscription.hasSubscriptions() -> mCompositeSubscription.unsubscribe()
         }
-
     }
 
 
