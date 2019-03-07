@@ -69,7 +69,7 @@ class NotificationInfoAdapter(private val mContext: Context) : RecyclerView.Adap
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         with(holder.itemView) {
             val entity = mDatas[position]
-            tv_notification_type.text = "通知消息"
+            tv_notification_type.text = "法律咨询"
             tv_notification_time.text = StringUtils.parseDate2(entity.createdTime.toString())
 
             val json = entity.content

@@ -402,6 +402,7 @@ abstract class BaseActivity : AppCompatActivity() {
         mpbProgress.progress = it.readLength.toInt()
     }
 
+
 }
 
 
