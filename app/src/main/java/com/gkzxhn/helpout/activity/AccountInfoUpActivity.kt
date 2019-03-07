@@ -62,6 +62,10 @@ class AccountInfoUpActivity : BaseActivity() {
         if (!photoDir.exists()) {
             photoDir.mkdirs()
         }
+
+        top_back.setOnClickListener {
+            finish()
+        }
     }
 
 
@@ -73,13 +77,12 @@ class AccountInfoUpActivity : BaseActivity() {
     /****** 上传数据 ******/
     fun sendUpload(view: View) {
         val nickName = ev_account_info_nickname.text.toString().trim().filterEmoji()
-        if (photoIsUp && nickName.isNotEmpty()) {
+        if (nickName.isNotEmpty()) {
             modifyNickname(nickName)
         } else {
-            showToast("请完成上传和填写昵称")
+            showToast("请输入昵称")
         }
     }
-
 
     /**
      * @methodName： created by liushaoxiang on 2018/10/26 2:07 PM.

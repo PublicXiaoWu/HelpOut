@@ -7,7 +7,6 @@ import com.gkzxhn.helpout.common.Constants
 import com.gkzxhn.helpout.entity.LawyersInfo
 import com.gkzxhn.helpout.net.HttpObserver
 import com.gkzxhn.helpout.net.RetrofitClient
-import com.gkzxhn.helpout.utils.ProjectUtils
 import com.gkzxhn.helpout.utils.showToast
 import kotlinx.android.synthetic.main.default_top.*
 import kotlinx.android.synthetic.main.expert_activity.*
@@ -33,11 +32,20 @@ class ExpertActivity : BaseActivity() {
             showToast("敬请期待")
         }
         v_expert_bg_2.setOnClickListener {
-
-            if (ProjectUtils.certificationStatus()) {
-                startActivity(Intent(this, QualificationAuthenticationShowActivity::class.java))
-            } else {
-                startActivity(Intent(this, QualificationAuthenticationActivity::class.java))
+            when (App.SP.getString(Constants.SP_CERTIFICATIONSTATUS, "")) {
+            /****** 待认证 ******/
+                Constants.PENDING_CERTIFIED -> {
+                    val intent = Intent(this, QualificationAuthenticationEditActivity::class.java)
+                    intent.putExtra("again_Authentication", false)
+                    startActivity(intent)
+                }
+            /****** 已认证 ******/
+                Constants.CERTIFIED -> {
+                    startActivity(Intent(this, QualificationAuthenticationShowActivity::class.java))
+                }
+                else -> {
+                    startActivity(Intent(this, QualificationAuthenticationActivity::class.java))
+                }
             }
         }
     }
@@ -54,15 +62,15 @@ class ExpertActivity : BaseActivity() {
      * @description：更新律师状态
      */
     private fun getLawyersInfo() {
-            RetrofitClient.getInstance(this).mApi.getLawyersInfo()
-                    .subscribeOn(Schedulers.io())
-                    ?.unsubscribeOn(AndroidSchedulers.mainThread())
-                    ?.observeOn(AndroidSchedulers.mainThread())
-                    ?.subscribe(object : HttpObserver<LawyersInfo>(this) {
-                        override fun success(t: LawyersInfo) {
-                            App.EDIT.putString(Constants.SP_CERTIFICATIONSTATUS, t.certificationStatus)?.commit()
-                        }
-                    })
+        RetrofitClient.getInstance(this).mApi.getLawyersInfo()
+                .subscribeOn(Schedulers.io())
+                ?.unsubscribeOn(AndroidSchedulers.mainThread())
+                ?.observeOn(AndroidSchedulers.mainThread())
+                ?.subscribe(object : HttpObserver<LawyersInfo>(this) {
+                    override fun success(t: LawyersInfo) {
+                        App.EDIT.putString(Constants.SP_CERTIFICATIONSTATUS, t.certificationStatus)?.commit()
+                    }
+                })
     }
 
     override fun onResume() {

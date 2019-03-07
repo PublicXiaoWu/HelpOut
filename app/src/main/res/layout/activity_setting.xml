@@ -161,7 +161,6 @@
         app:layout_constraintTop_toTopOf="@id/iv_setting_update"
     />
 
-
     <!--退出账号-->
     <TextView
         android:id="@+id/tv_setting_exit"

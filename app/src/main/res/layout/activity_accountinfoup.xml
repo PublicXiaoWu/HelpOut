@@ -6,6 +6,18 @@
     android:background="@mipmap/ic_account_info_bg"
     android:layout_height="match_parent">
 
+
+    <ImageView
+        android:id="@+id/top_back"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:scaleType="center"
+        android:layout_centerVertical="true"
+        android:src="@mipmap/ic_back_gary"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+    />
+
     <ImageView
         android:id="@+id/iv_account_info_image"
         android:layout_width="90dp"
