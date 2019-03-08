@@ -20,7 +20,7 @@ interface IOrderModel : IBaseModel {
     fun rejectMyOrder(context: Context, id: String): Observable<OrderMyInfo>
     fun acceptRushOrder(context: Context, id: String): Observable<OrderMyInfo>
     fun acceptMyOrder(context: Context, id: String,reward:String): Observable<OrderMyInfo>
-    fun getOrderReceiving(context: Context, page: String, size: String): Observable<OrderReceiving>
+    fun getOrderReceiving(context: Context, page: String, size: String,sort:String): Observable<OrderReceiving>
     fun getImAccount(context: Context, account: String): Observable<ImInfo>
     fun getOrderComment(context: Context, id: String): Observable<OrderComment>
     fun getVideoDuration(context: Context, id: String): Observable<VideoDuration>

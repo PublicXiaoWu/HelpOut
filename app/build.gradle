@@ -104,7 +104,7 @@ dependencies {
     implementation project(path: ':uikit')
     implementation files('src/main/libs/alipaySdk-15.5.9-20181123210601.aar')
     implementation files('src/main/libs/AMap2DMap_3.0.0_AMapSearch_3.6.1_AMapLocation_3.2.1_20161228.jar')
-    compile 'com.wang.avi:library:2.1.3'
+    implementation 'com.wang.avi:library:2.1.3'
 }
 
 

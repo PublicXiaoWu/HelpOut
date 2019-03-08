@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:background="@color/base_back"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/v_home_top_bg"
+        android:layout_width="match_parent"
+        android:layout_height="253dp"
+        android:background="@mipmap/ic_home_top_adv"
+    />
+
+    <FrameLayout
+        app:layout_constraintBottom_toBottomOf="@+id/v_home_top_bg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.gkzxhn.helpout.customview.WaveView
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            app:speed="5"
+            app:speed2="30"
+            app:wave_color="#7096d6"
+            app:wave_color2="#88c3d5f4"
+            app:wave_height="14dp"
+            app:wave_height2="13dp"
+            app:wave_ratio="0.54"
+            app:wave_ratio2="0.79"
+            app:wave_width="139dp"
+            app:wave_width2="145dp"/>
+
+        <com.gkzxhn.helpout.customview.WaveView
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            app:speed="10"
+            app:speed2="50"
+            app:wave_color="@color/base_back"
+            app:wave_color2="#3f74ce"
+            app:wave_height="16dp"
+            app:wave_height2="17dp"
+            app:wave_ratio="0.5"
+            app:wave_ratio2="0.48"
+            app:wave_width="130dp"
+            app:wave_width2="125dp"/>
+    </FrameLayout>
+
+
+
+    <ImageView
+        android:id="@+id/iv_main_message_top"
+        android:layout_width="26dp"
+        android:layout_height="26dp"
+        android:layout_marginEnd="2dp"
+        android:layout_marginTop="15dp"
+        android:paddingBottom="5dp"
+        android:paddingEnd="1dp"
+        android:paddingStart="5dp"
+        android:paddingTop="5dp"
+        android:src="@mipmap/ic_message"
+        app:layout_constraintEnd_toStartOf="@id/v_top_red_point"
+        app:layout_constraintTop_toTopOf="@+id/v_home_top_bg"/>
+
+    <View
+        android:id="@+id/v_top_red_point"
+        android:layout_width="6dp"
+        android:layout_height="6dp"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/shape_point_home_red"
+        android:visibility="gone"
+        app:layout_constraintEnd_toStartOf="@id/sp_top"
+        app:layout_constraintTop_toTopOf="@id/iv_main_message_top"
+    />
+
+    <Space
+        android:id="@+id/sp_top"
+        android:layout_width="14dp"
+        android:layout_height="4dp"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+
+    <ImageView
+        android:id="@+id/iv_home_have_a_tree"
+        android:layout_width="match_parent"
+        android:layout_height="124dp"
+        android:layout_marginEnd="17dp"
+        android:layout_marginStart="17dp"
+        android:layout_marginTop="14dp"
+        android:background="@mipmap/ic_home_adv_tree"
+        app:layout_constraintTop_toBottomOf="@+id/v_home_top_bg"/>
+
+    <!--法律咨询-->
+    <View
+        android:id="@+id/v_home_legal_advice"
+        android:layout_width="0dp"
+        android:layout_height="284dp"
+        android:layout_marginStart="17dp"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/selector_home_fl"
+        app:layout_constraintEnd_toStartOf="@id/v_home_psychological"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/iv_home_have_a_tree"
+    />
+
+    <ImageView
+        android:id="@+id/iv_home_legal_advice"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_marginTop="80dp"
+        android:src="@mipmap/ic_home_zx"
+        app:layout_constraintEnd_toEndOf="@id/v_home_legal_advice"
+        app:layout_constraintStart_toStartOf="@id/v_home_legal_advice"
+        app:layout_constraintTop_toTopOf="@id/v_home_legal_advice"
+    />
+
+    <TextView
+        android:id="@+id/tv_home_legal_advice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="25dp"
+        android:text="法律咨询"
+        android:textColor="#333333"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="@id/v_home_legal_advice"
+        app:layout_constraintStart_toStartOf="@id/v_home_legal_advice"
+        app:layout_constraintTop_toBottomOf="@+id/iv_home_legal_advice"
+    />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="7dp"
+        android:text="律师即时通话，物超所值"
+        android:textColor="#ff999999"
+        android:textSize="10sp"
+        app:layout_constraintEnd_toEndOf="@id/v_home_legal_advice"
+        app:layout_constraintStart_toStartOf="@id/v_home_legal_advice"
+        app:layout_constraintTop_toBottomOf="@+id/tv_home_legal_advice"
+    />
+
+    <!--心理咨询-->
+    <View
+        android:id="@+id/v_home_psychological"
+        android:layout_width="0dp"
+        android:layout_height="129dp"
+        android:layout_marginEnd="17dp"
+        android:layout_marginStart="6dp"
+        android:background="@drawable/selector_home_xl"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/v_home_legal_advice"
+        app:layout_constraintTop_toTopOf="@+id/v_home_legal_advice"
+    />
+
+    <ImageView
+        android:id="@+id/iv_home_psychological"
+        android:layout_width="47dp"
+        android:layout_height="47dp"
+        android:layout_marginStart="17dp"
+        android:src="@mipmap/ic_home_xl"
+        app:layout_constraintBottom_toBottomOf="@+id/v_home_psychological"
+        app:layout_constraintStart_toStartOf="@id/v_home_psychological"
+        app:layout_constraintTop_toTopOf="@id/v_home_psychological"
+    />
+    <TextView
+        android:id="@+id/tv_home_psychological"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_marginStart="12dp"
+        android:text="心理咨询"
+        android:textColor="#333333"
+        android:textSize="14sp"
+        app:layout_constraintStart_toEndOf="@id/iv_home_psychological"
+        app:layout_constraintTop_toTopOf="@id/iv_home_psychological"
+    />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="7dp"
+        android:text="优质服务资质保证"
+        android:textColor="#ff999999"
+        android:textSize="10sp"
+        app:layout_constraintStart_toEndOf="@id/iv_home_psychological"
+        app:layout_constraintTop_toBottomOf="@id/tv_home_psychological"
+    />
+
+    <!--电子商务-->
+    <View
+        android:id="@+id/v_home_business"
+        android:layout_width="0dp"
+        android:layout_height="125dp"
+        android:layout_marginEnd="17dp"
+        android:background="@drawable/selector_home_xl"
+        app:layout_constraintBottom_toBottomOf="@+id/v_home_legal_advice"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@id/v_home_psychological"
+    />
+
+    <ImageView
+        android:id="@+id/iv_home_business"
+        android:layout_width="47dp"
+        android:layout_height="47dp"
+        android:layout_marginStart="17dp"
+        android:src="@mipmap/ic_home_sw"
+        app:layout_constraintBottom_toBottomOf="@+id/v_home_business"
+        app:layout_constraintStart_toStartOf="@id/v_home_business"
+        app:layout_constraintTop_toTopOf="@id/v_home_business"
+    />
+
+
+    <TextView
+        android:id="@+id/tv_home_business"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:text="电子商务"
+        android:textColor="#333333"
+        android:textSize="14sp"
+        app:layout_constraintStart_toEndOf="@id/iv_home_business"
+        app:layout_constraintTop_toTopOf="@id/iv_home_business"
+    />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="7dp"
+        android:text="一站式购物平台"
+        android:textColor="#ff999999"
+        android:textSize="10sp"
+        app:layout_constraintStart_toEndOf="@id/iv_home_business"
+        app:layout_constraintTop_toBottomOf="@id/tv_home_business"
+    />
+
+
+</android.support.constraint.ConstraintLayout>
