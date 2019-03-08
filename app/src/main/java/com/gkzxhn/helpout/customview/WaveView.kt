@@ -8,7 +8,6 @@ import android.view.View
 import android.view.animation.LinearInterpolator
 import com.gkzxhn.helpout.R
 import com.gkzxhn.helpout.extensions.dp2px
-import com.netease.nim.uikit.common.util.log.LogUtil
 import kotlin.math.roundToInt
 
 
@@ -156,15 +155,16 @@ class WaveView : View {
         anim?.start()
     }
 
-    val updateListener = object : ValueAnimator.AnimatorUpdateListener {
+    private val updateListener = object : ValueAnimator.AnimatorUpdateListener {
         override fun onAnimationUpdate(it: ValueAnimator?) {
             val temp = System.currentTimeMillis()
-            LogUtil.d("temp time: ", (temp - tempTime).toString())
+//            LogUtil.d("temp time: ", (temp - tempTime).toString())
             if ((temp - tempTime) > 30) {
                 //30毫秒/帧以上再刷新
                 //位移差
                 val offset = waveSpeed.toFloat().dp2px() * (temp - tempTime) / 1000
                 val offset2 = waveSpeed2.toFloat().dp2px() * (temp - tempTime) / 1000
+
                 //总时间
                 val time = temp - startTime
                 val time2 = temp - startTime2
