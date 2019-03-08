@@ -73,7 +73,7 @@ class QualificationAuthenticationEditActivity : BaseActivity(), QualificationAut
 
     override fun init() {
         mPresenter = QualificationAuthenticationEditPresenter(this, this)
-        topTitle.text = "资格认证"
+        topTitle.text = "专家入驻——法律咨询师"
         if (intent.getBooleanExtra("again_Authentication", false)) {
             /****** 重新认证时先获取信息 ******/
             mPresenter.getCertification()

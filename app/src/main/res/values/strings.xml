@@ -147,5 +147,10 @@
     <string name="uploading">上传中...</string>
     <string name="upload_evidence">上传凭证</string>
     <string name="commit">提交</string>
+    <string name="storage_size_percent">约占据手机%s的存储空间</string>
+    <string name="had_no_cache">已经没有缓存文件</string>
+    <string name="clean_success">清理成功</string>
+    <string name="clean_storage_tips">清理缓存可能需要一点时间，清理过程请耐心等候</string>
+
 
 </resources>

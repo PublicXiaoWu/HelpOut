@@ -54,13 +54,9 @@ class SettingActivity : BaseActivity() {
     fun onClickSetting(view: View) {
         when (view.id) {
 
-        /****** 意见反馈 ******/
-            R.id.v_setting_idea_bg -> {
-                startActivity(Intent(this, IdeaSubmitActivity::class.java))
-            }
-        /****** 清除缓存 ******/
+        /****** 存储空间 ******/
             R.id.v_setting_clear_bg -> {
-                clearDialog()
+                startActivity(Intent(this, CleanStorageActivity::class.java))
             }
         /****** 版本更新 ******/
             R.id.v_setting_update_bg -> {

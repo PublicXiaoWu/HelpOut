@@ -26,7 +26,7 @@ class OrderReceivingPresenter(context: Context, view: OrderReceivingView) : Base
 
     fun getOrderReceiving(page: String, mCompositeSubscription: CompositeSubscription?) {
         mContext?.let {
-            mCompositeSubscription?.add(mModel.getOrderReceiving(it, page, "10")
+            mCompositeSubscription?.add(mModel.getOrderReceiving(it, page, "10","createdTime,desc")
                     .unsubscribeOn(AndroidSchedulers.mainThread())
                     ?.observeOn(AndroidSchedulers.mainThread())
                     ?.subscribe(object : HttpObserver<OrderReceiving>(it) {

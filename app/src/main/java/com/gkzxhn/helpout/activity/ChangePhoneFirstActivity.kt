@@ -5,7 +5,6 @@ import android.annotation.SuppressLint
 import android.view.View
 import com.gkzxhn.helpout.R
 import com.gkzxhn.helpout.presenter.PhoneChangePresenter
-import com.gkzxhn.helpout.utils.StringUtils
 import com.gkzxhn.helpout.view.PhoneChangeView
 import io.reactivex.Observable
 import io.reactivex.disposables.Disposable
@@ -38,7 +37,7 @@ class ChangePhoneFirstActivity : BaseActivity(), PhoneChangeView {
     override fun init() {
         mPresenter = PhoneChangePresenter(this, this)
         phoneNumber = intent.getStringExtra("phoneNumber")
-        tv_change_phone_number.text = StringUtils.phoneChange(phoneNumber)
+        tv_change_phone_number.text = phoneNumber
     }
 
     override fun getPhone(): String {

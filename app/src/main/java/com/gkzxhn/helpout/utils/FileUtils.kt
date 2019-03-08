@@ -4,6 +4,8 @@ import android.content.ContentResolver
 import android.content.ContentUris
 import android.content.Context
 import android.net.Uri
+import android.os.Environment
+import android.os.StatFs
 import android.provider.DocumentsContract
 import android.provider.MediaStore
 import android.text.TextUtils
@@ -105,6 +107,96 @@ object FileUtils{
             rc = inStream.read(buff, 0, 100)
         }
         return swapStream.toByteArray()
+    }
+
+
+    /**
+     * 获取指定文件夹的大小
+     *
+     * @param f
+     * @return
+     * @throws Exception
+     */
+    fun getFileSizes(f: File): Long {
+        var size: Long = 0
+        val flist = f.listFiles()
+                ?: //4.2的模拟器空指针。
+                return 0//文件夹目录下的所有文件
+        if (flist != null) {
+            for (i in flist.indices) {
+                if (flist[i].isDirectory) {//判断是否父目录下还有子目录
+                    size = size + getFileSizes(flist[i])
+                } else {
+                    size = size + getFileSize(flist[i])
+                }
+            }
+        }
+        return size
+    }
+
+    /**
+     * 获取指定文件的大小
+     *
+     * @return
+     * @throws Exception
+     */
+    fun getFileSize(file: File): Long {
+
+        var size: Long = 0
+        if (file.exists()) {
+            size = file.length()
+
+        } else {
+        }
+        return size
+    }
+
+    /**
+     * 获取手机内部空间总大小
+     *
+     * @return 大小，字节为单位
+     */
+    fun getTotalInternalMemorySize(): Long {
+        //获取内部存储根目录
+        val path = Environment.getDataDirectory()
+        //系统的空间描述类
+        val stat = StatFs(path.path)
+        //每个区块占字节数
+        val blockSize = stat.blockSize.toLong()
+        //区块总数
+        val totalBlocks = stat.blockCount.toLong()
+        return totalBlocks * blockSize
+    }
+
+
+    //删除指定文件夹下所有文件
+    //param path 文件夹完整绝对路径
+    fun delAllFile(path: String): Boolean {
+        var flag = false
+        val file = File(path)
+        if (!file.exists()) {
+            return flag
+        }
+        if (!file.isDirectory) {
+            return flag
+        }
+        val tempList = file.list()
+        var temp: File? = null
+        for (i in tempList!!.indices) {
+            if (path.endsWith(File.separator)) {
+                temp = File(path + tempList[i])
+            } else {
+                temp = File(path + File.separator + tempList[i])
+            }
+            if (temp.isFile) {
+                temp.delete()
+            }
+            if (temp.isDirectory) {
+                delAllFile(path + "/" + tempList[i])//先删除文件夹里面的文件
+                flag = true
+            }
+        }
+        return flag
     }
 
 

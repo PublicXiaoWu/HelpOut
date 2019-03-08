@@ -97,7 +97,12 @@ fun Bitmap.compressImage(file: File, size: Int): File? {
     }
     return file
 }
-
+fun Long.toGMKSizeStr(): String {
+    val gb = this / (1024 * 1024 * 1024)
+    val mb = this % (1024 * 1024 * 1024) / (1024 * 1024)
+    val kb = this % 1024
+    return if (gb == 0L) if (mb == 0L) if (kb == 0L) "0KB" else "${kb.toString()}KB" else "${mb.toString()}MB" else "${gb.toString()}GB"
+}
 
 
 

@@ -12,6 +12,7 @@ import com.gkzxhn.helpout.common.App
 import com.gkzxhn.helpout.common.Constants
 import com.gkzxhn.helpout.entity.AccountInfo
 import com.gkzxhn.helpout.entity.ImInfo
+import com.gkzxhn.helpout.entity.LawyersInfo
 import com.gkzxhn.helpout.model.ILoginModel
 import com.gkzxhn.helpout.model.iml.LoginModel
 import com.gkzxhn.helpout.net.HttpObserver
@@ -156,7 +157,6 @@ class LoginPresenter(context: Context, view: LoginView) : BasePresenter<ILoginMo
         }
     }
 
-
     /**
      * @methodName： created by liushaoxiang on 2018/10/19 11:51 AM.
      * @description：获取Token
@@ -180,6 +180,7 @@ class LoginPresenter(context: Context, view: LoginView) : BasePresenter<ILoginMo
                                     App.EDIT.putString(Constants.SP_TOKEN, token)?.commit()
                                     App.EDIT.putString(Constants.SP_REFRESH_TOKEN, refreshToken)?.commit()
                                     getImInfo()
+                                    getLawyersInfo()
                                 }
                             } else if (t.code() == 400) {
                                 when (JSONObject(t.errorBody().string()).getString("error")) {
@@ -237,6 +238,24 @@ class LoginPresenter(context: Context, view: LoginView) : BasePresenter<ILoginMo
 
     /**
      * @methodName： created by liushaoxiang on 2018/10/22 3:31 PM.
+     * @description：获取律师信息(获取用户的身份状态)
+     */
+    private fun getLawyersInfo() {
+        mContext?.let {
+            mModel.getLawyersInfo(it)
+                    .unsubscribeOn(AndroidSchedulers.mainThread())
+                    ?.unsubscribeOn(AndroidSchedulers.mainThread())
+                    ?.observeOn(AndroidSchedulers.mainThread())
+                    ?.subscribe(object : HttpObserver<LawyersInfo>(it) {
+                        override fun success(t: LawyersInfo) {
+                            App.EDIT.putString(Constants.SP_CERTIFICATIONSTATUS, t.certificationStatus)?.commit()
+                        }
+                    })
+        }
+    }
+
+    /**
+     * @methodName： created by liushaoxiang on 2018/10/22 3:31 PM.
      * @description：获取我的账号明细
      */
     private fun getAccountInfo() {
@@ -246,7 +265,7 @@ class LoginPresenter(context: Context, view: LoginView) : BasePresenter<ILoginMo
                     ?.observeOn(AndroidSchedulers.mainThread())
                     ?.subscribe(object : HttpObserverNoDialog<AccountInfo>(mContext!!) {
                         override fun success(t: AccountInfo) {
-                            if (t.nickname.isNullOrEmpty() || t.avatar.isNullOrEmpty()) {
+                            if (t.nickname.isNullOrEmpty()) {
                                 val intent = Intent(mContext, AccountInfoUpActivity::class.java)
                                 intent.putExtra("name", t.username)
                                 intent.putExtra("phoneNumber", t.phoneNumber)

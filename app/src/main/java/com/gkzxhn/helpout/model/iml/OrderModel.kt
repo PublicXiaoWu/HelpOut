@@ -31,9 +31,9 @@ class OrderModel : BaseModel(), IOrderModel {
                 ?.subscribeOn(Schedulers.io()) as Observable<OrderRushInfo>
     }
 
-    override fun getOrderReceiving(context: Context,page:String,size:String): Observable<OrderReceiving> {
+    override fun getOrderReceiving(context: Context,page:String,size:String,sort: String): Observable<OrderReceiving> {
         return RetrofitClient.Companion.getInstance(context).mApi
-                ?.getOrderReceiving(page,size)
+                ?.getOrderReceiving(page,size,sort)
                 ?.subscribeOn(Schedulers.io()) as Observable<OrderReceiving>
 
     }

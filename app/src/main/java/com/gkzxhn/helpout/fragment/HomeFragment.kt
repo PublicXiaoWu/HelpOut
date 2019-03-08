@@ -22,7 +22,6 @@ import rx.android.schedulers.AndroidSchedulers
  */
 class HomeFragment : BaseFragment() {
 
-
     override fun provideContentViewId(): Int {
         return R.layout.home_fragment
     }

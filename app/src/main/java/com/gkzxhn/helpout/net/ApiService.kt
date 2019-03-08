@@ -130,7 +130,7 @@ interface ApiService {
 
     //    获取抢单列表
     @GET("lawyer/rush/legal-advice")
-    fun getOrderReceiving(@Query("page") page: String, @Query("size") size: String): Observable<OrderReceiving>
+    fun getOrderReceiving(@Query("page") page: String, @Query("size") size: String,@Query("sort") sort: String): Observable<OrderReceiving>
 
     //    获取账单列表
     @GET("/bill")
