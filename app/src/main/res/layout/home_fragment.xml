@@ -236,5 +236,4 @@
         app:layout_constraintTop_toBottomOf="@id/tv_home_business"
     />
 
-
 </android.support.constraint.ConstraintLayout>
