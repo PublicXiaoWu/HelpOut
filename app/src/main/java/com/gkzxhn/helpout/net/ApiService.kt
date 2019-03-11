@@ -103,7 +103,7 @@ interface ApiService {
                  @Field("refresh_token") refreshToken: String? = null): Observable<Response<ResponseBody>>
 
     /*****  崩溃日志上传  */
-    @POST("lawyer/app-crash-log")
+    @POST("crash-logs")
     fun uploadCrash(@Body map: RequestBody): Observable<Response<Void>>
 
     /*****  修改头像  */

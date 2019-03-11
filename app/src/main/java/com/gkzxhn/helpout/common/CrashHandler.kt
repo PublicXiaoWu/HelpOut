@@ -2,7 +2,6 @@ package com.gkzxhn.helpout.common
 
 import android.content.Context
 import android.os.Build
-import android.util.Log
 import com.gkzxhn.helpout.entity.CrashLogger
 import com.gkzxhn.helpout.model.iml.LoginModel
 import com.gkzxhn.helpout.utils.ObtainVersion
@@ -52,10 +51,13 @@ private constructor() : Thread.UncaughtExceptionHandler {
      * 当UncaughtException发生时会转入该函数来处理
      */
     override fun uncaughtException(thread: Thread, ex: Throwable) {
+
         if (!handleException(ex) && mDefaultHandler != null) {
             //如果用户没有处理则让系统默认的异常处理器来处理
             mDefaultHandler!!.uncaughtException(thread, ex)
+
         } else {
+
             try {
                 Thread.sleep(50)
             } catch (e: InterruptedException) {
@@ -87,7 +89,8 @@ private constructor() : Thread.UncaughtExceptionHandler {
          *发送给服务器
          */
         uploadCrash(crashLogger)
-        return true
+
+        return false
     }
 
     /**
@@ -96,20 +99,19 @@ private constructor() : Thread.UncaughtExceptionHandler {
      */
     private fun uploadCrash(crashLogger: CrashLogger) {
         var map = LinkedHashMap<String, String>()
-        map.put("content", crashLogger.contents)
-        map.put("deviceName", crashLogger.deviceName)
-        map.put("sysVersion", crashLogger.sysVersion)
-        map.put("deviceType", crashLogger.deviceType)
+        map.put("platform", "ASSISTANT_APP")
         map.put("appVersion", crashLogger.appVersion)
+        map.put("deviceType", crashLogger.deviceType)
+        map.put("deviceName", crashLogger.deviceName)
+        map.put("deviceOsVersion", crashLogger.sysVersion)
+        map.put("detail", crashLogger.contents)
         var body = RequestBody.create(MediaType.parse("application/json; charset=utf-8"),
                 Gson().toJson(map))
         model.uploadCrash(App.mContext, body)
                 .subscribe({
                     it.code()
-                    Log.v("okhttp",it.code().toString())
                     flag = true
                 }, {
-                    Log.v("okhttp",it.message.toString())
                     flag = true
                 })
     }
@@ -124,7 +126,7 @@ private constructor() : Thread.UncaughtExceptionHandler {
         crashLogger.appVersion = ObtainVersion.getVersionName(App.mContext)
         crashLogger.contents = ex.message.toString()
         crashLogger.deviceName = Build.BRAND + "_" + Build.MODEL
-        crashLogger.deviceType = "Android"
+        crashLogger.deviceType = "1"
         crashLogger.sysVersion = Build.VERSION.SDK_INT.toString()
         crashLogger.phone = App.SP.getString(Constants.SP_PHONE, "unkown")
         return crashLogger
