@@ -13,7 +13,7 @@ data class OrderReceiving(
         var totalPages: Int,
         var totalElements: Int,
         var first: Boolean,
-        var sort: String?,
+        var sort: List<SortBean>,
         var numberOfElements: Int,
         var size: Int,
         var number: Int

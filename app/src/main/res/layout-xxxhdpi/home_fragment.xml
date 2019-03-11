@@ -9,7 +9,8 @@
     <ImageView
         android:id="@+id/v_home_top_bg"
         android:layout_width="match_parent"
-        android:layout_height="253dp"
+        app:layout_constraintHeight_percent="0.35"
+        android:layout_height="0dp"
         android:background="@mipmap/ic_home_top_adv"
     />
 
@@ -84,8 +85,9 @@
     <ImageView
         android:id="@+id/iv_home_have_a_tree"
         android:layout_width="match_parent"
-        android:layout_height="124dp"
+        android:layout_height="0dp"
         android:layout_marginEnd="17dp"
+        app:layout_constraintHeight_percent="0.2"
         android:layout_marginStart="17dp"
         android:layout_marginTop="14dp"
         android:background="@mipmap/ic_home_adv_tree"
@@ -94,10 +96,12 @@
     <!--法律咨询-->
     <View
         android:id="@+id/v_home_legal_advice"
+        android:layout_marginBottom="21dp"
         android:layout_width="0dp"
-        android:layout_height="284dp"
+        android:layout_height="0dp"
         android:layout_marginStart="17dp"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         android:background="@drawable/selector_home_fl"
         app:layout_constraintEnd_toStartOf="@id/v_home_psychological"
         app:layout_constraintStart_toStartOf="parent"
@@ -108,9 +112,10 @@
         android:id="@+id/iv_home_legal_advice"
         android:layout_width="70dp"
         android:layout_height="70dp"
-        android:layout_marginTop="80dp"
+        app:layout_constraintVertical_chainStyle="packed"
         android:src="@mipmap/ic_home_zx"
         app:layout_constraintEnd_toEndOf="@id/v_home_legal_advice"
+        app:layout_constraintBottom_toTopOf="@id/tv_home_legal_advice"
         app:layout_constraintStart_toStartOf="@id/v_home_legal_advice"
         app:layout_constraintTop_toTopOf="@id/v_home_legal_advice"
     />
@@ -125,11 +130,13 @@
         android:textColor="#333333"
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="@id/v_home_legal_advice"
+        app:layout_constraintBottom_toTopOf="@+id/tv_home_legal_advice_dec"
         app:layout_constraintStart_toStartOf="@id/v_home_legal_advice"
         app:layout_constraintTop_toBottomOf="@+id/iv_home_legal_advice"
     />
 
     <TextView
+        android:id="@+id/tv_home_legal_advice_dec"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="7dp"
@@ -137,6 +144,7 @@
         android:textColor="#ff999999"
         android:textSize="10sp"
         app:layout_constraintEnd_toEndOf="@id/v_home_legal_advice"
+        app:layout_constraintBottom_toBottomOf="@+id/v_home_legal_advice"
         app:layout_constraintStart_toStartOf="@id/v_home_legal_advice"
         app:layout_constraintTop_toBottomOf="@+id/tv_home_legal_advice"
     />
@@ -145,9 +153,11 @@
     <View
         android:id="@+id/v_home_psychological"
         android:layout_width="0dp"
-        android:layout_height="129dp"
+        android:layout_height="0dp"
         android:layout_marginEnd="17dp"
         android:layout_marginStart="6dp"
+        app:layout_constraintVertical_chainStyle="spread_inside"
+        app:layout_constraintBottom_toTopOf="@+id/v_home_business"
         android:background="@drawable/selector_home_xl"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/v_home_legal_advice"
@@ -192,10 +202,12 @@
     <View
         android:id="@+id/v_home_business"
         android:layout_width="0dp"
-        android:layout_height="125dp"
+        android:layout_height="0dp"
         android:layout_marginEnd="17dp"
+        android:layout_marginTop="15dp"
         android:background="@drawable/selector_home_xl"
         app:layout_constraintBottom_toBottomOf="@+id/v_home_legal_advice"
+        app:layout_constraintTop_toBottomOf="@+id/v_home_psychological"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@id/v_home_psychological"
     />
