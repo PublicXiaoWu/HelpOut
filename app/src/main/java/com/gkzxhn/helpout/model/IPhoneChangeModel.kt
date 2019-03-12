@@ -2,6 +2,7 @@ package com.gkzxhn.helpout.model
 
 import android.content.Context
 import okhttp3.RequestBody
+import okhttp3.ResponseBody
 import retrofit2.Response
 import rx.Observable
 
@@ -20,4 +21,5 @@ interface IPhoneChangeModel : IBaseModel {
     fun login(context: Context, body: RequestBody): Observable<Response<Void>>
 
     fun updatePhoneNumber(context: Context, body: RequestBody): Observable<Response<Void>>
+    fun getToken(context: Context, phoneNumber: String, code: String): Observable<Response<ResponseBody>>?
 }

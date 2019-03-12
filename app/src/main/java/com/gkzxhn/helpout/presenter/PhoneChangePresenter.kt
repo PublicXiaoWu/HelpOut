@@ -2,11 +2,16 @@ package com.gkzxhn.helpout.presenter
 
 import android.content.Context
 import android.content.Intent
+import android.text.TextUtils
+import android.util.Log
 import com.gkzxhn.helpout.R
 import com.gkzxhn.helpout.activity.ChangePhoneSecondActivity
+import com.gkzxhn.helpout.common.App
+import com.gkzxhn.helpout.common.Constants
 import com.gkzxhn.helpout.model.IPhoneChangeModel
 import com.gkzxhn.helpout.model.iml.PhoneChangeModel
 import com.gkzxhn.helpout.net.HttpObserver
+import com.gkzxhn.helpout.net.error_exception.ApiException
 import com.gkzxhn.helpout.utils.StringUtils
 import com.gkzxhn.helpout.utils.TsDialog
 import com.gkzxhn.helpout.utils.showToast
@@ -14,9 +19,13 @@ import com.gkzxhn.helpout.view.PhoneChangeView
 import com.google.gson.Gson
 import okhttp3.MediaType
 import okhttp3.RequestBody
+import okhttp3.ResponseBody
 import org.json.JSONObject
 import retrofit2.Response
+import retrofit2.adapter.rxjava.HttpException
 import rx.android.schedulers.AndroidSchedulers
+import java.io.IOException
+import java.net.ConnectException
 import java.util.*
 
 /**
@@ -26,7 +35,6 @@ import java.util.*
  */
 
 class PhoneChangePresenter(context: Context, view: PhoneChangeView) : BasePresenter<IPhoneChangeModel, PhoneChangeView>(context, PhoneChangeModel(), view) {
-
 
     fun login() {
         if (mView?.getCode()?.isEmpty()!!) {
@@ -93,9 +101,7 @@ class PhoneChangePresenter(context: Context, view: PhoneChangeView) : BasePresen
 
                                         }
                                         "user.Existed" -> {
-                                            /****** 已存在账号  表示验证通过  跳转下一步 ******/
-                                            mContext?.startActivity(Intent(mContext, ChangePhoneSecondActivity::class.java))
-                                            mView?.onFinish()
+                                            getToken(mView?.getPhone()!!, mView?.getCode()!!)
                                         }
                                     //user.password.NotMatched=账号密码不匹配。
                                         "user.password.NotMatched" -> {
@@ -117,6 +123,77 @@ class PhoneChangePresenter(context: Context, view: PhoneChangeView) : BasePresen
                 }
                 )
 
+    }
+
+    /**
+     * @methodName： created by liushaoxiang on 2018/10/19 11:51 AM.
+     * @description：获取Token
+     */
+    private fun getToken(phoneNumber: String, code: String) {
+        mContext?.let {
+            mModel.getToken(it, phoneNumber, code)?.observeOn(AndroidSchedulers.mainThread())
+                    ?.subscribe(object : HttpObserver<Response<ResponseBody>>(it) {
+                        override fun success(t: Response<ResponseBody>) {
+                            if (t.code() == 200) {
+                                val string = t.body().string()
+                                if (!TextUtils.isEmpty(string)) {
+                                    var token: String? = null
+                                    var refreshToken: String? = null
+                                    try {
+                                        token = JSONObject(string).getString("access_token")
+                                        refreshToken = JSONObject(string).getString("refresh_token")
+                                    } catch (e: Exception) {
+
+                                    }
+                                    App.EDIT.putString(Constants.SP_TOKEN, token)?.commit()
+                                    App.EDIT.putString(Constants.SP_REFRESH_TOKEN, refreshToken)?.commit()
+                                    /****** 已存在账号  表示验证通过  跳转下一步 ******/
+                                    mContext?.startActivity(Intent(mContext, ChangePhoneSecondActivity::class.java))
+                                    mView?.onFinish()
+                                }
+                            } else if (t.code() == 400) {
+                                when (JSONObject(t.errorBody().string()).getString("error")) {
+                                    "user.password.NotMatched" -> {
+                                        mContext?.TsDialog(mContext?.getString(R.string.password_error).toString(), false)
+                                    }
+                                    "user.group.NotMatched" -> {
+                                        mContext?.TsDialog(mContext?.getString(R.string.group_error).toString(), false)
+                                    }
+                                    "invalid_grant" -> {
+                                        mContext?.TsDialog(mContext?.getString(R.string.group_error_disable).toString(), false)
+                                    }
+                                    "user.sms.verification-code.NotMatched" -> {
+                                        mContext?.TsDialog(mContext?.getString(R.string.verify_number_error).toString(), false)
+                                    }
+                                    else -> {
+                                        mContext?.TsDialog("数据异常", false)
+                                    }
+                                }
+                            }
+
+                        }
+
+                        override fun onError(e: Throwable?) {
+                            loadDialog?.dismiss()
+                            when (e) {
+                                is ConnectException -> mContext?.TsDialog("服务器异常，请重试", false)
+                                is HttpException -> {
+                                    mContext?.TsDialog("服务器异常，请重试", false)
+                                }
+                                is IOException -> mContext?.TsDialog("数据加载失败，请检查您的网络", false)
+                            //后台返回的message
+                                is ApiException -> {
+                                    mContext?.TsDialog(e.message!!, false)
+                                    Log.e("ApiErrorHelper", e.message, e)
+                                }
+                                else -> {
+                                    mContext?.showToast("数据异常")
+                                    Log.e("ApiErrorHelper", e?.message, e)
+                                }
+                            }
+                        }
+                    })
+        }
     }
 
 
@@ -146,6 +223,17 @@ class PhoneChangePresenter(context: Context, view: PhoneChangeView) : BasePresen
                             204 -> {
                                 mContext?.showToast("更换成功")
                                 mView?.onFinish()
+                            }
+                            400 -> {
+                                val errorBody = t.errorBody().string()
+                                when (JSONObject(errorBody).getString("code")) {
+                                    "user.Existed" ->
+                                        mContext?.showToast(JSONObject(errorBody).getString("message").toString())
+                                    "sms.verification-code.NotMatched" ->
+                                        mContext?.showToast(JSONObject(errorBody).getString("message").toString())
+                                    else ->
+                                        mContext?.showToast(JSONObject(errorBody).getString("message").toString())
+                                }
                             }
                             else -> {
                                 mContext?.showToast(t.code().toString() + t.errorBody())

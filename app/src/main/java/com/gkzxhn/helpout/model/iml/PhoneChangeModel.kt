@@ -4,6 +4,7 @@ import android.content.Context
 import com.gkzxhn.helpout.model.IPhoneChangeModel
 import com.gkzxhn.helpout.net.RetrofitClientPublic
 import okhttp3.RequestBody
+import okhttp3.ResponseBody
 import retrofit2.Response
 import rx.Observable
 import rx.schedulers.Schedulers
@@ -36,4 +37,10 @@ class PhoneChangeModel : BaseModel(), IPhoneChangeModel {
                 ?.subscribeOn(Schedulers.io()) as Observable<Response<Void>>
     }
 
+
+    override fun getToken(context: Context, phoneNumber: String, code: String): Observable<Response<ResponseBody>>? {
+        return RetrofitClientPublic.Companion.getInstance(context)
+                .mApi?.getToken("password", phoneNumber, code)
+                ?.subscribeOn(Schedulers.io())
+    }
 }
