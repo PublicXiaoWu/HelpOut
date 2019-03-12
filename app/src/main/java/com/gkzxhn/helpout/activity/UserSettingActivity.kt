@@ -104,7 +104,6 @@ class UserSettingActivity : BaseActivity() {
                 var intent = Intent(this, ChangePhoneFirstActivity::class.java)
                 intent.putExtra("phoneNumber", phoneNumber)
                 startActivity(intent)
-                finish()
             }
         }
     }
