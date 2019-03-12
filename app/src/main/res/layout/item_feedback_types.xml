@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="43dp"
+              android:layout_marginEnd="@dimen/dimen_15"
+              android:layout_marginStart="@dimen/dimen_15"
+              android:background="@color/white"
+              android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="horizontal">
+
+        <CheckBox
+            android:id="@+id/cb_feedback_types"
+            android:layout_width="@dimen/dimen_16"
+            android:layout_height="@dimen/dimen_16"
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/cancel_reason_checkbox_selector"
+            android:button="@null"
+            android:checked="true"
+            android:clickable="false"/>
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="@dimen/dimen_10"
+            tools:text="反馈类型"
+            android:textColor="@color/text_gray"
+            android:textSize="@dimen/text_common"/>
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
+
+    </LinearLayout>
+
+    <View
+        android:id="@+id/view_line"
+        android:layerType="software"
+        android:layout_width="match_parent"
+        android:layout_height="1.3dp"
+        android:background="@drawable/im_line"/>
+
+</LinearLayout>

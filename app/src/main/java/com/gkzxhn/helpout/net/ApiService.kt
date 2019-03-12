@@ -118,7 +118,7 @@ interface ApiService {
     /*****  上传文件  */
     @POST("/files")
     @Multipart
-    fun uploadFiles(@Part file: MultipartBody.Part, @Query("type") page: String): Observable<UploadFile>
+    fun uploadFiles(@Part file: MultipartBody.Part, @Query("type") type: String): Observable<UploadFile>
 
     // 下载文件
     @GET("/files/{id}")
@@ -243,4 +243,16 @@ interface ApiService {
     fun getMyLawsOrder(@Query("page") page: Int,
                        @Query("size") size: Int = 10,
                        @Query("sort") sort: String? = null): Observable<OrderDispose>
+
+    /**
+     * 意见反馈
+     */
+    @POST("/feedbacks")
+    fun postFeedback(@Body requestBody: RequestBody): Observable<ResponseBody>
+
+    /**
+     * 删除指定文件
+     */
+    @DELETE("/files/{filename}")
+    fun deleteFile(@Path("filename") filename: String) : Observable<ResponseBody>
 }

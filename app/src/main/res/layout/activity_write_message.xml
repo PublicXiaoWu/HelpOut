@@ -66,8 +66,6 @@
 
                     <EditText
                         android:id="@+id/et_content_advice"
-                        android:focusable="true"
-                        android:focusableInTouchMode="true"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/dimen_120"
                         android:layout_alignParentBottom="true"

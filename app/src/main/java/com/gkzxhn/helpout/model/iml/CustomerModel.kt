@@ -6,9 +6,13 @@ import com.gkzxhn.helpout.extensions.getRequestBody
 import com.gkzxhn.helpout.net.RetrofitClient
 import com.gkzxhn.helpout.net.RetrofitClientPublic
 import com.google.gson.Gson
+import okhttp3.MediaType
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import okhttp3.ResponseBody
 import rx.Observable
 import rx.schedulers.Schedulers
+import java.io.File
 
 class CustomerModel (val context: Context) : BaseModel() {
 
@@ -110,5 +114,35 @@ class CustomerModel (val context: Context) : BaseModel() {
                 .mApi
                 .getMyLawsOrder(page)
                 .subscribeOn(Schedulers.io())
+    }
+
+    /**
+     * 提交意见反馈
+     */
+    fun postFeedBack(feedBackRequestInfo: FeedBackRequestInfo): Observable<ResponseBody>? {
+        return RetrofitClientPublic.getInstance(context)
+                .mApi
+                ?.postFeedback(Gson().getRequestBody(feedBackRequestInfo))
+                ?.subscribeOn(Schedulers.io())
+    }
+
+    /**
+     * 上传文件
+     */
+    fun uploadFiles(context: Context, file: File): Observable<UploadFile>? {
+        val requestFile = RequestBody.create(MediaType.parse("image/jpeg"), file)
+        val body = MultipartBody.Part.createFormData("file", file.name, requestFile)
+        return RetrofitClientPublic.getInstance(context)
+                .mApi?.uploadFiles(body,"PROTECTED")
+                ?.subscribeOn(Schedulers.io())
+    }
+
+    /**
+     * 删除指定文件
+     */
+    fun deleteFile(filename: String): Observable<ResponseBody>? {
+        return RetrofitClientPublic.getInstance(context)
+                .mApi?.deleteFile(filename)
+                ?.subscribeOn(Schedulers.io())
     }
 }

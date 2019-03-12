@@ -194,4 +194,23 @@ object ProjectUtils {
         }
     }
 
+    /**
+     * 意见反馈加载圆角图片
+     */
+    fun loadRoundCorner(context: Context, url: Any, imageView: ImageView) {
+        val token = App.SP.getString(Constants.SP_TOKEN, "")
+        if (token != null) {
+            if (token.isNotEmpty()) {
+                val mtoken = "Bearer $token"
+                val addHeader = LazyHeaders.Builder().addHeader("Authorization", mtoken)
+                val glideUrl =
+                        if (url is String) {
+                            GlideUrl(NetWorkCodeInfo.BASE_URL + "/files/" + url, addHeader.build())
+                        } else {
+                            url
+                        }
+                Glide.with(context).load(glideUrl).into(imageView)
+            }
+        }
+    }
 }

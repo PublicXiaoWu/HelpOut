@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="feedback_category">
+        <item>功能异常：功能故障或不可使用</item>
+        <item>产品建议：使用体验不佳，我有建议</item>
+        <item>安全问题：隐私信息不安全等</item>
+        <item>其他问题</item>
+    </string-array>
+</resources>

@@ -151,6 +151,10 @@
     <string name="had_no_cache">已经没有缓存文件</string>
     <string name="clean_success">清理成功</string>
     <string name="clean_storage_tips">清理缓存可能需要一点时间，清理过程请耐心等候</string>
+    <string name="feed_back">意见反馈</string>
 
+    <string name="feedback_type_title">（单选）请选择您想反馈的问题点</string>
+    <string name="upload_failed">上传失败</string>
+    <string name="commit_success">提交成功</string>
 
 </resources>

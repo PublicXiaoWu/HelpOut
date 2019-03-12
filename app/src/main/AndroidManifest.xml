@@ -127,6 +127,7 @@
         <activity android:name=".activity.CustomerOrderDetailActivity"
                   android:screenOrientation="portrait"
             />
+        <activity android:name=".activity.ImageActivity"/>
 
         <provider
             android:name="android.support.v4.content.FileProvider"

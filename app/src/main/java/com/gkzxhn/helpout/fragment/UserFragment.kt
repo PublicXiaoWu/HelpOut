@@ -82,7 +82,7 @@ class UserFragment : BaseFragment(), View.OnClickListener {
             R.id.v_user_rz_bg -> {
                 context?.startActivity(Intent(context, ExpertActivity::class.java))
             }
-//            所有订单
+//            意见反馈
             R.id.v_user_idea_submit_bg -> {
                 context?.startActivity(Intent(context, IdeaSubmitActivity::class.java))
             }

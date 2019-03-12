@@ -1,19 +1,38 @@
 package com.gkzxhn.helpout.activity
 
+import android.Manifest
+import android.app.Activity
+import android.content.Intent
+import android.net.Uri
+import android.os.Build
+import android.provider.MediaStore
+import android.support.v4.content.FileProvider
+import android.support.v7.widget.LinearLayoutManager
+import android.text.Editable
+import android.text.TextUtils
+import android.text.TextWatcher
+import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
+import android.widget.ScrollView
 import com.gkzxhn.helpout.R
-import com.gkzxhn.helpout.net.HttpObserver
-import com.gkzxhn.helpout.net.RetrofitClient
-import com.gkzxhn.helpout.utils.ProjectUtils
-import com.gkzxhn.helpout.utils.showToast
-import com.google.gson.Gson
-import kotlinx.android.synthetic.main.activity_idea_submit.*
-import okhttp3.MediaType
-import okhttp3.RequestBody
-import retrofit2.Response
+import com.gkzxhn.helpout.adapter.FeedbackTypesAdapter
+import com.gkzxhn.helpout.common.IntentConstants
+import com.gkzxhn.helpout.entity.FeedBackRequestInfo
+import com.gkzxhn.helpout.entity.UIInfo.NormalListItem
+import com.gkzxhn.helpout.extensions.filterEmoji
+import com.gkzxhn.helpout.presenter.FeedBackPresenter
+import com.gkzxhn.helpout.utils.*
+import com.gkzxhn.helpout.view.FeedBackView
+import com.tbruyelle.rxpermissions2.Permission
+import com.tbruyelle.rxpermissions2.RxPermissions
+import kotlinx.android.synthetic.main.activity_write_message.*
+import kotlinx.android.synthetic.main.default_top.*
+import rx.Observable
+import rx.Subscription
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
-import java.util.*
+import java.io.File
 
 /**
  * @classname：IdeaSubmitActivity
@@ -21,55 +40,391 @@ import java.util.*
  * @date：2018/10/12 11:55 AM
  * @description：意见 反馈
  */
-class IdeaSubmitActivity : BaseActivity() {
+class IdeaSubmitActivity : BaseActivity(), FeedBackView {
+
+    var evidenceFile1: File? = null
+    var evidenceFile2: File? = null
+    var evidenceFile3: File? = null
+    var evidenceFile4: File? = null
+
+    var evidenceUrl1: String? = null
+    var evidenceUrl2: String? = null
+    var evidenceUrl3: String? = null
+    var evidenceUrl4: String? = null
+
+    var disposables = hashMapOf<Int, Subscription>()
+    private lateinit var mPresenter: FeedBackPresenter
+
+    companion object {
+        val WRITE_MESSAGE_CODE = 1
+        fun launch(context: Activity, type: Int = 0) {
+            val intent = Intent(context, IdeaSubmitActivity::class.java)
+            intent.putExtra(IntentConstants.ID, type)
+            context.startActivityForResult(intent, WRITE_MESSAGE_CODE)
+        }
+    }
 
     override fun provideContentViewId(): Int {
-        return R.layout.activity_idea_submit
+        return R.layout.activity_write_message
     }
 
     override fun init() {
-        ProjectUtils.addViewTouchChange(tv_idea_submit_send)
+        mPresenter = FeedBackPresenter(this, this)
+        initToolbar()
+        initRecyclerView()
+        setListeners()
+        setOnclick()
+//        presenter.init(type)
     }
 
-    fun onClickIdeaSubmit(view: View) {
-        when (view.id) {
-            R.id.iv_idea_submit_back -> {
-                finish()
+    private fun initToolbar() {
+        tv_default_top_title.text = getString(R.string.feed_back)
+        iv_default_top_back.setOnClickListener { finish() }
+    }
+
+    private lateinit var mAdapter: FeedbackTypesAdapter
+
+    private var problem: String? = null
+
+    private fun initRecyclerView() {
+        val reasons = resources.getStringArray(R.array.feedback_category)
+                .mapIndexed { index, it ->
+                    NormalListItem(text = it, isCheck = index == 0, id = index.toLong())
+                }
+        problem = try {
+            reasons[0].text
+        } catch (e: Exception) {
+            null
+        }
+        rv_feedback_types.layoutManager = LinearLayoutManager(this)
+        mAdapter = FeedbackTypesAdapter(null)
+        mAdapter.setOnItemClickListener { adapter, view, position ->
+            if (position != mAdapter.checkedPosition) {
+                problem = mAdapter.data[position].text
+                mAdapter.data[position].isCheck = true
+                mAdapter.data[mAdapter.checkedPosition].isCheck = false
+                mAdapter.notifyItemChanged(position + mAdapter.headerLayoutCount)
+                mAdapter.notifyItemChanged(mAdapter.checkedPosition + mAdapter.headerLayoutCount)
             }
-            R.id.tv_idea_submit_send -> {
-                val titile = et_idea_submit_title.text.trim().toString()
-                val content = et_idea_submit_content.text.trim().toString()
-                if (titile.isNotEmpty() && content.isNotEmpty()) {
-                    submitSend(titile, content)
-                } else {
-                    showToast("请完成输入再提交")
+        }
+        val headerView = LayoutInflater.from(this).inflate(R.layout.layout_title_view, null, false)
+        mAdapter.addHeaderView(headerView)
+        rv_feedback_types.adapter = mAdapter
+        mAdapter.setNewData(reasons)
+    }
+
+    var hasScrollDown = false
+
+    private fun setListeners() {
+        et_content_advice.setOnFocusChangeListener { v, hasFocus ->
+            if (hasFocus && !hasScrollDown) {
+                scroll_view.postDelayed({
+                    scroll_view.fullScroll(ScrollView.FOCUS_DOWN)
+                    hasScrollDown = true
+//                    et_content_advice.requestFocus()
+                }, 100)
+            } else {
+            }
+        }
+        et_content_advice.setOnClickListener {
+            if (!hasScrollDown) {
+                scroll_view.postDelayed({
+                    scroll_view.fullScroll(ScrollView.FOCUS_DOWN)
+                    hasScrollDown = true
+//                    et_content_advice.requestFocus()
+                }, 100)
+            } else {
+            }
+        }
+        et_content_advice.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                if (!TextUtils.isEmpty(s)) {
+                    if (s?.length ?: 0 > 300) {
+                        et_content_advice.setText(s?.subSequence(0, 300))
+                        et_content_advice.setSelection(300)
+                    } else {
+                        tv_text_count.text = "${s?.length}/300"
+                    }
+                }
+            }
+        })
+    }
+
+    private fun setOnclick() {
+        tv_upload_evidence.setOnClickListener {
+            requestPermission()
+        }
+
+        iv_evidence_pic1.setOnClickListener {
+            val uri = file2Uri(evidenceFile1)
+            if ((uri != null)) {
+                ImageActivity.launch(this, uri, imageView = iv_evidence_pic1)
+            }
+        }
+        iv_evidence_pic2.setOnClickListener {
+            val uri = file2Uri(evidenceFile2)
+            if ((uri != null)) {
+                ImageActivity.launch(this, uri, imageView = iv_evidence_pic2)
+            }
+        }
+        iv_evidence_pic3.setOnClickListener {
+            val uri = file2Uri(evidenceFile3)
+            if ((uri != null)) {
+                ImageActivity.launch(this, uri, imageView = iv_evidence_pic3)
+            }
+        }
+        iv_evidence_pic4.setOnClickListener {
+            val uri = file2Uri(evidenceFile4)
+            if ((uri != null)) {
+                ImageActivity.launch(this, uri, imageView = iv_evidence_pic4)
+            }
+        }
+
+        iv_close_evidence1.setOnClickListener {
+            evidenceUrl1?.let { it1 -> mPresenter.deleteImg(it1) }
+            evidenceFile1 = null
+            evidenceUrl1 = null
+            fl_evidence_pic1.visibility = View.GONE
+            tv_upload_evidence.visibility = View.VISIBLE
+            if (disposables[0]?.isUnsubscribed == false) {
+                disposables[0]?.unsubscribe()
+            }
+        }
+        iv_close_evidence2.setOnClickListener {
+            evidenceUrl2?.let { it1 -> mPresenter.deleteImg(it1) }
+            evidenceFile2 = null
+            evidenceUrl2 = null
+            fl_evidence_pic2.visibility = View.GONE
+            tv_upload_evidence.visibility = View.VISIBLE
+            if (disposables[1]?.isUnsubscribed == false) {
+                disposables[1]?.unsubscribe()
+            }
+        }
+        iv_close_evidence3.setOnClickListener {
+            evidenceUrl3?.let { it1 -> mPresenter.deleteImg(it1) }
+            evidenceFile3 = null
+            evidenceUrl3 = null
+            fl_evidence_pic3.visibility = View.GONE
+            tv_upload_evidence.visibility = View.VISIBLE
+            if (disposables[2]?.isUnsubscribed == false) {
+                disposables[2]?.unsubscribe()
+            }
+        }
+        iv_close_evidence4.setOnClickListener {
+            evidenceUrl4?.let { it1 -> mPresenter.deleteImg(it1) }
+            evidenceFile4 = null
+            evidenceUrl4 = null
+            fl_evidence_pic4.visibility = View.GONE
+            tv_upload_evidence.visibility = View.VISIBLE
+            if (disposables[3]?.isUnsubscribed == false) {
+                disposables[3]?.unsubscribe()
+            }
+        }
+
+        bt_commit.setOnClickListener {
+            val content = et_content_advice.text.toString().filterEmoji()
+            et_content_advice.setText(content)
+            if (TextUtils.isEmpty(content) || content.length < 10) {
+                showToast(getString(R.string.please_enter_content))
+                return@setOnClickListener
+            }
+
+            disposables.forEach {
+                if (!it.value.isUnsubscribed) {
+                    showToast("还有图片正在上传,请稍后")
+                    return@setOnClickListener
+                }
+            }
+
+            val feedBackRequestInfo = FeedBackRequestInfo()
+            feedBackRequestInfo.problem = problem
+            feedBackRequestInfo.detail = content
+            val attachments = arrayListOf<String>()
+            evidenceUrl1?.let { it1 -> attachments.add(it1) }
+            evidenceUrl2?.let { it1 -> attachments.add(it1) }
+            evidenceUrl3?.let { it1 -> attachments.add(it1) }
+            evidenceUrl4?.let { it1 -> attachments.add(it1) }
+            feedBackRequestInfo.attachments = attachments
+
+            mPresenter.postFeedBack(feedBackRequestInfo)
+        }
+    }
+
+    fun requestPermission() {
+        var storageFlag = 0
+        RxPermissions(this)
+                .requestEach(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE)
+                .subscribe({ permission: Permission ->
+                    if (permission.granted) {
+                        // 用户已经同意该权限
+                        if (++storageFlag == 2) {
+                            chooseAlbum()
+                        }
+                        Log.d(javaClass.simpleName, permission.name + " is granted.")
+                    } else if (permission.shouldShowRequestPermissionRationale) {
+                        // 用户拒绝了该权限，没有选中『不再询问』（Never ask again）,那么下次再次启动时，还会提示请求权限的对话框
+                        Log.d(javaClass.simpleName, permission.name + " is denied. More info should be provided.");
+                        showToast(getString(R.string.please_agree_permission))
+                    } else {
+                        // 用户拒绝了该权限，并且选中『不再询问』
+                        Log.d(javaClass.simpleName, permission.name + " is denied.")
+                        showToast(getString(R.string.please_agree_permission))
+                    }
+                }, {
+                    it.message.toString().logE(this)
+                })
+    }
+
+    private val CHOOSE_PHOTO_CODE = 1
+
+    /**
+     * 相册选择图片
+     */
+    private fun chooseAlbum() {
+        val openAlbumIntent = Intent(Intent.ACTION_PICK)
+        openAlbumIntent.setDataAndType(
+                MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {//如果大于等于7.0使用FileProvider
+            val mGalleryFile = File(File(externalCacheDir, "photo"), "12345.jpg")
+            val uriForFile = FileProvider.getUriForFile(this, "${packageName}.fileprovider", mGalleryFile)
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, uriForFile)
+            intent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
+            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+        }
+        startActivityForResult(Intent.createChooser(openAlbumIntent, "File Browser"), CHOOSE_PHOTO_CODE)
+    }
+
+    private fun file2Uri(file: File?): Uri? {
+        val uri = if (Build.VERSION.SDK_INT >= 24) {
+            file?.let { it1 -> FileProvider.getUriForFile(this, "${packageName}.fileprovider", it1) }
+        } else {
+            Uri.fromFile(file)
+        }
+        return uri
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == Activity.RESULT_OK) {
+            when (requestCode) {
+                CHOOSE_PHOTO_CODE -> {
+                    if (data == null || data.data == null) {
+                        return
+                    }
+                    val file = FileUtils.getFileByUri(data!!.data, this)
+                    var bitmap = ImageUtils.decodeSampledBitmapFromFilePath(file!!.absolutePath, 720, 720)
+                    // 部分手机会对图片做旋转，这里检测旋转角度
+                    val degree = FaceUtil.readPictureDegree(file!!.absolutePath)
+                    if (degree != 0) {
+                        // 把图片旋转为正的方向
+                        bitmap = FaceUtil.rotateImage(degree, bitmap)
+                    }
+                    val dir = File(externalCacheDir, "photo")
+                    if (!dir.exists()) {
+                        dir.mkdirs()
+                    }
+                    var cacheFile: File? = null
+                    var tempPosition: Int = -1
+                    if (evidenceFile1 == null) {
+                        tempPosition = 0
+                        evidenceFile1 = File(dir, "evidence_pic_$tempPosition.jpg")
+                        cacheFile = evidenceFile1
+                        fl_evidence_pic1.visibility = View.VISIBLE
+                        tv_upload_status1.visibility = View.VISIBLE
+                        ProjectUtils.loadRoundCorner(this, data.data, iv_evidence_pic1)
+//                        iv_evidence_pic1.setImageBitmap(bitmap)
+                    } else if (evidenceFile2 == null) {
+                        tempPosition = 1
+                        evidenceFile2 = File(dir, "evidence_pic_$tempPosition.jpg")
+                        cacheFile = evidenceFile2
+                        fl_evidence_pic2.visibility = View.VISIBLE
+                        tv_upload_status2.visibility = View.VISIBLE
+                        ProjectUtils.loadRoundCorner(this, data.data, iv_evidence_pic2)
+                    } else if (evidenceFile3 == null) {
+                        tempPosition = 2
+                        evidenceFile3 = File(dir, "evidence_pic_$tempPosition.jpg")
+                        cacheFile = evidenceFile3
+                        fl_evidence_pic3.visibility = View.VISIBLE
+                        tv_upload_status3.visibility = View.VISIBLE
+                        ProjectUtils.loadRoundCorner(this, data.data, iv_evidence_pic3)
+                    } else if (evidenceFile4 == null) {
+                        tempPosition = 3
+                        evidenceFile4 = File(dir, "evidence_pic_$tempPosition.jpg")
+                        cacheFile = evidenceFile4
+                        fl_evidence_pic4.visibility = View.VISIBLE
+                        tv_upload_status4.visibility = View.VISIBLE
+                        tv_upload_evidence.visibility = View.GONE
+                        ProjectUtils.loadRoundCorner(this, data.data, iv_evidence_pic4)
+                    }
+                    Observable.create<File> {
+                        it.onNext(cacheFile?.let { it1 -> bitmap.compressImage(it1, 300) }!!)
+                    }/*.bindToLifecycle(this)*/
+                            .subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe {
+                                mPresenter.uploadImg(tempPosition, it)?.let { disposables[tempPosition] = it }
+                            }
+                }
+                else -> {
                 }
             }
         }
     }
 
-    private fun submitSend(titile: String, content: String) {
-        var map = LinkedHashMap<String, String>()
-        map["title"] = titile
-        map["content"] = content
-        var Body = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), Gson().toJson(map))
-        RetrofitClient.getInstance(this).mApi?.feedback(Body)
-                ?.subscribeOn(Schedulers.io())
-                ?.unsubscribeOn(AndroidSchedulers.mainThread())
-                ?.observeOn(AndroidSchedulers.mainThread())
-                ?.subscribe(object : HttpObserver<Response<Void>>(this) {
-                    override fun success(t: Response<Void>) {
-                        when (t.code()) {
-                            204 -> {
-                                showToast("反馈成功")
-                                finish()
-                            }
-                            else -> {
-                                showToast("错误码：" + t.code().toString() + t.message())
-                            }
-                        }
-                    }
-                })
+    //上传成功
+    override fun showUploadSuccess(position: Int, url: String) {
+        when (position) {
+            0 -> {
+                tv_upload_status1.visibility = View.GONE
+                evidenceUrl1 = url
+            }
+            1 -> {
+                tv_upload_status2.visibility = View.GONE
+                evidenceUrl2 = url
+            }
+            2 -> {
+                tv_upload_status3.visibility = View.GONE
+                evidenceUrl3 = url
+            }
+            3 -> {
+                tv_upload_status4.visibility = View.GONE
+                evidenceUrl4 = url
+            }
+            else -> {
+            }
+        }
+    }
+
+    //图片上传失败
+    override fun showUploadError(position: Int, e: Throwable) {
+        when (position) {
+            0 -> {
+                tv_upload_status1
+            }
+            1 -> {
+                tv_upload_status2
+            }
+            2 -> {
+                tv_upload_status3
+            }
+            3 -> {
+                tv_upload_status4
+            }
+            else -> {
+                null
+            }
+        }?.let { it.text = getString(R.string.upload_failed) }
+    }
+
+    override fun uploadSuccess() {
+        showToast(getString(R.string.commit_success))
+        finish()
     }
 
 }
