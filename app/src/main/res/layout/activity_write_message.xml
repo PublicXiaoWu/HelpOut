@@ -295,7 +295,9 @@
 
             <Button
                 android:id="@+id/bt_commit"
-                android:layout_width="@dimen/dimen_330"
+                android:layout_width="match_parent"
+                android:layout_marginStart="@dimen/dimen_15"
+                android:layout_marginEnd="@dimen/dimen_15"
                 android:layout_height="@dimen/dimen_44"
                 android:layout_gravity="center_horizontal|bottom"
                 android:layout_marginBottom="@dimen/dimen_20"
