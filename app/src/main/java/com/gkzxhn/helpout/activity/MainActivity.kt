@@ -16,7 +16,7 @@ import com.gkzxhn.helpout.fragment.HomeFragment
 import com.gkzxhn.helpout.fragment.MyConsultFragment
 import com.gkzxhn.helpout.fragment.UserFragment
 import com.gkzxhn.helpout.net.HttpObserver
-import com.gkzxhn.helpout.net.RetrofitClient
+import com.gkzxhn.helpout.net.RetrofitClientPublic
 import com.gkzxhn.helpout.net.error_exception.ApiException
 import com.gkzxhn.helpout.utils.ObtainVersion
 import com.gkzxhn.helpout.utils.TsClickDialog
@@ -119,11 +119,11 @@ class MainActivity : BaseActivity() {
      * @description：检查更新
      */
     private fun updateApp() {
-        mCompositeSubscription.add(RetrofitClient.getInstance(this).mApi.updateApp()
-                .subscribeOn(rx.schedulers.Schedulers.io())
-                .unsubscribeOn(AndroidSchedulers.mainThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(object : HttpObserver<UpdateInfo>(this) {
+        mCompositeSubscription.add(RetrofitClientPublic.getInstance(this).mApi?.updateApp()
+                ?.subscribeOn(rx.schedulers.Schedulers.io())
+                ?.unsubscribeOn(AndroidSchedulers.mainThread())
+                ?.observeOn(AndroidSchedulers.mainThread())
+                ?.subscribe(object : HttpObserver<UpdateInfo>(this) {
                     override fun success(t: UpdateInfo) {
                         val versionCode = ObtainVersion.getVersionCode(App.mContext)
                         if (t.number!! > versionCode) {
