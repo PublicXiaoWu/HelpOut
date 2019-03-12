@@ -126,7 +126,7 @@ private constructor() : Thread.UncaughtExceptionHandler {
         crashLogger.appVersion = ObtainVersion.getVersionName(App.mContext)
         crashLogger.contents = ex.message.toString()
         crashLogger.deviceName = Build.BRAND + "_" + Build.MODEL
-        crashLogger.deviceType = "1"
+        crashLogger.deviceType = "ANDROID"
         crashLogger.sysVersion = Build.VERSION.SDK_INT.toString()
         crashLogger.phone = App.SP.getString(Constants.SP_PHONE, "unkown")
         return crashLogger

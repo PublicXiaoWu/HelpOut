@@ -10,7 +10,7 @@ import com.gkzxhn.helpout.common.App
 import com.gkzxhn.helpout.common.Constants
 import com.gkzxhn.helpout.entity.UpdateInfo
 import com.gkzxhn.helpout.net.HttpObserver
-import com.gkzxhn.helpout.net.RetrofitClient
+import com.gkzxhn.helpout.net.RetrofitClientPublic
 import com.gkzxhn.helpout.net.error_exception.ApiException
 import com.gkzxhn.helpout.utils.*
 import com.netease.nimlib.sdk.NIMClient
@@ -111,7 +111,7 @@ class SettingActivity : BaseActivity() {
     }
 
     private fun updateApp() {
-        RetrofitClient.getInstance(this).mApi?.updateApp()
+        RetrofitClientPublic.getInstance(this).mApi?.updateApp()
                 ?.subscribeOn(Schedulers.io())
                 ?.unsubscribeOn(AndroidSchedulers.mainThread())
                 ?.observeOn(AndroidSchedulers.mainThread())

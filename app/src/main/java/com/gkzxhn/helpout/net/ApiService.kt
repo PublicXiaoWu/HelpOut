@@ -69,7 +69,7 @@ interface ApiService {
     /**
      *获取android最新版本
      */
-    @GET("lawyer/app-version/android/latest")
+    @GET("versions/ASSISTANT_APP/ANDROID ")
     fun updateApp(): Observable<UpdateInfo>
 
     /****** 设置接单状态 ******/

@@ -230,7 +230,7 @@ abstract class BaseActivity : AppCompatActivity() {
     fun showDownloadDialog(updateInfo: UpdateInfo) {
         downloadDialog = downloadDialog ?: MaterialDialog.Builder(this)
                 .customView(R.layout.dialog_seeting_update, false)
-                .cancelable(!updateInfo.force!!)
+                .cancelable(!updateInfo.forced!!)
                 .show()
 
         if (!downloadDialog?.isShowing!!) {
@@ -249,12 +249,12 @@ abstract class BaseActivity : AppCompatActivity() {
         tvCancel = downloadDialog?.customView!!.findViewById<TextView>(R.id.tv_update_dialog_cancel)
         tvConfirm = downloadDialog?.customView!!.findViewById<TextView>(R.id.tv_update_dialog_update)
         v_line = downloadDialog?.customView!!.findViewById<TextView>(R.id.v_dialog_update)
-        tvCancel.visibility = if (updateInfo.force!!) {
+        tvCancel.visibility = if (updateInfo.forced!!) {
             v_line.visibility = View.GONE
             View.GONE
         } else View.VISIBLE
 
-        val filters = HttpDownManager.getInstance().downInfos.filter { updateInfo.fileId == it.url }
+        val filters = HttpDownManager.getInstance().downInfos.filter { updateInfo.packageFile == it.url }
         if (filters.isNotEmpty()) {
             downloadInfo = filters[0]
         }
@@ -284,7 +284,7 @@ abstract class BaseActivity : AppCompatActivity() {
             tvConfirm.text = status
         }
 
-        tvVersionNumber.text = "V${updateInfo.code}"
+        tvVersionNumber.text = "V${updateInfo.name}"
         setDownloadDialogClick(tvCancel, tvConfirm, updateInfo)
     }
 
@@ -305,7 +305,7 @@ abstract class BaseActivity : AppCompatActivity() {
                 }
 
                 downloadInfo?.baseUrl = NetWorkCodeInfo.BASE_URL
-                downloadInfo?.url = updateInfo?.fileId
+                downloadInfo?.url = updateInfo?.packageFile
                 downloadInfo?.savePath = File(externalFilesDir, Constants.APK_ADRESS).absolutePath
 
                 downloadInfo?.listener = object : HttpProgressOnNextListener<DownInfo>() {

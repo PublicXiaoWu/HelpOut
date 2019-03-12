@@ -10,7 +10,7 @@ android {
         applicationId "com.gkzxhn.helpout"
         minSdkVersion 19
         targetSdkVersion 26
-        versionCode 9
+        versionCode 5
         versionName "0.1.9"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
