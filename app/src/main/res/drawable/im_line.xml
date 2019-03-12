@@ -7,7 +7,7 @@
         android:dashGap="3dp"
         android:dashWidth="7dp"
         android:width="1dp"
-        android:color="@color/gray_light" />
+        android:color="@color/line_login" />
 
     <size
         android:height="1.3dp"/>

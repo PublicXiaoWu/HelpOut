@@ -10,11 +10,14 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.model.GlideUrl
 import com.bumptech.glide.load.model.LazyHeaders
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.signature.ObjectKey
 import com.gkzxhn.helpout.R
 import com.gkzxhn.helpout.common.App
 import com.gkzxhn.helpout.common.Constants
+import com.gkzxhn.helpout.customview.CenterCropRoundCornerTransform
+import com.gkzxhn.helpout.extensions.dp2px
 import com.gkzxhn.helpout.net.NetWorkCodeInfo
 import java.io.File
 
@@ -172,6 +175,7 @@ object ProjectUtils {
             }
         }
     }
+
     /****** 加载自已的头像 ******/
     fun loadMyIconNoRound(context: Context?, imageview: ImageView?) {
         val token = App.SP.getString(Constants.SP_TOKEN, "")
@@ -207,7 +211,13 @@ object ProjectUtils {
                         } else {
                             url
                         }
-                Glide.with(context).load(glideUrl).into(imageView)
+                val options = RequestOptions()
+                options.transform(CenterCropRoundCornerTransform(6f.dp2px()))
+                Glide.with(context)
+                        .load(glideUrl)
+                        .transition(DrawableTransitionOptions.withCrossFade())
+                        .apply(RequestOptions.bitmapTransform(CenterCropRoundCornerTransform(6f.dp2px())))
+                        .into(imageView)
             }
         }
     }

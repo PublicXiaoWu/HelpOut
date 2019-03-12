@@ -18,5 +18,6 @@ class FeedbackTypesAdapter(datas: List<NormalListItem>?) : BaseQuickAdapter<Norm
         if (isChecked) checkedPosition = helper?.adapterPosition?.let { it - headerLayoutCount } ?: -1
         helper?.setText(R.id.tv_title, item?.text)
                 ?.setChecked(R.id.cb_feedback_types, isChecked)
+                ?.setVisible(R.id.view_line, helper.layoutPosition != 4)
     }
 }

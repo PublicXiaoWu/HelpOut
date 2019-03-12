@@ -15,6 +15,8 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.ScrollView
+import com.afollestad.materialdialogs.GravityEnum
+import com.afollestad.materialdialogs.MaterialDialog
 import com.gkzxhn.helpout.R
 import com.gkzxhn.helpout.adapter.FeedbackTypesAdapter
 import com.gkzxhn.helpout.common.IntentConstants
@@ -121,7 +123,7 @@ class IdeaSubmitActivity : BaseActivity(), FeedBackView {
                 scroll_view.postDelayed({
                     scroll_view.fullScroll(ScrollView.FOCUS_DOWN)
                     hasScrollDown = true
-//                    et_content_advice.requestFocus()
+                    et_content_advice.requestFocus()
                 }, 100)
             } else {
             }
@@ -131,7 +133,7 @@ class IdeaSubmitActivity : BaseActivity(), FeedBackView {
                 scroll_view.postDelayed({
                     scroll_view.fullScroll(ScrollView.FOCUS_DOWN)
                     hasScrollDown = true
-//                    et_content_advice.requestFocus()
+                    et_content_advice.requestFocus()
                 }, 100)
             } else {
             }
@@ -158,7 +160,7 @@ class IdeaSubmitActivity : BaseActivity(), FeedBackView {
 
     private fun setOnclick() {
         tv_upload_evidence.setOnClickListener {
-            requestPermission()
+            showListDialog("evidence.jpg", false)
         }
 
         iv_evidence_pic1.setOnClickListener {
@@ -256,6 +258,31 @@ class IdeaSubmitActivity : BaseActivity(), FeedBackView {
         }
     }
 
+    /**
+     * 弹出图片来源选择窗
+     */
+    private fun showListDialog(fileName: String, front: Boolean) {
+        MaterialDialog.Builder(this)
+                .title(getString(R.string.please_choice_photo_from))
+                .items(getString(R.string.take_photo), getString(R.string.photo_album))
+                .itemsGravity(GravityEnum.START)
+                .itemsCallback { dialog, itemView, position, text ->
+                    when (position) {
+                        0 -> {
+                            //拍照
+                            requestPermission(fileName, TAKE_PHOTO_IMAGE, front)
+                        }
+                        1 -> {
+                            //相册选择图片
+                            requestPermission()
+                        }
+                        else -> {
+                        }
+                    }
+                }
+                .show()
+    }
+
     fun requestPermission() {
         var storageFlag = 0
         RxPermissions(this)
@@ -282,6 +309,7 @@ class IdeaSubmitActivity : BaseActivity(), FeedBackView {
     }
 
     private val CHOOSE_PHOTO_CODE = 1
+    private val TAKE_PHOTO_IMAGE = 2
 
     /**
      * 相册选择图片
@@ -313,11 +341,18 @@ class IdeaSubmitActivity : BaseActivity(), FeedBackView {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK) {
             when (requestCode) {
-                CHOOSE_PHOTO_CODE -> {
-                    if (data == null || data.data == null) {
-                        return
+                CHOOSE_PHOTO_CODE, TAKE_PHOTO_IMAGE -> {
+//                    if (data == null || data.data == null) {
+//                        return
+//                    }
+                    var uri: Uri? = null
+                    var file: File? = null
+                    if (requestCode == CHOOSE_PHOTO_CODE) {
+                        uri = data?.data
+                        file = FileUtils.getFileByUri(uri!!, this)
+                    } else {
+                        file =  uri2File(File(externalCacheDir, "photo"), mTakePhotoUri!!)
                     }
-                    val file = FileUtils.getFileByUri(data!!.data, this)
                     var bitmap = ImageUtils.decodeSampledBitmapFromFilePath(file!!.absolutePath, 720, 720)
                     // 部分手机会对图片做旋转，这里检测旋转角度
                     val degree = FaceUtil.readPictureDegree(file!!.absolutePath)
@@ -337,7 +372,7 @@ class IdeaSubmitActivity : BaseActivity(), FeedBackView {
                         cacheFile = evidenceFile1
                         fl_evidence_pic1.visibility = View.VISIBLE
                         tv_upload_status1.visibility = View.VISIBLE
-                        ProjectUtils.loadRoundCorner(this, data.data, iv_evidence_pic1)
+                        ProjectUtils.loadRoundCorner(this, file, iv_evidence_pic1)
 //                        iv_evidence_pic1.setImageBitmap(bitmap)
                     } else if (evidenceFile2 == null) {
                         tempPosition = 1
@@ -345,14 +380,14 @@ class IdeaSubmitActivity : BaseActivity(), FeedBackView {
                         cacheFile = evidenceFile2
                         fl_evidence_pic2.visibility = View.VISIBLE
                         tv_upload_status2.visibility = View.VISIBLE
-                        ProjectUtils.loadRoundCorner(this, data.data, iv_evidence_pic2)
+                        ProjectUtils.loadRoundCorner(this, file, iv_evidence_pic2)
                     } else if (evidenceFile3 == null) {
                         tempPosition = 2
                         evidenceFile3 = File(dir, "evidence_pic_$tempPosition.jpg")
                         cacheFile = evidenceFile3
                         fl_evidence_pic3.visibility = View.VISIBLE
                         tv_upload_status3.visibility = View.VISIBLE
-                        ProjectUtils.loadRoundCorner(this, data.data, iv_evidence_pic3)
+                        ProjectUtils.loadRoundCorner(this, file, iv_evidence_pic3)
                     } else if (evidenceFile4 == null) {
                         tempPosition = 3
                         evidenceFile4 = File(dir, "evidence_pic_$tempPosition.jpg")
@@ -360,7 +395,7 @@ class IdeaSubmitActivity : BaseActivity(), FeedBackView {
                         fl_evidence_pic4.visibility = View.VISIBLE
                         tv_upload_status4.visibility = View.VISIBLE
                         tv_upload_evidence.visibility = View.GONE
-                        ProjectUtils.loadRoundCorner(this, data.data, iv_evidence_pic4)
+                        ProjectUtils.loadRoundCorner(this, file, iv_evidence_pic4)
                     }
                     Observable.create<File> {
                         it.onNext(cacheFile?.let { it1 -> bitmap.compressImage(it1, 300) }!!)
@@ -376,6 +411,12 @@ class IdeaSubmitActivity : BaseActivity(), FeedBackView {
             }
         }
     }
+
+    private fun uri2File(cacheDir: File, uri: Uri): File {
+        val uriFile = File(uri.path)
+        return File(cacheDir, uriFile.name)
+    }
+
 
     //上传成功
     override fun showUploadSuccess(position: Int, url: String) {
@@ -423,8 +464,77 @@ class IdeaSubmitActivity : BaseActivity(), FeedBackView {
     }
 
     override fun uploadSuccess() {
+        evidenceUrl1 = null
+        evidenceUrl2 = null
+        evidenceUrl3 = null
+        evidenceUrl4 = null
         showToast(getString(R.string.commit_success))
         finish()
     }
 
+    var mTakePhotoUri: Uri? = null      //拍照临时uri
+
+    fun requestPermission(fileName: String, requestCode: Int, front: Boolean) {
+        if (Build.VERSION.SDK_INT >= 23) {
+            RxPermissions(this)
+                    .requestEach(Manifest.permission.CAMERA)
+                    .subscribe { permission: Permission ->
+                        if (permission.granted) {
+                            // 用户已经同意该权限
+                            takePhotoFromCamera(fileName, requestCode, front)
+                        } else if (permission.shouldShowRequestPermissionRationale) {
+                            // 用户拒绝了该权限，没有选中『不再询问』（Never ask again）,那么下次再次启动时，还会提示请求权限的对话框
+                            Log.d(javaClass.simpleName, permission.name + " is denied. More info should be provided.");
+                            showToast(getString(R.string.please_agree_permission))
+                        } else {
+                            // 用户拒绝了该权限，并且选中『不再询问』
+                            Log.d(javaClass.simpleName, permission.name + " is denied.")
+                            showToast(getString(R.string.please_agree_permission))
+                        }
+                    }
+        } else {
+            takePhotoFromCamera(fileName, requestCode, front)
+        }
+    }
+
+    lateinit var photoDir: File
+
+    /**
+     * 相机拍照
+     */
+    private fun takePhotoFromCamera(fileName: String, requestCode: Int, front: Boolean) {
+        val openCameraIntent = Intent(
+                MediaStore.ACTION_IMAGE_CAPTURE)
+        photoDir = File(externalCacheDir, "photo")
+        if (!photoDir.exists()) {
+            photoDir.mkdirs()
+        }
+        val file = File(photoDir, fileName)
+        if (Build.VERSION.SDK_INT >= 24) {
+            mTakePhotoUri = FileProvider.getUriForFile(this, "${packageName}.fileprovider", file)
+            openCameraIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+        } else {
+            mTakePhotoUri = Uri.fromFile(file)
+        }
+        openCameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, mTakePhotoUri)
+        try {
+            if (front) {
+                //打开前置摄像头
+                openCameraIntent.putExtra("android.intent.extras.CAMERA_FACING", 1); // 调用前置摄像头
+            } else {
+                openCameraIntent.putExtra("android.intent.extras.CAMERA_FACING", 2); //
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+        startActivityForResult(openCameraIntent, requestCode)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        evidenceUrl1?.let { mPresenter.deleteImg(it) }
+        evidenceUrl2?.let { mPresenter.deleteImg(it) }
+        evidenceUrl3?.let { mPresenter.deleteImg(it) }
+        evidenceUrl4?.let { mPresenter.deleteImg(it) }
+    }
 }

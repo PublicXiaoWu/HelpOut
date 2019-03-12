@@ -26,7 +26,8 @@ class FeedBackPresenter(context: Context, view: FeedBackView)
                     ?.observeOn(AndroidSchedulers.mainThread())
                     ?.subscribe(object : HttpObserver<UploadFile>(it) {
                         override fun success(t: UploadFile) {
-                            t.id?.let { mView?.showUploadSuccess(position, it) }
+                            Log.e(this.javaClass.simpleName, t.filename)
+                            t.filename?.let { mView?.showUploadSuccess(position, it) }
                         }
 
                         override fun onError(t: Throwable?) {
