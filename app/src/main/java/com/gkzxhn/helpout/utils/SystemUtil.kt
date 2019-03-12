@@ -16,6 +16,7 @@ import java.io.IOException
 import java.math.BigDecimal
 import java.util.*
 
+
 /**
  * 作者：Administrator on 2017/6/10 16:08
  * 邮箱：zhanghuaiha@gmail.com
@@ -86,6 +87,8 @@ object SystemUtil {
             }
             return null
         }
+
+
 
     /**
      * 获取缓存大小

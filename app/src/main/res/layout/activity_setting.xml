@@ -62,7 +62,7 @@
         android:text="0M"
         android:textColor="#ff999999"
         android:textSize="12sp"
-        android:visibility="gone"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="@id/iv_setting_clear"
         app:layout_constraintEnd_toEndOf="@id/v_setting_clear_bg"
         app:layout_constraintTop_toTopOf="@id/iv_setting_clear"

@@ -19,14 +19,13 @@ class LegalConsultingActivity : BaseActivity() {
     override fun init() {
         initTitle()
 
-        val beginTransaction = getSupportFragmentManager().beginTransaction()
+        val beginTransaction = supportFragmentManager.beginTransaction()
         //提交事务
         beginTransaction.add(R.id.fl_legal_consulting, LawyerFragment()).commit();
 
     }
 
     private fun initTitle() {
-
         tv_default_top_title.text = "法律咨询"
         iv_default_top_back.setOnClickListener { finish() }
     }
