@@ -217,6 +217,7 @@ class PublishOrderActivity : BaseActivity(), PublishOrderView {
         confirmDialog.findViewById<TextView>(R.id.tv_confirm).setOnClickListener {
             dismissBottomDialog()
             mPresenter.orderId?.let { it1 -> CustomerOrderDetailActivity.launch(this, it1) }
+            finish()
         }
     }
 }
