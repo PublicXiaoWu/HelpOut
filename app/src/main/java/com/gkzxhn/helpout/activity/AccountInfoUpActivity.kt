@@ -138,7 +138,6 @@ class AccountInfoUpActivity : BaseActivity() {
                         }
                     }
                 })
-
     }
 
 

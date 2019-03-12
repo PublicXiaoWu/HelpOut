@@ -74,6 +74,8 @@ class UserFragment : BaseFragment(), View.OnClickListener {
                 val intent = Intent(context, UserSettingActivity::class.java)
                 intent.putExtra("name", if (accountInfo != null) accountInfo?.nickname else "")
                 intent.putExtra("phoneNumber", if (accountInfo != null) accountInfo?.phoneNumber else "")
+                intent.putExtra("haveAvatar", !accountInfo?.avatar.isNullOrEmpty())
+
                 context?.startActivity(intent)
             }
             R.id.v_user_my_money_bg -> {
@@ -99,6 +101,7 @@ class UserFragment : BaseFragment(), View.OnClickListener {
                 val intent = Intent(context, UserSettingActivity::class.java)
                 intent.putExtra("name", if (accountInfo != null) accountInfo?.nickname else "")
                 intent.putExtra("phoneNumber", if (accountInfo != null) accountInfo?.phoneNumber else "")
+                intent.putExtra("haveAvatar", !accountInfo?.avatar.isNullOrEmpty())
                 context?.startActivity(intent)
             }
         }

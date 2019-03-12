@@ -38,7 +38,6 @@ import java.io.File
  */
 class UserSettingActivity : BaseActivity() {
 
-
     private val TAKE_PHOTO_IMAGE = 101       //拍头像
     private val CHOOSE_PHOTO_IMAGE = 102      //选择头像
     private val REQUEST_CROP_PHOTO = 104     //简单裁剪头像
@@ -55,6 +54,8 @@ class UserSettingActivity : BaseActivity() {
         initTopTitle()
         name = intent.getStringExtra("name")
         phoneNumber = intent.getStringExtra("phoneNumber")
+
+        val  haveAvatar  = intent.getBooleanExtra("haveAvatar",false)
         tv_user_setting_change_name.text = name
 
         ProjectUtils.loadMyIcon(this, iv_user_setting_image)
@@ -63,6 +64,12 @@ class UserSettingActivity : BaseActivity() {
         photoDir = File(externalCacheDir, "photo")
         if (!photoDir.exists()) {
             photoDir.mkdirs()
+        }
+
+        if (haveAvatar) {
+            tv_user_setting_up_image.text="上传头像"
+        }else{
+            tv_user_setting_up_image.text="更换头像"
         }
     }
 
@@ -231,9 +238,7 @@ class UserSettingActivity : BaseActivity() {
                 }, {
                     it.message.toString().logE(this)
                 })
-
     }
-
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
