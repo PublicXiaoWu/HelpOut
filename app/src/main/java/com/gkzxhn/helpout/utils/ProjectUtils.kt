@@ -1,7 +1,6 @@
 package com.gkzxhn.helpout.utils
 
 import android.content.Context
-import android.graphics.Bitmap
 import android.net.Uri
 import android.util.Log
 import android.view.MotionEvent
@@ -17,7 +16,6 @@ import com.gkzxhn.helpout.R
 import com.gkzxhn.helpout.common.App
 import com.gkzxhn.helpout.common.Constants
 import com.gkzxhn.helpout.net.NetWorkCodeInfo
-import java.io.ByteArrayOutputStream
 import java.io.File
 
 /**
@@ -110,25 +108,6 @@ object ProjectUtils {
         }
     }
 
-    fun loadImage(context: Context?, avatarURL: String?, imageview: ImageView?) {
-        if (avatarURL != null && avatarURL.isNotEmpty()) {
-            if (avatarURL.length < 200) {
-                Glide.with(context).load("$avatarURL?token=523b87c4419da5f9186dbe8aa90f37a3876b95e448fe2a")
-                        .apply(RequestOptions.bitmapTransform(RoundedCorners(120)))
-                        .into(imageview)
-            } else {
-                val base64Bitmap = ImageUtils.base64ToBitmap(avatarURL.substring(Constants.BASE_64_START.length))
-                var baos = ByteArrayOutputStream()
-                base64Bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos)
-                var bytes = baos.toByteArray()
-                Glide.with(context).load(bytes)
-                        .apply(RequestOptions.bitmapTransform(RoundedCorners(120)))
-                        .into(imageview)
-            }
-        } else {
-            imageview?.setImageResource(R.mipmap.ic_user_icon)
-        }
-    }
 
     /****** 通过fileID加载图片 ******/
     fun loadImageByFileID(context: Context?, fileId: String?, imageview: ImageView?) {
@@ -185,6 +164,25 @@ object ProjectUtils {
                 options.placeholder(R.mipmap.ic_user_icon)
                 options.error(R.mipmap.ic_user_icon)
                 options.transform(RoundedCorners(120))
+                /****** 加上一个时间让其每次都更新 ******/
+                options.signature(ObjectKey(App.SP.getString(Constants.SP_MY_ICON, "defValue")))
+                Glide.with(context).load(glideUrl)
+                        .apply(options)
+                        .into(imageview)
+            }
+        }
+    }
+    /****** 加载自已的头像 ******/
+    fun loadMyIconNoRound(context: Context?, imageview: ImageView?) {
+        val token = App.SP.getString(Constants.SP_TOKEN, "")
+        if (token != null) {
+            if (token.isNotEmpty()) {
+                val mtoken = "Bearer $token"
+                val addHeader = LazyHeaders.Builder().addHeader("Authorization", mtoken)
+                val glideUrl = GlideUrl(NetWorkCodeInfo.BASE_URL + "/users/me/avatar", addHeader.build())
+                val options = RequestOptions()
+                options.placeholder(R.mipmap.ic_user_icon)
+                options.error(R.mipmap.ic_user_icon)
                 /****** 加上一个时间让其每次都更新 ******/
                 options.signature(ObjectKey(App.SP.getString(Constants.SP_MY_ICON, "defValue")))
                 Glide.with(context).load(glideUrl)

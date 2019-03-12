@@ -21,6 +21,15 @@
             android:background="@mipmap/ic_user_info_bg"
             app:layout_constraintTop_toTopOf="parent"/>
 
+        <View
+            android:layout_width="66dp"
+            android:layout_height="66dp"
+            android:layout_marginStart="16dp"
+            android:background="#FF6600"
+            app:layout_constraintBottom_toBottomOf="@+id/v_home_title_bg"
+            app:layout_constraintStart_toStartOf="@+id/v_home_title_bg"
+            app:layout_constraintTop_toTopOf="@+id/v_home_title_bg"
+        />
         <ImageView
             android:id="@+id/iv_main_icon"
             android:layout_width="64dp"
@@ -67,21 +76,20 @@
             android:textColor="#FF6600"
             android:textSize="11sp"
             android:visibility="visible"
-            app:layout_constraintStart_toStartOf="@id/tv_main_name"
+            app:layout_constraintStart_toStartOf="@id/tv_home_address"
             app:layout_constraintTop_toBottomOf="@id/tv_home_address"
-            app:layout_constraintVertical_chainStyle="spread_inside"
         />
         <TextView
             android:id="@+id/tv_home_type2"
             android:layout_width="60dp"
             android:layout_height="20dp"
-            android:layout_marginStart="5dp"
             android:background="@drawable/shape_main_top_type_bg"
             android:gravity="center"
             android:text="一 一"
             android:textColor="#FF6600"
             android:textSize="11sp"
             android:visibility="gone"
+            app:layout_constraintEnd_toStartOf="@id/tv_home_type3"
             app:layout_constraintStart_toEndOf="@id/tv_home_type1"
             app:layout_constraintTop_toTopOf="@id/tv_home_type1"
         />
@@ -89,15 +97,15 @@
             android:id="@+id/tv_home_type3"
             android:layout_width="60dp"
             android:layout_height="20dp"
-            android:layout_marginStart="5dp"
             android:background="@drawable/shape_main_top_type_bg"
             android:gravity="center"
             android:text="一 一"
             android:textColor="#FF6600"
             android:textSize="11sp"
+            android:layout_marginEnd="18dp"
             android:visibility="gone"
-            app:layout_constraintStart_toEndOf="@id/tv_home_type2"
-            app:layout_constraintTop_toTopOf="@id/tv_home_type1"
+            app:layout_constraintEnd_toEndOf="@id/v_home_title_bg"
+            app:layout_constraintTop_toTopOf="@id/tv_home_type2"
         />
 
         <ImageView
@@ -115,7 +123,7 @@
             android:id="@+id/tv_main_top_end"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
+            android:layout_marginEnd="18dp"
             android:layout_marginStart="10dp"
             android:text="认证律师"
             android:textColor="#264C90"
