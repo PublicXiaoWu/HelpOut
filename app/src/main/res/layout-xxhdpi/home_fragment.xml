@@ -10,8 +10,9 @@
         android:id="@+id/v_home_top_bg"
         android:layout_width="match_parent"
         app:layout_constraintHeight_percent="0.30"
+        android:scaleType="centerCrop"
         android:layout_height="0dp"
-        android:background="@mipmap/ic_home_top_adv"
+        android:src="@mipmap/ic_home_top_adv"
     />
 
     <FrameLayout
