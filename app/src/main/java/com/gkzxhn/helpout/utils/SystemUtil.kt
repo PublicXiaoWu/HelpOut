@@ -201,11 +201,11 @@ object SystemUtil {
         val kiloByte = size / 1024
         val megaByte = kiloByte / 1024
 
-        if (kiloByte < 1) {
-            return "0M"
+        return if (kiloByte < 1) {
+            "0M"
         } else {
             val result2 = BigDecimal(java.lang.Double.toString(megaByte))
-            return result2.setScale(2, BigDecimal.ROUND_HALF_UP)
+            result2.setScale(2, BigDecimal.ROUND_HALF_UP)
                     .toPlainString() + "M"
 
         }

@@ -39,7 +39,11 @@ class SettingActivity : BaseActivity() {
     override fun init() {
         initTopTitle()
         ProjectUtils.addViewTouchChange(tv_setting_exit)
-        tv_setting_clear_size.text = SystemUtil.getTotalCacheSize(this)
+        var size = FileUtils.getFileSizes(externalCacheDir)
+        val appSize = 73 * 1024 * 1024.toLong()
+        size += appSize
+
+        tv_setting_clear_size.text = size.toGMKSizeStr()
         tv_setting_version.text = "V_" + ObtainVersion.getVersionName(App.mContext)
     }
 

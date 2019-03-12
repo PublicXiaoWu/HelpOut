@@ -26,15 +26,24 @@ class CleanStorageActivity : BaseActivity() {
     object : Handler() {
         override fun handleMessage(msg: Message?) {
             avi.hide()
-            val size = FileUtils.getFileSizes(externalCacheDir)
-            cacheKb = size / 1024
-            val percent = ((FileUtils.getFileSizes(externalCacheDir) / FileUtils.getTotalInternalMemorySize().toFloat()) * 100).toInt()
-
-            tv_cache_storage.text = size.toGMKSizeStr()
-            tv_storage_size_percent.text = getString(R.string.storage_size_percent, "${percent.toString()}%")
+            setStorageSize()
             bt_clean_storage.visibility = View.VISIBLE
             tv_cache_storage.visibility = View.VISIBLE
         }
+    }
+
+    private fun setStorageSize() {
+        var size = FileUtils.getFileSizes(externalCacheDir)
+        val appSize = 73 * 1024 * 1024.toLong()
+        size += appSize
+        cacheKb = size / 1024
+
+        tv_cache_storage.text = size.toGMKSizeStr()
+
+        val percent = ((size / FileUtils.getTotalInternalMemorySize().toFloat()) * 100).toInt()
+
+        tv_storage_size_percent.text = getString(R.string.storage_size_percent, "${percent.toString()}%")
+
     }
 
     override fun init() {
@@ -51,7 +60,7 @@ class CleanStorageActivity : BaseActivity() {
          */
         Thread(Runnable {
             //返回主线程
-            handle.sendEmptyMessageDelayed(1, 2000)
+            handle.sendEmptyMessageDelayed(1, 1200)
         }).start()
     }
 
@@ -69,7 +78,8 @@ class CleanStorageActivity : BaseActivity() {
                     if (FileUtils.delAllFile(externalCacheDir.absolutePath)) {
                         showToast(getString(R.string.clean_success))
                         cacheKb = 0
-                        tv_cache_storage.text = "0KB"
+                        setStorageSize()
+
                     }
                 }
                 showErrorMessage(title = null, content = getString(R.string.clean_storage_tips), callback = callback, canDismiss = true, positiveText = "确认", negativeText = "取消")
