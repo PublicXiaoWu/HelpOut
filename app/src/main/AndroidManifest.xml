@@ -129,6 +129,7 @@
             />
         <activity android:name=".activity.ImageActivity"/>
         <activity android:name=".wxapi.WXPayEntryActivity"/>
+        <activity android:name=".activity.ApplyResultActivity"/>
 
         <provider
             android:name="android.support.v4.content.FileProvider"

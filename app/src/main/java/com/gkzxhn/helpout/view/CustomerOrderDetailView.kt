@@ -8,4 +8,6 @@ interface CustomerOrderDetailView : BaseView {
     fun setData(customerOrderDetailInfo: CustomerOrderDetailInfo)
     fun setCommentsData(commentInfo: CommentInfo)
     fun close()
+    fun alipay(orderInfo: String)
+    fun showPayPop(reward: Double)
 }

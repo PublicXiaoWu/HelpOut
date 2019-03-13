@@ -134,8 +134,8 @@ class PublishOrderActivity : BaseActivity(), PublishOrderView {
                                 //支付宝
                                 if (BuildConfig.DEBUG) {
                                     //                                        amount = 0.01F
-                                    mPresenter.getAliOrder()
                                 }
+                                mPresenter.getAliOrder()
                             }
                             1 -> {
                                 //微信
