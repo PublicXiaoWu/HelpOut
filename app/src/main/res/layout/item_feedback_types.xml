@@ -45,7 +45,7 @@
         android:id="@+id/view_line"
         android:layerType="software"
         android:layout_width="match_parent"
-        android:layout_height="1.3dp"
+        android:layout_height="1.5dp"
         android:background="@drawable/im_line"/>
 
 </LinearLayout>

@@ -9,7 +9,6 @@ import android.widget.ImageView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.model.GlideUrl
 import com.bumptech.glide.load.model.LazyHeaders
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.signature.ObjectKey
@@ -145,7 +144,8 @@ object ProjectUtils {
                 val options = RequestOptions()
                 options.placeholder(R.mipmap.ic_user_icon)
                 options.error(R.mipmap.ic_user_icon)
-                options.transform(RoundedCorners(120))
+                options.apply(RequestOptions.circleCropTransform())
+//                options.transform(RoundedCorners(120))
                 /****** 加上一个时间让其每5分钟更新 ******/
                 options.signature(ObjectKey(userName + System.currentTimeMillis() / 1000 / 60 / 5))
                 Glide.with(context).load(glideUrl)
@@ -166,7 +166,8 @@ object ProjectUtils {
                 val options = RequestOptions()
                 options.placeholder(R.mipmap.ic_user_icon)
                 options.error(R.mipmap.ic_user_icon)
-                options.transform(RoundedCorners(120))
+//                options.transform(RoundedCorners(120))
+                options.apply(RequestOptions.circleCropTransform())
                 /****** 加上一个时间让其每次都更新 ******/
                 options.signature(ObjectKey(App.SP.getString(Constants.SP_MY_ICON, "defValue")))
                 Glide.with(context).load(glideUrl)
