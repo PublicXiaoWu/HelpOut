@@ -4,6 +4,7 @@ import android.support.v4.view.ViewPager
 import android.view.View
 import com.gkzxhn.helpout.R
 import com.gkzxhn.helpout.adapter.MainAdapter
+import com.gkzxhn.helpout.utils.ProjectUtils
 import com.gkzxhn.helpout.utils.showToast
 import kotlinx.android.synthetic.main.myconsult_fragment.*
 
@@ -17,7 +18,7 @@ class MyConsultFragment : BaseFragment() {
 
     var tbList: MutableList<BaseFragment>? = null
     private var mainAdapter: MainAdapter? = null
-    
+
     override fun provideContentViewId(): Int {
         return R.layout.myconsult_fragment
     }
@@ -30,6 +31,12 @@ class MyConsultFragment : BaseFragment() {
         mainAdapter = MainAdapter(childFragmentManager, tbList)
         vp_consult.adapter = mainAdapter
         vp_consult.offscreenPageLimit = 3
+
+        if (ProjectUtils.certificationStatus()) {
+            iv_tab1.setImageResource(R.mipmap.ic_consult_tab_1)
+        } else {
+            iv_tab1.setImageResource(R.mipmap.ic_consult_tab_3)
+        }
     }
 
     override fun initListener() {
@@ -38,7 +45,7 @@ class MyConsultFragment : BaseFragment() {
             selectOneItem()
         }
         v_tab_2.setOnClickListener {
-//            vp_consult.currentItem = 1
+            //            vp_consult.currentItem = 1
             selectTwoItem()
         }
 

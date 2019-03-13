@@ -2,6 +2,8 @@ package com.gkzxhn.helpout.presenter
 
 import android.content.Context
 import android.content.Intent
+import android.widget.TextView
+import com.gkzxhn.helpout.R
 import com.gkzxhn.helpout.activity.OrderActivity
 import com.gkzxhn.helpout.common.Constants
 import com.gkzxhn.helpout.common.RxBus
@@ -11,7 +13,7 @@ import com.gkzxhn.helpout.entity.RxBusBean
 import com.gkzxhn.helpout.model.IOrderModel
 import com.gkzxhn.helpout.model.iml.OrderModel
 import com.gkzxhn.helpout.net.HttpObserver
-import com.gkzxhn.helpout.utils.showToast
+import com.gkzxhn.helpout.utils.selectDialog
 import com.gkzxhn.helpout.view.OrderReceivingView
 import rx.android.schedulers.AndroidSchedulers
 import rx.subscriptions.CompositeSubscription
@@ -54,14 +56,21 @@ class OrderReceivingPresenter(context: Context, view: OrderReceivingView) : Base
                     ?.subscribe(object : HttpObserver<OrderMyInfo>(it) {
                         override fun success(t: OrderMyInfo) {
                             if (t.status == Constants.ORDER_STATE_ACCEPTED) {
-                                mContext?.showToast("接单成功")
                                 RxBus.instance.post(RxBusBean.HomePoint(true))
-
+                                val selectDialog = it.selectDialog("恭喜您，抢单成功", false)
+                                val cancel = selectDialog.findViewById<TextView>(R.id.dialog_cancel)
+                                val next = selectDialog.findViewById<TextView>(R.id.dialog_save)
+                                cancel.text = "关闭"
+                                next.text = "查看"
+                                next.setOnClickListener {
+                                    val intent = Intent(selectDialog.context, OrderActivity::class.java)
+                                    intent.putExtra("orderId", id)
+                                    intent.putExtra("orderState", 2)
+                                    selectDialog.context.startActivity(intent)
+                                    selectDialog.dismiss()
+                                }
                                 getOrderReceiving("0",mCompositeSubscription)
-                                val intent = Intent(it, OrderActivity::class.java)
-                                intent.putExtra("orderId", id)
-                                intent.putExtra("orderState", 2)
-                                it.startActivity(intent)
+
                             }
                         }
                     }))
