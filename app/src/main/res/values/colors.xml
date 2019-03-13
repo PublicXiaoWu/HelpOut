@@ -68,5 +68,6 @@
 
     <color name="base_back">#faf9fe</color>
     <color name="trans_33">#aa333333</color>
+    <color name="red_3a">#c00303</color>
 
 </resources>

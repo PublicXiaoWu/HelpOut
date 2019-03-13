@@ -145,4 +145,14 @@ class CustomerModel (val context: Context) : BaseModel() {
                 .mApi?.deleteFile(filename)
                 ?.subscribeOn(Schedulers.io())
     }
+
+    /**
+     * 获取微信订单
+     */
+    fun getWxOrder(id: String) : Observable<WXLawOrderInfo> {
+        return RetrofitClient.getInstance(context)
+                .mApi
+                .getWxOrder(id)
+                .subscribeOn(Schedulers.io())
+    }
 }

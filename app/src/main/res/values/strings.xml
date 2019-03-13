@@ -156,5 +156,12 @@
     <string name="feedback_type_title">（单选）请选择您想反馈的问题点</string>
     <string name="upload_failed">上传失败</string>
     <string name="commit_success">提交成功</string>
+    <string name="down">完成</string>
+    <string name="pay_type">支付方式</string>
+    <string name="alipay">支付宝</string>
+    <string name="weixin_uninstalled">微信未安装</string>
+    <string name="pay_canceled">支付已取消</string>
+    <string name="pay_failure">支付失败</string>
+    <string name="weixin">微信</string>
 
 </resources>

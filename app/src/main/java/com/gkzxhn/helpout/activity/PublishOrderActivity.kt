@@ -142,6 +142,7 @@ class PublishOrderActivity : BaseActivity(), PublishOrderView {
                                 if (BuildConfig.DEBUG) {
 //                                    amount = 0.01
                                 }
+                                mPresenter.getWxOrder(reward)
                             }
                             else -> {
                             }
@@ -162,6 +163,7 @@ class PublishOrderActivity : BaseActivity(), PublishOrderView {
      * 支付宝支付
      */
     override fun alipay(orderInfo: String) {
+        popupWindow.dismiss()
 
         val payRunnable = Runnable {
             val alipay = PayTask(this@PublishOrderActivity)

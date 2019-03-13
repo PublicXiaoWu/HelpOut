@@ -255,4 +255,10 @@ interface ApiService {
      */
     @DELETE("/files/{filename}")
     fun deleteFile(@Path("filename") filename: String) : Observable<ResponseBody>
+
+    /**
+     * 获取微信订单
+     */
+    @GET("/legal-advice/{id}/we-chat-pay")
+    fun getWxOrder(@Path("id") id: String) : Observable<WXLawOrderInfo>
 }
