@@ -429,6 +429,7 @@ class CustomerOrderDetailActivity : BaseActivity(), CustomerOrderDetailView {
         showBottomDialog(confirmDialog)
         confirmDialog.findViewById<TextView>(R.id.tv_cancel).setOnClickListener {
             dismissBottomDialog()
+            finish()
         }
         confirmDialog.findViewById<TextView>(R.id.tv_confirm).setOnClickListener {
             dismissBottomDialog()
