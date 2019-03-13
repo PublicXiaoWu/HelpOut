@@ -7,6 +7,9 @@
     android:background="@color/white"
     android:orientation="vertical">
 
+    <include
+        layout="@layout/default_top"/>
+
     <TextView
         android:id="@+id/tv_down"
         android:layout_width="50dp"
@@ -20,8 +23,8 @@
 
     <ImageView
         android:id="@+id/iv_pay_status"
-        android:layout_width="71dp"
-        android:layout_height="63dp"
+        android:layout_width="156dp"
+        android:layout_height="138dp"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="@dimen/dimen_3"
         android:src="@mipmap/pay_failure"/>
@@ -41,6 +44,7 @@
         android:id="@+id/tv_pay_money"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:visibility="gone"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="@dimen/dimen_20"
         android:textColor="@color/text_black"
@@ -49,7 +53,20 @@
         tools:text="¥500"
         />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center_horizontal"
+        android:layout_marginTop="@dimen/dimen_15"
+        android:text="@string/feed_back_thank_tips"
+        android:textColor="#ff666666"
+        android:lineSpacingExtra="@dimen/dimen_8"
+        android:textSize="12sp"
+        />
+
     <FrameLayout
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp">
@@ -79,6 +96,7 @@
 
     <FrameLayout
         android:id="@+id/fl_prisoner_name"
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/dimen_13">

@@ -1,16 +1,24 @@
 package com.gkzxhn.helpout.presenter
 
 import android.content.Context
+import android.text.TextUtils
+import android.util.Log
 import com.gkzxhn.helpout.R
+import com.gkzxhn.helpout.activity.CustomerOrderDetailActivity
 import com.gkzxhn.helpout.entity.CommentInfo
 import com.gkzxhn.helpout.entity.CustomerOrderDetailInfo
 import com.gkzxhn.helpout.entity.ImInfo
+import com.gkzxhn.helpout.entity.WXLawOrderInfo
 import com.gkzxhn.helpout.model.iml.CustomerModel
 import com.gkzxhn.helpout.net.HttpObserver
 import com.gkzxhn.helpout.utils.showToast
 import com.gkzxhn.helpout.view.CustomerOrderDetailView
 import com.netease.nim.uikit.api.NimUIKit
+import com.tencent.mm.opensdk.modelpay.PayReq
+import com.tencent.mm.opensdk.openapi.IWXAPI
+import com.tencent.mm.opensdk.openapi.WXAPIFactory
 import okhttp3.ResponseBody
+import org.json.JSONObject
 import rx.android.schedulers.AndroidSchedulers
 
 class CustomerOrderDetailPresenter(context: Context, view: CustomerOrderDetailView)
@@ -20,6 +28,7 @@ class CustomerOrderDetailPresenter(context: Context, view: CustomerOrderDetailVi
     var orderId: String? = null
 
     fun getCustomerOrderDetail(orderId: String) {
+        this.orderId = orderId
         mContext?.let {
             mModel.getCustomerOrderDetail(orderId)
                     .observeOn(AndroidSchedulers.mainThread())
@@ -124,4 +133,86 @@ class CustomerOrderDetailPresenter(context: Context, view: CustomerOrderDetailVi
                 })
         }
     }
+
+    /**
+     * 获取支付宝订单号
+     */
+    fun getAliOrder() {
+        if (TextUtils.isEmpty(orderId)) {
+            mContext?.showToast("订单号错误,请重新下单")
+            return
+        }
+        mContext?.let {
+            mModel.getAliOrder(orderId!!)
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(object : HttpObserver<ResponseBody>(it) {
+                        override fun success(t: ResponseBody) {
+                            val body = try {
+                                JSONObject(t.string()).getString("body")
+                            } catch (e: Exception) {
+                                null
+                            }
+                            body?.let { it1 -> mView?.alipay(it1) }
+                        }
+                    })
+        }
+    }
+
+    private var amount = 0.0
+    fun getWxOrder(amount: Double) {
+        this.amount = amount
+        if (TextUtils.isEmpty(orderId)) {
+            mContext?.showToast("订单号错误,请重新下单")
+            return
+        }
+        mContext?.let {
+            mModel.getWxOrder(orderId!!)
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(object : HttpObserver<WXLawOrderInfo>(it) {
+                        override fun success(t: WXLawOrderInfo) {
+                            val request = PayReq()
+                            request.appId = t.appId
+                            request.partnerId = t.merchantId
+                            request.prepayId = t.prepayId
+                            request.packageValue = t.extension
+                            request.nonceStr = t.nonce
+                            request.timeStamp = t.timestamp
+                            request.sign = t.sign
+                            wxpay(request)
+                            Log.d(this.javaClass.simpleName, t.toString())
+                        }
+                    })
+        }
+    }
+
+    /**
+     * 微信支付
+     */
+    fun wxpay(request: PayReq) {
+        val api: IWXAPI = WXAPIFactory.createWXAPI(mContext, request.appId, true)
+        if (!api.isWXAppInstalled) {
+            //微信未安装
+            mContext?.let{ it.showToast(it.getString(R.string.weixin_uninstalled)) }
+            return
+        }
+        /*if (!api.isWXAppSupportAPI) {
+            context.toast("Android版本太低,不支持微信支付")
+            return
+        }*/
+        api.registerApp(request.appId)
+
+        /*val signParams = LinkedList<Pair<String, String>>()
+        signParams.add(Pair("appid", request.appId))
+        signParams.add(Pair("noncestr", request.nonceStr))
+        signParams.add(Pair("package", request.packageValue))
+        signParams.add(Pair("partnerid", request.partnerId))
+        signParams.add(Pair("prepayid", request.prepayId))
+        //signParams.add(new BasicNameValuePair("sign", sign));
+        signParams.add(Pair("timestamp", request.timeStamp))
+        request.sign = getAppSign(signParams)*/
+        request.extData = "$amount&"
+        api.sendReq(request)
+        (mView as CustomerOrderDetailActivity).popupWindow?.dismiss()
+    }
+
 }

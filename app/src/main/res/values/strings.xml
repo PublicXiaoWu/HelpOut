@@ -164,5 +164,8 @@
     <string name="pay_canceled">支付已取消</string>
     <string name="pay_failure">支付失败</string>
     <string name="weixin">微信</string>
+    <string name="close">关闭</string>
+    <string name="feed_back_thank_tips">您的反馈我们会认真查看，并尽快修复及完善 \n 感谢您对狱务通一如既往的支持。</string>
+    <string name="pay_right_now">立即支付</string>
 
 </resources>

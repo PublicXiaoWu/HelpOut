@@ -469,6 +469,7 @@ class IdeaSubmitActivity : BaseActivity(), FeedBackView {
         evidenceUrl3 = null
         evidenceUrl4 = null
         showToast(getString(R.string.commit_success))
+        ApplyResultActivity.launch(this)
         finish()
     }
 
