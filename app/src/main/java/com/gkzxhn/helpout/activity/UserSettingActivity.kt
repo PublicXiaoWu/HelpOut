@@ -67,9 +67,9 @@ class UserSettingActivity : BaseActivity() {
         }
 
         if (haveAvatar) {
-            tv_user_setting_up_image.text="上传头像"
-        }else{
             tv_user_setting_up_image.text="更换头像"
+        }else{
+            tv_user_setting_up_image.text="上传头像"
         }
     }
 
