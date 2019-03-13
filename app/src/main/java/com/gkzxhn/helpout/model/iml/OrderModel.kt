@@ -105,4 +105,14 @@ class OrderModel : BaseModel(), IOrderModel {
                 .subscribeOn(Schedulers.io())
     }
 
+    /**
+     * 删除订单
+     */
+    override fun deleteOrder(context: Context,orderId: String): Observable<ResponseBody?> {
+        return RetrofitClient.getInstance(context)
+                .mApi
+                .deleteLawyerOrder(orderId)
+                .subscribeOn(Schedulers.io())
+    }
+
 }

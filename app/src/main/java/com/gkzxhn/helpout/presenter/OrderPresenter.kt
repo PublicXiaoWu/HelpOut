@@ -62,7 +62,7 @@ class OrderPresenter(context: Context, view: OrderView) : BasePresenter<IOrderMo
 
     /****** 2，获取 指定订单的明细 ******/
     fun getOrderMyInfo(id: String) {
-        orderId=id
+        orderId = id
         mContext?.let {
             mModel.getOrderMyInfo(it, id)
                     .unsubscribeOn(AndroidSchedulers.mainThread())
@@ -83,7 +83,7 @@ class OrderPresenter(context: Context, view: OrderView) : BasePresenter<IOrderMo
     fun mockVideoChart(orderId: String) {
         mContext?.let {
             it.showToast("模拟通话...")
-            mModel.mockVideoChart(it,orderId)
+            mModel.mockVideoChart(it, orderId)
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(object : HttpObserver<ResponseBody?>(it) {
                         override fun success(t: ResponseBody?) {
@@ -138,7 +138,7 @@ class OrderPresenter(context: Context, view: OrderView) : BasePresenter<IOrderMo
                         "接单时间：" + StringUtils.parseDate(t.acceptedTime),
                         "完成时间：" + StringUtils.parseDate(t.endTime))
                 mView?.setShowGetMoney(View.GONE, "赏金到账", "")
-                mView?.setNextText(View.GONE, "")
+                mView?.setNextText(View.VISIBLE, App.mContext.resources.getString(R.string.delete_lawyer_order))
                 getOrderComment(t.id!!)
             }
         /******  已关闭 ******/
@@ -148,7 +148,7 @@ class OrderPresenter(context: Context, view: OrderView) : BasePresenter<IOrderMo
                         "完成时间：" + StringUtils.parseDate(t.endTime))
                 mView?.setOrderStateColor(App.mContext.resources.getColor(R.color.order_red))
                 mView?.setShowGetMoney(View.GONE, "赏金到账", "")
-                mView?.setNextText(View.GONE, "")
+                mView?.setNextText(View.VISIBLE, App.mContext.resources.getString(R.string.delete_lawyer_order))
 
                 getOrderComment(t.id!!)
             }
@@ -230,6 +230,20 @@ class OrderPresenter(context: Context, view: OrderView) : BasePresenter<IOrderMo
 //        } else {
 //            mContext?.TsDialog("视频通话时长已用完", false)
 //        }
+    }
+
+    fun deleteLawyerOrder(id: String) {
+        mContext?.let {
+            mModel.deleteOrder(it, id)
+                    .unsubscribeOn(AndroidSchedulers.mainThread())
+                    ?.observeOn(AndroidSchedulers.mainThread())
+                    ?.subscribe(object : HttpObserver<ResponseBody?>(it) {
+                        override fun success(t: ResponseBody?) {
+                            it.showToast(it.getString(R.string.delete_success))
+                            mView?.onFinish()
+                        }
+                    })
+        }
     }
 
     /**

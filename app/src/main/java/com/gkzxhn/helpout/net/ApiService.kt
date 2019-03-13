@@ -213,10 +213,16 @@ interface ApiService {
     fun mockVideoChart(@Path("id") id: String): Observable<ResponseBody?>
 
     /**
-     * 删除法律咨询订单
+     * 删除用户的法律咨询订单
      */
     @DELETE("/customer/legal-advice/{id}")
     fun deleteOrder(@Path("id") id: String): Observable<ResponseBody?>
+
+     /**
+     * 删除律师的法律咨询订单
+     */
+    @DELETE("lawyer/my/legal-advice/{id}")
+    fun deleteLawyerOrder(@Path("id") id: String): Observable<ResponseBody?>
 
     /**
      * 取消法律咨询

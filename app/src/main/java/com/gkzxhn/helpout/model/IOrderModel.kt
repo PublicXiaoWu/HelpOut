@@ -26,4 +26,5 @@ interface IOrderModel : IBaseModel {
     fun getVideoDuration(context: Context, id: String): Observable<VideoDuration>
     fun getMyLawOrder(context: Context, page: Int): Observable<OrderDispose>
     fun mockVideoChart(context: Context, id: String): Observable<ResponseBody?>
+    fun deleteOrder(context: Context, orderId: String): Observable<ResponseBody?>
 }

@@ -45,6 +45,9 @@ class OrderActivity : BaseActivity(), OrderView {
             if (tv_order_next.text.trim().toString() == resources.getString(R.string.send_message)) {
                 /****** 发消息 ******/
                 mPresenter.sendMessage()
+            }else if (tv_order_next.text.trim().toString() == resources.getString(R.string.delete_lawyer_order)) {
+                /****** 删除订单 ******/
+                mPresenter.deleteLawyerOrder(orderID)
             } else {
                 if (ProjectUtils.certificationStatus()) {
                     /****** 抢单 ******/
