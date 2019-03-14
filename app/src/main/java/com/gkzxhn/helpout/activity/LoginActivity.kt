@@ -138,7 +138,7 @@ class LoginActivity : BaseActivity(), LoginView {
      * @description：检查更新
      */
     private fun updateApp() {
-        RetrofitClientPublic.getInstance(this).mApi?.updateApp("ASSISTANT_APP","ANDROID")
+        RetrofitClientPublic.getInstance(this).mApi?.updateApp()
                 ?.subscribeOn(rx.schedulers.Schedulers.io())
                 ?.unsubscribeOn(AndroidSchedulers.mainThread())
                 ?.observeOn(AndroidSchedulers.mainThread())

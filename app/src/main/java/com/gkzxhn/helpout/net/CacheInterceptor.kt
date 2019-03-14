@@ -16,9 +16,7 @@ import okhttp3.Response
  *    -----2018/9/6
  */
 
-class CacheInterceptor(context: Context) : Interceptor {
-
-    val context = context
+class CacheInterceptor(val context: Context) : Interceptor {
 
     override fun intercept(chain: Interceptor.Chain?): Response? {
 
@@ -73,7 +71,7 @@ class CacheInterceptor(context: Context) : Interceptor {
             val response = chain?.proceed(request)
             //set cahe times is 3 days
             val maxStale = 60 * 60 * 24 * 3
-            return response?.newBuilder()?.removeHeader("Pragma")?.removeHeader("Cache-Control")?.header("Cache-Control", "public, only-if-cached, max-stale=" + maxStale)?.build()
+            return response?.newBuilder()?.removeHeader("Pragma")?.removeHeader("Cache-Control")?.header("Cache-Control", "public, only-if-cached, max-stale=$maxStale")?.build()
         }
     }
 }

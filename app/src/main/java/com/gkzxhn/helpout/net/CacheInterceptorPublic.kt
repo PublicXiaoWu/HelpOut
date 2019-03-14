@@ -11,13 +11,13 @@ import okhttp3.Interceptor
 import okhttp3.Response
 
 
+@Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
 /**
- * Explanation: 登录相关
+ * Explanation: 公共平台相关
  * @author LSX
  *    -----2018/9/6
  */
-class CacheInterceptorLogin(context: Context) : Interceptor {
-    val context = context
+class CacheInterceptorPublic(val context: Context) : Interceptor {
     override fun intercept(chain: Interceptor.Chain?): Response? {
 
         var request = chain?.request()
@@ -41,7 +41,7 @@ class CacheInterceptorLogin(context: Context) : Interceptor {
             val response = chain?.proceed(request)
             //set cahe times is 3 days
             val maxStale = 60 * 60 * 24 * 3
-            return response?.newBuilder()?.removeHeader("Pragma")?.removeHeader("Cache-Control")?.header("Cache-Control", "public, only-if-cached, max-stale=" + maxStale)?.build()
+            return response?.newBuilder()?.removeHeader("Pragma")?.removeHeader("Cache-Control")?.header("Cache-Control", "public, only-if-cached, max-stale=$maxStale")?.build()
         }
     }
 }

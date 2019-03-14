@@ -17,7 +17,5 @@ public interface NetWorkCodeInfo {
     /***** 外网请求的测试网址 *****/
 //    String BASE_URL = "http://qa.api.auth.prisonpublic.com";
 //    String BASE_URL_PROJECT = "http://qa.api.legal.prisonpublic.com";
-//    String BASE_URL = "http://120.79.251.238:8081";
-//    String BASE_URL_PROJECT = "http://120.79.251.238:8086";
 
 }

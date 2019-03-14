@@ -1,5 +1,6 @@
 package com.gkzxhn.helpout.net
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.util.Log
 import com.gkzxhn.helpout.net.error_exception.MyGsonConverterFactory
@@ -51,8 +52,8 @@ class RetrofitClientPublic private constructor(context: Context, baseUrl: String
         okHttpClient = OkHttpClient.Builder()
                 .cache(cache)
                 .retryOnConnectionFailure(true)
-                .addInterceptor(CacheInterceptorLogin(mContext))
-                .addNetworkInterceptor(CacheInterceptorLogin(mContext))
+                .addInterceptor(CacheInterceptorPublic(mContext))
+                .addNetworkInterceptor(CacheInterceptorPublic(mContext))
                 .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
                 .connectTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
                 .writeTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
@@ -70,6 +71,7 @@ class RetrofitClientPublic private constructor(context: Context, baseUrl: String
     }
 
     companion object {
+        @SuppressLint("StaticFieldLeak")
         var instance: RetrofitClientPublic? = null
         fun getInstance(context: Context): RetrofitClientPublic {
             if (instance == null) {

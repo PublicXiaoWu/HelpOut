@@ -2,7 +2,7 @@ package com.gkzxhn.helpout.utils.download
 
 import com.gkzxhn.helpout.common.App.Companion.mContext
 import com.gkzxhn.helpout.net.ApiService
-import com.gkzxhn.helpout.net.CacheInterceptorLogin
+import com.gkzxhn.helpout.net.CacheInterceptorPublic
 import com.gkzxhn.helpout.utils.download.entity.DownInfo
 import com.gkzxhn.helpout.utils.download.entity.DownState
 import com.gkzxhn.helpout.utils.logE
@@ -72,8 +72,8 @@ class HttpDownManager private constructor() {
             val interceptor = DownloadInterceptor(subscriber)
 
             val okHttpClient = OkHttpClient.Builder()
-                    .addInterceptor(CacheInterceptorLogin(mContext))
-                    .addNetworkInterceptor(CacheInterceptorLogin(mContext))
+                    .addInterceptor(CacheInterceptorPublic(mContext))
+                    .addNetworkInterceptor(CacheInterceptorPublic(mContext))
                     .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
                     .connectTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
                     .writeTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
