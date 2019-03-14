@@ -69,8 +69,8 @@ interface ApiService {
     /**
      *获取android最新版本
      */
-    @GET("versions/ASSISTANT_APP/ANDROID ")
-    fun updateApp(): Observable<UpdateInfo>
+    @GET("versions/latest/{platform}/{deviceType}")
+    fun updateApp(@Path ("platform") platform :String,@Path ("deviceType") deviceType :String): Observable<UpdateInfo>
 
     /****** 设置接单状态 ******/
     @POST("lawyer/profiles/service-status")

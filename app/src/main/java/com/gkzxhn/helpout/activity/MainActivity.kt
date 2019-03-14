@@ -119,7 +119,7 @@ class MainActivity : BaseActivity() {
      * @description：检查更新
      */
     private fun updateApp() {
-        mCompositeSubscription.add(RetrofitClientPublic.getInstance(this).mApi?.updateApp()
+        mCompositeSubscription.add(RetrofitClientPublic.getInstance(this).mApi?.updateApp("ASSISTANT_APP","ANDROID")
                 ?.subscribeOn(rx.schedulers.Schedulers.io())
                 ?.unsubscribeOn(AndroidSchedulers.mainThread())
                 ?.observeOn(AndroidSchedulers.mainThread())

@@ -111,7 +111,7 @@ class SettingActivity : BaseActivity() {
     }
 
     private fun updateApp() {
-        RetrofitClientPublic.getInstance(this).mApi?.updateApp()
+        RetrofitClientPublic.getInstance(this).mApi?.updateApp("ASSISTANT_APP","ANDROID")
                 ?.subscribeOn(Schedulers.io())
                 ?.unsubscribeOn(AndroidSchedulers.mainThread())
                 ?.observeOn(AndroidSchedulers.mainThread())
