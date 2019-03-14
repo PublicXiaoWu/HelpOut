@@ -3,12 +3,19 @@ package com.gkzxhn.helpout.activity
 import android.content.Context
 import android.content.Intent
 import android.util.TypedValue
+import android.view.View
 import android.widget.LinearLayout
 import com.gkzxhn.helpout.R
 import com.gkzxhn.helpout.extensions.dp2px
 import kotlinx.android.synthetic.main.default_top.*
 import kotlinx.android.synthetic.main.entry.*
 
+/**
+ * @classname：意见反馈
+ * @author：f
+ * @date：2019/3/14 5:28 PM
+ * @description：
+ */
 class ApplyResultActivity : BaseActivity() {
 
     companion object {
@@ -18,9 +25,8 @@ class ApplyResultActivity : BaseActivity() {
     }
 
     override fun init() {
-        tv_default_top_title.text = getString(R.string.feed_back)
-        iv_default_top_back.setOnClickListener { finish() }
-        tv_down.text = getString(R.string.close)
+        initTop()
+
         tv_pay_status.text = "反馈成功"
         tv_pay_status.setTextColor(resources.getColor(R.color.dark_blue))
         tv_pay_status.setTextSize(TypedValue.COMPLEX_UNIT_PX, resources.getDimension(R.dimen.text_large))
@@ -28,7 +34,17 @@ class ApplyResultActivity : BaseActivity() {
         params.topMargin = 30f.dp2px().toInt()
         tv_pay_status.layoutParams = params
 
-        tv_down.setOnClickListener { finish() }
+
+
+    }
+
+    private fun initTop() {
+        tv_default_top_title.text = getString(R.string.feed_back)
+        iv_default_top_back.setOnClickListener { finish() }
+        tv_default_top_end.visibility=View.VISIBLE
+        tv_default_top_end.text = getString(R.string.close)
+        tv_default_top_end.setOnClickListener { finish() }
+
     }
 
     override fun provideContentViewId(): Int {
