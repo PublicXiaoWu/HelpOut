@@ -53,7 +53,7 @@ class RetrofitClientPublic private constructor(context: Context, baseUrl: String
                 .cache(cache)
                 .retryOnConnectionFailure(true)
                 .addInterceptor(CacheInterceptorPublic(mContext))
-                .addNetworkInterceptor(CacheInterceptorPublic(mContext))
+//                .addNetworkInterceptor(CacheInterceptorPublic(mContext))
                 .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
                 .connectTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
                 .writeTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)

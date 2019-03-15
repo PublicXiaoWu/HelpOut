@@ -30,7 +30,7 @@ class CacheInterceptorPublic(val context: Context) : Interceptor {
             if (token != null) {
                 if (token.isNotEmpty()) {
                     val mtoken = "Bearer $token"
-                    addHeader?.addHeader("Authorization", mtoken)
+                    addHeader?.header("Authorization", mtoken)
                 }
             }
             val method = addHeader?.method(request!!.method(), request.body())

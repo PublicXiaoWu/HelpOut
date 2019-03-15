@@ -50,7 +50,7 @@ class RetrofitClient private constructor(context: Context, baseUrl: String) {
                 .cache(cache)
                 .retryOnConnectionFailure(true)
                 .addInterceptor(CacheInterceptor(mContext))
-                .addNetworkInterceptor(CacheInterceptor(mContext))
+//                .addNetworkInterceptor(CacheInterceptor(mContext))
                 .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
                 .connectTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
                 .writeTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
