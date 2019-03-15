@@ -96,7 +96,7 @@ class WXPayEntryActivity : BaseActivity(), IWXAPIEventHandler {
     }
 
     private fun setOnClick() {
-        tv_down!!.setOnClickListener {
+//        tv_down!!.setOnClickListener {
 //            val payStatus = PayStatus()
 //            payStatus.payType = if (code == 1) 2 else 1
 //            when (payCode) {
@@ -112,7 +112,7 @@ class WXPayEntryActivity : BaseActivity(), IWXAPIEventHandler {
 //            }
 //            RxBus.instance.post(payStatus)
 //            close()
-        }
+//        }
     }
 
     override fun onNewIntent(intent: Intent) {

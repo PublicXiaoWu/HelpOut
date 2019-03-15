@@ -6,10 +6,10 @@ import kotlinx.android.synthetic.main.activity_feedback.*
 import kotlinx.android.synthetic.main.default_top.*
 
 /**
- * @classname：SettingActivtiy
- * @author：liushaoxiang
- * @date：2018/10/11 3:52 PM
- * @description：设置
+ * @classname：意见反馈
+ * @author：f
+ * @date：2019/3/14 5:43 PM
+ * @description：
  */
 class FeedBackActivity : BaseActivity() {
     override fun provideContentViewId(): Int {

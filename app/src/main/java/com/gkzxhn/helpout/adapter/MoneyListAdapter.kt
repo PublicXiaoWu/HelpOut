@@ -104,7 +104,6 @@ class MoneyListAdapter(private val mContext: Context) : RecyclerView.Adapter<Mon
                 else -> "其它"
             }
             tv_money_list_type.text = typeStr
-            tv_money_list_pay_type.text = "支付方式：$payType"
             tv_money_list_number.text = "订单编号：${entity.orderNumber}"
             tv_money_list_time.text = StringUtils.parseDate(entity.successTime.toString())
 

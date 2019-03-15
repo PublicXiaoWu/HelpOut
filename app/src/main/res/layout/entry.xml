@@ -10,23 +10,13 @@
     <include
         layout="@layout/default_top"/>
 
-    <TextView
-        android:id="@+id/tv_down"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_gravity="end"
-        android:background="?attr/selectableItemBackground"
-        android:gravity="center"
-        android:text="@string/down"
-        android:textColor="@color/dark_blue"
-        android:textSize="@dimen/text_big"/>
 
     <ImageView
         android:id="@+id/iv_pay_status"
         android:layout_width="156dp"
         android:layout_height="138dp"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="@dimen/dimen_3"
+        android:layout_marginTop="60dp"
         android:src="@mipmap/pay_failure"/>
 
     <TextView
