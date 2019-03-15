@@ -3,7 +3,6 @@ package com.gkzxhn.helpout.presenter
 import android.content.Context
 import android.content.Intent
 import android.text.TextUtils
-import android.util.Log
 import com.gkzxhn.helpout.R
 import com.gkzxhn.helpout.activity.AccountInfoUpActivity
 import com.gkzxhn.helpout.activity.LoginActivity
@@ -17,7 +16,6 @@ import com.gkzxhn.helpout.model.ILoginModel
 import com.gkzxhn.helpout.model.iml.LoginModel
 import com.gkzxhn.helpout.net.HttpObserver
 import com.gkzxhn.helpout.net.HttpObserverNoDialog
-import com.gkzxhn.helpout.net.error_exception.ApiException
 import com.gkzxhn.helpout.utils.*
 import com.gkzxhn.helpout.view.LoginView
 import com.google.gson.Gson
@@ -32,10 +30,7 @@ import okhttp3.RequestBody
 import okhttp3.ResponseBody
 import org.json.JSONObject
 import retrofit2.Response
-import retrofit2.adapter.rxjava.HttpException
 import rx.android.schedulers.AndroidSchedulers
-import java.io.IOException
-import java.net.ConnectException
 import java.util.*
 
 /**
@@ -122,7 +117,7 @@ class LoginPresenter(context: Context, view: LoginView) : BasePresenter<ILoginMo
                                             getToken(map["phoneNumber"].toString(), map["verificationCode"].toString())
                                             rememberPhone()
                                         }
-                                    //user.password.NotMatched=账号密码不匹配。
+                                        //user.password.NotMatched=账号密码不匹配。
                                         "user.password.NotMatched" -> {
                                             mContext?.TsDialog(mContext?.getString(R.string.password_error).toString(), false)
                                         }
@@ -200,38 +195,19 @@ class LoginPresenter(context: Context, view: LoginView) : BasePresenter<ILoginMo
                                         mContext?.TsDialog("数据异常", false)
                                     }
                                 }
+                            } else if (t.code() == 401) {
+                                mContext?.TsClickDialog("登录已过期", false)?.dialog_save?.setOnClickListener {
+                                    App.EDIT.putString(Constants.SP_TOKEN, "")?.commit()
+                                    val intent = Intent(mContext, LoginActivity::class.java)
+                                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                                    mContext?.startActivity(intent)
+                                }
+                            } else {
+                                mContext?.showToast("服务器异常")
                             }
 
                         }
 
-                        override fun onError(e: Throwable?) {
-                            loadDialog?.dismiss()
-                            when (e) {
-                                is ConnectException -> mContext?.TsDialog("服务器异常，请重试", false)
-                                is HttpException -> {
-                                    if (e.code() == 401) {
-                                        mContext?.TsClickDialog("登录已过期", false)?.dialog_save?.setOnClickListener {
-                                            App.EDIT.putString(Constants.SP_TOKEN, "")?.commit()
-                                            val intent = Intent(mContext, LoginActivity::class.java)
-                                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
-                                            mContext?.startActivity(intent)
-                                        }
-                                    } else {
-                                        mContext?.TsDialog("服务器异常，请重试", false)
-                                    }
-                                }
-                                is IOException -> mContext?.TsDialog("数据加载失败，请检查您的网络", false)
-                            //后台返回的message
-                                is ApiException -> {
-                                    mContext?.TsDialog(e.message!!, false)
-                                    Log.e("ApiErrorHelper", e.message, e)
-                                }
-                                else -> {
-                                    mContext?.showToast("数据异常")
-                                    Log.e("ApiErrorHelper", e?.message, e)
-                                }
-                            }
-                        }
                     })
         }
     }

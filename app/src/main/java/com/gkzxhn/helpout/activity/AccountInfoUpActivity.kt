@@ -115,8 +115,7 @@ class AccountInfoUpActivity : BaseActivity() {
      * @description：修改昵称
      */
     private fun modifyNickname(nickname: String) {
-        var map = LinkedHashMap<String, String>()
-        map["name"] = intent.getStringExtra("name")
+        val map = LinkedHashMap<String, String>()
         map["phoneNumber"] = intent.getStringExtra("phoneNumber")
         map["nickname"] = nickname
         val body = RequestBody.create(MediaType.parse("application/json; charset=utf-8"),

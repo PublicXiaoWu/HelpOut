@@ -118,7 +118,6 @@ class OrderDisposeFragment : BaseFragment(), OrderDisposeView {
             }
         }, 1)
         recyclerViewListener()
-
     }
 
     fun recyclerViewListener() {
