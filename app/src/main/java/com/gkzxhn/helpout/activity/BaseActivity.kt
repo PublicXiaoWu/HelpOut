@@ -254,7 +254,7 @@ abstract class BaseActivity : AppCompatActivity() {
             View.GONE
         } else View.VISIBLE
 
-        val filters = HttpDownManager.getInstance().downInfos.filter { updateInfo.packageFile == it.url }
+        val filters = HttpDownManager.getInstance().downInfos.filter { updateInfo.packageFileName == it.url }
         if (filters.isNotEmpty()) {
             downloadInfo = filters[0]
         }
@@ -305,7 +305,7 @@ abstract class BaseActivity : AppCompatActivity() {
                 }
 
                 downloadInfo?.baseUrl = NetWorkCodeInfo.BASE_URL
-                downloadInfo?.url = updateInfo?.packageFile
+                downloadInfo?.url = updateInfo?.packageFileName
                 downloadInfo?.savePath = File(externalFilesDir, Constants.APK_ADRESS).absolutePath
 
                 downloadInfo?.listener = object : HttpProgressOnNextListener<DownInfo>() {

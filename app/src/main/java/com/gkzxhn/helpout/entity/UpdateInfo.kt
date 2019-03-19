@@ -17,7 +17,7 @@ data class UpdateInfo(
         val name: String?,
         val number: Int?,
         val fileId: String?,
-        val packageFile: String?,
+        val packageFileName: String?,
         val description: String?,
         val forced: Boolean?
 )

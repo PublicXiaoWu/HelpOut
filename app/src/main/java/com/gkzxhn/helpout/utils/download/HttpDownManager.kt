@@ -73,7 +73,7 @@ class HttpDownManager private constructor() {
 
             val okHttpClient = OkHttpClient.Builder()
                     .addInterceptor(CacheInterceptorPublic(mContext))
-                    .addNetworkInterceptor(CacheInterceptorPublic(mContext))
+//                    .addNetworkInterceptor(CacheInterceptorPublic(mContext))
                     .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
                     .connectTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
                     .writeTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
