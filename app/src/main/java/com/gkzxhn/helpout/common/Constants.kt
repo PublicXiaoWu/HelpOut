@@ -115,4 +115,7 @@ object Constants {
     /****** 昵称返回 ******/
     val RESULT_EDIT_NICKNAME = "RESULT_EDIT_NICKNAME"
 
+
+    //微信APP_ID
+    val WX_APPID = "wx21aed62551567801"
 }

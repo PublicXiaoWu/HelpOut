@@ -5,10 +5,12 @@ import android.text.TextUtils
 import android.util.Log
 import com.gkzxhn.helpout.R
 import com.gkzxhn.helpout.activity.CustomerOrderDetailActivity
+import com.gkzxhn.helpout.common.RxBus
 import com.gkzxhn.helpout.entity.CommentInfo
 import com.gkzxhn.helpout.entity.CustomerOrderDetailInfo
 import com.gkzxhn.helpout.entity.ImInfo
 import com.gkzxhn.helpout.entity.WXLawOrderInfo
+import com.gkzxhn.helpout.entity.rxbus.PayStatus
 import com.gkzxhn.helpout.model.iml.CustomerModel
 import com.gkzxhn.helpout.net.HttpObserver
 import com.gkzxhn.helpout.utils.showToast
@@ -19,6 +21,7 @@ import com.tencent.mm.opensdk.openapi.IWXAPI
 import com.tencent.mm.opensdk.openapi.WXAPIFactory
 import okhttp3.ResponseBody
 import org.json.JSONObject
+import rx.Subscription
 import rx.android.schedulers.AndroidSchedulers
 
 class CustomerOrderDetailPresenter(context: Context, view: CustomerOrderDetailView)
@@ -27,9 +30,9 @@ class CustomerOrderDetailPresenter(context: Context, view: CustomerOrderDetailVi
     //订单id
     var orderId: String? = null
 
-    fun getCustomerOrderDetail(orderId: String) {
+    fun getCustomerOrderDetail(orderId: String) : Subscription?{
         this.orderId = orderId
-        mContext?.let {
+        return mContext?.let {
             mModel.getCustomerOrderDetail(orderId)
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(object : HttpObserver<CustomerOrderDetailInfo>(it) {
@@ -43,8 +46,8 @@ class CustomerOrderDetailPresenter(context: Context, view: CustomerOrderDetailVi
     /**
      * 获取律师云信账号然后通话
      */
-    fun getImInfo(username: String) {
-        mContext?.let {
+    fun getImInfo(username: String) : Subscription?{
+        return mContext?.let {
             mModel.getImAccount(it, username)
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(object : HttpObserver<ImInfo>(it) {
@@ -58,8 +61,8 @@ class CustomerOrderDetailPresenter(context: Context, view: CustomerOrderDetailVi
     /**
      * 删除订单
      */
-    fun deleteOrder(orderId: String) {
-        mContext?.let {
+    fun deleteOrder(orderId: String) : Subscription?{
+        return  mContext?.let {
             mModel.deleteOrder(orderId)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(object : HttpObserver<ResponseBody?>(it) {
@@ -74,8 +77,8 @@ class CustomerOrderDetailPresenter(context: Context, view: CustomerOrderDetailVi
     /**
      * 取消订单
      */
-    fun cancelOrder(orderId: String) {
-        mContext?.let {
+    fun cancelOrder(orderId: String) : Subscription?{
+        return mContext?.let {
             mModel.cancelOrder(orderId)
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(object : HttpObserver<ResponseBody?>(it) {
@@ -89,8 +92,8 @@ class CustomerOrderDetailPresenter(context: Context, view: CustomerOrderDetailVi
     /**
      * 结束咨询
      */
-    fun endOrder(orderId: String, comment:String?, rate: Int, isResolved: Boolean) {
-        mContext?.let {
+    fun endOrder(orderId: String, comment:String?, rate: Int, isResolved: Boolean): Subscription? {
+        return mContext?.let {
             mModel.applyOrderComment(CommentInfo(rate, comment, isResolved, orderId))
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(object : HttpObserver<ResponseBody>(it) {
@@ -104,8 +107,8 @@ class CustomerOrderDetailPresenter(context: Context, view: CustomerOrderDetailVi
     /**
      * 模拟通话
      */
-    fun mockVideoChart(orderId: String) {
-        mContext?.let {
+    fun mockVideoChart(orderId: String): Subscription? {
+        return mContext?.let {
             it.showToast("模拟通话...")
             mModel.mockVideoChart(orderId)
                     .observeOn(AndroidSchedulers.mainThread())
@@ -121,8 +124,8 @@ class CustomerOrderDetailPresenter(context: Context, view: CustomerOrderDetailVi
     /**
      * 获取订单评价
      */
-    fun getComments(orderId: String) {
-        mContext?.let {
+    fun getComments(orderId: String): Subscription? {
+        return mContext?.let {
             mModel.getComment(orderId)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(object : HttpObserver<CommentInfo>(it) {
@@ -137,12 +140,12 @@ class CustomerOrderDetailPresenter(context: Context, view: CustomerOrderDetailVi
     /**
      * 获取支付宝订单号
      */
-    fun getAliOrder() {
+    fun getAliOrder() : Subscription?{
         if (TextUtils.isEmpty(orderId)) {
             mContext?.showToast("订单号错误,请重新下单")
-            return
+            return null
         }
-        mContext?.let {
+        return mContext?.let {
             mModel.getAliOrder(orderId!!)
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(object : HttpObserver<ResponseBody>(it) {
@@ -159,13 +162,13 @@ class CustomerOrderDetailPresenter(context: Context, view: CustomerOrderDetailVi
     }
 
     private var amount = 0.0
-    fun getWxOrder(amount: Double) {
+    fun getWxOrder(amount: Double) : Subscription?{
         this.amount = amount
         if (TextUtils.isEmpty(orderId)) {
             mContext?.showToast("订单号错误,请重新下单")
-            return
+            return null
         }
-        mContext?.let {
+        return mContext?.let {
             mModel.getWxOrder(orderId!!)
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(object : HttpObserver<WXLawOrderInfo>(it) {
@@ -213,6 +216,19 @@ class CustomerOrderDetailPresenter(context: Context, view: CustomerOrderDetailVi
         request.extData = "$amount&"
         api.sendReq(request)
         (mView as CustomerOrderDetailActivity).popupWindow?.dismiss()
+    }
+
+    fun subscribePay(): Subscription? {
+        return RxBus.instance
+                .toObserverable(PayStatus::class.java)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+                    if (it.payStatus == 1) {
+                        mView?.showPaySuccess()
+                    }
+                }, {
+
+                })
     }
 
 }

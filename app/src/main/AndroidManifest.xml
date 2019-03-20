@@ -128,7 +128,10 @@
                   android:screenOrientation="portrait"
             />
         <activity android:name=".activity.ImageActivity"/>
-        <activity android:name=".wxapi.WXPayEntryActivity"/>
+        <activity android:name=".wxapi.WXPayEntryActivity"
+                  android:exported="true"
+                  android:launchMode="singleTop"
+                  android:screenOrientation="portrait"/>
         <activity android:name=".activity.ApplyResultActivity"/>
 
         <provider

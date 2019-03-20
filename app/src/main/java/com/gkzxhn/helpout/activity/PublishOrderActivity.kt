@@ -45,6 +45,7 @@ class PublishOrderActivity : BaseActivity(), PublishOrderView {
         initToolbar()
         initContent()
         initListener()
+        mCompositeSubscription.add(mPresenter.subscribePay())
     }
 
     override fun provideContentViewId(): Int {
@@ -75,7 +76,7 @@ class PublishOrderActivity : BaseActivity(), PublishOrderView {
                 showToast(getString(R.string.please_enter_price))
                 return@setOnClickListener
             }
-            mPresenter.publishOrder(orderCategory, reward)
+            mCompositeSubscription.add(mPresenter.publishOrder(orderCategory, reward))
         }
     }
 
@@ -135,14 +136,14 @@ class PublishOrderActivity : BaseActivity(), PublishOrderView {
                                 if (BuildConfig.DEBUG) {
                                     //                                        amount = 0.01F
                                 }
-                                mPresenter.getAliOrder()
+                                mCompositeSubscription.add(mPresenter.getAliOrder())
                             }
                             1 -> {
                                 //微信
                                 if (BuildConfig.DEBUG) {
 //                                    amount = 0.01
                                 }
-                                mPresenter.getWxOrder(reward)
+                                mCompositeSubscription.add(mPresenter.getWxOrder(reward))
                             }
                             else -> {
                             }
@@ -210,7 +211,7 @@ class PublishOrderActivity : BaseActivity(), PublishOrderView {
         }
     }
 
-    fun showPaySuccess() {
+    override fun showPaySuccess() {
         val confirmDialog = LayoutInflater.from(this).inflate(R.layout.bottom_confirm_dialog, null)
         showBottomDialog(confirmDialog)
         confirmDialog.findViewById<TextView>(R.id.tv_cancel).setOnClickListener {

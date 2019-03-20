@@ -7,10 +7,12 @@ import android.text.TextUtils
 import android.view.View
 import com.gkzxhn.helpout.R
 import com.gkzxhn.helpout.activity.BaseActivity
+import com.gkzxhn.helpout.common.Constants
+import com.gkzxhn.helpout.common.RxBus
+import com.gkzxhn.helpout.entity.rxbus.PayStatus
 import com.tencent.mm.opensdk.constants.ConstantsAPI
 import com.tencent.mm.opensdk.modelbase.BaseReq
 import com.tencent.mm.opensdk.modelbase.BaseResp
-import com.tencent.mm.opensdk.modelpay.PayReq
 import com.tencent.mm.opensdk.modelpay.PayResp
 import com.tencent.mm.opensdk.openapi.IWXAPI
 import com.tencent.mm.opensdk.openapi.IWXAPIEventHandler
@@ -50,7 +52,7 @@ class WXPayEntryActivity : BaseActivity(), IWXAPIEventHandler {
 //            prisonerName = intent.getStringExtra(IntentConstants.NAME)
 //        }
         // ͨ��WXAPIFactory��������ȡIWXAPI��ʵ��
-        api = WXAPIFactory.createWXAPI(this, appId)
+        api = WXAPIFactory.createWXAPI(this, Constants.WX_APPID)
         try {
             api?.handleIntent(intent, this)
         } catch (e: Exception) {
@@ -124,9 +126,9 @@ class WXPayEntryActivity : BaseActivity(), IWXAPIEventHandler {
 
     // ΢�ŷ������󵽵�����Ӧ��ʱ����ص����÷���
     override fun onReq(req: BaseReq) {
-        if (req is PayReq) {
-            appId = req.appId
-        }
+//        if (req is PayReq) {
+//            appId = req.appId
+//        }
         when (req.type) {
             ConstantsAPI.COMMAND_GETMESSAGE_FROM_WX -> {
             }
@@ -150,6 +152,25 @@ class WXPayEntryActivity : BaseActivity(), IWXAPIEventHandler {
             } catch (e: Exception) {
             }
         }
+        val payStatus = PayStatus()
+        payStatus.payType = 2
+        when (payCode) {
+            BaseResp.ErrCode.ERR_OK -> {
+                //支付成功
+                payStatus.payStatus = 1
+            }
+            BaseResp.ErrCode.ERR_USER_CANCEL -> {
+                //用户取消支付
+                payStatus.payStatus = 2
+            }
+            else -> {
+                //支付失败
+                payStatus.payStatus = 0
+
+            }
+        }
+        RxBus.instance.post(payStatus)
+        finish()
     }
 
     companion object {

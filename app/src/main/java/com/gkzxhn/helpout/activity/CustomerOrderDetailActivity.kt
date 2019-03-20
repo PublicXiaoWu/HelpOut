@@ -58,6 +58,7 @@ class CustomerOrderDetailActivity : BaseActivity(), CustomerOrderDetailView {
         initToolbar()
         initContent()
         initListener()
+        mCompositeSubscription.add(mPresenter.subscribePay())
     }
 
     override fun provideContentViewId(): Int {
@@ -101,7 +102,7 @@ class CustomerOrderDetailActivity : BaseActivity(), CustomerOrderDetailView {
     private fun initContent() {
         orderId = intent.getStringExtra(IntentConstants.ID)
         //"f626cd62-e278-4cb3-9c39-33c114a252f9"
-        mPresenter.getCustomerOrderDetail(orderId)
+        mCompositeSubscription.add(mPresenter.getCustomerOrderDetail(orderId))
     }
 
     @SuppressLint("SetTextI18n")
@@ -132,7 +133,7 @@ class CustomerOrderDetailActivity : BaseActivity(), CustomerOrderDetailView {
         val orderNumber = "${getString(R.string.serial_number)}: ${customerOrderDetailInfo.number}"
         //订单类别
         val orderCategory = customerOrderDetailInfo.category?.let { LawChannel.find(it) }
-        amount = customerOrderDetailInfo.reward?: 0.0
+        amount = customerOrderDetailInfo.reward ?: 0.0
         //订单金额
         val reward = "¥${amount.toString()}"
         //律师名字
@@ -239,7 +240,7 @@ class CustomerOrderDetailActivity : BaseActivity(), CustomerOrderDetailView {
                 orderBodyStr1 = acceptedTime
                 orderBodyStr2 = finishTime
                 btn1Str = getString(R.string.delete_order)
-                mPresenter.getComments(orderId)
+                mCompositeSubscription.add(mPresenter.getComments(orderId))
             }
             else -> {
                 layout_order_head.visibility = View.GONE
@@ -278,14 +279,14 @@ class CustomerOrderDetailActivity : BaseActivity(), CustomerOrderDetailView {
         bt_order_1.text = btn1Str
         bt_order_1.setOnClickListener {
             if (btn1Str == getString(R.string.delete_order)) {
-                mPresenter.deleteOrder(orderId)
+                mCompositeSubscription.add(mPresenter.deleteOrder(orderId))
             } else if (btn1Str == getString(R.string.cancel_order)) {
-                mPresenter.cancelOrder(orderId)
+                mCompositeSubscription.add(mPresenter.cancelOrder(orderId))
             } else {
                 lawUsername?.let { it1 ->
                     //                    mPresenter.getImInfo(it1)
                     //模拟通话
-                    mPresenter.mockVideoChart(orderId)
+                    mCompositeSubscription.add(mPresenter.mockVideoChart(orderId))
                 }
             }
         }
@@ -308,7 +309,7 @@ class CustomerOrderDetailActivity : BaseActivity(), CustomerOrderDetailView {
             return
         }
         val content = et_service_comment.text.toString()
-        mPresenter.endOrder(orderId, content, ratingScore, rb_solve_problem_yes.isChecked)
+        mCompositeSubscription.add(mPresenter.endOrder(orderId, content, ratingScore, rb_solve_problem_yes.isChecked))
     }
 
     /**
@@ -349,14 +350,14 @@ class CustomerOrderDetailActivity : BaseActivity(), CustomerOrderDetailView {
                                 if (BuildConfig.DEBUG) {
                                     //                                        amount = 0.01F
                                 }
-                                mPresenter.getAliOrder()
+                                mCompositeSubscription.add(mPresenter.getAliOrder())
                             }
                             1 -> {
                                 //微信
                                 if (BuildConfig.DEBUG) {
 //                                    amount = 0.01
                                 }
-                                mPresenter.getWxOrder(reward)
+                                mCompositeSubscription.add(mPresenter.getWxOrder(reward))
                             }
                             else -> {
                             }
@@ -424,16 +425,17 @@ class CustomerOrderDetailActivity : BaseActivity(), CustomerOrderDetailView {
         }
     }
 
-    fun showPaySuccess() {
+    override fun showPaySuccess() {
         val confirmDialog = LayoutInflater.from(this).inflate(R.layout.bottom_confirm_dialog, null)
         showBottomDialog(confirmDialog)
         confirmDialog.findViewById<TextView>(R.id.tv_cancel).setOnClickListener {
             dismissBottomDialog()
-            finish()
         }
         confirmDialog.findViewById<TextView>(R.id.tv_confirm).setOnClickListener {
             dismissBottomDialog()
-            mPresenter.orderId?.let { it1 -> mPresenter.getCustomerOrderDetail(it1) }
+            mPresenter.orderId?.let { it1 ->
+                mCompositeSubscription.add(mPresenter.getCustomerOrderDetail(it1))
+            }
         }
     }
 }

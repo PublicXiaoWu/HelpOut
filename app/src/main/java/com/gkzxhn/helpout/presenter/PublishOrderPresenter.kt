@@ -5,9 +5,11 @@ import android.text.TextUtils
 import android.util.Log
 import com.gkzxhn.helpout.R
 import com.gkzxhn.helpout.activity.PublishOrderActivity
+import com.gkzxhn.helpout.common.RxBus
 import com.gkzxhn.helpout.entity.PublishOrderInfo
 import com.gkzxhn.helpout.entity.PublishRequestInfo
 import com.gkzxhn.helpout.entity.WXLawOrderInfo
+import com.gkzxhn.helpout.entity.rxbus.PayStatus
 import com.gkzxhn.helpout.model.iml.CustomerModel
 import com.gkzxhn.helpout.net.HttpObserver
 import com.gkzxhn.helpout.utils.showToast
@@ -17,6 +19,7 @@ import com.tencent.mm.opensdk.openapi.IWXAPI
 import com.tencent.mm.opensdk.openapi.WXAPIFactory
 import okhttp3.ResponseBody
 import org.json.JSONObject
+import rx.Subscription
 import rx.android.schedulers.AndroidSchedulers
 
 class PublishOrderPresenter(context: Context, view: PublishOrderView)
@@ -25,8 +28,13 @@ class PublishOrderPresenter(context: Context, view: PublishOrderView)
     //订单id
     var orderId: String? = null
 
-    fun publishOrder(category: String, reward: Double) {
-        mContext?.let {
+
+    fun init() {
+    }
+
+
+    fun publishOrder(category: String, reward: Double) : Subscription? {
+        return mContext?.let {
             mModel.publishOrder(PublishRequestInfo(category, reward))
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(object : HttpObserver<PublishOrderInfo>(it) {
@@ -41,12 +49,12 @@ class PublishOrderPresenter(context: Context, view: PublishOrderView)
     /**
      * 获取支付宝订单号
      */
-    fun getAliOrder() {
+    fun getAliOrder() : Subscription?{
         if (TextUtils.isEmpty(orderId)) {
             mContext?.showToast("订单号错误,请重新下单")
-            return
+            return null
         }
-        mContext?.let {
+        return mContext?.let {
             mModel.getAliOrder(orderId!!)
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(object : HttpObserver<ResponseBody>(it) {
@@ -63,13 +71,13 @@ class PublishOrderPresenter(context: Context, view: PublishOrderView)
     }
 
     private var amount = 0.0
-    fun getWxOrder(amount: Double) {
+    fun getWxOrder(amount: Double) : Subscription? {
         this.amount = amount
         if (TextUtils.isEmpty(orderId)) {
             mContext?.showToast("订单号错误,请重新下单")
-            return
+            return null
         }
-        mContext?.let {
+        return mContext?.let {
             mModel.getWxOrder(orderId!!)
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(object : HttpObserver<WXLawOrderInfo>(it) {
@@ -117,6 +125,19 @@ class PublishOrderPresenter(context: Context, view: PublishOrderView)
         request.extData = "$amount&"
         api.sendReq(request)
         (mView as PublishOrderActivity).popupWindow?.dismiss()
+    }
+
+    fun subscribePay(): Subscription? {
+        return RxBus.instance
+                .toObserverable(PayStatus::class.java)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+                    if (it.payStatus == 1) {
+                        mView?.showPaySuccess()
+                    }
+                }, {
+
+                })
     }
 
 }

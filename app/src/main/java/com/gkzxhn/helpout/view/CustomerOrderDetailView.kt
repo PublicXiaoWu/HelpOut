@@ -10,4 +10,5 @@ interface CustomerOrderDetailView : BaseView {
     fun close()
     fun alipay(orderInfo: String)
     fun showPayPop(reward: Double)
+    fun showPaySuccess()
 }

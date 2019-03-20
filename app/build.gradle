@@ -29,6 +29,10 @@ android {
             storePassword "guokezhengxin"
             keyAlias "gkzx"
             keyPassword "guokezhengxin"
+//            storeFile file("gkprison.jks")
+//            storePassword "123456"
+//            keyAlias "gkhn"
+//            keyPassword "123456"
         }
     }
 
