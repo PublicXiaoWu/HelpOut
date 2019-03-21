@@ -25,7 +25,8 @@ class WithdrawThirdActivity : BaseActivity() {
         tv_withdraw_3_acount.text = account
         tv_withdraw_3_name.text = payName
         val money = moneyString.toDouble() * 0.7
-        tv_withdraw_3_money.text = "￥$money"
+        val formatMoney = StringUtils.formatStringTwo(money)
+        tv_withdraw_3_money.text = "￥$formatMoney"
         tv_withdraw_3_type.text = if (type == 1) {
             "支付宝账户"
         } else {
