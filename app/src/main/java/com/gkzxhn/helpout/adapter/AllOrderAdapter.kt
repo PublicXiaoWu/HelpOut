@@ -87,10 +87,10 @@ class AllOrderAdapter(private val mContext: Context) : RecyclerView.Adapter<AllO
                 else ->
                     iv_order_dispose_state.setImageResource(R.mipmap.ic_order_clz)
             }
-            holder.itemView.setOnClickListener(android.view.View.OnClickListener {
+            holder.itemView.setOnClickListener {
                 mCurrentIndex = position
                 onItemClickListener?.onItemClick(this, holder, position)
-            })
+            }
 
         }
     }

@@ -7,6 +7,7 @@ import android.graphics.Matrix
 import android.graphics.Paint
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
+import android.support.v7.widget.AppCompatTextView
 import android.util.AttributeSet
 import android.util.Log
 import com.gkzxhn.helpout.R
@@ -18,7 +19,7 @@ import com.gkzxhn.helpout.R
  * @description：
  */
 
-class DrawableTextView : android.support.v7.widget.AppCompatTextView {
+class DrawableTextView : AppCompatTextView {
 
     private var src: Drawable? = null
     private var drawablePosition: Int = 0

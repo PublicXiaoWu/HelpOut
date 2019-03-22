@@ -60,7 +60,7 @@ class App : Application() {
         //初始化通用的SP&EDIT
         SP = getSharedPreferences("config", Context.MODE_PRIVATE)
         EDIT = SP.edit()
-        mApi = RetrofitClient.getInstance(this).mApi!!
+        mApi = RetrofitClient.getInstance(this).mApi
 
         /****** 崩溃日志初始化 ******/
         CrashHandler.instance.init(this)

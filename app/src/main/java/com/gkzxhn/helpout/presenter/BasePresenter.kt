@@ -24,10 +24,10 @@ open class BasePresenter<M : IBaseModel, V : BaseView>(context: Context, protect
             mWeakView = WeakReference(view)
     }
 
-    var mView: V? = null
+    val mView: V?
         get() =  mWeakView?.get()
 
-    var mContext: Context?=null
+    val mContext: Context?
         get() = mWeakContext?.get()
 
 }

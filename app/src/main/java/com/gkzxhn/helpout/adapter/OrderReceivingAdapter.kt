@@ -95,10 +95,10 @@ class OrderReceivingAdapter(private val mContext: Context) : RecyclerView.Adapte
                 tv_item_order_receiving_rush.setBackgroundResource(R.drawable.selector_shape_order_bg)
             }
 
-            holder.itemView.setOnClickListener({
+            holder.itemView.setOnClickListener {
                 mCurrentIndex = position
                 onItemClickListener?.onItemClick(this, holder, position)
-            })
+            }
 
             tv_item_order_receiving_rush.setOnClickListener {
                 mCurrentIndex = position

@@ -34,8 +34,6 @@ class ApplyResultActivity : BaseActivity() {
         params.topMargin = 30f.dp2px().toInt()
         tv_pay_status.layoutParams = params
 
-
-
     }
 
     private fun initTop() {

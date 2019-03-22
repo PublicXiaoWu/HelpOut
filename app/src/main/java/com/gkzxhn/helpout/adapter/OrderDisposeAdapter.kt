@@ -124,15 +124,15 @@ class OrderDisposeAdapter(private val mContext: Context, private val data: List<
                 }
             }
 
-            holder.itemView.setOnClickListener({
+            holder.itemView.setOnClickListener {
                 mCurrentIndex = position
                 onItemClickListener?.onItemClick(this, holder, position)
-            })
+            }
 
-            tv_tv_order_next.setOnClickListener({
+            tv_tv_order_next.setOnClickListener {
                 mCurrentIndex = position
                 onItemOrderListener?.onRefusedListener()
-            })
+            }
         }
     }
 

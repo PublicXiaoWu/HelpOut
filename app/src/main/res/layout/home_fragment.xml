@@ -3,8 +3,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:background="@color/base_back"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/base_back">
 
     <ImageView
         android:id="@+id/v_home_top_bg"
@@ -13,10 +13,23 @@
         android:background="@mipmap/ic_home_top_adv"
     />
 
+    <TextView
+        android:id="@+id/tv_home_top_environment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:text="TESTING ENVIRONMENT"
+        android:textColor="@color/white"
+        android:textSize="10sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+    />
+
     <FrameLayout
-        app:layout_constraintBottom_toBottomOf="@+id/v_home_top_bg"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/v_home_top_bg">
 
         <com.gkzxhn.helpout.customview.WaveView
             android:layout_width="match_parent"
@@ -46,7 +59,6 @@
             app:wave_width="130dp"
             app:wave_width2="125dp"/>
     </FrameLayout>
-
 
 
     <ImageView
