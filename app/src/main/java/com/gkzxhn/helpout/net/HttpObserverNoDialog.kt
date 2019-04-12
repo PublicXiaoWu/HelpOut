@@ -4,13 +4,12 @@ package com.gkzxhn.helpout.net
 import android.content.Context
 import com.gkzxhn.helpout.net.error_exception.ApiErrorHelper
 
-
-
  /**
  * Explanation:没有加载框的
  * @author LSX
  *    -----2018/9/6
  */
+
 abstract class HttpObserverNoDialog<T>(context: Context) : MySubscriber<T>(), OnRequestListener<T> {
     var contexts : Context?  = null
 

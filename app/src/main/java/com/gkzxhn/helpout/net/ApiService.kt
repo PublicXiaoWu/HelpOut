@@ -18,7 +18,7 @@ import rx.Observable
 interface ApiService {
 
     // 获取验证码
-    @POST("/users/{phoneNumber}/verification-codes/login")
+    @POST("/sms/verification-codes/{phoneNumber}")
     fun getCode(@Path("phoneNumber") string: String): Observable<Response<Void>>
 
     //    注册 登录

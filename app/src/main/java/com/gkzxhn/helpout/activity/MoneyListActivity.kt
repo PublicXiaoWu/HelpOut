@@ -64,7 +64,6 @@ class MoneyListActivity : BaseActivity() {
         iv_default_top_back.setOnClickListener {
             finish()
         }
-
     }
 
     fun getMoneyList(p: String) {
@@ -105,5 +104,4 @@ class MoneyListActivity : BaseActivity() {
         }
 
     }
-
 }

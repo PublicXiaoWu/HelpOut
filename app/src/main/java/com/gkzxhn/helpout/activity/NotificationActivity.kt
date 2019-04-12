@@ -27,9 +27,11 @@ import rx.schedulers.Schedulers
  */
 
 class NotificationActivity : BaseActivity() {
+
     var loadMore = false
     var page = 0
     lateinit var mAdapter: NotificationInfoAdapter
+
     override fun provideContentViewId(): Int {
         return R.layout.activity_notification_list
     }

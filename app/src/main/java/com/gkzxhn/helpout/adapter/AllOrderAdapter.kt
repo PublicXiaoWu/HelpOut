@@ -16,7 +16,6 @@ import com.zhy.adapter.recyclerview.MultiItemTypeAdapter
 import kotlinx.android.synthetic.main.item_order_all_dispose.view.*
 import java.util.*
 
-
 /**
  * Explanation：所有订单
  * @author LSX

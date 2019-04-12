@@ -100,7 +100,6 @@ abstract class BaseActivity : AppCompatActivity() {
                 }, {
                     it.message.toString().logE(this)
                 })
-
     }
 
     /**

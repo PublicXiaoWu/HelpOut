@@ -63,7 +63,7 @@ class OrderReceivingFragment : BaseFragment(), OrderReceivingView {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
                     if (ProjectUtils.certificationStatus()) {
-                        mPresenter?.getOrderReceiving("0", mCompositeSubscription)
+                        mPresenter.getOrderReceiving("0", mCompositeSubscription)
                     }
                 }, {
                     it.message.toString().logE(this)
@@ -74,7 +74,7 @@ class OrderReceivingFragment : BaseFragment(), OrderReceivingView {
                 .cache()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
-                    mPresenter?.getOrderReceiving("0", mCompositeSubscription)
+                    mPresenter.getOrderReceiving("0", mCompositeSubscription)
                 }, {
                     it.message.toString().logE(this)
                 })
@@ -84,7 +84,7 @@ class OrderReceivingFragment : BaseFragment(), OrderReceivingView {
                 .cache()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
-                    mPresenter?.getOrderReceiving("0", mCompositeSubscription)
+                    mPresenter.getOrderReceiving("0", mCompositeSubscription)
                 }, {
                     it.message.toString().logE(this)
                 })
@@ -96,7 +96,7 @@ class OrderReceivingFragment : BaseFragment(), OrderReceivingView {
         loading_more.setOnLoadMoreListener(object : com.gkzxhn.helpout.customview.LoadMoreWrapper.OnLoadMoreListener {
             override fun onLoadMore() {
                 if (loadMore) {
-                    mPresenter?.getOrderReceiving((page + 1).toString(), mCompositeSubscription)
+                    mPresenter.getOrderReceiving((page + 1).toString(), mCompositeSubscription)
                 } else {
                     offLoadMore()
                 }
@@ -106,7 +106,7 @@ class OrderReceivingFragment : BaseFragment(), OrderReceivingView {
         //下啦刷新
         loading_refresh.setOnRefreshListener(object : PullToRefreshLayout.OnRefreshListener {
             override fun onRefresh() {
-                mPresenter?.getOrderReceiving("0", mCompositeSubscription)
+                mPresenter.getOrderReceiving("0", mCompositeSubscription)
                 loading_refresh?.finishRefreshing()
             }
         }, 1)
@@ -134,7 +134,7 @@ class OrderReceivingFragment : BaseFragment(), OrderReceivingView {
         mAdapter?.setOnItemRushListener(object : OrderReceivingAdapter.ItemRushListener {
             override fun onRushListener() {
                 if (ProjectUtils.certificationStatus()) {
-                    mPresenter?.acceptRushOrder(mAdapter!!.getCurrentItem().id!!, mCompositeSubscription)
+                    mPresenter.acceptRushOrder(mAdapter!!.getCurrentItem().id!!, mCompositeSubscription)
                 } else {
                     showTsDialog()
                 }
@@ -144,7 +144,7 @@ class OrderReceivingFragment : BaseFragment(), OrderReceivingView {
 
     private fun showTsDialog() {
         when (App.SP.getString(Constants.SP_CERTIFICATIONSTATUS, "")) {
-        /****** 待认证 ******/
+            /****** 待认证 ******/
             Constants.PENDING_CERTIFIED -> {
                 val tsClickDialog = context?.TsClickDialog("您尚未认证", true)
                 val send = tsClickDialog?.findViewById<TextView>(R.id.dialog_save)
@@ -154,7 +154,7 @@ class OrderReceivingFragment : BaseFragment(), OrderReceivingView {
                     tsClickDialog.dismiss()
                 }
             }
-        /****** 待审核 ******/
+            /****** 待审核 ******/
             Constants.PENDING_APPROVAL -> {
                 val tsClickDialog = context?.TsClickDialog("认证正在审核中", true)
                 val send = tsClickDialog?.findViewById<TextView>(R.id.dialog_save)
@@ -164,7 +164,7 @@ class OrderReceivingFragment : BaseFragment(), OrderReceivingView {
                     tsClickDialog.dismiss()
                 }
             }
-        /****** 审核失败 ******/
+            /****** 审核失败 ******/
             Constants.APPROVAL_FAILURE -> {
                 val tsClickDialog = context?.TsClickDialog("您尚未认证", true)
                 val send = tsClickDialog?.findViewById<TextView>(R.id.dialog_save)
@@ -195,8 +195,7 @@ class OrderReceivingFragment : BaseFragment(), OrderReceivingView {
     override fun setUserVisibleHint(isVisibleToUser: Boolean) {
         super.setUserVisibleHint(isVisibleToUser)
         if (isVisibleToUser) {
-
-            mPresenter?.getOrderReceiving("0", mCompositeSubscription)
+            mPresenter.getOrderReceiving("0", mCompositeSubscription)
         }
 
     }

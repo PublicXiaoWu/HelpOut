@@ -64,7 +64,7 @@ class LoginPresenter(context: Context, view: LoginView) : BasePresenter<ILoginMo
                         ?.observeOn(AndroidSchedulers.mainThread())
                         ?.subscribe(object : HttpObserver<Response<Void>>(it) {
                             override fun success(t: Response<Void>) {
-                                if (t.code() == 201) {
+                                if (t.code() == 204) {
                                     mView?.startCountDown(60)
                                     it.showToast(it.getString(R.string.have_send).toString())
                                 } else {

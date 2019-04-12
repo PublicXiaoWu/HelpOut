@@ -2,21 +2,9 @@
 <android.support.constraint.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#F9F8FE">
-
-    <TextView
-        android:id="@+id/tv_consult_title"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:background="@color/white"
-        android:gravity="center"
-        android:text="我的咨询"
-        android:textColor="#ff333333"
-        android:textSize="16sp"
-    />
 
     <!--切换tab-->
     <View
@@ -25,7 +13,8 @@
         android:layout_height="0.7dp"
         android:layout_marginTop="15dp"
         android:background="@color/view_line_user"
-        app:layout_constraintTop_toBottomOf="@+id/tv_consult_title"/>
+        app:layout_constraintTop_toTopOf="parent"
+    />
 
     <View
         android:id="@+id/v_tab_1"

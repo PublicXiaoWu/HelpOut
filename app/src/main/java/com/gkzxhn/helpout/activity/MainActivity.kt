@@ -1,6 +1,7 @@
 package com.gkzxhn.helpout.activity
 
 import android.content.Intent
+import android.support.v4.content.ContextCompat
 import android.util.Log
 import android.view.View
 import com.gkzxhn.helpout.R
@@ -11,10 +12,7 @@ import com.gkzxhn.helpout.common.RxBus
 import com.gkzxhn.helpout.entity.LawyersInfo
 import com.gkzxhn.helpout.entity.RxBusBean
 import com.gkzxhn.helpout.entity.UpdateInfo
-import com.gkzxhn.helpout.fragment.BaseFragment
-import com.gkzxhn.helpout.fragment.HomeFragment
-import com.gkzxhn.helpout.fragment.MyConsultFragment
-import com.gkzxhn.helpout.fragment.UserFragment
+import com.gkzxhn.helpout.fragment.*
 import com.gkzxhn.helpout.net.HttpObserver
 import com.gkzxhn.helpout.net.RetrofitClientPublic
 import com.gkzxhn.helpout.net.error_exception.ApiException
@@ -22,6 +20,7 @@ import com.gkzxhn.helpout.utils.ObtainVersion
 import com.gkzxhn.helpout.utils.TsClickDialog
 import com.gkzxhn.helpout.utils.TsDialog
 import com.gkzxhn.helpout.utils.showToast
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.dialog_ts.*
 import retrofit2.adapter.rxjava.HttpException
 import rx.android.schedulers.AndroidSchedulers
@@ -54,7 +53,8 @@ class MainActivity : BaseActivity() {
         tbList = ArrayList()
 
         tbList?.add(HomeFragment())
-        tbList?.add(MyConsultFragment())
+        tbList?.add(ConversationFragment())
+        tbList?.add(FindFragment())
         tbList?.add(UserFragment())
         mainAdapter = MainAdapter(supportFragmentManager, tbList)
         vpMain.adapter = mainAdapter
@@ -74,10 +74,13 @@ class MainActivity : BaseActivity() {
         vpMain.currentItem = 0
         mainHome.setDrawable(resources.getDrawable(R.mipmap.ic_home_purple))
         mainConversation.setDrawable(resources.getDrawable(R.mipmap.ic_conversation_black))
+        tv_main_lives_circle.setDrawable(resources.getDrawable(R.mipmap.ic_lives_circle_selelct_no))
         mainMy.setDrawable(resources.getDrawable(R.mipmap.ic_my_black))
-        resources?.getColor(R.color.main_bottom_purple)?.let { it1 -> mainHome.setTextColor(it1) }
-        resources?.getColor(R.color.main_bottom_black)?.let { it1 -> mainConversation.setTextColor(it1) }
-        resources?.getColor(R.color.main_bottom_black)?.let { it1 -> mainMy.setTextColor(it1) }
+
+        mainHome.setTextColor(ContextCompat.getColor(this,R.color.main_bottom_purple))
+        mainConversation.setTextColor(ContextCompat.getColor(this,R.color.main_bottom_black))
+        tv_main_lives_circle.setTextColor(ContextCompat.getColor(this,R.color.main_bottom_black))
+        mainMy.setTextColor(ContextCompat.getColor(this,R.color.main_bottom_black))
 
     }
 
@@ -90,10 +93,32 @@ class MainActivity : BaseActivity() {
         vpMain.currentItem = 1
         mainHome.setDrawable(resources.getDrawable(R.mipmap.ic_home_black))
         mainConversation.setDrawable(resources.getDrawable(R.mipmap.ic_conversation_purple))
+        tv_main_lives_circle.setDrawable(resources.getDrawable(R.mipmap.ic_lives_circle_selelct_no))
         mainMy.setDrawable(resources.getDrawable(R.mipmap.ic_my_black))
-        resources?.getColor(R.color.main_bottom_black)?.let { it1 -> mainHome.setTextColor(it1) }
-        resources?.getColor(R.color.main_bottom_purple)?.let { it1 -> mainConversation.setTextColor(it1) }
-        resources?.getColor(R.color.main_bottom_black)?.let { it1 -> mainMy.setTextColor(it1) }
+
+        mainHome.setTextColor(ContextCompat.getColor(this,R.color.main_bottom_black))
+        mainConversation.setTextColor(ContextCompat.getColor(this,R.color.main_bottom_purple))
+        tv_main_lives_circle.setTextColor(ContextCompat.getColor(this,R.color.main_bottom_black))
+        mainMy.setTextColor(ContextCompat.getColor(this,R.color.main_bottom_black))
+
+    }
+
+    /**
+     * Explanation: 发现的点击方法
+     * @author LSX
+     *    -----2018/9/11
+     */
+    fun onClickLives(view: View) {
+        vpMain.currentItem = 2
+        mainHome.setDrawable(resources.getDrawable(R.mipmap.ic_home_black))
+        mainConversation.setDrawable(resources.getDrawable(R.mipmap.ic_conversation_black))
+        tv_main_lives_circle.setDrawable(resources.getDrawable(R.mipmap.ic_lives_circle_selelct))
+        mainMy.setDrawable(resources.getDrawable(R.mipmap.ic_my_black))
+
+        mainHome.setTextColor(ContextCompat.getColor(this,R.color.main_bottom_black))
+        mainConversation.setTextColor(ContextCompat.getColor(this,R.color.main_bottom_black))
+        tv_main_lives_circle.setTextColor(ContextCompat.getColor(this,R.color.main_bottom_purple))
+        mainMy.setTextColor(ContextCompat.getColor(this,R.color.main_bottom_black))
 
     }
 
@@ -103,14 +128,15 @@ class MainActivity : BaseActivity() {
      *    -----2018/9/11
      */
     fun onClickGoUser(view: View) {
-        vpMain.currentItem = 2
-        mainHome.setDrawable(resources.getDrawable(R.mipmap.ic_home_black))
-        mainConversation.setDrawable(resources.getDrawable(R.mipmap.ic_conversation_black))
-        mainMy.setDrawable(resources.getDrawable(R.mipmap.ic_my_purple))
-        resources?.getColor(R.color.main_bottom_black)?.let { it1 -> mainHome.setTextColor(it1) }
-        resources?.getColor(R.color.main_bottom_black)?.let { it1 -> mainConversation.setTextColor(it1) }
-        resources?.getColor(R.color.main_bottom_purple)?.let { it1 -> mainMy.setTextColor(it1) }
-
+        vpMain.currentItem = 3
+        mainHome.setDrawable(ContextCompat.getDrawable(this,R.mipmap.ic_home_black)!!)
+        mainConversation.setDrawable(ContextCompat.getDrawable(this,R.mipmap.ic_conversation_black)!!)
+        tv_main_lives_circle.setDrawable(ContextCompat.getDrawable(this,R.mipmap.ic_lives_circle_selelct_no)!!)
+        mainMy.setDrawable(ContextCompat.getDrawable(this,R.mipmap.ic_my_purple)!!)
+        mainHome.setTextColor(ContextCompat.getColor(this,R.color.main_bottom_black))
+        mainConversation.setTextColor(ContextCompat.getColor(this,R.color.main_bottom_black))
+        tv_main_lives_circle.setTextColor(ContextCompat.getColor(this,R.color.main_bottom_black))
+        mainMy.setTextColor(ContextCompat.getColor(this,R.color.main_bottom_purple))
     }
 
 
@@ -151,7 +177,7 @@ class MainActivity : BaseActivity() {
                             }
                             is IOException -> showToast("网络连接超时，请重试")
 
-                        //后台返回的message
+                            //后台返回的message
                             is ApiException -> {
                                 TsDialog(e.message!!, false)
                                 Log.e("ApiErrorHelper", e.message, e)

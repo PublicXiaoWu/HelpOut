@@ -10,7 +10,6 @@ package com.gkzxhn.helpout.common
 object Constants {
 
     /****** 页面跳转相关 ******/
-
     val ORDER_GET_STATE = "getOrderState"
 
     //    专业领域选择 页面间传值
@@ -98,7 +97,6 @@ object Constants {
     //已取消
     val PAYMENT_STATE_VOIDED = "VOIDED"
 
-
     /****** 与后台约定的前缀 ******/
     val BASE_64_START = "data:image/png;base64,"
     //    val APK_ADRESS="LegalConsulting.apk"
@@ -111,10 +109,8 @@ object Constants {
     val RESULT_EDIT_ADDRESS_COUNTYCODE = "RESULT_EDIT_ADDRESS_COUNTYCODE"
     val RESULT_EDIT_ADDRESS_COUNTYNAME = "RESULT_EDIT_ADDRESS_COUNTYNAME"
 
-
     /****** 昵称返回 ******/
     val RESULT_EDIT_NICKNAME = "RESULT_EDIT_NICKNAME"
-
 
     //微信APP_ID
     val WX_APPID = "wx21aed62551567801"

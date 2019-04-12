@@ -104,7 +104,7 @@ public class RecentContactsFragment extends TFragment {
         adapter.notifyDataSetChanged();
         boolean empty = items.isEmpty() && msgLoaded;
         emptyBg.setVisibility(empty ? View.VISIBLE : View.GONE);
-        emptyHint.setHint("暂时还没有会话，去抢个单吧！");
+        emptyHint.setHint("暂时还没有会话");
     }
 
 

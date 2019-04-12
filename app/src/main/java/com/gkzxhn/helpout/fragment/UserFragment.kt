@@ -17,6 +17,7 @@ import com.gkzxhn.helpout.net.RetrofitClientPublic
 import com.gkzxhn.helpout.utils.ProjectUtils
 import com.gkzxhn.helpout.utils.StringUtils
 import com.gkzxhn.helpout.utils.logE
+import com.gkzxhn.helpout.utils.showToast
 import kotlinx.android.synthetic.main.user_fragment.*
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
@@ -60,7 +61,9 @@ class UserFragment : BaseFragment(), View.OnClickListener {
         v_user_idea_submit_bg.setOnClickListener(this)
         v_user_set_bg.setOnClickListener(this)
         v_user_top_bg.setOnClickListener(this)
-        v_user_edit_info_bg.setOnClickListener(this)
+        v_user_friend_list_bg.setOnClickListener(this)
+        v_user_my_lives_circle_bg.setOnClickListener(this)
+        v_user_my_zx_bg.setOnClickListener(this)
         v_user_bill_bg.setOnClickListener(this)
         /****** 给个人信息栏设置背影触摸变化 ******/
         ProjectUtils.addViewTouchChange(v_user_top_bg)
@@ -70,13 +73,17 @@ class UserFragment : BaseFragment(), View.OnClickListener {
 
     override fun onClick(v: View) {
         when (v.id) {
-            R.id.v_user_edit_info_bg -> {
-                val intent = Intent(context, UserSettingActivity::class.java)
-                intent.putExtra("name", if (accountInfo != null) accountInfo?.nickname else "")
-                intent.putExtra("phoneNumber", if (accountInfo != null) accountInfo?.phoneNumber else "")
-                intent.putExtra("haveAvatar", !accountInfo?.avatar.isNullOrEmpty())
-
-                context?.startActivity(intent)
+            /****** 通讯录 ******/
+            R.id.v_user_friend_list_bg -> {
+                context?.showToast("通讯录")
+            }
+            /****** 我的生活圈 ******/
+            R.id.v_user_my_lives_circle_bg -> {
+                context?.showToast("我的生活圈")
+            }
+            /****** 我的咨询 ******/
+            R.id.v_user_my_zx_bg -> {
+                context?.startActivity(Intent(context, MyLegalConsultingActivity::class.java))
             }
             R.id.v_user_my_money_bg -> {
                 context?.startActivity(Intent(context, BountyActivity::class.java))
@@ -174,8 +181,6 @@ class UserFragment : BaseFragment(), View.OnClickListener {
             v_user_my_money_line_bg.visibility = View.VISIBLE
             v_user_my_money.visibility = View.VISIBLE
 
-            v_user_edit_info.visibility = View.VISIBLE
-
         } else {
             /****** 用户 ******/
 
@@ -188,10 +193,8 @@ class UserFragment : BaseFragment(), View.OnClickListener {
             tv_user_get_money.visibility = View.GONE
             tv_user_money.visibility = View.GONE
             iv_user_get_money_end.visibility = View.GONE
-            v_user_my_money_line_bg.visibility = View.VISIBLE
-            v_user_my_money.visibility = View.VISIBLE
-
-            v_user_edit_info.visibility = View.GONE
+            v_user_my_money_line_bg.visibility = View.GONE
+            v_user_my_money.visibility = View.GONE
 
         }
 

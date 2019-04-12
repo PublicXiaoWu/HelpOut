@@ -79,6 +79,7 @@
         <activity android:name=".activity.OrderGetSettingActivity"/>
         <activity android:name=".activity.BountyActivity"/>
         <activity android:name=".activity.LegalConsultingActivity"/>
+        <activity android:name=".activity.MyLegalConsultingActivity"/>
         <activity android:name=".activity.SettingActivity"/>
         <activity android:name=".activity.AccountInfoUpActivity"/>
         <activity android:name=".activity.UserSettingActivity"/>

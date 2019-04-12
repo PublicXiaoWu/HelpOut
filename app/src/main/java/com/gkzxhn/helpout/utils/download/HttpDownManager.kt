@@ -117,8 +117,6 @@ class HttpDownManager private constructor() {
                 .observeOn(AndroidSchedulers.mainThread())
                 /*数据回调*/
                 .subscribe(subscriber)
-
-
     }
 
 

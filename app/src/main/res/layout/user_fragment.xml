@@ -98,9 +98,9 @@
     />
 
 
-    <!--修改资料-->
+    <!--通讯录-->
     <View
-        android:id="@+id/v_user_edit_info_bg"
+        android:id="@+id/v_user_friend_list_bg"
         android:layout_width="0dp"
         android:layout_height="50dp"
         android:layout_marginTop="11dp"
@@ -111,58 +111,180 @@
     />
 
     <ImageView
-        android:id="@+id/iv_user_edit_info_start"
+        android:id="@+id/iv_user_friend_list_start"
         android:layout_width="17dp"
         android:layout_height="17dp"
         android:layout_marginEnd="10dp"
         android:layout_marginStart="15dp"
-        android:src="@mipmap/ic_user_edit_info"
-        app:layout_constraintBottom_toBottomOf="@+id/v_user_edit_info_bg"
-        app:layout_constraintStart_toStartOf="@id/v_user_edit_info_bg"
-        app:layout_constraintTop_toTopOf="@id/v_user_edit_info_bg"/>
+        android:src="@mipmap/ic_friend_list"
+        app:layout_constraintBottom_toBottomOf="@+id/v_user_friend_list_bg"
+        app:layout_constraintStart_toStartOf="@id/v_user_friend_list_bg"
+        app:layout_constraintTop_toTopOf="@id/v_user_friend_list_bg"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
-        android:text="修改资料"
+        android:text="通讯录"
         android:textColor="#ff333333"
         android:textSize="13sp"
-        app:layout_constraintBottom_toBottomOf="@+id/v_user_edit_info_bg"
-        app:layout_constraintStart_toEndOf="@id/iv_user_edit_info_start"
-        app:layout_constraintTop_toTopOf="@id/v_user_edit_info_bg"
+        app:layout_constraintBottom_toBottomOf="@+id/v_user_friend_list_bg"
+        app:layout_constraintStart_toEndOf="@id/iv_user_friend_list_start"
+        app:layout_constraintTop_toTopOf="@id/v_user_friend_list_bg"
     />
 
 
     <ImageView
-        android:id="@+id/iv_user_edit_info_end"
+        android:id="@+id/iv_user_friend_list_end"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="15dp"
         android:src="@mipmap/ic_user_arrow"
-        app:layout_constraintBottom_toBottomOf="@+id/v_user_edit_info_bg"
-        app:layout_constraintEnd_toEndOf="@id/v_user_edit_info_bg"
-        app:layout_constraintTop_toTopOf="@id/v_user_edit_info_bg"/>
+        app:layout_constraintBottom_toBottomOf="@+id/v_user_friend_list_bg"
+        app:layout_constraintEnd_toEndOf="@id/v_user_friend_list_bg"
+        app:layout_constraintTop_toTopOf="@id/v_user_friend_list_bg"/>
 
 
     <View
-        android:id="@+id/v_user_edit_info"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/white"
+        app:layout_constraintTop_toBottomOf="@+id/v_user_friend_list_bg"
+    />
+    <View
+        android:id="@+id/v_user_friend_list"
+        style="@style/view_user_line"
+        app:layout_constraintTop_toBottomOf="@+id/v_user_friend_list_bg"/>
+
+    <!--我的生活圈-->
+    <View
+        android:id="@+id/v_user_my_lives_circle_bg"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:background="@drawable/selector_item_white_to_gary"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@+id/v_user_friend_list"
+    />
+
+    <ImageView
+        android:id="@+id/iv_user_my_lives_circle_start"
+        android:layout_width="17dp"
+        android:layout_height="17dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginStart="15dp"
+        android:src="@mipmap/ic_lives_circle"
+        app:layout_constraintBottom_toBottomOf="@+id/v_user_my_lives_circle_bg"
+        app:layout_constraintStart_toStartOf="@id/v_user_my_lives_circle_bg"
+        app:layout_constraintTop_toTopOf="@id/v_user_my_lives_circle_bg"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:text="我的生活圈"
+        android:textColor="#ff333333"
+        android:textSize="13sp"
+        app:layout_constraintBottom_toBottomOf="@+id/v_user_my_lives_circle_bg"
+        app:layout_constraintStart_toEndOf="@id/iv_user_my_lives_circle_start"
+        app:layout_constraintTop_toTopOf="@id/v_user_my_lives_circle_bg"
+    />
+
+
+    <ImageView
+        android:id="@+id/iv_user_my_lives_circle_end"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="15dp"
+        android:src="@mipmap/ic_user_arrow"
+        app:layout_constraintBottom_toBottomOf="@+id/v_user_my_lives_circle_bg"
+        app:layout_constraintEnd_toEndOf="@id/v_user_my_lives_circle_bg"
+        app:layout_constraintTop_toTopOf="@id/v_user_my_lives_circle_bg"/>
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/white"
+        app:layout_constraintTop_toBottomOf="@+id/v_user_my_lives_circle_bg"
+    />
+    <View
+        android:id="@+id/v_user_my_lives_circle"
+        style="@style/view_user_line"
+        app:layout_constraintTop_toBottomOf="@+id/v_user_my_lives_circle_bg"/>
+
+
+    <!--我的咨询-->
+    <View
+        android:id="@+id/v_user_my_zx_bg"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:background="@drawable/selector_item_white_to_gary"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@+id/v_user_my_lives_circle"
+    />
+
+    <ImageView
+        android:id="@+id/iv_user_my_zx_start"
+        android:layout_width="17dp"
+        android:layout_height="17dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginStart="15dp"
+        android:src="@mipmap/ic_user_my_zx"
+        app:layout_constraintBottom_toBottomOf="@+id/v_user_my_zx_bg"
+        app:layout_constraintStart_toStartOf="@id/v_user_my_zx_bg"
+        app:layout_constraintTop_toTopOf="@id/v_user_my_zx_bg"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:text="我的咨询"
+        android:textColor="#ff333333"
+        android:textSize="13sp"
+        app:layout_constraintBottom_toBottomOf="@+id/v_user_my_zx_bg"
+        app:layout_constraintStart_toEndOf="@id/iv_user_my_zx_start"
+        app:layout_constraintTop_toTopOf="@id/v_user_my_zx_bg"
+    />
+
+
+    <ImageView
+        android:id="@+id/iv_user_my_zx_end"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="15dp"
+        android:src="@mipmap/ic_user_arrow"
+        app:layout_constraintBottom_toBottomOf="@+id/v_user_my_zx_bg"
+        app:layout_constraintEnd_toEndOf="@id/v_user_my_zx_bg"
+        app:layout_constraintTop_toTopOf="@id/v_user_my_zx_bg"/>
+
+
+    <View
+        android:id="@+id/v_user_my_zx"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/user_line_shadow_bg"
-        app:layout_constraintTop_toBottomOf="@+id/v_user_edit_info_bg"/>
+        app:layout_constraintTop_toBottomOf="@+id/v_user_my_zx_bg"/>
 
+
+    <View
+        android:id="@+id/v_user_my_money_bg_top"
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:background="@color/transparent"
+        app:layout_constraintTop_toBottomOf="@+id/v_user_my_zx"
+    />
 
     <!--账户余额-->
     <View
         android:id="@+id/v_user_my_money_bg"
         android:layout_width="0dp"
-        android:layout_marginTop="10dp"
         android:layout_height="50dp"
         android:background="@drawable/selector_item_white_to_gary"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        app:layout_constraintTop_toBottomOf="@+id/v_user_edit_info"
+        app:layout_constraintTop_toBottomOf="@+id/v_user_my_money_bg_top"
     />
 
     <ImageView
@@ -225,6 +347,7 @@
         android:id="@+id/v_user_my_money"
         style="@style/view_user_line"
         app:layout_constraintTop_toBottomOf="@+id/v_user_my_money_bg"/>
+
 
 
     <!--账单-->
