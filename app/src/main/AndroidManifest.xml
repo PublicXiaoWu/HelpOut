@@ -82,6 +82,7 @@
         <activity android:name=".activity.MyLegalConsultingActivity"/>
         <activity android:name=".activity.SettingActivity"/>
         <activity android:name=".activity.AccountInfoUpActivity"/>
+        <activity android:name=".activity.AddFriendActivity"/>
         <activity android:name=".activity.UserSettingActivity"/>
         <activity android:name=".activity.AllOrderActivity"/>
         <activity android:name=".activity.IdeaSubmitActivity"/>

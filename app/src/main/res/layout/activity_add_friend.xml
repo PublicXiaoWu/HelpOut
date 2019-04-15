@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+
+    <TextView
+        android:id="@+id/tv_add_friend_title"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="@color/white"
+        android:gravity="center"
+        android:text="添加朋友"
+        android:textColor="#ff333333"
+        android:textSize="16sp"
+    />
+
+    <ImageView
+        android:id="@+id/iv_add_friend_back"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_centerVertical="true"
+        android:scaleType="center"
+        android:src="@mipmap/ic_back_gary"
+        app:layout_constraintBottom_toBottomOf="@id/tv_add_friend_title"
+        app:layout_constraintStart_toStartOf="@id/tv_add_friend_title"
+        app:layout_constraintTop_toTopOf="@id/tv_add_friend_title"
+    />
+
+
+    <TextView
+        android:id="@+id/tv_add_friend_phone"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:layout_marginTop="11dp"
+        android:background="@color/white"
+        android:gravity="center_vertical"
+        android:paddingStart="56dp"
+        android:text="手机号"
+        android:textColor="#ff999999"
+        android:textSize="14sp"
+        app:layout_constraintTop_toBottomOf="@+id/tv_add_friend_title"
+    />
+
+    <ImageView
+        android:id="@+id/iv_add_friend_phone_start"
+        android:layout_width="16dp"
+        android:layout_height="16dp"
+        android:layout_marginStart="25dp"
+        android:src="@mipmap/ic_search_big"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_add_friend_phone"
+        app:layout_constraintStart_toStartOf="@+id/tv_add_friend_phone"
+        app:layout_constraintTop_toTopOf="@+id/tv_add_friend_phone"/>
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/cl_add_friend_item"
+        android:layout_width="match_parent"
+        android:visibility="gone"
+        android:layout_height="match_parent"
+        android:layout_marginTop="84dp"
+        android:background="@color/white"
+        android:orientation="horizontal">
+
+        <View
+            android:id="@+id/v_add_friend_item"
+            android:layout_width="match_parent"
+            android:layout_height="42dp"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/selector_item_white_to_gary"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <ImageView android:id="@+id/iv_add_friend_item"
+                   android:layout_width="40dp"
+                   android:layout_height="40dp"
+                   android:layout_marginStart="10dp"
+                   android:layout_marginTop="5dp"
+                   android:background="@color/colorPrimary"
+                   android:padding="5dp"
+                   android:src="@mipmap/ic_main_menu_add_friend_"
+                   app:layout_constraintStart_toStartOf="@id/cl_add_friend_item"
+                   app:layout_constraintTop_toTopOf="@id/cl_add_friend_item"
+        />
+
+        <TextView
+            android:id="@+id/tv_add_friend_item"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:text="搜索："
+            android:textSize="18dp"
+            app:layout_constraintBottom_toBottomOf="@id/iv_add_friend_item"
+            app:layout_constraintStart_toEndOf="@id/iv_add_friend_item"
+            app:layout_constraintTop_toTopOf="@id/iv_add_friend_item"
+        />
+        <TextView
+            android:id="@+id/tv_add_friend_item_context"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textColor="@color/colorPrimary"
+            android:textSize="18dp"
+            app:layout_constraintBottom_toBottomOf="@id/iv_add_friend_item"
+            app:layout_constraintStart_toEndOf="@id/tv_add_friend_item"
+            app:layout_constraintTop_toTopOf="@id/iv_add_friend_item"
+        />
+
+    </android.support.constraint.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/tv_add_friend_no_friend"
+        android:layout_width="match_parent"
+        android:layout_height="90dp"
+        android:layout_marginTop="84dp"
+        android:background="@color/white"
+        android:gravity="center"
+        android:text="该用户不存在"
+        android:textColor="#ff666666"
+        android:textSize="14sp"
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="parent"
+    />
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/cl_add_friend_search"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="@color/main_gary_bg"
+        android:visibility="gone">
+
+
+        <View android:id="@+id/v_add_friend_search"
+              android:layout_width="0dp"
+              android:layout_height="30dp"
+              android:layout_marginEnd="10dp"
+              android:layout_marginStart="15dp"
+              android:background="@drawable/shape_expert_white_bg"
+              app:layout_constraintBottom_toBottomOf="@id/cl_add_friend_search"
+              app:layout_constraintEnd_toStartOf="@id/tv_add_friend_cancel"
+
+              app:layout_constraintStart_toStartOf="@id/cl_add_friend_search"
+              app:layout_constraintTop_toTopOf="@id/cl_add_friend_search"/>
+
+
+        <ImageView
+            android:id="@+id/iv_add_friend_search"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_marginStart="10dp"
+            android:src="@mipmap/ic_search_small"
+            app:layout_constraintBottom_toBottomOf="@+id/v_add_friend_search"
+            app:layout_constraintStart_toStartOf="@+id/v_add_friend_search"
+            app:layout_constraintTop_toTopOf="@+id/v_add_friend_search"/>
+
+
+        <EditText
+            android:id="@+id/et_add_friend"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:background="@null"
+            android:hint="手机号"
+            android:maxLines="1"
+            android:inputType="number"
+            android:maxLength="11"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="@+id/v_add_friend_search"
+            app:layout_constraintStart_toEndOf="@+id/iv_add_friend_search"
+            app:layout_constraintTop_toTopOf="@+id/v_add_friend_search"
+        />
+
+
+        <TextView
+            android:id="@+id/tv_add_friend_cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="15dp"
+            android:text="取消"
+            android:textColor="#ff264c90"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="@id/cl_add_friend_search"
+            app:layout_constraintEnd_toEndOf="@id/cl_add_friend_search"
+            app:layout_constraintTop_toTopOf="@id/cl_add_friend_search"
+        />
+
+    </android.support.constraint.ConstraintLayout>
+
+</android.support.constraint.ConstraintLayout>
