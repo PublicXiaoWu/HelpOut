@@ -4,31 +4,10 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@color/white"
     android:paddingBottom="@dimen/bottom_component_margin_vertical"
     android:paddingTop="@dimen/bottom_component_margin_vertical">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/tv_open_video"
-            android:layout_width="0dp"
-            android:layout_height="44dp"
-            android:layout_gravity="center"
-            android:layout_marginEnd="16dp"
-            android:layout_marginStart="16dp"
-            android:layout_weight="1"
-            android:background="@drawable/nim_message_open_video"
-            android:contentDescription="@string/empty"
-            android:gravity="center"
-            android:text="视频通话"
-            android:textColor="@color/white"
-            android:textSize="14sp"/>
-    </LinearLayout>
-
-    <!--以下为原版的界面 现全部为gone了-->
     <FrameLayout
         android:id="@+id/switchLayout"
         android:layout_width="wrap_content"
@@ -64,7 +43,7 @@
         android:layout_marginRight="@dimen/bottom_component_margin_horizontal"
         android:layout_toLeftOf="@+id/emoji_button"
         android:layout_toRightOf="@+id/switchLayout"
-        android:visibility="gone">
+        android:visibility="visible">
 
 
         <Button
@@ -75,15 +54,16 @@
             android:text="@string/record_audio"
             android:textColor="@color/color_black_333333"
             android:textSize="16sp"
-            android:visibility="gone"/>
+            android:visibility="visible"/>
     </FrameLayout>
 
     <EditText
         android:id="@+id/editTextMessage"
         android:layout_width="match_parent"
-
         android:layout_height="wrap_content"
+        android:layout_marginEnd="5dp"
         android:layout_marginRight="@dimen/bottom_component_margin_horizontal"
+        android:layout_marginStart="5dp"
         android:layout_toLeftOf="@+id/emoji_button"
         android:layout_toRightOf="@+id/switchLayout"
         android:autoLink="web|email|phone"
@@ -93,7 +73,7 @@
         android:textColor="@color/black"
         android:textCursorDrawable="@null"
         android:textSize="16sp"
-        android:visibility="gone"/>
+        android:visibility="visible"/>
 
     <ImageView
         android:id="@+id/emoji_button"
@@ -106,7 +86,7 @@
         android:background="@drawable/nim_message_button_bottom_emoji_selector"
         android:contentDescription="@string/empty"
         android:scaleType="center"
-        android:visibility="gone"/>
+        android:visibility="visible"/>
 
     <FrameLayout
         android:id="@+id/sendLayout"
@@ -115,7 +95,7 @@
         android:layout_alignBottom="@id/audioTextSwitchLayout"
         android:layout_alignParentRight="true"
         android:layout_marginRight="@dimen/bottom_component_margin_horizontal"
-        android:visibility="gone">
+        android:visibility="visible">
 
         <ImageView
             android:id="@+id/buttonMoreFuntionInText"

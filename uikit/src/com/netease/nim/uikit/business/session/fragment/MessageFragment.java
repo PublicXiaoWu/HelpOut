@@ -404,7 +404,8 @@ public class MessageFragment extends TFragment implements ModuleProxy {
         actions.add(new ImageAction());
         actions.add(new VideoAction());
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
-            actions.add(new AVChatAction(AVChatType.AUDIO));
+            /****** 语音功能暂时关闭 ******/
+//            actions.add(new AVChatAction(AVChatType.AUDIO));
             actions.add(new AVChatAction(AVChatType.VIDEO));
         }
 //        actions.add(new MySelfAction());

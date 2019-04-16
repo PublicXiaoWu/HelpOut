@@ -22,11 +22,8 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.alibaba.fastjson.JSONObject;
-import com.netease.nim.avchatkit.AVChatKit;
-import com.netease.nim.avchatkit.activity.AVChatActivity;
 import com.netease.nim.uikit.R;
 import com.netease.nim.uikit.api.NimUIKit;
 import com.netease.nim.uikit.api.UIKitOptions;
@@ -37,14 +34,11 @@ import com.netease.nim.uikit.business.session.emoji.EmoticonPickerView;
 import com.netease.nim.uikit.business.session.emoji.IEmoticonSelectedListener;
 import com.netease.nim.uikit.business.session.emoji.MoonUtil;
 import com.netease.nim.uikit.business.session.module.Container;
-import com.netease.nim.uikit.business.uinfo.UserInfoHelper;
 import com.netease.nim.uikit.common.ToastHelper;
-import com.netease.nim.uikit.common.http.NimHttpClient;
 import com.netease.nim.uikit.common.ui.dialog.EasyAlertDialogHelper;
 import com.netease.nim.uikit.common.util.log.LogUtil;
 import com.netease.nim.uikit.common.util.string.StringUtil;
 import com.netease.nim.uikit.impl.NimUIKitImpl;
-import com.netease.nimlib.sdk.avchat.constant.AVChatType;
 import com.netease.nimlib.sdk.media.record.AudioRecorder;
 import com.netease.nimlib.sdk.media.record.IAudioRecordCallback;
 import com.netease.nimlib.sdk.media.record.RecordType;
@@ -55,12 +49,8 @@ import com.netease.nimlib.sdk.msg.model.CustomNotification;
 import com.netease.nimlib.sdk.msg.model.CustomNotificationConfig;
 import com.netease.nimlib.sdk.msg.model.IMMessage;
 
-import org.json.JSONException;
-
 import java.io.File;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * 底部文本编辑，语音等模块
@@ -79,7 +69,6 @@ public class InputPanel implements IEmoticonSelectedListener, IAudioRecordCallba
     protected View actionPanelBottomLayout; // 更多布局
     protected LinearLayout messageActivityBottomLayout;
     protected EditText messageEditText;// 文本消息编辑框
-    protected TextView openVideo;// 文本消息编辑框
     protected Button audioRecordBtn; // 录音按钮
     protected View audioAnimLayout; // 录音动画布局
     protected FrameLayout textAudioSwitchLayout; // 切换文本，语音按钮布局
@@ -108,6 +97,8 @@ public class InputPanel implements IEmoticonSelectedListener, IAudioRecordCallba
     // state
     private boolean actionPanelBottomLayoutHasSetup = false;
     private boolean isTextAudioSwitchShow = true;
+    /****** 修改是否支持语音功能 ******/
+    private boolean isAudioShow = false;
 
     // adapter
     private List<BaseAction> actions;
@@ -195,7 +186,6 @@ public class InputPanel implements IEmoticonSelectedListener, IAudioRecordCallba
         sendMessageButtonInInputBar = view.findViewById(R.id.buttonSendMessage);
         messageEditText = view.findViewById(R.id.editTextMessage);
 
-        openVideo = view.findViewById(R.id.tv_open_video);
 
         // 语音
         audioRecordBtn = view.findViewById(R.id.audioRecord);
@@ -214,7 +204,7 @@ public class InputPanel implements IEmoticonSelectedListener, IAudioRecordCallba
         // 文本录音按钮切换布局
         textAudioSwitchLayout = view.findViewById(R.id.switchLayout);
         if (isTextAudioSwitchShow) {
-            textAudioSwitchLayout.setVisibility(View.VISIBLE);
+            textAudioSwitchLayout.setVisibility(isAudioShow?View.VISIBLE:View.GONE);
         } else {
             textAudioSwitchLayout.setVisibility(View.GONE);
         }
@@ -226,7 +216,6 @@ public class InputPanel implements IEmoticonSelectedListener, IAudioRecordCallba
         emojiButtonInInputBar.setOnClickListener(clickListener);
         sendMessageButtonInInputBar.setOnClickListener(clickListener);
         moreFuntionButtonInInputBar.setOnClickListener(clickListener);
-        openVideo.setOnClickListener(clickListener);
     }
 
     private void initTextEdit() {
@@ -343,10 +332,6 @@ public class InputPanel implements IEmoticonSelectedListener, IAudioRecordCallba
                 toggleActionPanelLayout();
             } else if (v == emojiButtonInInputBar) {
                 toggleEmojiLayout();
-            } else if (v == openVideo) {
-                //暂停视频功能
-//                openVideo();
-                Toast.makeText(container.activity,"因付费问题，暂停视频功能",Toast.LENGTH_SHORT).show();
             }
         }
     };
@@ -422,43 +407,6 @@ public class InputPanel implements IEmoticonSelectedListener, IAudioRecordCallba
         }
     }
 
-
-    // 打开视频
-    private void openVideo() {
-        String OrderID = container.activity.getSharedPreferences("config", Context.MODE_PRIVATE).getString("OrderId", "");
-        String token = container.activity.getSharedPreferences("config", Context.MODE_PRIVATE).getString("SP_Token", "");
-        Log.e("xiaowu", "extendMessage_id:" + OrderID);
-        loadData(token, OrderID);
-
-    }
-
-    private void loadData(String token, final String id) {
-        NimHttpClient.getInstance().init(container.activity);
-        Map<String, String> headers = new HashMap<>();
-        headers.put("Authorization", "Bearer " + token);
-        NimHttpClient.getInstance().execute("http://qa.api.legal.prisonpublic.com:8086/lawyer/my/legal-advice/" + id + "/video-duration", headers, "", new NimHttpClient.NimHttpCallback() {
-            @Override
-            public void onResponse(String response, int code, Throwable e) {
-                Log.e("xiaowu", "inputPanel:" + response);
-                if (code == 200) {
-                    try {
-                        org.json.JSONObject d = new org.json.JSONObject(response);
-                        String videoDuration = d.getString("videoDuration");
-                        if (Double.parseDouble(videoDuration) > 0) {
-                            String extendMessage = "{\"legalAdviceId\":\"" + id + "\",\"videoDuration\":" + videoDuration + "}";
-                            AVChatKit.outgoingCall(container.activity, container.account, UserInfoHelper.getUserDisplayName(container.account), AVChatType.VIDEO.getValue(), AVChatActivity.FROM_INTERNAL, extendMessage);
-                        } else {
-                            EasyAlertDialogHelper.showOneButtonDiolag(container.activity, "", "视频通话时长已用完", "确认", true, null);
-                        }
-                    } catch (JSONException e1) {
-                        e1.printStackTrace();
-                    }
-                }
-
-            }
-
-        });
-    }
 
     // 隐藏更多布局
     private void hideActionPanelLayout() {
@@ -870,22 +818,16 @@ public class InputPanel implements IEmoticonSelectedListener, IAudioRecordCallba
 
     public void switchRobotMode(boolean isRobot) {
         isRobotSession = isRobot;
-        /****** 原来的布局隐藏掉 ******/
-//        if (isRobot) {
-//            textAudioSwitchLayout.setVisibility(View.GONE);
-//            emojiButtonInInputBar.setVisibility(View.GONE);
-//            sendMessageButtonInInputBar.setVisibility(View.VISIBLE);
-//            moreFuntionButtonInInputBar.setVisibility(View.GONE);
-//        } else {
-//            textAudioSwitchLayout.setVisibility(View.VISIBLE);
-//            emojiButtonInInputBar.setVisibility(View.VISIBLE);
-//            sendMessageButtonInInputBar.setVisibility(View.GONE);
-//            moreFuntionButtonInInputBar.setVisibility(View.VISIBLE);
-//        }
-        textAudioSwitchLayout.setVisibility(View.GONE);
-        emojiButtonInInputBar.setVisibility(View.GONE);
-        sendMessageButtonInInputBar.setVisibility(View.GONE);
-        moreFuntionButtonInInputBar.setVisibility(View.GONE);
-
+        if (isRobot) {
+            textAudioSwitchLayout.setVisibility(View.GONE);
+            emojiButtonInInputBar.setVisibility(View.GONE);
+            sendMessageButtonInInputBar.setVisibility(View.VISIBLE);
+            moreFuntionButtonInInputBar.setVisibility(View.GONE);
+        } else {
+            textAudioSwitchLayout.setVisibility(isAudioShow?View.VISIBLE:View.GONE);
+            emojiButtonInInputBar.setVisibility(View.VISIBLE);
+            sendMessageButtonInInputBar.setVisibility(View.GONE);
+            moreFuntionButtonInInputBar.setVisibility(View.VISIBLE);
+        }
     }
 }
