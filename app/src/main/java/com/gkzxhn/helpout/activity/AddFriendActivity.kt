@@ -89,7 +89,7 @@ class AddFriendActivity : BaseActivity() {
     private fun goSearch() {
         cl_add_friend_item.visibility = View.GONE
         tv_add_friend_no_friend.visibility = View.VISIBLE
-        NIMClient.getService(FriendService::class.java).addFriend(AddFriendData("qwerty", VerifyType.VERIFY_REQUEST, "来啊"))
+        NIMClient.getService(FriendService::class.java).addFriend(AddFriendData("f8ffb4a93b084dd2b9ba66e932f1c1ff", VerifyType.DIRECT_ADD, "来啊"))
                 .setCallback(object : RequestCallback<Void> {
                     override fun onSuccess(param: Void) {
                         ToastHelper.showToast(this@AddFriendActivity, "添加好友请求发送成功")

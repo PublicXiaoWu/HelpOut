@@ -75,7 +75,7 @@ class UserFragment : BaseFragment(), View.OnClickListener {
         when (v.id) {
             /****** 通讯录 ******/
             R.id.v_user_friend_list_bg -> {
-                context?.showToast("通讯录")
+                context?.startActivity(Intent(context, FriendListActivity::class.java))
             }
             /****** 我的生活圈 ******/
             R.id.v_user_my_lives_circle_bg -> {

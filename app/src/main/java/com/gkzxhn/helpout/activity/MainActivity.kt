@@ -14,6 +14,7 @@ import com.gkzxhn.helpout.entity.LawyersInfo
 import com.gkzxhn.helpout.entity.RxBusBean
 import com.gkzxhn.helpout.entity.UpdateInfo
 import com.gkzxhn.helpout.fragment.ConversationFragment
+import com.gkzxhn.helpout.fragment.FindFragment
 import com.gkzxhn.helpout.fragment.HomeFragment
 import com.gkzxhn.helpout.fragment.UserFragment
 import com.gkzxhn.helpout.net.HttpObserver
@@ -23,7 +24,6 @@ import com.gkzxhn.helpout.utils.ObtainVersion
 import com.gkzxhn.helpout.utils.TsClickDialog
 import com.gkzxhn.helpout.utils.TsDialog
 import com.gkzxhn.helpout.utils.showToast
-import com.netease.nim.uikit.business.contact.ContactsFragment
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.dialog_ts.*
 import retrofit2.adapter.rxjava.HttpException
@@ -58,8 +58,7 @@ class MainActivity : BaseActivity() {
 
         tbList?.add(HomeFragment())
         tbList?.add(ConversationFragment())
-//        tbList?.add(FindFragment())
-        tbList?.add(ContactsFragment())
+        tbList?.add(FindFragment())
         tbList?.add(UserFragment())
         mainAdapter = MainAdapter(supportFragmentManager, tbList)
         vpMain.adapter = mainAdapter
