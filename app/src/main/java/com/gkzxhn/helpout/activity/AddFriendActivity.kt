@@ -3,16 +3,23 @@ package com.gkzxhn.helpout.activity
 import android.content.Context
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.KeyEvent
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import com.gkzxhn.helpout.R
 import com.netease.nim.uikit.common.ToastHelper
 import com.netease.nimlib.sdk.NIMClient
+import com.netease.nimlib.sdk.Observer
 import com.netease.nimlib.sdk.RequestCallback
 import com.netease.nimlib.sdk.friend.FriendService
 import com.netease.nimlib.sdk.friend.constant.VerifyType
 import com.netease.nimlib.sdk.friend.model.AddFriendData
+import com.netease.nimlib.sdk.friend.model.AddFriendNotify
+import com.netease.nimlib.sdk.msg.SystemMessageObserver
+import com.netease.nimlib.sdk.msg.SystemMessageService
+import com.netease.nimlib.sdk.msg.constant.SystemMessageType
+import com.netease.nimlib.sdk.msg.model.SystemMessage
 import kotlinx.android.synthetic.main.activity_add_friend.*
 
 
@@ -24,8 +31,39 @@ import kotlinx.android.synthetic.main.activity_add_friend.*
  */
 class AddFriendActivity : BaseActivity() {
 
+    private val systemMessageObserver = Observer<SystemMessage> { systemMessage ->
+        if (systemMessage.type === SystemMessageType.AddFriend) {
+            val attachData = systemMessage.attachObject as AddFriendNotify
+            when(attachData.event) {
+                 AddFriendNotify.Event.RECV_ADD_FRIEND_DIRECT -> {
+                    Log.e("xiaowu_add","对方直接添加你为好友")
+                    // 对方直接添加你为好友
+                }
+                 AddFriendNotify.Event.RECV_AGREE_ADD_FRIEND -> {
+                    Log.e("xiaowu_add","对方通过了你的好友验证请求")
+                    // 对方通过了你的好友验证请求
+                }
+                 AddFriendNotify.Event.RECV_REJECT_ADD_FRIEND -> {
+                    Log.e("xiaowu_add","对方拒绝了你的好友验证请求")
+                    // 对方拒绝了你的好友验证请求
+                }
+                 AddFriendNotify.Event.RECV_ADD_FRIEND_VERIFY_REQUEST -> {
+                    Log.e("xiaowu_add","对方请求添加好友，一般场景会让用户选择同意或拒绝对方的好友请求。"+attachData.account+attachData.msg)
+                    // 对方请求添加好友，一般场景会让用户选择同意或拒绝对方的好友请求。
+                    // 通过message.getContent()获取好友验证请求的附言
+                }
+            }
+        }
+    }
+
 
     override fun init() {
+
+        NIMClient.getService<SystemMessageObserver>(SystemMessageObserver::class.java).observeReceiveSystemMsg(systemMessageObserver, true)
+
+
+        val temps = NIMClient.getService(SystemMessageService::class.java).querySystemMessagesBlock(0, 100)
+
 
         /****** 弹出搜索框 ******/
         tv_add_friend_phone.setOnClickListener {
@@ -89,11 +127,14 @@ class AddFriendActivity : BaseActivity() {
     private fun goSearch() {
         cl_add_friend_item.visibility = View.GONE
         tv_add_friend_no_friend.visibility = View.VISIBLE
-        NIMClient.getService(FriendService::class.java).addFriend(AddFriendData("f8ffb4a93b084dd2b9ba66e932f1c1ff", VerifyType.DIRECT_ADD, "来啊"))
+//        9f9469948f76456d850b9f3bed1ddc10 肖君
+//        f8ffb4a93b084dd2b9ba66e932f1c1ff
+        NIMClient.getService(FriendService::class.java).addFriend(AddFriendData("9f9469948f76456d850b9f3bed1ddc10", VerifyType.VERIFY_REQUEST, "肖君同学发车了"))
                 .setCallback(object : RequestCallback<Void> {
-                    override fun onSuccess(param: Void) {
+                    override fun onSuccess(p0: Void?) {
                         ToastHelper.showToast(this@AddFriendActivity, "添加好友请求发送成功")
                     }
+
                     override fun onFailed(code: Int) {
                         if (code == 408) {
                             ToastHelper.showToast(this@AddFriendActivity, R.string.network_is_not_available)
@@ -102,13 +143,12 @@ class AddFriendActivity : BaseActivity() {
                         }
                     }
 
-                    override fun onException(exception: Throwable) {
-                        ToastHelper.showToast(this@AddFriendActivity, "添加好友请求发送失败")
+                    override fun onException(p0: Throwable?) {
+                                                ToastHelper.showToast(this@AddFriendActivity, "添加好友请求发送失败")
 
                     }
+
                 })
-
-
     }
 
     /****** 取消按扭 ******/

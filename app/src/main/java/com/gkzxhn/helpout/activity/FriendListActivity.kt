@@ -1,7 +1,9 @@
 package com.gkzxhn.helpout.activity
 
+import android.content.Intent
 import com.gkzxhn.helpout.R
 import com.netease.nim.uikit.business.contact.ContactsFragment
+import kotlinx.android.synthetic.main.activity_friend_list.*
 import kotlinx.android.synthetic.main.default_top.*
 
 /**
@@ -13,7 +15,7 @@ import kotlinx.android.synthetic.main.default_top.*
 class FriendListActivity : BaseActivity() {
 
     override fun provideContentViewId(): Int {
-        return R.layout.activity_legalconsulting
+        return R.layout.activity_friend_list
     }
 
     override fun init() {
@@ -21,8 +23,11 @@ class FriendListActivity : BaseActivity() {
 
         val beginTransaction = supportFragmentManager.beginTransaction()
         //提交事务
-        beginTransaction.add(R.id.fl_legal_consulting, ContactsFragment()).commit();
+        beginTransaction.add(R.id.fl_friend_list, ContactsFragment()).commit();
 
+        ll_add_friend.setOnClickListener {
+            startActivity(Intent(this, NewFriendActivity::class.java))
+        }
     }
 
     private fun initTitle() {
