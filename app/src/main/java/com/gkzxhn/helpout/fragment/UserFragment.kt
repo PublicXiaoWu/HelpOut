@@ -17,7 +17,6 @@ import com.gkzxhn.helpout.net.RetrofitClientPublic
 import com.gkzxhn.helpout.utils.ProjectUtils
 import com.gkzxhn.helpout.utils.StringUtils
 import com.gkzxhn.helpout.utils.logE
-import com.gkzxhn.helpout.utils.showToast
 import kotlinx.android.synthetic.main.user_fragment.*
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
@@ -79,7 +78,8 @@ class UserFragment : BaseFragment(), View.OnClickListener {
             }
             /****** 我的生活圈 ******/
             R.id.v_user_my_lives_circle_bg -> {
-                context?.showToast("我的生活圈")
+                context?.startActivity(Intent(context, LivesCircleActivity::class.java))
+
             }
             /****** 我的咨询 ******/
             R.id.v_user_my_zx_bg -> {

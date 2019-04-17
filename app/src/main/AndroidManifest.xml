@@ -80,6 +80,8 @@
         <activity android:name=".activity.BountyActivity"/>
         <activity android:name=".activity.LegalConsultingActivity"/>
         <activity android:name=".activity.FriendListActivity"/>
+        <activity android:name=".activity.LivesCircleActivity"
+        />
         <activity android:name=".activity.MyLegalConsultingActivity"/>
         <activity android:name=".activity.SettingActivity"/>
         <activity android:name=".activity.AccountInfoUpActivity"/>

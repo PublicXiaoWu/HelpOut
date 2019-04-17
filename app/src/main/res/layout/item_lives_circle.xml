@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white">
+
+
+    <ImageView android:id="@+id/iv_item_lives_circle_avatar"
+               android:layout_width="34dp"
+               android:layout_height="34dp"
+               android:layout_marginStart="15dp"
+               android:layout_marginTop="15dp"
+               android:src="@mipmap/ic_user_icon"
+               app:layout_constraintStart_toStartOf="parent"
+               app:layout_constraintTop_toTopOf="parent"/>
+
+    <TextView
+        android:id="@+id/tv_item_lives_circle_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="11dp"
+        android:lines="1"
+        android:text="果农张三"
+        android:textColor="#ff333333"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@id/iv_item_lives_circle_avatar"
+        app:layout_constraintTop_toTopOf="@id/iv_item_lives_circle_avatar"
+    />
+
+    <TextView
+        android:id="@+id/tv_item_lives_circle_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="11dp"
+        android:layout_marginTop="5dp"
+        android:maxLines="1"
+        android:text="我是果农张三"
+        android:textColor="#ff999999"
+        android:textSize="10sp"
+        app:layout_constraintStart_toEndOf="@id/iv_item_lives_circle_avatar"
+        app:layout_constraintTop_toBottomOf="@+id/tv_item_lives_circle_name"
+    />
+    <TextView
+        android:id="@+id/tv_item_lives_circle_content"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="11dp"
+        android:layout_marginTop="12dp"
+        android:maxLines="5"
+        android:text="----------"
+        android:layout_marginEnd="15dp"
+        android:textColor="#333333"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:textSize="14sp"
+        app:layout_constraintStart_toEndOf="@id/iv_item_lives_circle_avatar"
+        app:layout_constraintTop_toBottomOf="@+id/tv_item_lives_circle_time"
+    />
+    <TextView
+        android:id="@+id/tv_item_lives_circle_image_number"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginStart="11dp"
+        android:layout_marginTop="10dp"
+        android:maxLines="1"
+        android:gravity="center"
+        android:background="#b1e19b"
+        android:text="---"
+        android:textColor="@color/white"
+        android:textSize="14sp"
+        app:layout_constraintStart_toEndOf="@id/iv_item_lives_circle_avatar"
+        app:layout_constraintTop_toBottomOf="@+id/tv_item_lives_circle_content"
+    />
+
+    <ImageView android:id="@+id/iv_item_lives_circle_like_number"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:layout_marginBottom="10dp"
+               android:layout_marginEnd="55dp"
+               android:layout_marginStart="11dp"
+               android:layout_marginTop="14dp"
+               android:src="@mipmap/ic_lives_liked"
+               app:layout_constraintBottom_toBottomOf="parent"
+               app:layout_constraintEnd_toEndOf="parent"
+               app:layout_constraintTop_toBottomOf="@+id/tv_item_lives_circle_image_number"
+    />
+
+    <TextView
+        android:id="@+id/tv_item_lives_circle_like_number"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="11dp"
+        android:maxLines="1"
+        android:text="2"
+        android:textColor="#333333"
+        android:textSize="14sp"
+        app:layout_constraintStart_toEndOf="@id/iv_item_lives_circle_like_number"
+        app:layout_constraintTop_toTopOf="@id/iv_item_lives_circle_like_number"
+        app:layout_constraintBottom_toBottomOf="@id/iv_item_lives_circle_like_number"
+    />
+
+</android.support.constraint.ConstraintLayout>

@@ -1,6 +1,8 @@
 package com.gkzxhn.helpout.fragment
 
+import android.content.Intent
 import com.gkzxhn.helpout.R
+import com.gkzxhn.helpout.activity.LivesCircleActivity
 import com.gkzxhn.helpout.utils.showToast
 import kotlinx.android.synthetic.main.find_fragment.*
 
@@ -23,7 +25,8 @@ class FindFragment : BaseFragment() {
 
     override fun initListener() {
         v_lives_circle_bg.setOnClickListener {
-            context?.showToast("生活圈")
+            context?.startActivity(Intent(context, LivesCircleActivity::class.java))
+
         }
         v_scan_bg.setOnClickListener {
             context?.showToast("敬请期待")

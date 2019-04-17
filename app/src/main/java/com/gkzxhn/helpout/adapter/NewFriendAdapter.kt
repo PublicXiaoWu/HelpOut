@@ -12,6 +12,7 @@ import com.netease.nimlib.sdk.msg.model.SystemMessage
  * @description：
  */
 class NewFriendAdapter(datas: List<SystemMessage>?) : BaseQuickAdapter<SystemMessage, BaseViewHolder>(R.layout.item_new_friend, datas) {
+
     override fun convert(helper: BaseViewHolder?, item: SystemMessage?) {
         helper?.setText(R.id.tv_name, item?.fromAccount)
                 ?.setText(R.id.tv_msg, item?.content)
