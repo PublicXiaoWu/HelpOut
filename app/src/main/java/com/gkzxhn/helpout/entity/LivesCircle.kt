@@ -15,6 +15,7 @@ class LivesCircle() {
     var commentnumber: Int? = null
     var like: Int? = null
     var imageNumber: Int? = null
+    var imageList: List<String>?=null
 
 
 }

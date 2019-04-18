@@ -43,6 +43,8 @@ import com.netease.nimlib.sdk.msg.MsgServiceObserve
 import com.netease.nimlib.sdk.msg.model.CustomNotification
 import com.netease.nimlib.sdk.uinfo.model.UserInfo
 import com.netease.nimlib.sdk.util.NIMUtil
+import com.nostra13.universalimageloader.core.ImageLoader
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration
 import org.json.JSONObject
 
 /**
@@ -62,9 +64,18 @@ class App : Application() {
         EDIT = SP.edit()
         mApi = RetrofitClient.getInstance(this).mApi
 
+
+        /****** 初始化imageLoader ******/
+        initImageLoader()
+
         /****** 崩溃日志初始化 ******/
         CrashHandler.instance.init(this)
         initWY()
+    }
+
+    private fun initImageLoader() {
+        val configuration = ImageLoaderConfiguration.createDefault(this)
+        ImageLoader.getInstance().init(configuration)
     }
 
     private fun initWY() {
@@ -90,20 +101,20 @@ class App : Application() {
                 val type = JSONObject(json).getString("type")
                 val ext = JSONObject(json).getString("ext")
                 val content = JSONObject(json).getString("content")
-                Log.e("okhttp",json)
+                Log.e("okhttp", json)
 
                 when (type) {
-                /****** 普通通知 ******/
+                    /****** 普通通知 ******/
                     "NOTIFICATION" -> {
                         RxBus.instance.post(RxBusBean.HomeTopRedPoint(true))
-                        initNotification(p0!!,content)
+                        initNotification(p0!!, content)
                     }
-                /****** 法律咨询通知 ******/
+                    /****** 法律咨询通知 ******/
                     "NOTIFICATION_LEGAL_ADVICE" -> {
                         RxBus.instance.post(RxBusBean.HomeTopRedPoint(true))
-                        initNotification(p0!!,content)
+                        initNotification(p0!!, content)
                     }
-                /****** 刷新抢单页 ******/
+                    /****** 刷新抢单页 ******/
                     "RUSH_PAGE_REFRESH" -> {
                         RxBus.instance.post(RxBusBean.RefreshGrabOrder(true))
                     }
@@ -125,7 +136,7 @@ class App : Application() {
      * @methodName： created by liushaoxiang on 2018/12/4 4:01 PM.
      * @description：显示系统通知
      */
-    private fun initNotification(data: CustomNotification,content: String) {
+    private fun initNotification(data: CustomNotification, content: String) {
         val mNotificationManager = getSystemService(Application.NOTIFICATION_SERVICE) as NotificationManager
 
         val intent = PendingIntent.getActivity(this, 0, Intent(this, NotificationActivity::class.java), PendingIntent.FLAG_UPDATE_CURRENT)

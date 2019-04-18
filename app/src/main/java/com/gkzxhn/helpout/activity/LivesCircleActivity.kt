@@ -1,5 +1,6 @@
 package com.gkzxhn.helpout.activity
 
+import android.content.Intent
 import android.graphics.Color
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
@@ -11,6 +12,7 @@ import com.gkzxhn.helpout.customview.RecyclerSpace
 import com.gkzxhn.helpout.entity.LivesCircle
 import com.gkzxhn.helpout.extensions.dp2px
 import com.gkzxhn.helpout.utils.StatusBarUtil
+import com.gkzxhn.helpout.utils.showToast
 import com.gkzxhn.helpout.view.ObservableAlphaScrollView
 import kotlinx.android.synthetic.main.activity_lives_circle.*
 
@@ -50,26 +52,39 @@ class LivesCircleActivity : BaseActivity(), ObservableAlphaScrollView.OnAlphaScr
         val viewTreeObserver = ll_lives_head?.viewTreeObserver
         viewTreeObserver?.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
             override fun onGlobalLayout() {
-                ll_lives_head!!.viewTreeObserver.removeOnGlobalLayoutListener(this)
-                mTitleHeight = ll_lives_title!!.measuredHeight
-                mHeadHeight = ll_lives_head!!.measuredHeight
+                ll_lives_head.viewTreeObserver.removeOnGlobalLayoutListener(this)
+                mTitleHeight = ll_lives_title.measuredHeight
+                mHeadHeight = ll_lives_head.measuredHeight
                 mDistance = mHeadHeight - mTitleHeight
                 Log.e("result  mTitleHead = ", mTitleHeight.toString() + "")
                 Log.e("result  mHeadHeight = ", mHeadHeight.toString() + "")
                 Log.e("result  mDistance = ", mDistance.toString() + "")
-                s_lives_scrollView!!.setOnAlphaScrollChangeListener(this@LivesCircleActivity)
+                s_lives_scrollView.setOnAlphaScrollChangeListener(this@LivesCircleActivity)
             }
         })
         val items = ArrayList<LivesCircle>()
 
-        for (s in 1..100) {
+        for (s in 1..50) {
             val element = LivesCircle()
-            element.name="刘德华"+s
-            element.context="苹果树已经开始丰收结果啦！现在可以接受预订哟，喜欢的朋友快来吧。"+s
-            element.imageNumber=s%10
-            element.time="2019-01-05 16:45:01 "
-            element.like=s%7
-            element.commentnumber=s%5
+            element.name = "刘德华" + s
+            element.context = "苹果树已经开始丰收结果啦！现在可以接受预订哟，喜欢的朋友快来吧。" + s
+            val i = s % 10
+            element.imageNumber = i
+            element.time = "2019-01-05 16:45:01 "
+            element.like = s % 7
+            element.commentnumber = s % 5
+
+            val list = ArrayList<String>()
+            for (number in 1..i) {
+                when (number) {
+                    1 -> list.add("http://img2.imgtn.bdimg.com/it/u=1782007428,3628702860&fm=27&gp=0.jpg")
+                    2 -> list.add("http://img0.imgtn.bdimg.com/it/u=2473592401,1264512939&fm=27&gp=0.jpg")
+                    3 -> list.add("https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=3176289000,2370082435&fm=27&gp=0.jpg")
+                    else -> list.add("https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=4071270602,4187261958&fm=27&gp=0.jpg")
+                }
+
+            }
+            element.imageList = list
             items.add(element)
         }
 
@@ -78,32 +93,42 @@ class LivesCircleActivity : BaseActivity(), ObservableAlphaScrollView.OnAlphaScr
         mAdapter.openLoadAnimation()
         rcv_lives_circle.addItemDecoration(RecyclerSpace(1f.dp2px().toInt(), ContextCompat.getColor(this, R.color.gray_line)))
         mAdapter.setOnItemClickListener { adapter, view, position ->
-
+            startActivity(Intent(this, LivesCircleDetailsActivity::class.java))
         }
+
         rcv_lives_circle.adapter = mAdapter
+
+
+        iv_lives_back.setOnClickListener {
+            finish()
+        }
+
+        iv_take_picture.setOnClickListener {
+            showToast("拍照")
+        }
     }
 
 
     override fun onVerticalScrollChanged(t: Int) {
         if (t <= mDistance - mDistanceY) {
-            tv_lives_title!!.alpha = 0f
-            iv_lives_back!!.isSelected = false
-            iv_take_picture!!.isSelected = false
-            ll_lives_title!!.setBackgroundColor(Color.argb(0, 242, 242, 242))
+            tv_lives_title.alpha = 0f
+            iv_lives_back.isSelected = false
+            iv_take_picture.isSelected = false
+            ll_lives_title.setBackgroundColor(Color.argb(0, 242, 242, 242))
         } else if (t <= mDistance) {
-            tv_lives_title!!.alpha = 0f
-            iv_lives_back!!.isSelected = false
-            iv_take_picture!!.isSelected = false
+            tv_lives_title.alpha = 0f
+            iv_lives_back.isSelected = false
+            iv_take_picture.isSelected = false
         } else if (t <= mDistance + mDistanceY) {
-            tv_lives_title!!.alpha = 1f
-            iv_lives_back!!.isSelected = true
-            iv_take_picture!!.isSelected = true
-            ll_lives_title!!.setBackgroundColor(Color.argb(0, 242, 242, 242))
+            tv_lives_title.alpha = 1f
+            iv_lives_back.isSelected = true
+            iv_take_picture.isSelected = true
+            ll_lives_title.setBackgroundColor(Color.argb(0, 242, 242, 242))
         } else {
-            tv_lives_title!!.alpha = 1f
-            iv_lives_back!!.isSelected = true
-            iv_take_picture!!.isSelected = true
-            ll_lives_title!!.setBackgroundColor(Color.argb(255, 242, 242, 242))
+            tv_lives_title.alpha = 1f
+            iv_lives_back.isSelected = true
+            iv_take_picture.isSelected = true
+            ll_lives_title.setBackgroundColor(Color.argb(255, 242, 242, 242))
         }
     }
 

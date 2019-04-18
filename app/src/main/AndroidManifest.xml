@@ -81,6 +81,7 @@
         <activity android:name=".activity.LegalConsultingActivity"/>
         <activity android:name=".activity.FriendListActivity"/>
         <activity android:name=".activity.LivesCircleActivity"
+        /> <activity android:name=".activity.LivesCircleDetailsActivity"
         />
         <activity android:name=".activity.MyLegalConsultingActivity"/>
         <activity android:name=".activity.SettingActivity"/>
