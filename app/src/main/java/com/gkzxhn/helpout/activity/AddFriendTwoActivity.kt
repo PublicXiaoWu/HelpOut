@@ -34,11 +34,9 @@ class AddFriendTwoActivity : BaseActivity() {
 
 
         tv_add_friend_two_add.setOnClickListener {
-
             val intent = Intent(this, AddFriendThreeActivity::class.java)
-            intent.putExtra("account",account)
+            intent.putExtra("account", account)
             startActivity(intent)
-
             finish()
         }
 

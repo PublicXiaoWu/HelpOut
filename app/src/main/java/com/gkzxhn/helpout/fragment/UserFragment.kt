@@ -57,7 +57,6 @@ class UserFragment : BaseFragment(), View.OnClickListener {
     override fun initListener() {
         v_user_my_money_bg.setOnClickListener(this)
         v_user_rz_bg.setOnClickListener(this)
-        v_user_idea_submit_bg.setOnClickListener(this)
         v_user_set_bg.setOnClickListener(this)
         v_user_top_bg.setOnClickListener(this)
         v_user_friend_list_bg.setOnClickListener(this)
@@ -90,10 +89,6 @@ class UserFragment : BaseFragment(), View.OnClickListener {
             }
             R.id.v_user_rz_bg -> {
                 context?.startActivity(Intent(context, ExpertActivity::class.java))
-            }
-//            意见反馈
-            R.id.v_user_idea_submit_bg -> {
-                context?.startActivity(Intent(context, IdeaSubmitActivity::class.java))
             }
 //            设置
             R.id.v_user_set_bg -> {

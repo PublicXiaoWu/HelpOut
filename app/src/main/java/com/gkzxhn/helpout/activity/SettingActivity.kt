@@ -58,15 +58,19 @@ class SettingActivity : BaseActivity() {
     fun onClickSetting(view: View) {
         when (view.id) {
 
-        /****** 存储空间 ******/
+            /****** 存储空间 ******/
             R.id.v_setting_clear_bg -> {
                 startActivity(Intent(this, CleanStorageActivity::class.java))
             }
-        /****** 版本更新 ******/
+            /****** 存储空间 ******/
+            R.id.v_setting_idea_bg -> {
+                startActivity(Intent(this, IdeaSubmitActivity::class.java))
+            }
+            /****** 版本更新 ******/
             R.id.v_setting_update_bg -> {
                 updateApp()
             }
-        /****** 退出账号 ******/
+            /****** 退出账号 ******/
             R.id.tv_setting_exit -> {
                 exit()
             }
@@ -145,7 +149,7 @@ class SettingActivity : BaseActivity() {
                             }
                             is IOException -> showToast("网络连接超时，请重试")
 
-                        //后台返回的message
+                            //后台返回的message
                             is ApiException -> {
                                 TsDialog(e.message!!, false)
                                 Log.e("ApiErrorHelper", e.message, e)
