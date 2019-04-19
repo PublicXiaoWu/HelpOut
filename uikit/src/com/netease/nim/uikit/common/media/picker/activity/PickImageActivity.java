@@ -2,27 +2,25 @@ package com.netease.nim.uikit.common.media.picker.activity;
 
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.provider.MediaStore.Images;
 import android.text.TextUtils;
-import com.netease.nim.uikit.common.ToastHelper;
 
 import com.netease.nim.uikit.R;
 import com.netease.nim.uikit.api.wrapper.NimToolBarOptions;
 import com.netease.nim.uikit.business.session.constant.Extras;
+import com.netease.nim.uikit.common.ToastHelper;
 import com.netease.nim.uikit.common.activity.ToolBarOptions;
 import com.netease.nim.uikit.common.activity.UI;
-import com.netease.nim.uikit.common.media.picker.model.GenericFileProvider;
 import com.netease.nim.uikit.common.media.picker.model.PhotoInfo;
 import com.netease.nim.uikit.common.media.picker.model.PickerContract;
 
-import java.io.File;
 import java.util.List;
 
 public class PickImageActivity extends UI {
@@ -129,13 +127,11 @@ public class PickImageActivity extends UI {
                 finish();
                 return;
             }
-            File outputFile = new File(outPath);
             Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-            if (Build.VERSION.SDK_INT > 23) {
-                intent.putExtra(MediaStore.EXTRA_OUTPUT, GenericFileProvider.getUriForFile(this, getApplicationContext().getPackageName() + ".generic.file.provider", outputFile));
-            } else {
-                intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(outputFile));
-            }
+            ContentValues contentValues = new ContentValues();
+            contentValues.put(MediaStore.Images.Media.DATA, outPath);
+            Uri uri = getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues);
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
             startActivityForResult(intent, REQUEST_CODE_CAMERA);
         } catch (ActivityNotFoundException e) {
             finish();
