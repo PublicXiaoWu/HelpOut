@@ -22,18 +22,15 @@ class LivesCircleAdapter(datas: List<LivesCircle>?) : BaseQuickAdapter<LivesCirc
         helper?.setText(R.id.tv_item_lives_circle_name, item?.name)
                 ?.setText(R.id.tv_item_lives_circle_time, item?.time)
                 ?.setText(R.id.tv_item_lives_circle_content, item?.context)
+                ?.setText(R.id.tv_item_lives_circle_comment_number, item?.commentnumber.toString())
                 ?.setText(R.id.tv_item_lives_circle_like_number, item?.like.toString())
                 ?.setOnClickListener(R.id.iv_item_lives_circle_share, share())
                 ?.setOnClickListener(R.id.tv_item_lives_circle_share, share())
                 ?.setOnClickListener(R.id.tv_item_lives_circle_comment, comment())
                 ?.setOnClickListener(R.id.tv_item_lives_circle_comment_number, comment())
-
-        helper?.setOnClickListener(R.id.iv_item_lives_circle_like_number, like(helper, item))
+                ?.setOnClickListener(R.id.iv_item_lives_circle_like_number, like(helper, item))
                 ?.setOnClickListener(R.id.tv_item_lives_circle_like_number, like(helper, item))
-
-        val ll = helper?.getView<NineGridTestLayout>(R.id.item_lives_circle_image)
-        ll?.setIsShowAll(false)
-        ll?.setUrlList(item?.imageList!!)
+                ?.getView<NineGridTestLayout>(R.id.item_lives_circle_image)?.setUrlList(item?.imageList!!)
     }
 
 

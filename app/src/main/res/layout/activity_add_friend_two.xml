@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" android:background="@color/main_gary_bg">
+    <include android:id="@+id/in_top"
+             layout="@layout/default_top"/>
+
+
+    <View
+        android:id="@+id/v_add_friend_two_top_bg"
+        android:layout_width="match_parent"
+        android:layout_height="90dp"
+        android:layout_marginTop="11dp"
+        android:background="@color/white"
+        app:layout_constraintTop_toBottomOf="@+id/in_top"/>
+
+
+    <ImageView android:id="@+id/iv_add_friend_two"
+               android:layout_width="64dp"
+               android:layout_height="64dp"
+               android:layout_marginStart="15dp"
+               android:src="@mipmap/ic_user_icon"
+               app:layout_constraintBottom_toBottomOf="@+id/v_add_friend_two_top_bg"
+               app:layout_constraintStart_toStartOf="@+id/v_add_friend_two_top_bg"
+               app:layout_constraintTop_toTopOf="@+id/v_add_friend_two_top_bg"
+    />
+
+
+    <TextView
+        android:id="@+id/tv_add_friend_two_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="果农张三"
+        app:layout_constraintStart_toEndOf="@id/iv_add_friend_two"
+        app:layout_constraintTop_toTopOf="@id/v_add_friend_two_top_bg"
+        android:layout_marginStart="15dp"
+        app:layout_constraintBottom_toTopOf="@id/tv_add_friend_two_phone"
+        android:textColor="#ff333333"
+        app:layout_constraintVertical_chainStyle="packed"
+        android:textSize="18sp"
+    />
+
+    <TextView
+        android:id="@+id/tv_add_friend_two_phone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@id/tv_add_friend_two_name"
+        app:layout_constraintTop_toBottomOf="@id/tv_add_friend_two_name"
+        android:layout_marginTop="10dp"
+        app:layout_constraintBottom_toBottomOf="@id/v_add_friend_two_top_bg"
+
+        android:text="138****6886"
+        android:textColor="#ff666666"
+        android:textSize="14sp"
+    />
+
+    <TextView
+        android:id="@+id/tv_add_friend_two_add"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/white"
+        android:gravity="center"
+        android:text="添加到通讯录"
+        android:textColor="#ff264c90"
+        android:textSize="14sp"
+        app:layout_constraintTop_toBottomOf="@+id/v_add_friend_two_top_bg"
+    />
+
+
+</android.support.constraint.ConstraintLayout>

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/main_gary_bg">
+
+    <include android:id="@+id/in_top" layout="@layout/default_top"/>
+
+    <TextView
+        android:id="@+id/tv_add_friend_three_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="11dp"
+        android:text="你需要发送验证申请，等对方通过"
+        android:textColor="#ff666666"
+        android:textSize="12sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/in_top"
+    />
+
+    <View android:id="@+id/v_add_friend_three_edit_bg"
+          android:layout_width="match_parent"
+          android:layout_height="44dp"
+          android:layout_marginTop="10dp"
+          android:background="@color/white"
+          app:layout_constraintTop_toBottomOf="@+id/tv_add_friend_three_title"/>
+
+
+    <EditText
+        android:id="@+id/et_add_friend_three_content"
+        android:layout_width="0dp"
+        android:hint="请输入验证信息"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:background="@null"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="@+id/v_add_friend_three_edit_bg"
+        app:layout_constraintEnd_toStartOf="@id/iv_add_friend_three_close_text"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/v_add_friend_three_edit_bg"
+    />
+
+    <ImageView
+        android:id="@+id/iv_add_friend_three_close_text"
+               android:layout_width="26dp"
+               android:layout_height="26dp"
+               android:layout_marginEnd="15dp"
+               android:padding="5dp"
+               android:src="@mipmap/ic_text_close"
+               app:layout_constraintBottom_toBottomOf="@+id/v_add_friend_three_edit_bg"
+
+               app:layout_constraintEnd_toEndOf="parent"
+               app:layout_constraintTop_toTopOf="@+id/v_add_friend_three_edit_bg"/>
+
+
+</android.support.constraint.ConstraintLayout>

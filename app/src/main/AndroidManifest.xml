@@ -62,7 +62,8 @@
         </activity>
 
         <activity android:name=".activity.QualificationAuthenticationActivity"
-        /><activity android:name=".activity.QualificationAuthenticationSuccessActivity"
+        />
+        <activity android:name=".activity.QualificationAuthenticationSuccessActivity"
         />
         <activity android:name=".activity.LoginActivity"
         />
@@ -81,7 +82,8 @@
         <activity android:name=".activity.LegalConsultingActivity"/>
         <activity android:name=".activity.FriendListActivity"/>
         <activity android:name=".activity.LivesCircleActivity"
-        /> <activity android:name=".activity.LivesCircleDetailsActivity"
+        />
+        <activity android:name=".activity.LivesCircleDetailsActivity"
         />
         <activity android:name=".activity.MyLegalConsultingActivity"/>
         <activity android:name=".activity.SettingActivity"/>
@@ -119,21 +121,26 @@
             android:label="@string/location_navigate"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"/>
-        <activity android:name=".activity.FeedBackActivity"
+        <activity android:name=".activity.AddFriendTwoActivity"
                   android:screenOrientation="portrait"
-            />
-        <activity android:name=".activity.ExpertActivity"
-                  android:screenOrientation="portrait"
-            />
+        />
+
+        <activity android:name=".activity.AddFriendThreeActivity"
+                  android:windowSoftInputMode="stateVisible|adjustResize"
+        />
+        <activity
+            android:name=".activity.ExpertActivity"
+            android:screenOrientation="portrait"
+        />
         <activity android:name=".activity.LawsServiceActivity"
                   android:screenOrientation="portrait"
-            />
+        />
         <activity android:name=".activity.PublishOrderActivity"
                   android:screenOrientation="portrait"
-            />
+        />
         <activity android:name=".activity.CustomerOrderDetailActivity"
                   android:screenOrientation="portrait"
-            />
+        />
         <activity android:name=".activity.ImageActivity"/>
         <activity android:name=".wxapi.WXPayEntryActivity"
                   android:exported="true"

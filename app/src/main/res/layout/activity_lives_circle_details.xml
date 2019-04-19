@@ -3,13 +3,16 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:background="@color/white">
 
     <include
         android:id="@+id/in_top"
         layout="@layout/default_top"/>
-    <View android:id="@+id/v_line" android:layout_width="match_parent"
+
+
+    <View android:id="@+id/v_line"
+          android:layout_width="match_parent"
           android:layout_height="0.5dp"
           android:background="@color/view_line"
           app:layout_constraintTop_toBottomOf="@+id/in_top"
@@ -72,14 +75,69 @@
         android:id="@+id/ll_lives_circle_image"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginStart="11dp"
         android:layout_marginEnd="15dp"
+        android:layout_marginStart="11dp"
+        android:layout_marginTop="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/iv_lives_circle_avatar"
         app:layout_constraintTop_toBottomOf="@+id/tv_lives_circle_content"
         app:sapcing="4dp"/>
 
+    <View android:id="@+id/v_gray_bg"
+          android:layout_marginTop="15dp"
+          android:layout_width="match_parent"
+          android:layout_height="10dp"
+          android:background="@color/main_gary_bg"
+          app:layout_constraintTop_toBottomOf="@+id/ll_lives_circle_image"
+    />
+
+    <TextView
+        android:id="@+id/tv_lives_circle_comment_number_show"
+        android:layout_width="49dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="15dp"
+        android:text="评论 76"
+        android:textColor="#ff333333"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/v_gray_bg"
+    />
+
+    <TextView
+        android:id="@+id/tv_lives_circle_like_number_show"
+        android:layout_width="48dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="15dp"
+        android:layout_marginTop="15dp"
+        android:text="点赞 16"
+        android:textColor="#ff333333"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/v_gray_bg"
+    />
+
+    <View android:id="@+id/v_lives_circle_comment_number_show"
+          android:layout_width="match_parent"
+          android:layout_height="0.5dp"
+          android:layout_marginTop="15dp"
+          android:background="@color/view_line"
+          app:layout_constraintTop_toBottomOf="@+id/tv_lives_circle_comment_number_show"
+    />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rcv_lives_circle_details"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/v_lives_circle_comment_number_show">
+
+
+    </android.support.v7.widget.RecyclerView>
+
+    <View android:layout_width="match_parent"
+          android:layout_height="50dp"
+          android:background="#E9E9E9"
+          app:layout_constraintBottom_toBottomOf="parent"/>
     <!--分享-->
     <ImageView
         android:id="@+id/iv_lives_circle_share"
@@ -159,7 +217,6 @@
         android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/ll_lives_circle_image"
     />
 
 </android.support.constraint.ConstraintLayout>
