@@ -20,27 +20,27 @@ class PhoneChangeModel : BaseModel(), IPhoneChangeModel {
 
     override fun login(context: Context, body: RequestBody): Observable<Response<Void>> {
         return RetrofitClientPublic.Companion.getInstance(context).mApi
-                ?.login(body)
-                ?.subscribeOn(Schedulers.io()) as Observable<Response<Void>>
+                .login(body)
+                .subscribeOn(Schedulers.io()) as Observable<Response<Void>>
     }
 
     override fun updatePhoneNumber(context: Context, body: RequestBody): Observable<Response<Void>> {
         return RetrofitClientPublic.Companion.getInstance(context).mApi
-                ?.updatePhoneNumber(body)
-                ?.subscribeOn(Schedulers.io()) as Observable<Response<Void>>
+                .updatePhoneNumber(body)
+                .subscribeOn(Schedulers.io()) as Observable<Response<Void>>
 
     }
 
-    override fun getCode(context: Context, phone: String): Observable<Response<Void>> {
+    override fun getCode(context: Context, map: RequestBody): Observable<Response<Void>> {
         return RetrofitClientPublic.Companion.getInstance(context).mApi
-                ?.getCode(phone)
-                ?.subscribeOn(Schedulers.io()) as Observable<Response<Void>>
+                .getCode(map)
+                .subscribeOn(Schedulers.io()) as Observable<Response<Void>>
     }
 
 
     override fun getToken(context: Context, phoneNumber: String, code: String): Observable<Response<ResponseBody>>? {
         return RetrofitClientPublic.Companion.getInstance(context)
-                .mApi?.getToken("password", phoneNumber, code)
-                ?.subscribeOn(Schedulers.io())
+                .mApi.getToken("password", phoneNumber, code)
+                .subscribeOn(Schedulers.io())
     }
 }

@@ -56,10 +56,13 @@ class LoginPresenter(context: Context, view: LoginView) : BasePresenter<ILoginMo
             mContext?.showToast("手机号格式不正确")
         } else if (!NetworkUtils.isNetConneted(mContext!!)) {
             mContext?.showToast("暂无网络")
-
         } else {
             mContext?.let {
-                mModel.getCode(it, mView?.getPhone()!!)
+                var map = LinkedHashMap<String, String>()
+                map["phoneNumber"] = mView?.getPhone().toString()
+                var body = RequestBody.create(MediaType.parse("application/json; charset=utf-8"),
+                        Gson().toJson(map))
+                mModel.getCode(it, body)
                         .unsubscribeOn(AndroidSchedulers.mainThread())
                         ?.observeOn(AndroidSchedulers.mainThread())
                         ?.subscribe(object : HttpObserver<Response<Void>>(it) {
@@ -88,12 +91,12 @@ class LoginPresenter(context: Context, view: LoginView) : BasePresenter<ILoginMo
      * @description：登录
      */
     private fun requestLogin() {
-        var map = LinkedHashMap<String, String>()
+        val map = LinkedHashMap<String, String>()
         map["phoneNumber"] = mView?.getPhone().toString()
         map["verificationCode"] = mView?.getCode().toString()
         map["name"] = mView?.getPhone().toString()
         map["group"] = "CUSTOMER"
-        var body = RequestBody.create(MediaType.parse("application/json; charset=utf-8"),
+        val body = RequestBody.create(MediaType.parse("application/json; charset=utf-8"),
                 Gson().toJson(map))
         mModel.login(mContext!!, body)
                 .unsubscribeOn(AndroidSchedulers.mainThread())

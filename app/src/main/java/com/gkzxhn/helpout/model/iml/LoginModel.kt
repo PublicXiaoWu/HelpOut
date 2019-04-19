@@ -28,10 +28,10 @@ class LoginModel : BaseModel(), ILoginModel {
 
     }
 
-    override fun getCode(context: Context, phone: String): Observable<Response<Void>> {
+    override fun getCode(context: Context, map: RequestBody): Observable<Response<Void>> {
         return RetrofitClientPublic.Companion.getInstance(context).mApi
-                ?.getCode(phone)
-                ?.subscribeOn(Schedulers.io()) as Observable<Response<Void>>
+                .getCode(map)
+                .subscribeOn(Schedulers.io()) as Observable<Response<Void>>
     }
 
     override fun getLawyersInfo(context: Context): Observable<LawyersInfo> {

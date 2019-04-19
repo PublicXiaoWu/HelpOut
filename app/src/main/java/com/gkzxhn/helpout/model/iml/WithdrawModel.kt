@@ -20,9 +20,9 @@ import rx.schedulers.Schedulers
 class WithdrawModel : BaseModel(), IWithdrawModel {
 
 
-    override fun getCode(context: Context, phone: String): Observable<Response<Void>> {
+    override fun getCode(context: Context, map: RequestBody): Observable<Response<Void>> {
         return RetrofitClientPublic.Companion.getInstance(context).mApi
-                ?.getCode(phone)
+                ?.getCode(map)
                 ?.subscribeOn(Schedulers.io()) as Observable<Response<Void>>
     }
 

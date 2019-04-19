@@ -51,7 +51,11 @@ class PhoneChangePresenter(context: Context, view: PhoneChangeView) : BasePresen
             return
         }
         mContext?.let {
-            mModel.getCode(it, mView?.getPhone()!!)
+            var map = LinkedHashMap<String, String>()
+            map["phoneNumber"] = mView?.getPhone().toString()
+            var body = RequestBody.create(MediaType.parse("application/json; charset=utf-8"),
+                    Gson().toJson(map))
+            mModel.getCode(it, body)
                     .unsubscribeOn(AndroidSchedulers.mainThread())
                     ?.observeOn(AndroidSchedulers.mainThread())
                     ?.subscribe(object : HttpObserver<Response<Void>>(it) {

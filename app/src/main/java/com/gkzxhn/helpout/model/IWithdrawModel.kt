@@ -15,7 +15,7 @@ import rx.Observable
 
 interface IWithdrawModel : IBaseModel {
 
-    fun getCode(context: Context, phone: String): Observable<Response<Void>>
+    fun getCode(context: Context, map: RequestBody): Observable<Response<Void>>
 
     fun withdrawAli(context: Context, body: RequestBody): Observable<Response<Void>>
 

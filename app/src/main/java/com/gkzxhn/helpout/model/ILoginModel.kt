@@ -18,7 +18,6 @@ import rx.Observable
 
 interface ILoginModel : IBaseModel {
 
-    fun getCode(context: Context, phone: String): Observable<Response<Void>>
 
     fun getLawyersInfo(context: Context): Observable<LawyersInfo>
 
@@ -30,4 +29,5 @@ interface ILoginModel : IBaseModel {
 
     fun getIMInfo(context: Context): Observable<ImInfo>
     fun getAccountInfo(context: Context): Observable<AccountInfo>
+    fun getCode(context: Context, map: RequestBody): Observable<Response<Void>>
 }

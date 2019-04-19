@@ -15,7 +15,7 @@ import rx.Observable
 
 interface IPhoneChangeModel : IBaseModel {
 
-    fun getCode(context: Context, phone: String): Observable<Response<Void>>
+    fun getCode(context: Context,map: RequestBody): Observable<Response<Void>>
 
 
     fun login(context: Context, body: RequestBody): Observable<Response<Void>>

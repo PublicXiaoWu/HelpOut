@@ -19,7 +19,7 @@ interface ApiService {
 
     // 获取验证码
     @POST("/sms/verification-codes")
-    fun getCode(@Query("phoneNumber") string: String): Observable<Response<Void>>
+    fun getCode(@Body map: RequestBody): Observable<Response<Void>>
 
     //    注册 登录
     @POST("users/of-mobile")

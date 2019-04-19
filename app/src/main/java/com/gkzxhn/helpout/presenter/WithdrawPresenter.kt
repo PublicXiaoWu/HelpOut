@@ -34,11 +34,14 @@ import java.util.*
 
 class WithdrawPresenter(context: Context, view: WithdrawView) : BasePresenter<IWithdrawModel, WithdrawView>(context, WithdrawModel(), view) {
 
-    var payAccount=""
+    var payAccount = ""
     fun sendCode() {
         if (mView?.getMoney()!!.isNotEmpty()) {
             mContext?.let {
-                mModel.getCode(it, mView?.getPhone()!!)
+                val map = LinkedHashMap<String, String>()
+                map["phoneNumber"] = mView?.getPhone().toString()
+                val body = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), Gson().toJson(map))
+                mModel.getCode(it, body)
                         .unsubscribeOn(AndroidSchedulers.mainThread())
                         ?.observeOn(AndroidSchedulers.mainThread())
                         ?.subscribe(object : HttpObserver<Response<Void>>(it) {
@@ -58,18 +61,18 @@ class WithdrawPresenter(context: Context, view: WithdrawView) : BasePresenter<IW
     }
 
     fun getAlipayInfo() {
-            mContext?.let {
-                mModel.getAlipayInfo(it)
-                        .unsubscribeOn(AndroidSchedulers.mainThread())
-                        ?.observeOn(AndroidSchedulers.mainThread())
-                        ?.subscribe(object : HttpObserver<AlipayInfo>(it) {
-                            override fun success(t: AlipayInfo) {
-                                mView?.setPayInfo(t.nickName!!,t.avatar)
+        mContext?.let {
+            mModel.getAlipayInfo(it)
+                    .unsubscribeOn(AndroidSchedulers.mainThread())
+                    ?.observeOn(AndroidSchedulers.mainThread())
+                    ?.subscribe(object : HttpObserver<AlipayInfo>(it) {
+                        override fun success(t: AlipayInfo) {
+                            mView?.setPayInfo(t.nickName!!, t.avatar)
 //                                payAccount= t.account!!
-                            }
+                        }
 
-                        })
-            }
+                    })
+        }
     }
 
     fun withdraw() {
