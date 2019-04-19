@@ -110,10 +110,10 @@ class LoginPresenter(context: Context, view: LoginView) : BasePresenter<ILoginMo
                                 try {
                                     val errorBody = t.errorBody().string()
                                     when (JSONObject(errorBody).getString("code")) {
-                                        "sms.verification-code.NotMatched" -> {
+                                        "user.SmsVerificationCodeNotMatched" -> {
                                             mContext?.TsDialog(mContext?.getString(R.string.verify_number_error).toString(), false)
                                         }
-                                        "user.Existed" -> {
+                                        "user.PhoneNumberExisted" -> {
                                             getToken(map["phoneNumber"].toString(), map["verificationCode"].toString())
                                             rememberPhone()
                                         }

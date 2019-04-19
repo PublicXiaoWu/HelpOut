@@ -9,6 +9,10 @@ import android.view.KeyEvent
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import com.gkzxhn.helpout.R
+import com.gkzxhn.helpout.entity.ImInfo
+import com.gkzxhn.helpout.net.HttpObserver
+import com.gkzxhn.helpout.net.RetrofitClientChat
+import com.gkzxhn.helpout.utils.showToast
 import com.netease.nimlib.sdk.NIMClient
 import com.netease.nimlib.sdk.Observer
 import com.netease.nimlib.sdk.friend.model.AddFriendNotify
@@ -17,6 +21,8 @@ import com.netease.nimlib.sdk.msg.SystemMessageService
 import com.netease.nimlib.sdk.msg.constant.SystemMessageType
 import com.netease.nimlib.sdk.msg.model.SystemMessage
 import kotlinx.android.synthetic.main.activity_add_friend.*
+import rx.android.schedulers.AndroidSchedulers
+import rx.schedulers.Schedulers
 
 
 /**
@@ -119,7 +125,28 @@ class AddFriendActivity : BaseActivity() {
     }
 
     private fun goSearch() {
-        startActivity(Intent(this, AddFriendTwoActivity::class.java))
+        val phoneNumber = et_add_friend.text.toString().trim()
+        if (phoneNumber.isEmpty()) {
+            showToast("请输入手机号")
+            return
+        }
+
+        mCompositeSubscription.add(RetrofitClientChat
+                .getInstance(this).mApi.getUserIm(phoneNumber)
+                .subscribeOn(Schedulers.io())
+                ?.unsubscribeOn(AndroidSchedulers.mainThread())
+                ?.observeOn(AndroidSchedulers.mainThread())
+                ?.subscribe(object : HttpObserver<ImInfo>(this) {
+                    override fun success(t: ImInfo) {
+
+                        val intent = Intent(this@AddFriendActivity, AddFriendTwoActivity::class.java)
+                        intent.putExtra("phoneNumber",phoneNumber)
+                        intent.putExtra("account",t.account)
+                        intent.putExtra("nickname",t.nickname)
+                        intent.putExtra("avatar",t.avatar)
+                        startActivity(intent)
+                    }
+                }))
     }
 
     /****** 取消按扭 ******/

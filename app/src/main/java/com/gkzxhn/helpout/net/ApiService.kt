@@ -18,8 +18,8 @@ import rx.Observable
 interface ApiService {
 
     // 获取验证码
-    @POST("/sms/verification-codes/{phoneNumber}")
-    fun getCode(@Path("phoneNumber") string: String): Observable<Response<Void>>
+    @POST("/sms/verification-codes")
+    fun getCode(@Query("phoneNumber") string: String): Observable<Response<Void>>
 
     //    注册 登录
     @POST("users/of-mobile")
@@ -130,15 +130,15 @@ interface ApiService {
 
     //    获取抢单列表
     @GET("lawyer/rush/legal-advice")
-    fun getOrderReceiving(@Query("page") page: String, @Query("size") size: String,@Query("sort") sort: String): Observable<OrderReceiving>
+    fun getOrderReceiving(@Query("page") page: String, @Query("size") size: String, @Query("sort") sort: String): Observable<OrderReceiving>
 
     //    获取账单列表
     @GET("/bill")
     fun getTransaction(@Query("page") page: String, @Query("size") size: String): Observable<MoneyList>
 
-     //    获取我的IM通知
+    //    获取我的IM通知
     @GET("im/notifications/my")
-    fun getNotifications(@Query("page") page: String, @Query("size") size: String,@Query("sort") sort: String): Observable<NotificationInfoList>
+    fun getNotifications(@Query("page") page: String, @Query("size") size: String, @Query("sort") sort: String): Observable<NotificationInfoList>
 
     //    获取抢单的明细
     @GET("/lawyer/rush/legal-advice/{id}")
@@ -218,7 +218,7 @@ interface ApiService {
     @DELETE("/customer/legal-advice/{id}")
     fun deleteOrder(@Path("id") id: String): Observable<ResponseBody?>
 
-     /**
+    /**
      * 删除律师的法律咨询订单
      */
     @DELETE("lawyer/my/legal-advice/{id}")
@@ -260,11 +260,17 @@ interface ApiService {
      * 删除指定文件
      */
     @DELETE("/files/{filename}")
-    fun deleteFile(@Path("filename") filename: String) : Observable<ResponseBody>
+    fun deleteFile(@Path("filename") filename: String): Observable<ResponseBody>
 
     /**
      * 获取微信订单
      */
     @GET("/legal-advice/{id}/we-chat-pay")
-    fun getWxOrder(@Path("id") id: String) : Observable<WXLawOrderInfo>
+    fun getWxOrder(@Path("id") id: String): Observable<WXLawOrderInfo>
+
+    /**
+     * 依据手机号码获取用户IM信息
+     */
+    @GET("/customer/user/getuserim")
+    fun getUserIm(@Query("phoneNumber") phoneNumber: String): Observable<ImInfo>
 }

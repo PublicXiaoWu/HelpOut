@@ -15,7 +15,7 @@ interface NetWorkCodeInfo {
         val ENVIRONMENT_FORMAL = 0x13
 
         /****** 更改这个 切换环境 ******/
-        val environment = ENVIRONMENT_TEST
+        val environment = ENVIRONMENT_DEV
 
         /****** 公共平台 ******/
         val BASE_URL = when (environment) {
@@ -35,6 +35,16 @@ interface NetWorkCodeInfo {
             ENVIRONMENT_TEST -> "http://qa.api.legal.prisonpublic.com"
             /****** 正式环境 ******/
             ENVIRONMENT_FORMAL -> "http://api.legal.prisonpublic.com"
+            else -> ""
+        }
+        /****** 通讯 ******/
+        val BASE_URL_CHAT = when (environment) {
+            /****** 开发环境 ******/
+            ENVIRONMENT_DEV -> "http://192.168.0.230:8087"
+            /****** 测试环境 ******/
+            ENVIRONMENT_TEST -> "http://qa.api.chat.prisonpublic.com"
+            /****** 正式环境 ******/
+            ENVIRONMENT_FORMAL -> ""
             else -> ""
         }
     }

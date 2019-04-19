@@ -22,6 +22,7 @@ import kotlinx.android.synthetic.main.default_top.*
  */
 class AddFriendThreeActivity : BaseActivity() {
 
+    var account=""
     override fun provideContentViewId(): Int {
         return R.layout.activity_add_friend_three
     }
@@ -29,6 +30,8 @@ class AddFriendThreeActivity : BaseActivity() {
     @SuppressLint("SetTextI18n")
     override fun init() {
         initTopTitle()
+
+        account=intent.getStringExtra("account")
 
         et_add_friend_three_content.setText("我是" + App.SP.getString(Constants.SP_NAME, ""))
         iv_add_friend_three_close_text.setOnClickListener {
@@ -61,7 +64,7 @@ class AddFriendThreeActivity : BaseActivity() {
         //9f9469948f76456d850b9f3bed1ddc10 肖君
         // f8ffb4a93b084dd2b9ba66e932f1c1ff
 
-        NIMClient.getService(FriendService::class.java).addFriend(AddFriendData("9f9469948f76456d850b9f3bed1ddc10", VerifyType.VERIFY_REQUEST, et_add_friend_three_content.text.toString().trim()))
+        NIMClient.getService(FriendService::class.java).addFriend(AddFriendData(account, VerifyType.VERIFY_REQUEST, et_add_friend_three_content.text.toString().trim()))
                 .setCallback(object : RequestCallback<Void> {
                     override fun onSuccess(p0: Void?) {
                         ToastHelper.showToast(this@AddFriendThreeActivity, "添加好友请求发送成功")

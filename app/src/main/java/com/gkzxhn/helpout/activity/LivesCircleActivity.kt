@@ -64,7 +64,7 @@ class LivesCircleActivity : BaseActivity(), ObservableAlphaScrollView.OnAlphaScr
         })
         val items = ArrayList<LivesCircle>()
 
-        for (s in 1..50) {
+        for (s in 1..10) {
             val element = LivesCircle()
             element.name = "刘德华" + s
             element.context = "苹果树已经开始丰收结果啦！现在可以接受预订哟，喜欢的朋友快来吧。" + s

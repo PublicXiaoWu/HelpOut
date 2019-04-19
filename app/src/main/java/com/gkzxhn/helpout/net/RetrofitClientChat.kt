@@ -1,6 +1,5 @@
 package com.gkzxhn.helpout.net
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.util.Log
 import com.gkzxhn.helpout.net.error_exception.MyGsonConverterFactory
@@ -12,21 +11,19 @@ import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory
 import java.io.File
 import java.util.concurrent.TimeUnit
 
-
 /**
- * Explanation: 共同平台相关请求
+ * Explanation:聊天后台相关请求
  * @author LSX
  *    -----2018/9/6
  */
-
-class RetrofitClientPublic private constructor(context: Context, baseUrl: String) {
-
+class RetrofitClientChat private constructor(context: Context, baseUrl: String) {
     var httpCacheDirectory: File? = null
     val mContext: Context = context
     var cache: Cache? = null
     var okHttpClient: OkHttpClient? = null
     lateinit var retrofit: Retrofit
-    val DEFAULT_TIMEOUT: Long = 6
+    /****** 超时时间（秒） ******/
+    val DEFAULT_TIMEOUT: Long = 3
     val url = baseUrl
     lateinit var mApi: ApiService
 
@@ -52,8 +49,8 @@ class RetrofitClientPublic private constructor(context: Context, baseUrl: String
         okHttpClient = OkHttpClient.Builder()
                 .cache(cache)
                 .retryOnConnectionFailure(true)
-                .addInterceptor(CacheInterceptorPublic(mContext))
-//                .addNetworkInterceptor(CacheInterceptorPublic(mContext))
+                .addInterceptor(CacheInterceptorChat(mContext))
+//                .addNetworkInterceptor(CacheInterceptor(mContext))
                 .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
                 .connectTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
                 .writeTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
@@ -71,13 +68,23 @@ class RetrofitClientPublic private constructor(context: Context, baseUrl: String
     }
 
     companion object {
-        @SuppressLint("StaticFieldLeak")
-        var instance: RetrofitClientPublic? = null
-        fun getInstance(context: Context): RetrofitClientPublic {
+        private var instance: RetrofitClientChat? = null
+        fun getInstance(context: Context, baseUrl: String): RetrofitClientChat {
             if (instance == null) {
-                synchronized(RetrofitClientPublic::class) {
+                synchronized(RetrofitClientChat::class) {
                     if (instance == null) {
-                        instance = RetrofitClientPublic(context, NetWorkCodeInfo.BASE_URL)
+                        instance = RetrofitClientChat(context, baseUrl)
+                    }
+                }
+            }
+            return instance!!
+        }
+
+        fun getInstance(context: Context): RetrofitClientChat {
+            if (instance == null) {
+                synchronized(RetrofitClientChat::class) {
+                    if (instance == null) {
+                        instance = RetrofitClientChat(context, NetWorkCodeInfo.BASE_URL_CHAT)
                     }
                 }
             }

@@ -8,7 +8,6 @@ import com.gkzxhn.helpout.customview.RecyclerSpace
 import com.gkzxhn.helpout.extensions.dp2px
 import com.netease.nimlib.sdk.NIMClient
 import com.netease.nimlib.sdk.RequestCallback
-import com.netease.nimlib.sdk.friend.model.AddFriendNotify
 import com.netease.nimlib.sdk.msg.SystemMessageService
 import com.netease.nimlib.sdk.msg.constant.SystemMessageType
 import com.netease.nimlib.sdk.msg.model.SystemMessage
@@ -89,9 +88,6 @@ class NewFriendActivity : BaseActivity() {
 
     // 同一个账号的好友申请仅保留最近一条
     private fun addFriendVerifyFilter(msg: SystemMessage): Boolean {
-
-        val attachData = msg.attachObject as AddFriendNotify
-
         if (addFriendVerifyRequestAccounts.contains(msg.fromAccount)) {
             return true // 过滤
         }

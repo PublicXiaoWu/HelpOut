@@ -3,43 +3,62 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <com.gkzxhn.helpout.view.ObservableAlphaScrollView
-        android:id="@+id/s_lives_scrollView"
+    <com.gkzxhn.helpout.customview.PullToRefreshLayout
+        android:id="@+id/loading_refresh"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:focusable="true"
-            android:focusableInTouchMode="true"
-            android:orientation="vertical">
-            <LinearLayout
-                android:id="@+id/ll_lives_head"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:scaleType="fitXY"
-                    android:src="@mipmap/ic_lives_bg"/>
-            </LinearLayout>
+        android:layout_height="match_parent"
+    >
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/rcv_lives_circle"
+        <com.gkzxhn.helpout.customview.LoadMoreWrapper
+            android:id="@+id/loading_more"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <com.gkzxhn.helpout.view.ObservableAlphaScrollView
+                android:id="@+id/s_lives_scrollView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:orientation="vertical">
+                    <LinearLayout
+                        android:id="@+id/ll_lives_head"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:scaleType="fitXY"
+                            android:src="@mipmap/ic_lives_bg"/>
+                    </LinearLayout>
 
 
-            </android.support.v7.widget.RecyclerView>
-        </LinearLayout>
-    </com.gkzxhn.helpout.view.ObservableAlphaScrollView>
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/rcv_lives_circle"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+
+                    </android.support.v7.widget.RecyclerView>
+
+
+                </LinearLayout>
+            </com.gkzxhn.helpout.view.ObservableAlphaScrollView>
+        </com.gkzxhn.helpout.customview.LoadMoreWrapper>
+
+    </com.gkzxhn.helpout.customview.PullToRefreshLayout>
+
+
     <LinearLayout
         android:id="@+id/ll_lives_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#00000000"
         android:fitsSystemWindows="true">
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="48dp"
