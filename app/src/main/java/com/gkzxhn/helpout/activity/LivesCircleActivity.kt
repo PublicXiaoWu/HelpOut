@@ -6,8 +6,8 @@ import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
 import android.view.ViewTreeObserver
 import com.gkzxhn.helpout.R
-import com.gkzxhn.helpout.R.id.*
 import com.gkzxhn.helpout.adapter.LivesCircleAdapter
+import com.gkzxhn.helpout.customview.PullToRefreshLayout
 import com.gkzxhn.helpout.customview.RecyclerSpace
 import com.gkzxhn.helpout.entity.LivesCircle
 import com.gkzxhn.helpout.extensions.dp2px
@@ -26,16 +26,13 @@ import kotlinx.android.synthetic.main.activity_lives_circle.*
  */
 class LivesCircleActivity : BaseActivity(), LivesCircleView, ObservableAlphaScrollView.OnAlphaScrollChangeListener {
 
-
     lateinit var mPresenter: LivesCirclePresenter
     lateinit var mAdapter: LivesCircleAdapter
-
 
     private var mTitleHeight: Int = 0
     private var mHeadHeight: Int = 0
     private var mDistance: Int = 0
     private val mDistanceY = 30// 设置一个临界值吧
-
 
     var loadMore = false
     var page = 0
@@ -52,10 +49,8 @@ class LivesCircleActivity : BaseActivity(), LivesCircleView, ObservableAlphaScro
         }
     }
 
-
-    override fun updateData(clear: Boolean, data: List<LivesCircle.ContentBean>) {
+    override fun updateData( data: List<LivesCircle.ContentBean>) {
         mAdapter.setNewData(data)
-
     }
 
     override fun provideContentViewId(): Int {
@@ -94,6 +89,8 @@ class LivesCircleActivity : BaseActivity(), LivesCircleView, ObservableAlphaScro
 
         initRecyclerView()
 
+        mPresenter.getLivesCircle("0","10")
+
         iv_lives_back.setOnClickListener {
             finish()
         }
@@ -102,6 +99,24 @@ class LivesCircleActivity : BaseActivity(), LivesCircleView, ObservableAlphaScro
              PublishLifeCircleActivity.launch(this)
         }
 
+        //加载更多
+        loading_more.setOnLoadMoreListener(object : com.gkzxhn.helpout.customview.LoadMoreWrapper.OnLoadMoreListener {
+            override fun onLoadMore() {
+                if (loadMore) {
+                    mPresenter.getLivesCircle((page + 1).toString(),"10")
+                } else {
+                    offLoadMore()
+                }
+            }
+        })
+
+        //下啦刷新
+        loading_refresh.setOnRefreshListener(object : PullToRefreshLayout.OnRefreshListener {
+            override fun onRefresh() {
+                mPresenter.getLivesCircle("0","10")
+                loading_refresh?.finishRefreshing()
+            }
+        }, 1)
     }
 
     private fun initRecyclerView() {
@@ -114,7 +129,6 @@ class LivesCircleActivity : BaseActivity(), LivesCircleView, ObservableAlphaScro
         }
         rcv_lives_circle.adapter = mAdapter
         mAdapter.setEmptyView(R.layout.empty_default,rcv_lives_circle)
-
     }
 
     override fun finishActivity() {
@@ -142,6 +156,11 @@ class LivesCircleActivity : BaseActivity(), LivesCircleView, ObservableAlphaScro
             iv_take_picture.isSelected = true
             ll_lives_title.setBackgroundColor(Color.argb(255, 242, 242, 242))
         }
+    }
+
+    override fun onRestart() {
+        mPresenter.getLivesCircle("0", "10")
+        super.onRestart()
     }
 
 

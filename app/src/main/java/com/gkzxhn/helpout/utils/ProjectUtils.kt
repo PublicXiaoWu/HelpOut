@@ -113,7 +113,7 @@ object ProjectUtils {
     /****** 通过fileID加载图片 ******/
     fun loadImageByFileID(context: Context, fileId: String?, imageview: ImageView) {
         if (fileId == null || fileId.isEmpty()) {
-            imageview?.setImageResource(R.mipmap.ic_user_icon)
+            imageview.setImageResource(R.mipmap.ic_user_icon)
             return
         }
         val token = App.SP.getString(Constants.SP_TOKEN, "")
@@ -130,7 +130,7 @@ object ProjectUtils {
     /****** 通过username加载圆形图片 ******/
     fun loadRoundImageByUserName(context: Context, userName: String?, imageview: ImageView) {
         if (userName == null || userName.isEmpty()) {
-            imageview?.setImageResource(R.mipmap.ic_user_icon)
+            imageview.setImageResource(R.mipmap.ic_user_icon)
             return
         }
         Log.v("OkHttp", "-----------图片userName:$userName")
