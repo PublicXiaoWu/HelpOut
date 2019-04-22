@@ -52,6 +52,18 @@ class UserFragment : BaseFragment(), View.OnClickListener {
                 }, {
                     it.message.toString().logE(this)
                 })
+
+
+        /****** 收到有新朋友的消息 ******/
+        RxBus.instance.toObserverable(RxBusBean.AddPoint::class.java)
+                .cache()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+                    v_user_friend_list_point.visibility = if (it.show) View.VISIBLE else View.GONE
+                }, {
+                    it.message.toString().logE(this)
+                })
+
     }
 
     override fun initListener() {

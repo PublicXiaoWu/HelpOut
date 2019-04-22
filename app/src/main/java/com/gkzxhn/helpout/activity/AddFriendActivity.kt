@@ -9,7 +9,9 @@ import android.view.KeyEvent
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import com.gkzxhn.helpout.R
+import com.gkzxhn.helpout.common.RxBus
 import com.gkzxhn.helpout.entity.ImInfo
+import com.gkzxhn.helpout.entity.RxBusBean
 import com.gkzxhn.helpout.net.HttpObserver
 import com.gkzxhn.helpout.net.RetrofitClientChat
 import com.gkzxhn.helpout.utils.showToast
@@ -50,6 +52,7 @@ class AddFriendActivity : BaseActivity() {
                     // 对方拒绝了你的好友验证请求
                 }
                 AddFriendNotify.Event.RECV_ADD_FRIEND_VERIFY_REQUEST -> {
+                    RxBus.instance.post(RxBusBean.AddPoint(true))
                     Log.e("xiaowu_add", "对方请求添加好友，一般场景会让用户选择同意或拒绝对方的好友请求。" + attachData.account + attachData.msg)
                     // 对方请求添加好友，一般场景会让用户选择同意或拒绝对方的好友请求。
                     // 通过message.getContent()获取好友验证请求的附言
