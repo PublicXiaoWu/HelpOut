@@ -5,6 +5,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.gkzxhn.helpout.R
 import com.gkzxhn.helpout.utils.showToast
+import com.gkzxhn.helpout.view.SwipeMenuLayout
 import com.netease.nim.uikit.common.ui.imageview.HeadImageView
 import com.netease.nimlib.sdk.NIMClient
 import com.netease.nimlib.sdk.RequestCallback
@@ -30,6 +31,7 @@ class NewFriendAdapter(datas: List<SystemMessage>?) : BaseQuickAdapter<SystemMes
         helper?.setText(R.id.tv_name, userName)
                 ?.setText(R.id.tv_msg, verifyContent)
                 ?.setOnClickListener(R.id.tv_new_friend_item_add, add(helper, item))
+                ?.setOnClickListener(R.id.tv_new_friend_item_delete, delete(helper, item))
 
         if (item?.status == SystemMessageStatus.init) {
             helper?.setVisible(R.id.tv_new_friend_item_add, true)
@@ -83,11 +85,25 @@ class NewFriendAdapter(datas: List<SystemMessage>?) : BaseQuickAdapter<SystemMes
         }
     }
 
+    private fun delete(helper: BaseViewHolder?, message: SystemMessage?): View.OnClickListener? {
+        return View.OnClickListener {
+            (helper?.itemView as SwipeMenuLayout).quickClose()
+            onDelete(message!!)
+            data.remove(message)
+            notifyDataSetChanged()
+        }
+    }
+
 
     private fun onProcessSuccess(pass: Boolean, message: SystemMessage) {
         val status = if (pass) SystemMessageStatus.passed else SystemMessageStatus.declined
         NIMClient.getService(SystemMessageService::class.java).setSystemMessageStatus(message.messageId, status)
         message.status = status
+    }
+
+    private fun onDelete(message: SystemMessage) {
+        NIMClient.getService(SystemMessageService::class.java).deleteSystemMessage(message.messageId)
+
     }
 
     private fun onProcessFailed(code: Int, message: SystemMessage) {

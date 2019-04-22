@@ -46,13 +46,34 @@ class NewFriendActivity : BaseActivity() {
 
         }
 
+        loadData()
+
+    }
+
+    private fun loadData() {
 
         val types = ArrayList<SystemMessageType>()
         types.add(SystemMessageType.AddFriend)
         val addFriendList = NIMClient.getService(SystemMessageService::class.java).querySystemMessageByType(types, 0, 100)
         addFriendList.setCallback(object : RequestCallback<MutableList<SystemMessage>> {
             override fun onSuccess(addFriendList: MutableList<SystemMessage>?) {
-                loadData(addFriendList)
+                for (m in addFriendList!!) {
+                    // 去重
+                    if (duplicateFilter(m)) {
+                        continue
+                    }
+                    // 同一个账号的好友申请仅保留最近一条
+                    if (addFriendVerifyFilter(m)) {
+                        continue
+                    }
+                    // 保存有效消息
+                    items.add(m)
+                }
+
+
+                if (items.isEmpty()) {
+                    mAdapter?.setEmptyView(R.layout.empty_view,rcv_new_friend_top)
+                }
             }
 
             override fun onFailed(p0: Int) {
@@ -62,26 +83,6 @@ class NewFriendActivity : BaseActivity() {
             }
 
         })
-    }
-
-    private fun loadData(addFriendList: MutableList<SystemMessage>?) {
-        for (m in addFriendList!!) {
-            // 去重
-            if (duplicateFilter(m)) {
-                continue
-            }
-            // 同一个账号的好友申请仅保留最近一条
-            if (addFriendVerifyFilter(m)) {
-                continue
-            }
-            // 保存有效消息
-            items.add(m)
-        }
-
-
-        if (items.isEmpty()) {
-            mAdapter?.setEmptyView(R.layout.empty_view,rcv_new_friend_top)
-        }
 
     }
 
@@ -119,6 +120,11 @@ class NewFriendActivity : BaseActivity() {
         RxBus.instance.post(RxBusBean.AddPoint(false))
         super.onStart()
 
+    }
+
+    override fun onResume() {
+        super.onResume()
+        loadData()
     }
 
 

@@ -34,6 +34,9 @@ class FriendListActivity : BaseActivity() {
             startActivity(Intent(this, NewFriendActivity::class.java))
         }
 
+        val showRedPoint = intent.getBooleanExtra("showRedPoint", false)
+        v_friend_list_point.visibility = if (showRedPoint) View.VISIBLE else View.GONE
+
         /****** 收到有新朋友的消息 ******/
         RxBus.instance.toObserverable(RxBusBean.AddPoint::class.java)
                 .cache()

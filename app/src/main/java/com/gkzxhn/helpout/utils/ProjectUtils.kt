@@ -110,7 +110,6 @@ object ProjectUtils {
         }
     }
 
-
     /****** 通过fileID加载图片 ******/
     fun loadImageByFileID(context: Context?, fileId: String?, imageview: ImageView?) {
         if (fileId == null || fileId.isEmpty()) {

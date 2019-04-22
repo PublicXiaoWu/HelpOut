@@ -31,6 +31,8 @@ import rx.schedulers.Schedulers
 class UserFragment : BaseFragment(), View.OnClickListener {
     var accountInfo: AccountInfo? = null
 
+    var showRedPoint=false
+
     override fun provideContentViewId(): Int {
         return R.layout.user_fragment
     }
@@ -59,6 +61,7 @@ class UserFragment : BaseFragment(), View.OnClickListener {
                 .cache()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
+                    showRedPoint=it.show
                     v_user_friend_list_point.visibility = if (it.show) View.VISIBLE else View.GONE
                 }, {
                     it.message.toString().logE(this)
@@ -85,7 +88,9 @@ class UserFragment : BaseFragment(), View.OnClickListener {
         when (v.id) {
             /****** 通讯录 ******/
             R.id.v_user_friend_list_bg -> {
-                context?.startActivity(Intent(context, FriendListActivity::class.java))
+                val intent = Intent(context, FriendListActivity::class.java)
+                intent.putExtra("showRedPoint",showRedPoint)
+                context?.startActivity(intent)
             }
             /****** 我的生活圈 ******/
             R.id.v_user_my_lives_circle_bg -> {
