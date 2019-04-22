@@ -131,6 +131,7 @@
                 app:layout_constraintTop_toTopOf="@id/v_user_friend_list_bg"/>
 
             <TextView
+                android:id="@+id/tv_user_friend_list"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
@@ -141,6 +142,17 @@
                 app:layout_constraintStart_toEndOf="@id/iv_user_friend_list_start"
                 app:layout_constraintTop_toTopOf="@id/v_user_friend_list_bg"
             />
+
+            <!--红点-->
+            <View android:id="@+id/v_user_friend_list_point"
+                  android:layout_width="7dp"
+                  android:layout_height="7dp"
+                  android:visibility="gone"
+                  android:layout_marginStart="5dp"
+                  android:background="@drawable/shape_point_home_red"
+                  app:layout_constraintBottom_toBottomOf="@+id/tv_user_friend_list"
+                  app:layout_constraintStart_toEndOf="@+id/tv_user_friend_list"
+                  app:layout_constraintTop_toTopOf="@+id/tv_user_friend_list"/>
 
 
             <ImageView
@@ -188,6 +200,7 @@
                 app:layout_constraintTop_toTopOf="@id/v_user_my_lives_circle_bg"/>
 
             <TextView
+                android:id="@+id/tv_user_my_lives_circle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
@@ -198,6 +211,18 @@
                 app:layout_constraintStart_toEndOf="@id/iv_user_my_lives_circle_start"
                 app:layout_constraintTop_toTopOf="@id/v_user_my_lives_circle_bg"
             />
+
+
+            <!--红点-->
+            <View android:id="@+id/v_user_lives_circle_point"
+                  android:layout_width="7dp"
+                  android:layout_height="7dp"
+                  android:layout_marginStart="5dp"
+                  android:background="@drawable/shape_point_home_red"
+                  android:visibility="gone"
+                  app:layout_constraintBottom_toBottomOf="@+id/tv_user_my_lives_circle"
+                  app:layout_constraintStart_toEndOf="@+id/tv_user_my_lives_circle"
+                  app:layout_constraintTop_toTopOf="@+id/tv_user_my_lives_circle"/>
 
 
             <ImageView
@@ -246,6 +271,7 @@
                 app:layout_constraintTop_toTopOf="@id/v_user_my_zx_bg"/>
 
             <TextView
+                android:id="@+id/tv_user_my_zx"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
@@ -256,6 +282,17 @@
                 app:layout_constraintStart_toEndOf="@id/iv_user_my_zx_start"
                 app:layout_constraintTop_toTopOf="@id/v_user_my_zx_bg"
             />
+
+            <!--红点-->
+            <View android:id="@+id/v_user_my_zx_point"
+                  android:layout_width="7dp"
+                  android:layout_height="7dp"
+                  android:layout_marginStart="5dp"
+                  android:background="@drawable/shape_point_home_red"
+                  android:visibility="gone"
+                  app:layout_constraintBottom_toBottomOf="@+id/tv_user_my_zx"
+                  app:layout_constraintStart_toEndOf="@+id/tv_user_my_zx"
+                  app:layout_constraintTop_toTopOf="@+id/tv_user_my_zx"/>
 
 
             <ImageView
@@ -452,13 +489,11 @@
                 app:layout_constraintEnd_toEndOf="@id/v_user_rz_bg"
                 app:layout_constraintTop_toTopOf="@+id/v_user_rz_bg"/>
 
-
             <View android:id="@+id/v_user_rz"
                   android:layout_width="match_parent"
                   android:layout_height="1dp"
                   android:background="@color/user_line_shadow_bg"
                   app:layout_constraintTop_toBottomOf="@+id/v_user_rz_bg"/>
-
 
             <!--设置-->
             <View

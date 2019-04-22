@@ -5,6 +5,7 @@ import android.view.View
 import com.gkzxhn.helpout.R
 import com.gkzxhn.helpout.common.App
 import com.gkzxhn.helpout.common.Constants
+import com.google.gson.Gson
 import com.netease.nim.uikit.common.ToastHelper
 import com.netease.nimlib.sdk.NIMClient
 import com.netease.nimlib.sdk.RequestCallback
@@ -39,10 +40,8 @@ class AddFriendThreeActivity : BaseActivity() {
         }
 
 
-        /****** 弹出键盘并定位焦点到字的后面 ******/
+        /****** 弹出键盘并定位焦点到字的后面   配置文件中也配置了自动弹出键盘******/
         et_add_friend_three_content.setSelection(et_add_friend_three_content.text.length)
-//        val inputManger = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-//        inputManger.showSoftInput(et_add_friend_three_content, 0)
 
     }
 
@@ -64,7 +63,12 @@ class AddFriendThreeActivity : BaseActivity() {
         //9f9469948f76456d850b9f3bed1ddc10 肖君
         // f8ffb4a93b084dd2b9ba66e932f1c1ff
 
-        NIMClient.getService(FriendService::class.java).addFriend(AddFriendData(account, VerifyType.VERIFY_REQUEST, et_add_friend_three_content.text.toString().trim()))
+        val content = et_add_friend_three_content.text.toString().trim()
+        val map = LinkedHashMap<String, String>()
+        map["verifyContent"] = content
+        map["userName"] = App.SP.getString(Constants.SP_NAME,"")
+        val json = Gson().toJson(map)
+        NIMClient.getService(FriendService::class.java).addFriend(AddFriendData(account, VerifyType.VERIFY_REQUEST, json))
                 .setCallback(object : RequestCallback<Void> {
                     override fun onSuccess(p0: Void?) {
                         ToastHelper.showToast(this@AddFriendThreeActivity, "添加好友请求发送成功")

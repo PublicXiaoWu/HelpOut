@@ -4,7 +4,9 @@ import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
 import com.gkzxhn.helpout.R
 import com.gkzxhn.helpout.adapter.NewFriendAdapter
+import com.gkzxhn.helpout.common.RxBus
 import com.gkzxhn.helpout.customview.RecyclerSpace
+import com.gkzxhn.helpout.entity.RxBusBean
 import com.gkzxhn.helpout.extensions.dp2px
 import com.netease.nimlib.sdk.NIMClient
 import com.netease.nimlib.sdk.RequestCallback
@@ -27,20 +29,53 @@ class NewFriendActivity : BaseActivity() {
     private val itemIds = HashSet<Long>()
     private val addFriendVerifyRequestAccounts = HashSet<String>() // 发送过好友申请的账号（好友申请合并用）
     private val items = ArrayList<SystemMessage>()
-
+    private var mAdapter: NewFriendAdapter? = null
     override fun provideContentViewId(): Int {
         return R.layout.activity_new_friend
     }
 
     override fun init() {
         initTopTitle()
+
+        rcv_new_friend_top.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+        mAdapter = NewFriendAdapter(items)
+        mAdapter?.openLoadAnimation()
+        rcv_new_friend_top.addItemDecoration(RecyclerSpace(0.5f.dp2px().toInt(), ContextCompat.getColor(this, R.color.gray_line)))
+        rcv_new_friend_top.adapter = mAdapter
+        mAdapter?.setOnItemClickListener { adapter, view, position ->
+
+        }
+
+        loadData()
+
+    }
+
+    private fun loadData() {
+
         val types = ArrayList<SystemMessageType>()
         types.add(SystemMessageType.AddFriend)
-        val addFriendList = NIMClient.getService(SystemMessageService::class.java).querySystemMessageByType(types,0, 100)
-        addFriendList.setCallback(object : RequestCallback<MutableList<SystemMessage>>{
+        val addFriendList = NIMClient.getService(SystemMessageService::class.java).querySystemMessageByType(types, 0, 100)
+        addFriendList.setCallback(object : RequestCallback<MutableList<SystemMessage>> {
             override fun onSuccess(addFriendList: MutableList<SystemMessage>?) {
-                loadData(addFriendList)
+                for (m in addFriendList!!) {
+                    // 去重
+                    if (duplicateFilter(m)) {
+                        continue
+                    }
+                    // 同一个账号的好友申请仅保留最近一条
+                    if (addFriendVerifyFilter(m)) {
+                        continue
+                    }
+                    // 保存有效消息
+                    items.add(m)
+                }
+
+
+                if (items.isEmpty()) {
+                    mAdapter?.setEmptyView(R.layout.empty_view,rcv_new_friend_top)
+                }
             }
+
             override fun onFailed(p0: Int) {
             }
 
@@ -48,30 +83,6 @@ class NewFriendActivity : BaseActivity() {
             }
 
         })
-    }
-
-    private fun loadData(addFriendList: MutableList<SystemMessage>?) {
-        for (m in addFriendList!!) {
-            // 去重
-            if (duplicateFilter(m)) {
-                continue
-            }
-            // 同一个账号的好友申请仅保留最近一条
-            if (addFriendVerifyFilter(m)) {
-                continue
-            }
-            // 保存有效消息
-            items.add(m)
-        }
-
-        rcv_new_friend_top.layoutManager = LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false)
-        val mAdapter = NewFriendAdapter(items)
-        mAdapter.openLoadAnimation()
-        rcv_new_friend_top.addItemDecoration(RecyclerSpace(0.5f.dp2px().toInt(), ContextCompat.getColor(this,R.color.gray_line)))
-        mAdapter.setOnItemClickListener { adapter, view, position ->
-
-        }
-        rcv_new_friend_top.adapter = mAdapter
 
     }
 
@@ -103,6 +114,17 @@ class NewFriendActivity : BaseActivity() {
             finish()
         }
 
+    }
+
+    override fun onStart() {
+        RxBus.instance.post(RxBusBean.AddPoint(false))
+        super.onStart()
+
+    }
+
+    override fun onResume() {
+        super.onResume()
+        loadData()
     }
 
 

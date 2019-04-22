@@ -13,6 +13,7 @@ import android.support.v4.content.FileProvider
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.text.TextUtils
+import android.util.Log
 import android.view.View
 import android.widget.ProgressBar
 import android.widget.TextView
@@ -34,7 +35,12 @@ import com.gkzxhn.helpout.utils.logE
 import com.gkzxhn.helpout.utils.showToast
 import com.gkzxhn.helpout.view.BaseView
 import com.netease.nimlib.sdk.NIMClient
+import com.netease.nimlib.sdk.Observer
 import com.netease.nimlib.sdk.auth.AuthService
+import com.netease.nimlib.sdk.friend.model.AddFriendNotify
+import com.netease.nimlib.sdk.msg.SystemMessageObserver
+import com.netease.nimlib.sdk.msg.constant.SystemMessageType
+import com.netease.nimlib.sdk.msg.model.SystemMessage
 import com.tbruyelle.rxpermissions2.RxPermissions
 import kotlinx.android.synthetic.main.dialog_ts.*
 import rx.android.schedulers.AndroidSchedulers
@@ -101,6 +107,36 @@ abstract class BaseActivity : AppCompatActivity(), BaseView {
                 }, {
                     it.message.toString().logE(this)
                 })
+
+        /****** 注册添加好友相关的监听 ******/
+        NIMClient.getService<SystemMessageObserver>(SystemMessageObserver::class.java).observeReceiveSystemMsg(systemMessageObserver, true)
+
+    }
+
+    private val systemMessageObserver = Observer<SystemMessage> { systemMessage ->
+        if (systemMessage.type === SystemMessageType.AddFriend) {
+            val attachData = systemMessage.attachObject as AddFriendNotify
+            when (attachData.event) {
+                AddFriendNotify.Event.RECV_ADD_FRIEND_DIRECT -> {
+                    Log.e("xiaowu_add", "对方直接添加你为好友")
+                    // 对方直接添加你为好友
+                }
+                AddFriendNotify.Event.RECV_AGREE_ADD_FRIEND -> {
+                    Log.e("xiaowu_add", "对方通过了你的好友验证请求")
+                    // 对方通过了你的好友验证请求
+                }
+                AddFriendNotify.Event.RECV_REJECT_ADD_FRIEND -> {
+                    Log.e("xiaowu_add", "对方拒绝了你的好友验证请求")
+                    // 对方拒绝了你的好友验证请求
+                }
+                AddFriendNotify.Event.RECV_ADD_FRIEND_VERIFY_REQUEST -> {
+                    RxBus.instance.post(RxBusBean.AddPoint(true))
+                    Log.e("xiaowu_add", "对方请求添加好友，一般场景会让用户选择同意或拒绝对方的好友请求。" + attachData.account + attachData.msg)
+                    // 对方请求添加好友，一般场景会让用户选择同意或拒绝对方的好友请求。
+                    // 通过message.getContent()获取好友验证请求的附言
+                }
+            }
+        }
     }
 
     /**

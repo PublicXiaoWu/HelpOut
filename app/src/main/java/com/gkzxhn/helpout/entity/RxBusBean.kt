@@ -11,6 +11,8 @@ class RxBusBean {
     var id: String? = null
 
     class HomePoint(var show: Boolean)
+    /****** 添加好友的通知 ******/
+    class AddPoint(var show: Boolean)
     /****** 拒绝订单 true为接受 false为拒绝 ******/
     class AcceptOrder(var show: Boolean)
 

@@ -1,10 +1,15 @@
 package com.gkzxhn.helpout.activity
 
 import android.content.Intent
+import android.view.View
 import com.gkzxhn.helpout.R
+import com.gkzxhn.helpout.common.RxBus
+import com.gkzxhn.helpout.entity.RxBusBean
+import com.gkzxhn.helpout.utils.logE
 import com.netease.nim.uikit.business.contact.ContactsFragment
 import kotlinx.android.synthetic.main.activity_friend_list.*
 import kotlinx.android.synthetic.main.default_top.*
+import rx.android.schedulers.AndroidSchedulers
 
 /**
  * @classname：
@@ -28,6 +33,19 @@ class FriendListActivity : BaseActivity() {
         ll_add_friend.setOnClickListener {
             startActivity(Intent(this, NewFriendActivity::class.java))
         }
+
+        val showRedPoint = intent.getBooleanExtra("showRedPoint", false)
+        v_friend_list_point.visibility = if (showRedPoint) View.VISIBLE else View.GONE
+
+        /****** 收到有新朋友的消息 ******/
+        RxBus.instance.toObserverable(RxBusBean.AddPoint::class.java)
+                .cache()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+                    v_friend_list_point.visibility = if (it.show) View.VISIBLE else View.GONE
+                }, {
+                    it.message.toString().logE(this)
+                })
     }
 
     private fun initTitle() {
