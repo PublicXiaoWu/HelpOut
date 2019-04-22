@@ -277,4 +277,10 @@ interface ApiService {
      */
     @GET("/customer/user/getuserim")
     fun getUserIm(@Query("phoneNumber") phoneNumber: String): Observable<ImInfo>
+
+    /**
+     * 发布生活圈
+     */
+    @POST("/customer/circleoffriends/release")
+    fun publishLifeCircle(@Body requestBody: RequestBody):Observable<ResponseBody>
 }

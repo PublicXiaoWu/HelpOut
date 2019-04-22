@@ -8,6 +8,19 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="DesignTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="windowActionModeOverlay">true</item>
+        <item name="android:actionModeBackground">@color/colorPrimary</item>
+        <item name="android:windowTranslucentStatus">true</item>
+        <!--按钮颜色-->
+        <!--<item name="colorButtonNormal">@color/login_button</item>-->
+    </style>
+
+
     <!--主页面dialog-->
     <style name="progress_dialog" parent="@android:style/Theme.Dialog">
         <item name="android:windowFrame">@null</item>

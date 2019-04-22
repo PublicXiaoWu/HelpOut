@@ -111,7 +111,7 @@ object ProjectUtils {
     }
 
     /****** 通过fileID加载图片 ******/
-    fun loadImageByFileID(context: Context?, fileId: String?, imageview: ImageView?) {
+    fun loadImageByFileID(context: Context, fileId: String?, imageview: ImageView) {
         if (fileId == null || fileId.isEmpty()) {
             imageview?.setImageResource(R.mipmap.ic_user_icon)
             return
@@ -128,7 +128,7 @@ object ProjectUtils {
     }
 
     /****** 通过username加载圆形图片 ******/
-    fun loadRoundImageByUserName(context: Context?, userName: String?, imageview: ImageView?) {
+    fun loadRoundImageByUserName(context: Context, userName: String?, imageview: ImageView) {
         if (userName == null || userName.isEmpty()) {
             imageview?.setImageResource(R.mipmap.ic_user_icon)
             return
@@ -155,7 +155,7 @@ object ProjectUtils {
     }
 
     /****** 加载自已的圆形头像 ******/
-    fun loadMyIcon(context: Context?, imageview: ImageView?) {
+    fun loadMyIcon(context: Context, imageview: ImageView) {
         val token = App.SP.getString(Constants.SP_TOKEN, "")
         if (token != null) {
             if (token.isNotEmpty()) {
@@ -177,7 +177,7 @@ object ProjectUtils {
     }
 
     /****** 加载自已的头像 ******/
-    fun loadMyIconNoRound(context: Context?, imageview: ImageView?) {
+    fun loadMyIconNoRound(context: Context, imageview: ImageView) {
         val token = App.SP.getString(Constants.SP_TOKEN, "")
         if (token != null) {
             if (token.isNotEmpty()) {

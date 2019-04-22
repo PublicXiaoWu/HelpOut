@@ -53,7 +53,7 @@ class LawyerFragment : BaseFragment() {
             tv_home_type3.visibility = View.INVISIBLE
         }
 
-        ProjectUtils.loadMyIconNoRound(context, iv_main_icon)
+        context?.let { ProjectUtils.loadMyIconNoRound(it, iv_main_icon) }
 
     }
 

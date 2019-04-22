@@ -242,7 +242,7 @@ class UserFragment : BaseFragment(), View.OnClickListener {
         tv_user_name.text = date.nickname
         App.EDIT.putString(Constants.SP_PHONE, date.phoneNumber)?.commit()
         App.EDIT.putString(Constants.SP_NAME, date.nickname)?.commit()
-        ProjectUtils.loadMyIcon(context, iv_user_icon)
+        context?.let { ProjectUtils.loadMyIcon(it, iv_user_icon) }
     }
 
 }

@@ -6,16 +6,17 @@ import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
 import android.view.ViewTreeObserver
 import com.gkzxhn.helpout.R
+import com.gkzxhn.helpout.R.id.*
 import com.gkzxhn.helpout.adapter.LivesCircleAdapter
 import com.gkzxhn.helpout.customview.RecyclerSpace
 import com.gkzxhn.helpout.entity.LivesCircle
 import com.gkzxhn.helpout.extensions.dp2px
 import com.gkzxhn.helpout.presenter.LivesCirclePresenter
 import com.gkzxhn.helpout.utils.StatusBarUtil
-import com.gkzxhn.helpout.utils.showToast
 import com.gkzxhn.helpout.view.LivesCircleView
 import com.gkzxhn.helpout.view.ObservableAlphaScrollView
 import kotlinx.android.synthetic.main.activity_lives_circle.*
+
 
 /**
  * @classname：
@@ -98,8 +99,9 @@ class LivesCircleActivity : BaseActivity(), LivesCircleView, ObservableAlphaScro
         }
 
         iv_take_picture.setOnClickListener {
-            showToast("拍照")
+             PublishLifeCircleActivity.launch(this)
         }
+
     }
 
     private fun initRecyclerView() {
@@ -112,6 +114,7 @@ class LivesCircleActivity : BaseActivity(), LivesCircleView, ObservableAlphaScro
         }
         rcv_lives_circle.adapter = mAdapter
         mAdapter.setEmptyView(R.layout.empty_default,rcv_lives_circle)
+
     }
 
     override fun finishActivity() {

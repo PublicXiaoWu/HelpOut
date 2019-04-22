@@ -4,6 +4,7 @@ import android.content.Context
 import com.gkzxhn.helpout.entity.*
 import com.gkzxhn.helpout.extensions.getRequestBody
 import com.gkzxhn.helpout.net.RetrofitClient
+import com.gkzxhn.helpout.net.RetrofitClientChat
 import com.gkzxhn.helpout.net.RetrofitClientPublic
 import com.google.gson.Gson
 import okhttp3.MediaType
@@ -154,5 +155,15 @@ class CustomerModel (val context: Context) : BaseModel() {
                 .mApi
                 .getWxOrder(id)
                 .subscribeOn(Schedulers.io())
+    }
+
+    /**
+     * 发布生活圈
+     */
+    fun publishLifeCircle(publishRequest: PublishRequest): Observable<ResponseBody>? {
+        return RetrofitClientChat.getInstance(context)
+                .mApi
+                ?.publishLifeCircle(Gson().getRequestBody(publishRequest))
+                ?.subscribeOn(Schedulers.io())
     }
 }

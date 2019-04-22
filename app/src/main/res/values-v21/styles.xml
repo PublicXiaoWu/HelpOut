@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="DesignTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorPrimary</item>
+        <item name="windowActionModeOverlay">true</item>
+        <item name="android:actionModeBackground">@color/colorPrimary</item>
+        <!--透明状态栏-->
+        <item name="android:windowTranslucentStatus">true</item>
+        <!--Transition-->
+        <item name="android:windowContentTransitions">true</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <!--<item name="android:statusBarColor">@android:color/transparent</item>-->
+        <!--按钮颜色-->
+        <!--<item name="android:colorButtonNormal">@color/login_button</item>-->
+    </style>
+
+</resources>

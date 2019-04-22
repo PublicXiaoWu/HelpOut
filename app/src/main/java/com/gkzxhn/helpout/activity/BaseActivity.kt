@@ -33,6 +33,7 @@ import com.gkzxhn.helpout.utils.download.entity.DownInfo
 import com.gkzxhn.helpout.utils.download.entity.DownState
 import com.gkzxhn.helpout.utils.logE
 import com.gkzxhn.helpout.utils.showToast
+import com.gkzxhn.helpout.view.BaseView
 import com.netease.nimlib.sdk.NIMClient
 import com.netease.nimlib.sdk.Observer
 import com.netease.nimlib.sdk.auth.AuthService
@@ -52,7 +53,7 @@ import java.io.File
  * @author LSX
  *    -----2018/9/6
  */
-abstract class BaseActivity : AppCompatActivity() {
+abstract class BaseActivity : AppCompatActivity(), BaseView {
     var open = 0x00001
     var rxPermissions: RxPermissions? = null
     lateinit var mCompositeSubscription: CompositeSubscription
@@ -168,11 +169,11 @@ abstract class BaseActivity : AppCompatActivity() {
         rxPermissions?.requestEach(permission)
                 ?.subscribe { permission ->
                     when (permission.granted) {
-                    // 用户已经同意该权限
+                        // 用户已经同意该权限
                         true -> consent()
-                    // 用户拒绝了该权限，并且选中『不再询问』
+                        // 用户拒绝了该权限，并且选中『不再询问』
                         permission.shouldShowRequestPermissionRationale -> Dialog()
-                    // 用户拒绝了该权限，没有选中『不再询问』（Never ask again）,那么下次再次启动时，还会提示请求权限的对话框
+                        // 用户拒绝了该权限，没有选中『不再询问』（Never ask again）,那么下次再次启动时，还会提示请求权限的对话框
                         else -> showToast(permission.name)
                     }
                 }
@@ -199,13 +200,13 @@ abstract class BaseActivity : AppCompatActivity() {
         )
                 ?.subscribe { permission ->
                     when (permission.granted) {
-                    // 用户已经同意该权限
+                        // 用户已经同意该权限
                         true -> {
                             println("同意了" + permission.name)
                         }
-                    // 用户拒绝了该权限，并且选中『不再询问』
+                        // 用户拒绝了该权限，并且选中『不再询问』
                         permission.shouldShowRequestPermissionRationale -> judge()
-                    // 用户拒绝了该权限，没有选中『不再询问』（Never ask again）,那么下次再次启动时，还会提示请求权限的对话框
+                        // 用户拒绝了该权限，没有选中『不再询问』（Never ask again）,那么下次再次启动时，还会提示请求权限的对话框
                         else -> multiPermissions()
                     }
                 }
@@ -436,8 +437,6 @@ abstract class BaseActivity : AppCompatActivity() {
         mpbProgress.max = it.countLength.toInt()
         mpbProgress.progress = it.readLength.toInt()
     }
-
-
 }
 
 

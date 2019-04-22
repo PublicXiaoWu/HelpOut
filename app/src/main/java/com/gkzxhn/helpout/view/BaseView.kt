@@ -7,4 +7,5 @@ package com.gkzxhn.helpout.view
  *    -----2018/9/6
  */
 interface BaseView{
+  fun finish()
 }

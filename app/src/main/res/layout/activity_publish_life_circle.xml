@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/rl_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/white">
+
+        <TextView
+            android:id="@+id/tv_cancel"
+            android:paddingStart="15dp"
+            android:paddingEnd="@dimen/dimen_15"
+            android:gravity="center"
+            android:textSize="@dimen/text_big"
+            android:text="@string/cancel"
+            android:textColor="@color/text_gray"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"/>
+
+        <TextView
+            android:id="@+id/tv_main_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:text="@string/publish_life_circle"
+            android:textColor="@color/text_black"/>
+
+        <TextView
+            android:id="@+id/tv_publish"
+            android:layout_alignParentEnd="true"
+            android:paddingStart="15dp"
+            android:paddingEnd="@dimen/dimen_15"
+            android:gravity="center"
+            android:textSize="@dimen/text_big"
+            android:text="@string/publish"
+            android:textColor="@color/text_gray"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"/>
+
+    </RelativeLayout>
+
+    <EditText
+        android:id="@+id/et_content"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_120"
+        android:background="@drawable/input_edit_bg"
+        android:gravity="top"
+        android:hint="@string/think_this_moment"
+        android:maxLength="300"
+        android:padding="@dimen/dimen_15"
+        android:textColor="@color/text_black"
+        android:textColorHint="@color/gray_light"
+        android:textSize="@dimen/text_big"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_view"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="@dimen/dimen_30"
+        android:overScrollMode="never"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    </android.support.v7.widget.RecyclerView>
+
+</LinearLayout>
