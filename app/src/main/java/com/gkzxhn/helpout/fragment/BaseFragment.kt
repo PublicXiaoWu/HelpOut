@@ -5,6 +5,7 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.gkzxhn.helpout.view.BaseView
 import rx.subscriptions.CompositeSubscription
 
 /**
@@ -12,7 +13,7 @@ import rx.subscriptions.CompositeSubscription
  * @author LSX
  *    -----2018/9/6
  */
-abstract class BaseFragment : Fragment() {
+abstract class BaseFragment : Fragment(),BaseView {
 
     lateinit var mCompositeSubscription: CompositeSubscription
 
@@ -61,4 +62,7 @@ abstract class BaseFragment : Fragment() {
         }
     }
 
+    override fun finish() {
+        activity?.let { it.finish() }
+    }
 }

@@ -148,6 +148,7 @@
                   android:launchMode="singleTop"
                   android:screenOrientation="portrait"/>
         <activity android:name=".activity.ApplyResultActivity"/>
+        <activity android:name=".activity.PublishLifeCircleActivity"/>
 
         <provider
             android:name="android.support.v4.content.FileProvider"

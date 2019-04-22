@@ -12,7 +12,6 @@ import com.gkzxhn.helpout.customview.RecyclerSpace
 import com.gkzxhn.helpout.entity.LivesCircle
 import com.gkzxhn.helpout.extensions.dp2px
 import com.gkzxhn.helpout.utils.StatusBarUtil
-import com.gkzxhn.helpout.utils.showToast
 import com.gkzxhn.helpout.view.ObservableAlphaScrollView
 import kotlinx.android.synthetic.main.activity_lives_circle.*
 
@@ -104,7 +103,7 @@ class LivesCircleActivity : BaseActivity(), ObservableAlphaScrollView.OnAlphaScr
         }
 
         iv_take_picture.setOnClickListener {
-            showToast("拍照")
+            PublishLifeCircleActivity.launch(this)
         }
     }
 
