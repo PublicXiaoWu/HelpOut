@@ -74,8 +74,8 @@ class NotificationActivity : BaseActivity() {
 
     fun getData(p: String) {
         RetrofitClientPublic.Companion.getInstance(this).mApi
-                ?.getNotifications(p, "15","createdTime,desc")
-                ?.subscribeOn(Schedulers.io())
+                .getNotifications(p, "15","createdTime,desc")
+                .subscribeOn(Schedulers.io())
                 ?.unsubscribeOn(AndroidSchedulers.mainThread())
                 ?.observeOn(AndroidSchedulers.mainThread())
                 ?.subscribe(object : HttpObserver<NotificationInfoList>(this) {

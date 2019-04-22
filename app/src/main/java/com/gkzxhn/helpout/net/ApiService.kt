@@ -140,6 +140,10 @@ interface ApiService {
     @GET("im/notifications/my")
     fun getNotifications(@Query("page") page: String, @Query("size") size: String, @Query("sort") sort: String): Observable<NotificationInfoList>
 
+    //    获取我的生活圈
+    @GET("/customer/circleoffriends/getMyCircleoffriends")
+    fun getLivesCircle(@Query("page") page: String, @Query("size") size: String, @Query("sort") sort: String): Observable<LivesCircle>
+
     //    获取抢单的明细
     @GET("/lawyer/rush/legal-advice/{id}")
     fun getOrderRushInfo(@Path("id") id: String): Observable<OrderRushInfo>

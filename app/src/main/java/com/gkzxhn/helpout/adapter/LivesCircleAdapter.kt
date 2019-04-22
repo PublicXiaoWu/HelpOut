@@ -16,21 +16,27 @@ import com.gkzxhn.helpout.view.NineGridTestLayout
  * @date：2019/4/16 5:59 PM
  * @description：
  */
-class LivesCircleAdapter(datas: List<LivesCircle>?) : BaseQuickAdapter<LivesCircle, BaseViewHolder>(R.layout.item_lives_circle, datas) {
+class LivesCircleAdapter(datas: List<LivesCircle.ContentBean>?) : BaseQuickAdapter<LivesCircle.ContentBean, BaseViewHolder>(R.layout.item_lives_circle, datas) {
 
-    override fun convert(helper: BaseViewHolder?, item: LivesCircle?) {
-        helper?.setText(R.id.tv_item_lives_circle_name, item?.name)
-                ?.setText(R.id.tv_item_lives_circle_time, item?.time)
-                ?.setText(R.id.tv_item_lives_circle_content, item?.context)
-                ?.setText(R.id.tv_item_lives_circle_comment_number, item?.commentnumber.toString())
-                ?.setText(R.id.tv_item_lives_circle_like_number, item?.like.toString())
+    override fun convert(helper: BaseViewHolder?, item: LivesCircle.ContentBean) {
+        val circleoffriendsPicture = item.circleoffriendsPicture!!
+        val pictureList=ArrayList<String>()
+        for (picture in circleoffriendsPicture) {
+            pictureList.add(picture.thumbFileId!!)
+        }
+
+        helper?.setText(R.id.tv_item_lives_circle_name, item.customer?.name)
+                ?.setText(R.id.tv_item_lives_circle_time, item.createdTime)
+                ?.setText(R.id.tv_item_lives_circle_content, item.content)
+                ?.setText(R.id.tv_item_lives_circle_comment_number, item.commentNum.toString())
+                ?.setText(R.id.tv_item_lives_circle_like_number, item.praiseNum.toString())
                 ?.setOnClickListener(R.id.iv_item_lives_circle_share, share())
                 ?.setOnClickListener(R.id.tv_item_lives_circle_share, share())
                 ?.setOnClickListener(R.id.tv_item_lives_circle_comment, comment())
                 ?.setOnClickListener(R.id.tv_item_lives_circle_comment_number, comment())
                 ?.setOnClickListener(R.id.iv_item_lives_circle_like_number, like(helper, item))
                 ?.setOnClickListener(R.id.tv_item_lives_circle_like_number, like(helper, item))
-                ?.getView<NineGridTestLayout>(R.id.item_lives_circle_image)?.setUrlList(item?.imageList!!)
+                ?.getView<NineGridTestLayout>(R.id.item_lives_circle_image)?.setUrlList(pictureList)
     }
 
 
@@ -51,8 +57,8 @@ class LivesCircleAdapter(datas: List<LivesCircle>?) : BaseQuickAdapter<LivesCirc
     }
 
     /****** 点赞 ******/
-    private fun like(helper: BaseViewHolder, item: LivesCircle?): View.OnClickListener? {
-        val i = item?.like!! + 1
+    private fun like(helper: BaseViewHolder, item: LivesCircle.ContentBean?): View.OnClickListener? {
+        val i = item?.praiseNum!! + 1
         return View.OnClickListener() {
             helper.setText(R.id.tv_item_lives_circle_like_number, i.toString())
             helper.setImageResource(R.id.iv_item_lives_circle_like_number, R.mipmap.ic_lives_liked)

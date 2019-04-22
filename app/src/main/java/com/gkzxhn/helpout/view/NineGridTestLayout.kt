@@ -5,9 +5,8 @@ import android.graphics.Bitmap
 import android.util.AttributeSet
 import android.view.View
 import android.widget.Toast
-
-import com.bumptech.glide.Glide
 import com.gkzxhn.helpout.utils.ImageUtils
+import com.gkzxhn.helpout.utils.ProjectUtils
 import com.nostra13.universalimageloader.core.assist.FailReason
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener
 
@@ -64,8 +63,9 @@ class NineGridTestLayout : NineGridLayout {
     }
 
     override fun displayImage(imageView: RatioImageView, url: String) {
-        Glide.with(mContext).load(url).into(imageView)
-        //        ImageLoader.getInstance().displayImage(url, imageView, ImageUtils.INSTANCE.getPhotoImageOption());
+//        Glide.with(mContext).load(url).into(imageView)
+        ProjectUtils.loadImageByFileID(context,url,imageView)
+//                ImageLoader.getInstance().displayImage(url, imageView, ImageUtils.INSTANCE.getPhotoImageOption());
     }
 
     override fun onClickImage(i: Int, url: String, urlList: List<String>) {
