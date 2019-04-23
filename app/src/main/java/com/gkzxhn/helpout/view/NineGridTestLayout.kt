@@ -2,12 +2,13 @@ package com.gkzxhn.helpout.view
 
 import android.content.Context
 import android.util.AttributeSet
-import android.widget.Toast
+import android.widget.ImageView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.model.GlideUrl
 import com.bumptech.glide.load.model.LazyHeaders
 import com.bumptech.glide.request.RequestOptions
 import com.gkzxhn.helpout.R
+import com.gkzxhn.helpout.activity.ImageActivity
 import com.gkzxhn.helpout.common.App
 import com.gkzxhn.helpout.common.Constants
 import com.gkzxhn.helpout.net.NetWorkCodeInfo
@@ -109,7 +110,8 @@ class NineGridTestLayout : NineGridLayout {
     }
 
     override fun onClickImage(i: Int, url: String, urlList: List<String>) {
-        Toast.makeText(mContext, "点击了图片$url", Toast.LENGTH_SHORT).show()
+        ImageActivity.launch(context, ArrayList(urlList), i, getChildAt(i) as ImageView)
+//        Toast.makeText(mContext, "点击了图片$url", Toast.LENGTH_SHORT).show()
     }
 
     companion object {

@@ -2,6 +2,7 @@ package com.gkzxhn.helpout.activity
 
 import android.app.Activity
 import android.app.ActivityOptions
+import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -71,7 +72,7 @@ class ImageActivity : BaseActivity() {
             }
         }
 
-        fun launch(context: Activity, urls: ArrayList<*>, index: Int = 0, imageView: ImageView? = null) {
+        fun launch(context: Context, urls: ArrayList<*>, index: Int = 0, imageView: ImageView? = null) {
             val intent = Intent(context, ImageActivity::class.java)
             intent.putStringArrayListExtra(IntentConstants.INTENT_String_URLS, urls as ArrayList<String>)
             intent.putExtra(IntentConstants.INDEX, index)
@@ -173,7 +174,7 @@ class ImageActivity : BaseActivity() {
                 val params = ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
                 imageView.layoutParams = params
                 urls[position1].let {
-                    ProjectUtils.loadImageByFileID(this@ImageActivity, url, imageView)
+                    ProjectUtils.loadImageByFileID(this@ImageActivity, it, imageView)
 //                    imageView.load(this@ImageActivity, "$it?token=${Constants.IMAGE_TOKEN}", R.mipmap.img_error)
                 }
                 imageView.setOnClickListener {
