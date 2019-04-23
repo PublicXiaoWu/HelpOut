@@ -10,6 +10,8 @@ import android.graphics.Matrix
 import android.net.Uri
 import android.os.Build
 import android.provider.MediaStore
+import android.support.v4.app.ActivityOptionsCompat
+import android.support.v4.util.Pair
 import android.support.v4.view.PagerAdapter
 import android.support.v4.view.ViewPager
 import android.view.View
@@ -77,23 +79,7 @@ class ImageActivity : BaseActivity() {
             intent.putStringArrayListExtra(IntentConstants.INTENT_String_URLS, urls as ArrayList<String>)
             intent.putExtra(IntentConstants.INDEX, index)
             if (Build.VERSION.SDK_INT > 21 && null != imageView) {
-                val transitionName = when (index) {
-                    0 -> {
-                        "img1"
-                    }
-                    1 -> {
-                        "img2"
-                    }
-                    2 -> {
-                        "img3"
-                    }
-                    3 -> {
-                        "img4"
-                    }
-                    else -> {
-                        "img1"
-                    }
-                }
+                val transitionName = urls[index]
                 context.startActivity(intent,
                         ActivityOptions.makeSceneTransitionAnimation(context as Activity,
                                 imageView, transitionName).toBundle())
@@ -101,6 +87,24 @@ class ImageActivity : BaseActivity() {
                 context.startActivity(intent)
             }
         }
+
+        fun launch(context: Context, urls: ArrayList<*>, index: Int = 0, vararg pairs: Pair<View, String>) {
+            val intent = Intent(context, ImageActivity::class.java)
+            intent.putStringArrayListExtra(IntentConstants.INTENT_String_URLS, urls as ArrayList<String>)
+            intent.putExtra(IntentConstants.INDEX, index)
+            if (Build.VERSION.SDK_INT > 21) {
+                /**
+                 *4、生成带有共享元素的Bundle，这样系统才会知道这几个元素需要做动画
+                 */
+                val activityOptionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(context as Activity, *pairs)
+
+                context.startActivity(intent,
+                        activityOptionsCompat.toBundle())
+            } else {
+                context.startActivity(intent)
+            }
+        }
+
     }
 
     var uri: Uri? = null
@@ -141,23 +145,7 @@ class ImageActivity : BaseActivity() {
     private fun setViewPager(urls: ArrayList<String>, index: Int) {
         viewpager.visibility = View.VISIBLE
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            viewpager.transitionName = when (index) {
-                0 -> {
-                    "img1"
-                }
-                1 -> {
-                    "img2"
-                }
-                2 -> {
-                    "img3"
-                }
-                3 -> {
-                    "img4"
-                }
-                else -> {
-                    "img1"
-                }
-            }
+            viewpager.transitionName = urls[index]
         }
         viewpager.adapter = object : PagerAdapter() {
             override fun isViewFromObject(view: View, `object`: Any): Boolean {
@@ -170,6 +158,9 @@ class ImageActivity : BaseActivity() {
 
             override fun instantiateItem(container: ViewGroup, position1: Int): Any {
                 val imageView = ImageView(this@ImageActivity)
+//                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+//                    imageView.transitionName = urls[position1]
+//                }
                 imageView.scaleType = ImageView.ScaleType.FIT_CENTER
                 val params = ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
                 imageView.layoutParams = params
@@ -202,25 +193,8 @@ class ImageActivity : BaseActivity() {
 
             override fun onPageSelected(position: Int) {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    viewpager.transitionName = when (position) {
-                        0 -> {
-                            "img1"
-                        }
-                        1 -> {
-                            "img2"
-                        }
-                        2 -> {
-                            "img3"
-                        }
-                        3 -> {
-                            "img4"
-                        }
-                        else -> {
-                            "img1"
-                        }
-                    }
+                    viewpager.transitionName = urls[position]
                 }
-
             }
         })
         viewpager.currentItem = index

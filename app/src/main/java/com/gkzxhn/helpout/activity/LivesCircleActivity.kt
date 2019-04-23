@@ -158,10 +158,10 @@ class LivesCircleActivity : BaseActivity(), LivesCircleView, ObservableAlphaScro
         }
     }
 
-    override fun onRestart() {
-        mPresenter.getLivesCircle("0", "10")
-        super.onRestart()
-    }
+//    override fun onRestart() {
+//        mPresenter.getLivesCircle("0", "10")
+//        super.onRestart()
+//    }
 
 
 }
