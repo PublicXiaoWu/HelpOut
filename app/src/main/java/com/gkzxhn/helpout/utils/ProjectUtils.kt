@@ -18,7 +18,11 @@ import com.gkzxhn.helpout.common.Constants
 import com.gkzxhn.helpout.customview.CenterCropRoundCornerTransform
 import com.gkzxhn.helpout.extensions.dp2px
 import com.gkzxhn.helpout.net.NetWorkCodeInfo
+import com.google.gson.Gson
+import okhttp3.MediaType
+import okhttp3.RequestBody
 import java.io.File
+import java.util.*
 
 /**
  * @classname：ProjectUtils
@@ -46,6 +50,19 @@ object ProjectUtils {
             /****** 返回false 不拦截点击事件的处理 ******/
             false
         }
+    }
+
+
+    /**
+     * @methodName： created by liushaoxiang on 2019/4/23 2:03 PM.
+     * @description：
+            val map = LinkedHashMap<String, String>()
+            map["phoneNumber"] =
+            val body= ProjectUtils.getRequestBody(map)
+     */
+    fun getRequestBody(map: LinkedHashMap<String, String>): RequestBody {
+        return RequestBody.create(MediaType.parse("application/json; charset=utf-8"),
+                Gson().toJson(map))
     }
 
     /**
@@ -113,7 +130,7 @@ object ProjectUtils {
     /****** 通过fileID加载图片 ******/
     fun loadImageByFileID(context: Context, fileId: String?, imageview: ImageView) {
         if (fileId == null || fileId.isEmpty()) {
-            imageview.setImageResource(R.mipmap.ic_user_icon)
+            imageview.setImageResource(R.color.main_gary_bg)
             return
         }
         val token = App.SP.getString(Constants.SP_TOKEN, "")

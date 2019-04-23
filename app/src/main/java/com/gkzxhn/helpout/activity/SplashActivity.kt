@@ -50,8 +50,8 @@ class SplashActivity : BaseActivity() {
     /****** 刷新新的token ******/
     private fun getRefreshToken(refresh_token: String) {
         RetrofitClientPublic.Companion.getInstance(this)
-                .mApi?.getToken("refresh_token", refreshToken = refresh_token)
-                ?.subscribeOn(Schedulers.io())
+                .mApi.getToken("refresh_token", refreshToken = refresh_token)
+                .subscribeOn(Schedulers.io())
                 ?.unsubscribeOn(AndroidSchedulers.mainThread())
                 ?.observeOn(AndroidSchedulers.mainThread())
                 ?.subscribe(object : HttpObserver<Response<ResponseBody>>(this) {

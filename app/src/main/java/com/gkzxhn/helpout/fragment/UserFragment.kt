@@ -1,6 +1,8 @@
 package com.gkzxhn.helpout.fragment
 
 import android.content.Intent
+import android.text.TextUtils
+import android.util.Log
 import android.view.View
 import com.gkzxhn.helpout.R
 import com.gkzxhn.helpout.activity.*
@@ -14,12 +16,18 @@ import com.gkzxhn.helpout.net.HttpObserver
 import com.gkzxhn.helpout.net.HttpObserverNoDialog
 import com.gkzxhn.helpout.net.RetrofitClient
 import com.gkzxhn.helpout.net.RetrofitClientPublic
-import com.gkzxhn.helpout.utils.ProjectUtils
-import com.gkzxhn.helpout.utils.StringUtils
-import com.gkzxhn.helpout.utils.logE
+import com.gkzxhn.helpout.net.error_exception.ApiException
+import com.gkzxhn.helpout.utils.*
+import kotlinx.android.synthetic.main.dialog_ts.*
 import kotlinx.android.synthetic.main.user_fragment.*
+import okhttp3.ResponseBody
+import org.json.JSONObject
+import retrofit2.Response
+import retrofit2.adapter.rxjava.HttpException
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
+import java.io.IOException
+import java.net.ConnectException
 
 
 /**
@@ -31,7 +39,7 @@ import rx.schedulers.Schedulers
 class UserFragment : BaseFragment(), View.OnClickListener {
     var accountInfo: AccountInfo? = null
 
-    var showRedPoint=false
+    var showRedPoint = false
 
     override fun provideContentViewId(): Int {
         return R.layout.user_fragment
@@ -39,8 +47,8 @@ class UserFragment : BaseFragment(), View.OnClickListener {
 
     override fun init() {
         getAccountInfo()
-//        getLawyersState()
         getLawyersInfo()
+
 
         /****** 接受控件小红点的消息 ******/
         RxBus.instance.toObserverable(RxBusBean.HomeTopRedPoint::class.java)
@@ -61,7 +69,7 @@ class UserFragment : BaseFragment(), View.OnClickListener {
                 .cache()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
-                    showRedPoint=it.show
+                    showRedPoint = it.show
                     v_user_friend_list_point.visibility = if (it.show) View.VISIBLE else View.GONE
                 }, {
                     it.message.toString().logE(this)
@@ -89,12 +97,14 @@ class UserFragment : BaseFragment(), View.OnClickListener {
             /****** 通讯录 ******/
             R.id.v_user_friend_list_bg -> {
                 val intent = Intent(context, FriendListActivity::class.java)
-                intent.putExtra("showRedPoint",showRedPoint)
+                intent.putExtra("showRedPoint", showRedPoint)
                 context?.startActivity(intent)
             }
             /****** 我的生活圈 ******/
             R.id.v_user_my_lives_circle_bg -> {
-                context?.startActivity(Intent(context, LivesCircleActivity::class.java))
+                val intent = Intent(context, LivesCircleActivity::class.java)
+                intent.putExtra("LivesCircleType", 2)
+                context?.startActivity(intent)
 
             }
             /****** 我的咨询 ******/
@@ -150,6 +160,12 @@ class UserFragment : BaseFragment(), View.OnClickListener {
                             if (lawyerState) {
                                 tv_user_money.text = "￥" + t.rewardAmount
                             }
+
+
+                        }
+
+                        override fun onError(t: Throwable?) {
+                            loadDialog?.dismiss()
                         }
                     }))
         }
@@ -219,8 +235,8 @@ class UserFragment : BaseFragment(), View.OnClickListener {
     private fun getAccountInfo() {
         context?.let {
             mCompositeSubscription.add(RetrofitClientPublic.getInstance(it).mApi
-                    ?.getAccountInfo()
-                    ?.subscribeOn(Schedulers.io())
+                    .getAccountInfo()
+                    .subscribeOn(Schedulers.io())
                     ?.unsubscribeOn(AndroidSchedulers.mainThread())
                     ?.observeOn(AndroidSchedulers.mainThread())
                     ?.subscribe(object : HttpObserverNoDialog<AccountInfo>(it) {
@@ -228,8 +244,96 @@ class UserFragment : BaseFragment(), View.OnClickListener {
                             loadUI(t)
                             accountInfo = t
                         }
+
+                        override fun onError(e: Throwable?) {
+                            when (e) {
+                                is ConnectException -> it.TsDialog("服务器异常，请重试", false)
+                                is HttpException -> {
+                                    when (e.code()) {
+                                        401 -> getRefreshToken(App.SP.getString(Constants.SP_REFRESH_TOKEN, ""))
+
+                                        400 -> {
+                                            val errorBody = e.response().errorBody().string()
+                                            val code = try {
+                                                JSONObject(errorBody).getString("code")
+                                            } catch (e: Exception) {
+                                                ""
+                                            }
+                                            val message = try {
+                                                JSONObject(errorBody).getString("message")
+                                            } catch (e: Exception) {
+                                                ""
+                                            }
+                                            it.TsDialog(message, false)
+                                        }
+                                        else -> {
+                                            it.TsDialog("服务器异常，请重试", false)
+                                        }
+                                    }
+                                }
+                                is IOException -> {
+                                    it.showToast("网络连接超时，请重试")
+                                }
+                                //后台返回的message
+                                is ApiException -> {
+                                    it.TsDialog(e.message!!, false)
+                                    Log.e("ApiErrorHelper", e.message, e)
+                                }
+                                else -> {
+                                    it.showToast("数据异常")
+                                    Log.e("ApiErrorHelper", e!!.message, e)
+                                }
+                            }
+                        }
                     }))
         }
+    }
+
+
+    /****** 刷新新的token ******/
+    private fun getRefreshToken(refresh_token: String) {
+        context?.let {
+            mCompositeSubscription.add(
+                    RetrofitClientPublic.Companion.getInstance(it)
+                            .mApi.getToken("refresh_token", refreshToken = refresh_token)
+                            .subscribeOn(Schedulers.io())
+                            ?.unsubscribeOn(AndroidSchedulers.mainThread())
+                            ?.observeOn(AndroidSchedulers.mainThread())
+                            ?.subscribe(object : HttpObserver<Response<ResponseBody>>(it) {
+                                override fun success(t: Response<ResponseBody>) {
+                                    if (t.code() == 200) {
+
+                                        val string = t.body().string()
+                                        if (!TextUtils.isEmpty(string)) {
+                                            var token: String? = null
+                                            var refreshToken: String? = null
+                                            try {
+                                                token = JSONObject(string).getString("access_token")
+                                                refreshToken = JSONObject(string).getString("refresh_token")
+                                            } catch (e: Exception) {
+
+                                            }
+                                            App.EDIT.putString(Constants.SP_TOKEN, token)?.commit()
+                                            App.EDIT.putString(Constants.SP_REFRESH_TOKEN, refreshToken)?.commit()
+                                            getAccountInfo()
+
+                                        }
+                                    } else {
+
+                                        it.TsClickDialog("登录已过期", false).dialog_save.setOnClickListener {
+                                            App.EDIT.putString(Constants.SP_TOKEN, "")?.commit()
+                                            val intent = Intent(context, LoginActivity::class.java)
+                                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                                            context?.startActivity(intent)
+                                        }
+
+                                    }
+
+                                }
+                            })
+            )
+        }
+
     }
 
 

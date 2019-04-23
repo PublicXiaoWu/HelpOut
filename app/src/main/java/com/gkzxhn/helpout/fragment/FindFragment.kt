@@ -25,7 +25,9 @@ class FindFragment : BaseFragment() {
 
     override fun initListener() {
         v_lives_circle_bg.setOnClickListener {
-            context?.startActivity(Intent(context, LivesCircleActivity::class.java))
+            val intent = Intent(context, LivesCircleActivity::class.java)
+            intent.putExtra("LivesCircleType", 1)
+            context?.startActivity(intent)
 
         }
         v_scan_bg.setOnClickListener {

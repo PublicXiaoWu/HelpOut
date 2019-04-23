@@ -18,4 +18,5 @@ interface LivesCircleView : BaseView {
 
     fun setLastPage(lastPage: Boolean,page:Int)
 
+    fun praiseSuccess(position: Int)
 }

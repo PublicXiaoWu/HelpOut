@@ -65,9 +65,9 @@
         android:id="@+id/item_lives_circle_image"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginStart="11dp"
         android:layout_marginEnd="15dp"
+        android:layout_marginStart="11dp"
+        android:layout_marginTop="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/iv_item_lives_circle_avatar"
         app:layout_constraintTop_toBottomOf="@+id/tv_item_lives_circle_content"
@@ -126,6 +126,13 @@
         app:layout_constraintStart_toEndOf="@id/tv_item_lives_circle_comment"
         app:layout_constraintTop_toTopOf="@id/tv_item_lives_circle_like_number"
     />
+    <View
+        android:id="@+id/v_item_lives_circle_like_number"
+        android:layout_width="0dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="70dp"
+        app:layout_constraintStart_toEndOf="@id/tv_item_lives_circle_comment_number"
+        app:layout_constraintTop_toBottomOf="@id/item_lives_circle_image"/>
 
     <!--点赞-->
     <ImageView

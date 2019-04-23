@@ -141,8 +141,12 @@ interface ApiService {
     fun getNotifications(@Query("page") page: String, @Query("size") size: String, @Query("sort") sort: String): Observable<NotificationInfoList>
 
     //    获取我的生活圈
-    @GET("/customer/circleoffriends/getMyCircleoffriends")
+    @GET("/customer/circleoffriends/getCircleoffriends")
     fun getLivesCircle(@Query("page") page: String, @Query("size") size: String, @Query("sort") sort: String): Observable<LivesCircle>
+
+    //    获取我的生活圈
+    @GET("/customer/circleoffriends/getMyCircleoffriends")
+    fun getMyLivesCircle(@Query("page") page: String, @Query("size") size: String, @Query("sort") sort: String): Observable<LivesCircle>
 
     //    获取抢单的明细
     @GET("/lawyer/rush/legal-advice/{id}")
@@ -289,5 +293,11 @@ interface ApiService {
      */
     @POST("/customer/customerfriend/add")
     fun addFriend(@Body requestBody: RequestBody): Observable<ResponseBody>
+
+    /**
+     * 点赞
+     */
+    @POST("/customer/circleoffriends/praise")
+    fun praise(@Body requestBody: RequestBody): Observable<ResponseBody>
 
 }

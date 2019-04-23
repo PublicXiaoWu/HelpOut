@@ -49,7 +49,7 @@ class LivesCircleActivity : BaseActivity(), LivesCircleView, ObservableAlphaScro
         }
     }
 
-    override fun updateData( data: List<LivesCircle.ContentBean>) {
+    override fun updateData(data: List<LivesCircle.ContentBean>) {
         mAdapter.setNewData(data)
     }
 
@@ -89,21 +89,30 @@ class LivesCircleActivity : BaseActivity(), LivesCircleView, ObservableAlphaScro
 
         initRecyclerView()
 
-        mPresenter.getLivesCircle("0","10")
+        val livesCircleType = intent.getIntExtra("LivesCircleType", 1)
+        when (livesCircleType) {
+            /****** 所有人的生活圈 ******/
+            1 -> mPresenter.getLivesCircle("0", "10")
+            /****** 我的生活圈 ******/
+            2 -> mPresenter.getMyLivesCircle("0", "10")
+            /****** 某个人的生活圈 ******/
+            3 -> mPresenter.getLivesCircleByID("0", "10")
+
+        }
 
         iv_lives_back.setOnClickListener {
             finish()
         }
 
         iv_take_picture.setOnClickListener {
-             PublishLifeCircleActivity.launch(this)
+            PublishLifeCircleActivity.launch(this)
         }
 
         //加载更多
         loading_more.setOnLoadMoreListener(object : com.gkzxhn.helpout.customview.LoadMoreWrapper.OnLoadMoreListener {
             override fun onLoadMore() {
                 if (loadMore) {
-                    mPresenter.getLivesCircle((page + 1).toString(),"10")
+                    mPresenter.getLivesCircle((page + 1).toString(), "10")
                 } else {
                     offLoadMore()
                 }
@@ -113,7 +122,7 @@ class LivesCircleActivity : BaseActivity(), LivesCircleView, ObservableAlphaScro
         //下啦刷新
         loading_refresh.setOnRefreshListener(object : PullToRefreshLayout.OnRefreshListener {
             override fun onRefresh() {
-                mPresenter.getLivesCircle("0","10")
+                mPresenter.getLivesCircle("0", "10")
                 loading_refresh?.finishRefreshing()
             }
         }, 1)
@@ -127,12 +136,28 @@ class LivesCircleActivity : BaseActivity(), LivesCircleView, ObservableAlphaScro
         mAdapter.setOnItemClickListener { adapter, view, position ->
             startActivity(Intent(this, LivesCircleDetailsActivity::class.java))
         }
+        mAdapter.setOnItemChildClickListener { adapter, view, position ->
+            when (view.id) {
+                /****** 点赞 ******/
+                R.id.v_item_lives_circle_like_number -> {
+                    val contentBean = adapter.data[position] as LivesCircle.ContentBean
+                    mPresenter.praise(contentBean.id!!, position)
+                }
+            }
+        }
         rcv_lives_circle.adapter = mAdapter
-        mAdapter.setEmptyView(R.layout.empty_default,rcv_lives_circle)
+        mAdapter.setEmptyView(R.layout.empty_default, rcv_lives_circle)
     }
 
     override fun finishActivity() {
         finish()
+    }
+
+    /****** 点赞成功 ******/
+    override fun praiseSuccess(position: Int) {
+        val contentBean = mAdapter.getItem(position) as LivesCircle.ContentBean
+        contentBean.praiseNum = contentBean.praiseNum + 1
+        mAdapter.setDataChange(position, contentBean)
     }
 
     override fun onVerticalScrollChanged(t: Int) {
@@ -156,11 +181,6 @@ class LivesCircleActivity : BaseActivity(), LivesCircleView, ObservableAlphaScro
             iv_take_picture.isSelected = true
             ll_lives_title.setBackgroundColor(Color.argb(255, 242, 242, 242))
         }
-    }
-
-    override fun onRestart() {
-        mPresenter.getLivesCircle("0", "10")
-        super.onRestart()
     }
 
 
