@@ -14,7 +14,7 @@ interface LivesCircleView : BaseView {
 
     fun offLoadMore()
 
-    fun updateData(clear: Boolean,data: List<LivesCircle.ContentBean>)
+    fun updateData(data: List<LivesCircle.ContentBean>)
 
     fun setLastPage(lastPage: Boolean,page:Int)
 

@@ -17,14 +17,14 @@ import rx.android.schedulers.AndroidSchedulers
 
 class LivesCirclePresenter(context: Context, view: LivesCircleView) : BasePresenter<ILivesCircleModel, LivesCircleView>(context, LivesCircleModel(), view) {
 
-    fun getLivesCircle() {
+    fun getLivesCircle(page:String,size:String) {
         mContext?.let {
             mModel.getLivesCircle(it,"0","10")
                     .unsubscribeOn(AndroidSchedulers.mainThread())
                     ?.observeOn(AndroidSchedulers.mainThread())
                     ?.subscribe(object : HttpObserver<LivesCircle>(mContext!!) {
                         override fun success(t: LivesCircle) {
-
+                            mView?.updateData(t.content!!)
                         }
                     })
         }
