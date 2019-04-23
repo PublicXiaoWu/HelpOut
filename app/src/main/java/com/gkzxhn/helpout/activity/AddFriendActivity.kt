@@ -12,8 +12,6 @@ import com.gkzxhn.helpout.entity.ImInfo
 import com.gkzxhn.helpout.net.HttpObserver
 import com.gkzxhn.helpout.net.RetrofitClientChat
 import com.gkzxhn.helpout.utils.showToast
-import com.netease.nimlib.sdk.NIMClient
-import com.netease.nimlib.sdk.msg.SystemMessageService
 import kotlinx.android.synthetic.main.activity_add_friend.*
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
@@ -28,7 +26,6 @@ import rx.schedulers.Schedulers
 class AddFriendActivity : BaseActivity() {
 
     override fun init() {
-        val temps = NIMClient.getService(SystemMessageService::class.java).querySystemMessagesBlock(0, 100)
 
         /****** 弹出搜索框 ******/
         tv_add_friend_phone.setOnClickListener {
@@ -109,6 +106,7 @@ class AddFriendActivity : BaseActivity() {
                         intent.putExtra("account",t.account)
                         intent.putExtra("nickname",t.nickname)
                         intent.putExtra("avatar",t.avatar)
+                        intent.putExtra("curUserName",t.curUserName)
                         startActivity(intent)
                     }
                 }))

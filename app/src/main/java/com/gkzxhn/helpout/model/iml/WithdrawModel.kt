@@ -22,8 +22,8 @@ class WithdrawModel : BaseModel(), IWithdrawModel {
 
     override fun getCode(context: Context, map: RequestBody): Observable<Response<Void>> {
         return RetrofitClientPublic.Companion.getInstance(context).mApi
-                ?.getCode(map)
-                ?.subscribeOn(Schedulers.io()) as Observable<Response<Void>>
+                .getCode(map)
+                .subscribeOn(Schedulers.io()) as Observable<Response<Void>>
     }
 
     override fun getAlipayInfo(context: Context): Observable<AlipayInfo> {

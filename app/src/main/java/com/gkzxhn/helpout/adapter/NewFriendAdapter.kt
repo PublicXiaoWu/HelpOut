@@ -4,6 +4,8 @@ import android.view.View
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.gkzxhn.helpout.R
+import com.gkzxhn.helpout.common.RxBus
+import com.gkzxhn.helpout.entity.RxBusBean
 import com.gkzxhn.helpout.utils.showToast
 import com.gkzxhn.helpout.view.SwipeMenuLayout
 import com.netease.nim.uikit.common.ui.imageview.HeadImageView
@@ -26,7 +28,7 @@ class NewFriendAdapter(datas: List<SystemMessage>?) : BaseQuickAdapter<SystemMes
     override fun convert(helper: BaseViewHolder?, item: SystemMessage?) {
 
         val verifyContent = JSONObject(item?.content).getString("verifyContent")
-        val userName = JSONObject(item?.content).getString("userName")
+        val userName = JSONObject(item?.content).getString("nickName")
 
         helper?.setText(R.id.tv_name, userName)
                 ?.setText(R.id.tv_msg, verifyContent)
@@ -45,7 +47,6 @@ class NewFriendAdapter(datas: List<SystemMessage>?) : BaseQuickAdapter<SystemMes
         /****** 通过网易ID加载头像 ******/
         helper?.getView<HeadImageView>(R.id.iv_item_new_friend_avatar)?.loadBuddyAvatar(item.fromAccount)
     }
-
 
     fun getVerifyNotificationDealResult(message: SystemMessage): String {
         return if (message.status == SystemMessageStatus.passed) {
@@ -69,6 +70,9 @@ class NewFriendAdapter(datas: List<SystemMessage>?) : BaseQuickAdapter<SystemMes
                     helper?.setVisible(R.id.tv_new_friend_item_add, false)
                     helper?.setVisible(R.id.tv_new_friend_item_state, true)
                     helper?.setText(R.id.tv_new_friend_item_state, "已同意")
+                    val curUserName = JSONObject(message.content).getString("curUserName")
+
+                    RxBus.instance.post(RxBusBean.AddFriendPass(curUserName,message.fromAccount))
                 }
 
                 override fun onFailed(p0: Int) {

@@ -19,6 +19,7 @@ class ImInfo {
     var id: String? = null
     var username: String? = null
     var nickname: String? = null
+    var curUserName: String? = null
     var avatar: String? = null
     var token: String? = null
     var createdTime: String? = null
