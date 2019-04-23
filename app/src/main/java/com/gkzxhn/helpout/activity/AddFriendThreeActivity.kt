@@ -1,7 +1,9 @@
 package com.gkzxhn.helpout.activity
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import com.gkzxhn.helpout.R
 import com.gkzxhn.helpout.common.App
 import com.gkzxhn.helpout.common.Constants
@@ -23,7 +25,8 @@ import kotlinx.android.synthetic.main.default_top.*
  */
 class AddFriendThreeActivity : BaseActivity() {
 
-    var account=""
+    var account = ""
+    var curUserName = ""
     override fun provideContentViewId(): Int {
         return R.layout.activity_add_friend_three
     }
@@ -32,7 +35,8 @@ class AddFriendThreeActivity : BaseActivity() {
     override fun init() {
         initTopTitle()
 
-        account=intent.getStringExtra("account")
+        account = intent.getStringExtra("account")
+        curUserName = intent.getStringExtra("curUserName")
 
         et_add_friend_three_content.setText("我是" + App.SP.getString(Constants.SP_NAME, ""))
         iv_add_friend_three_close_text.setOnClickListener {
@@ -54,19 +58,19 @@ class AddFriendThreeActivity : BaseActivity() {
         tv_default_top_end.visibility = View.VISIBLE
         tv_default_top_end.text = "发送"
         tv_default_top_end.setOnClickListener {
+            /****** 如果键盘没有关掉 执行关掉代码 ******/
+            val inputManger = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            inputManger.hideSoftInputFromWindow(window.peekDecorView().windowToken, 0)
             addFriend()
         }
     }
 
     private fun addFriend() {
-
-        //9f9469948f76456d850b9f3bed1ddc10 肖君
-        // f8ffb4a93b084dd2b9ba66e932f1c1ff
-
         val content = et_add_friend_three_content.text.toString().trim()
         val map = LinkedHashMap<String, String>()
         map["verifyContent"] = content
-        map["userName"] = App.SP.getString(Constants.SP_NAME,"")
+        map["nickName"] = App.SP.getString(Constants.SP_NAME, "")
+        map["curUserName"] = curUserName
         val json = Gson().toJson(map)
         NIMClient.getService(FriendService::class.java).addFriend(AddFriendData(account, VerifyType.VERIFY_REQUEST, json))
                 .setCallback(object : RequestCallback<Void> {

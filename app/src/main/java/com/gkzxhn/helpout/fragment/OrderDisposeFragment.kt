@@ -62,16 +62,7 @@ class OrderDisposeFragment : BaseFragment(), OrderDisposeView {
                     it.message.toString().logE(this)
                 })
 
-        /****** 收到抢单成功的消息 ******/
-        RxBus.instance.toObserverable(RxBusBean.AcceptOrder::class.java)
-                .cache()
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({
-                    mPresenter?.getOrderDispose("0", mCompositeSubscription)
 
-                }, {
-                    it.message.toString().logE(this)
-                })
 
         /******  刷新订单数据 ******/
         RxBus.instance.toObserverable(RxBusBean.RefreshOrder::class.java)

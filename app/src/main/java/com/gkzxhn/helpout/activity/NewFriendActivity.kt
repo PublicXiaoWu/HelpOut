@@ -2,12 +2,17 @@ package com.gkzxhn.helpout.activity
 
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
+import android.util.Log
 import com.gkzxhn.helpout.R
 import com.gkzxhn.helpout.adapter.NewFriendAdapter
 import com.gkzxhn.helpout.common.RxBus
 import com.gkzxhn.helpout.customview.RecyclerSpace
 import com.gkzxhn.helpout.entity.RxBusBean
 import com.gkzxhn.helpout.extensions.dp2px
+import com.gkzxhn.helpout.net.HttpObserver
+import com.gkzxhn.helpout.net.RetrofitClientChat
+import com.gkzxhn.helpout.utils.logE
+import com.google.gson.Gson
 import com.netease.nimlib.sdk.NIMClient
 import com.netease.nimlib.sdk.RequestCallback
 import com.netease.nimlib.sdk.msg.SystemMessageService
@@ -15,8 +20,15 @@ import com.netease.nimlib.sdk.msg.constant.SystemMessageType
 import com.netease.nimlib.sdk.msg.model.SystemMessage
 import kotlinx.android.synthetic.main.activity_new_friend.*
 import kotlinx.android.synthetic.main.default_top.*
+import okhttp3.MediaType
+import okhttp3.RequestBody
+import okhttp3.ResponseBody
+import rx.android.schedulers.AndroidSchedulers
+import rx.schedulers.Schedulers
 import java.util.HashSet
 import kotlin.collections.ArrayList
+import kotlin.collections.LinkedHashMap
+import kotlin.collections.set
 
 
 /**
@@ -42,11 +54,18 @@ class NewFriendActivity : BaseActivity() {
         mAdapter?.openLoadAnimation()
         rcv_new_friend_top.addItemDecoration(RecyclerSpace(0.5f.dp2px().toInt(), ContextCompat.getColor(this, R.color.gray_line)))
         rcv_new_friend_top.adapter = mAdapter
-        mAdapter?.setOnItemClickListener { adapter, view, position ->
-
-        }
-
         loadData()
+
+
+        /****** 收到添加好友验证通过的消息 ******/
+        RxBus.instance.toObserverable(RxBusBean.AddFriendPass::class.java)
+                .cache()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+                    addFriend(it.userName, it.account)
+                }, {
+                    it.message.toString().logE(this)
+                })
 
     }
 
@@ -72,7 +91,7 @@ class NewFriendActivity : BaseActivity() {
 
 
                 if (items.isEmpty()) {
-                    mAdapter?.setEmptyView(R.layout.empty_view,rcv_new_friend_top)
+                    mAdapter?.setEmptyView(R.layout.empty_view, rcv_new_friend_top)
                 }
             }
 
@@ -114,6 +133,29 @@ class NewFriendActivity : BaseActivity() {
             finish()
         }
 
+    }
+
+
+    /**
+     * @methodName： created by liushaoxiang on 2019/4/23 10:56 AM.
+     * @description：添加好友成功后通知后台绑定好友关系
+     */
+    fun addFriend(userName: String, account: String) {
+        val map = LinkedHashMap<String, String>()
+        map["username"] = userName
+        map["account"] = account
+        val body = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), Gson().toJson(map))
+        mCompositeSubscription.add(RetrofitClientChat
+                .getInstance(this).mApi.addFriend(body)
+                .subscribeOn(Schedulers.io())
+                ?.unsubscribeOn(AndroidSchedulers.mainThread())
+                ?.observeOn(AndroidSchedulers.mainThread())
+                ?.subscribe(object : HttpObserver<ResponseBody>(this) {
+                    override fun success(t: ResponseBody) {
+                        Log.e("xiaowu","添加好友成功")
+                    }
+
+                }))
     }
 
     override fun onStart() {

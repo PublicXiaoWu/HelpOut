@@ -282,5 +282,12 @@ interface ApiService {
      * 发布生活圈
      */
     @POST("/customer/circleoffriends/release")
-    fun publishLifeCircle(@Body requestBody: RequestBody):Observable<ResponseBody>
+    fun publishLifeCircle(@Body requestBody: RequestBody): Observable<ResponseBody>
+
+    /**
+     * 添加好友
+     */
+    @POST("/customer/customerfriend/add")
+    fun addFriend(@Body requestBody: RequestBody): Observable<ResponseBody>
+
 }

@@ -30,12 +30,14 @@ class AddFriendTwoActivity : BaseActivity() {
         val phoneNumber = intent.getStringExtra("phoneNumber")
         account = intent.getStringExtra("account")
         val nickname = intent.getStringExtra("nickname")
+        val curUserName = intent.getStringExtra("curUserName")
         val avatar = intent.getStringExtra("avatar")
 
 
         tv_add_friend_two_add.setOnClickListener {
             val intent = Intent(this, AddFriendThreeActivity::class.java)
             intent.putExtra("account", account)
+            intent.putExtra("curUserName", curUserName)
             startActivity(intent)
             finish()
         }
