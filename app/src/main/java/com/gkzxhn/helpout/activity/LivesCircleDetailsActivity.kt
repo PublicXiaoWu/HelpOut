@@ -107,7 +107,6 @@ class LivesCircleDetailsActivity : BaseActivity(), LivesCircleView {
             if (keyCode == KeyEvent.KEYCODE_ENTER&& event.action == KeyEvent.ACTION_DOWN) {
                 val content = et_lives_circle_bottom_comment.text.toString().trim()
                 if (!content.isEmpty()) {
-                    Log.e("xiaowu", "评论---")
                     mPresenter.comment(content, livesCircleId)
                     hideKeyBoard(this, et_lives_circle_bottom_comment)
                 } else {
