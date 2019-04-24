@@ -1,6 +1,7 @@
 package com.netease.nim.uikit.impl.customization;
 
 import android.content.Context;
+import android.content.Intent;
 
 import com.netease.nim.uikit.api.NimUIKit;
 import com.netease.nim.uikit.api.model.contact.ContactEventListener;
@@ -18,7 +19,15 @@ public class DefaultContactEventListener implements ContactEventListener {
     @Override
     public void onItemClick(Context context, String account) {
         // 点击联系人之后，可以选择打开个人信息页面或者聊天页面
-        NimUIKit.startP2PSession(context, account);
+//        NimUIKit.startP2PSession(context, account);
+
+        /****** 隐式调用 好友信息页面 ******/
+        // 实例化Intent
+        Intent intent = new Intent();
+        //设置Intent的Action属性
+        intent.setAction("android.intent.action.FriendInfoActivity");
+        intent.putExtra("account", account);
+        context.startActivity(intent);
     }
 
     @Override

@@ -96,28 +96,38 @@ class App : Application() {
 
             // 如果有自定义通知是作用于全局的，不依赖某个特定的 Activity，那么这段代码应该在 Application 的 onCreate 中就调用
             NIMClient.getService(MsgServiceObserve::class.java).observeCustomNotification({ p0 ->
+                try {
+                    val json = p0.content
+                    val type = JSONObject(json).getString("type")
+                    val ext = JSONObject(json).getString("ext")
+                    val content = JSONObject(json).getString("content")
+                    Log.e("okhttp", json)
+                    when (type) {
+                        /****** 普通通知 ******/
+                        "NOTIFICATION" -> {
+                            RxBus.instance.post(RxBusBean.HomeTopRedPoint(true))
+                            initNotification(p0!!, content)
+                        }
+                        /****** 法律咨询通知 ******/
+                        "NOTIFICATION_LEGAL_ADVICE" -> {
+                            RxBus.instance.post(RxBusBean.HomeTopRedPoint(true))
+                            initNotification(p0!!, content)
+                        }
+                        /****** 刷新抢单页 ******/
+                        "RUSH_PAGE_REFRESH" -> {
+                            RxBus.instance.post(RxBusBean.RefreshGrabOrder(true))
+                        }
+                        /****** 刷新抢单页 ******/
+                        "NOTIFICATION_PRAISE_ADVICE" -> {
+                            RxBus.instance.post(RxBusBean.RefreshGrabOrder(true))
+                        }
+                        /****** 刷新抢单页 ******/
+                        "NOTIFICATION_COMMENT_ADVICE" -> {
+                            RxBus.instance.post(RxBusBean.RefreshGrabOrder(true))
+                        }
+                    }
+                } catch (e: Exception) {
 
-                val json = p0.content
-                val type = JSONObject(json).getString("type")
-                val ext = JSONObject(json).getString("ext")
-                val content = JSONObject(json).getString("content")
-                Log.e("okhttp", json)
-
-                when (type) {
-                    /****** 普通通知 ******/
-                    "NOTIFICATION" -> {
-                        RxBus.instance.post(RxBusBean.HomeTopRedPoint(true))
-                        initNotification(p0!!, content)
-                    }
-                    /****** 法律咨询通知 ******/
-                    "NOTIFICATION_LEGAL_ADVICE" -> {
-                        RxBus.instance.post(RxBusBean.HomeTopRedPoint(true))
-                        initNotification(p0!!, content)
-                    }
-                    /****** 刷新抢单页 ******/
-                    "RUSH_PAGE_REFRESH" -> {
-                        RxBus.instance.post(RxBusBean.RefreshGrabOrder(true))
-                    }
                 }
             }, true)
 

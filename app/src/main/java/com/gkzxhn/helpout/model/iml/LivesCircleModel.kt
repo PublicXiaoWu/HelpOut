@@ -17,6 +17,13 @@ import rx.schedulers.Schedulers
  */
 
 class LivesCircleModel : BaseModel(), ILivesCircleModel {
+    override fun getLivesCircleByUserName(context: Context, userName: String, page: String, size: String): Observable<LivesCircle> {
+        return RetrofitClientChat.Companion.getInstance(context).mApi
+                .getLivesCircleByUserName(userName,page, size, "createdTime,desc")
+                .subscribeOn(Schedulers.io())
+                as Observable<LivesCircle>
+    }
+
     override fun praise(context: Context, body: RequestBody): Observable<ResponseBody> {
         return RetrofitClientChat.Companion.getInstance(context).mApi
                 .praise(body)
