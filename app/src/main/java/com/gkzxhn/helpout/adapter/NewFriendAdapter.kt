@@ -1,5 +1,6 @@
 package com.gkzxhn.helpout.adapter
 
+import android.util.Log
 import android.view.View
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
@@ -26,22 +27,26 @@ import org.json.JSONObject
 class NewFriendAdapter(datas: List<SystemMessage>?) : BaseQuickAdapter<SystemMessage, BaseViewHolder>(R.layout.item_new_friend, datas) {
 
     override fun convert(helper: BaseViewHolder?, item: SystemMessage?) {
-
-        val verifyContent = JSONObject(item?.content).getString("verifyContent")
-        val userName = JSONObject(item?.content).getString("nickName")
+        Log.e("xiaowu_NewFriendAdapter", item?.content)
+        if (item?.content!!.isEmpty()) {
+            helper?.itemView?.visibility=View.GONE
+            return
+        }
+        val verifyContent = JSONObject(item.content).getString("verifyContent")
+        val userName = JSONObject(item.content).getString("nickName")
 
         helper?.setText(R.id.tv_name, userName)
                 ?.setText(R.id.tv_msg, verifyContent)
                 ?.setOnClickListener(R.id.tv_new_friend_item_add, add(helper, item))
                 ?.setOnClickListener(R.id.tv_new_friend_item_delete, delete(helper, item))
 
-        if (item?.status == SystemMessageStatus.init) {
+        if (item.status == SystemMessageStatus.init) {
             helper?.setVisible(R.id.tv_new_friend_item_add, true)
             helper?.setVisible(R.id.tv_new_friend_item_state, false)
         } else {
             helper?.setVisible(R.id.tv_new_friend_item_add, false)
             helper?.setVisible(R.id.tv_new_friend_item_state, true)
-            val verifyNotificationDealResult = getVerifyNotificationDealResult(item!!)
+            val verifyNotificationDealResult = getVerifyNotificationDealResult(item)
             helper?.setText(R.id.tv_new_friend_item_state, verifyNotificationDealResult)
         }
         /****** 通过网易ID加载头像 ******/
@@ -72,7 +77,7 @@ class NewFriendAdapter(datas: List<SystemMessage>?) : BaseQuickAdapter<SystemMes
                     helper?.setText(R.id.tv_new_friend_item_state, "已同意")
                     val curUserName = JSONObject(message.content).getString("curUserName")
 
-                    RxBus.instance.post(RxBusBean.AddFriendPass(curUserName,message.fromAccount))
+                    RxBus.instance.post(RxBusBean.AddFriendPass(curUserName, message.fromAccount))
                 }
 
                 override fun onFailed(p0: Int) {

@@ -1,6 +1,7 @@
 package com.gkzxhn.helpout.view
 
 import com.gkzxhn.helpout.entity.LivesCircle
+import com.gkzxhn.helpout.entity.LivesCircleDetails
 
 /**
  * @classname：
@@ -16,6 +17,9 @@ interface LivesCircleView : BaseView {
 
     fun updateData(data: List<LivesCircle.ContentBean>)
 
-    fun setLastPage(lastPage: Boolean,page:Int)
+    fun setLastPage(lastPage: Boolean, page: Int)
 
+    fun praiseSuccess(position: Int)
+
+    fun loadLivesCircleDetailsUI(t: LivesCircleDetails)
 }

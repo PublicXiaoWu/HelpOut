@@ -96,8 +96,7 @@ class LoginPresenter(context: Context, view: LoginView) : BasePresenter<ILoginMo
         map["verificationCode"] = mView?.getCode().toString()
         map["name"] = mView?.getPhone().toString()
         map["group"] = "CUSTOMER"
-        val body = RequestBody.create(MediaType.parse("application/json; charset=utf-8"),
-                Gson().toJson(map))
+        val body= ProjectUtils.getRequestBody(map)
         mModel.login(mContext!!, body)
                 .unsubscribeOn(AndroidSchedulers.mainThread())
                 ?.observeOn(AndroidSchedulers.mainThread())
@@ -305,4 +304,7 @@ class LoginPresenter(context: Context, view: LoginView) : BasePresenter<ILoginMo
         })
     }
 
+
+
 }
+

@@ -6,7 +6,10 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestOptions
 import com.gkzxhn.helpout.R
+import com.gkzxhn.helpout.common.App
+import com.gkzxhn.helpout.common.Constants
 import com.gkzxhn.helpout.utils.StringUtils
+import com.gkzxhn.helpout.utils.TsDialog
 import kotlinx.android.synthetic.main.activity_add_friend_two.*
 import kotlinx.android.synthetic.main.default_top.*
 
@@ -19,6 +22,7 @@ import kotlinx.android.synthetic.main.default_top.*
 class AddFriendTwoActivity : BaseActivity() {
 
     var account = ""
+    var phoneNumber = ""
     override fun provideContentViewId(): Int {
         return R.layout.activity_add_friend_two
     }
@@ -27,14 +31,17 @@ class AddFriendTwoActivity : BaseActivity() {
     override fun init() {
         initTopTitle()
 
-        val phoneNumber = intent.getStringExtra("phoneNumber")
+         phoneNumber = intent.getStringExtra("phoneNumber")
         account = intent.getStringExtra("account")
         val nickname = intent.getStringExtra("nickname")
         val curUserName = intent.getStringExtra("curUserName")
         val avatar = intent.getStringExtra("avatar")
 
-
         tv_add_friend_two_add.setOnClickListener {
+            if (phoneNumber == App.SP.getString(Constants.SP_PHONE, "")) {
+                TsDialog("不能将自己添加到通讯录",true)
+                return@setOnClickListener
+            }
             val intent = Intent(this, AddFriendThreeActivity::class.java)
             intent.putExtra("account", account)
             intent.putExtra("curUserName", curUserName)

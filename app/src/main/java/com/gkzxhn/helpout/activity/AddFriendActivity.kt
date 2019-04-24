@@ -11,6 +11,7 @@ import com.gkzxhn.helpout.R
 import com.gkzxhn.helpout.entity.ImInfo
 import com.gkzxhn.helpout.net.HttpObserver
 import com.gkzxhn.helpout.net.RetrofitClientChat
+import com.gkzxhn.helpout.utils.SystemUtil
 import com.gkzxhn.helpout.utils.showToast
 import kotlinx.android.synthetic.main.activity_add_friend.*
 import rx.android.schedulers.AndroidSchedulers
@@ -35,10 +36,7 @@ class AddFriendActivity : BaseActivity() {
 
             et_add_friend.setText("")
             /****** 弹出键盘 ******/
-            et_add_friend.requestFocus()
-            val inputManger = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-            inputManger.showSoftInput(et_add_friend, 0)
-
+            SystemUtil.showKeyBoard(this,et_add_friend)
         }
 
         /****** 取消 ******/

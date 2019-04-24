@@ -31,7 +31,7 @@ class NineGridTestLayout : NineGridLayout {
     override fun displayOneImage(imageView: RatioImageView, url: String, parentWidth: Int): Boolean {
                 ProjectUtils.loadImageByFileID(context, url, imageView)
         if (url.isEmpty()) {
-            imageView.setImageResource(R.mipmap.ic_user_icon)
+            imageView.setImageResource(R.color.main_gary_bg)
             return false
         }
         val token = App.SP.getString(Constants.SP_TOKEN, "")
@@ -41,8 +41,8 @@ class NineGridTestLayout : NineGridLayout {
                 val addHeader = LazyHeaders.Builder().addHeader("Authorization", mtoken)
                 val glideUrl = GlideUrl(NetWorkCodeInfo.BASE_URL + "/files/" + url, addHeader.build())
                 val options = RequestOptions()
-                options.placeholder(R.mipmap.ic_user_icon)
-                options.error(R.mipmap.ic_user_icon)
+                options.placeholder(R.color.main_gary_bg)
+                options.error(R.color.main_gary_bg)
                 val image = Glide.with(context).load(glideUrl).apply(options).into(imageView)
                 val w = image.view.width
                 val h = image.view.height

@@ -35,8 +35,8 @@ interface ApiService {
     fun getAccountInfo(): Observable<AccountInfo>
 
     //    获取网易云信的账号
-    @GET("im/users/{username}/account")
-    fun getImAccount(@Path("username") username: String): Observable<ImInfo>
+    @GET("im/users/by-username")
+    fun getImAccount(@Query("username") username: String): Observable<ImInfo>
 
     //    获取指定法律咨询所剩视频时长
     @GET("/lawyer/my/legal-advice/{id}/video-duration")
@@ -141,8 +141,12 @@ interface ApiService {
     fun getNotifications(@Query("page") page: String, @Query("size") size: String, @Query("sort") sort: String): Observable<NotificationInfoList>
 
     //    获取我的生活圈
-    @GET("/customer/circleoffriends/getMyCircleoffriends")
+    @GET("/customer/circleoffriends/getCircleoffriends")
     fun getLivesCircle(@Query("page") page: String, @Query("size") size: String, @Query("sort") sort: String): Observable<LivesCircle>
+
+    //    获取我的生活圈
+    @GET("/customer/circleoffriends/getMyCircleoffriends")
+    fun getMyLivesCircle(@Query("page") page: String, @Query("size") size: String, @Query("sort") sort: String): Observable<LivesCircle>
 
     //    获取抢单的明细
     @GET("/lawyer/rush/legal-advice/{id}")
@@ -279,6 +283,12 @@ interface ApiService {
     fun getUserIm(@Query("phoneNumber") phoneNumber: String): Observable<ImInfo>
 
     /**
+     * 获取生活圈明细
+     */
+    @GET("/customer/circleoffriends/{livesCircleId}")
+    fun getLivesCircleDetails(@Path("livesCircleId") livesCircleId: String): Observable<LivesCircleDetails>
+
+    /**
      * 发布生活圈
      */
     @POST("/customer/circleoffriends/release")
@@ -289,5 +299,16 @@ interface ApiService {
      */
     @POST("/customer/customerfriend/add")
     fun addFriend(@Body requestBody: RequestBody): Observable<ResponseBody>
+
+    /**
+     * 点赞
+     */
+    @POST("/customer/circleoffriends/praise")
+    fun praise(@Body requestBody: RequestBody): Observable<ResponseBody>
+/**
+     * 评论
+     */
+    @POST("/customer/circleoffriends/comment")
+    fun comment(@Body requestBody: RequestBody): Observable<ResponseBody>
 
 }

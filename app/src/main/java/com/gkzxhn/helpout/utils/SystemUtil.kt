@@ -10,6 +10,8 @@ import android.media.ExifInterface
 import android.os.Environment
 import android.support.v4.app.ActivityCompat
 import android.telephony.TelephonyManager
+import android.view.View
+import android.view.inputmethod.InputMethodManager
 import com.gkzxhn.helpout.common.App
 import java.io.File
 import java.io.IOException
@@ -240,6 +242,24 @@ object SystemUtil {
         val mtx = Matrix()
         mtx.postRotate(rotate.toFloat())
         return Bitmap.createBitmap(bitmap, 0, 0, w, h, mtx, true)
+    }
+
+    /**
+     * 弹出软键盘
+     */
+    fun showKeyBoard(context: Context,v: View) {
+        val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        v.requestFocus()
+        imm.showSoftInput(v, 0)
+    }
+
+    /**
+     * 隐藏软键盘
+     */
+    fun hideKeyBoard(context: Context,v: View) {
+        val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        v.requestFocus()
+        imm.hideSoftInputFromWindow(v.getWindowToken(), 0)
     }
 
 

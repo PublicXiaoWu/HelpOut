@@ -107,6 +107,8 @@ class SettingActivity : BaseActivity() {
             /****** 清除缓存 ******/
             SystemUtil.clearAllCache(this)
 
+            NIMClient.getService(AuthService::class.java).logout()
+
             val intent = Intent(this, LoginActivity::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
             startActivity(intent)
@@ -115,8 +117,8 @@ class SettingActivity : BaseActivity() {
     }
 
     private fun updateApp() {
-        RetrofitClientPublic.getInstance(this).mApi?.updateApp()
-                ?.subscribeOn(Schedulers.io())
+        RetrofitClientPublic.getInstance(this).mApi.updateApp()
+                .subscribeOn(Schedulers.io())
                 ?.unsubscribeOn(AndroidSchedulers.mainThread())
                 ?.observeOn(AndroidSchedulers.mainThread())
                 ?.subscribe(object : HttpObserver<UpdateInfo>(this) {
