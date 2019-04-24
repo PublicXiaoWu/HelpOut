@@ -42,10 +42,12 @@ class FriendListActivity : BaseActivity() {
                 .cache()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
-                    v_friend_list_point.visibility = if (it.show) View.VISIBLE else View.GONE
+                    v_friend_list_point_number.visibility = if (it.show) View.VISIBLE else View.GONE
                 }, {
                     it.message.toString().logE(this)
                 })
+
+        v_friend_list_point_number.text=newFriendNumber.toString()
     }
 
     private fun initTitle() {

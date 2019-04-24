@@ -27,7 +27,6 @@ import org.json.JSONObject
 class NewFriendAdapter(datas: List<SystemMessage>?) : BaseQuickAdapter<SystemMessage, BaseViewHolder>(R.layout.item_new_friend, datas) {
 
     override fun convert(helper: BaseViewHolder?, item: SystemMessage?) {
-        Log.e("xiaowu_NewFriendAdapter", item?.content)
         if (item?.content!!.isEmpty()) {
             helper?.itemView?.visibility=View.GONE
             return
