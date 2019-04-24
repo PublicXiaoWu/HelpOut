@@ -14,8 +14,11 @@ class RxBusBean {
     /****** 添加好友的通知 ******/
     class AddPoint(var show: Boolean)
 
+    /****** 我的生活圈有新的消息通知 ******/
+    class MyLivesCirclePoint(var show: Boolean)
+
     /****** 添加好友验证通过 ******/
-    class AddFriendPass(var userName: String,var account:String)
+    class AddFriendPass(var userName: String, var account: String)
 
     class HomeTopRedPoint(var show: Boolean)
     class LoginOut(var show: Boolean)

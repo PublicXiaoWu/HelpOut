@@ -117,13 +117,13 @@ class App : Application() {
                         "RUSH_PAGE_REFRESH" -> {
                             RxBus.instance.post(RxBusBean.RefreshGrabOrder(true))
                         }
-                        /****** 刷新抢单页 ******/
+                        /****** 点赞 ******/
                         "NOTIFICATION_PRAISE_ADVICE" -> {
-                            RxBus.instance.post(RxBusBean.RefreshGrabOrder(true))
+                            RxBus.instance.post(RxBusBean.MyLivesCirclePoint(true))
                         }
-                        /****** 刷新抢单页 ******/
+                        /****** 评论 ******/
                         "NOTIFICATION_COMMENT_ADVICE" -> {
-                            RxBus.instance.post(RxBusBean.RefreshGrabOrder(true))
+                            RxBus.instance.post(RxBusBean.MyLivesCirclePoint(true))
                         }
                     }
                 } catch (e: Exception) {

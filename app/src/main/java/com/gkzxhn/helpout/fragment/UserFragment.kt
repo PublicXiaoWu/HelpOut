@@ -74,6 +74,15 @@ class UserFragment : BaseFragment(), View.OnClickListener {
                 }, {
                     it.message.toString().logE(this)
                 })
+        /****** 收到有新生活圈动态的消息（点赞评论） ******/
+        RxBus.instance.toObserverable(RxBusBean.MyLivesCirclePoint::class.java)
+                .cache()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+                    v_user_lives_circle_point.visibility = if (it.show) View.VISIBLE else View.GONE
+                }, {
+                    it.message.toString().logE(this)
+                })
 
     }
 

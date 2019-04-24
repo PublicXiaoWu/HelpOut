@@ -7,10 +7,12 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.ViewTreeObserver
 import com.gkzxhn.helpout.R
 import com.gkzxhn.helpout.adapter.LivesCircleAdapter
+import com.gkzxhn.helpout.common.RxBus
 import com.gkzxhn.helpout.customview.PullToRefreshLayout
 import com.gkzxhn.helpout.customview.RecyclerSpace
 import com.gkzxhn.helpout.entity.LivesCircle
 import com.gkzxhn.helpout.entity.LivesCircleDetails
+import com.gkzxhn.helpout.entity.RxBusBean
 import com.gkzxhn.helpout.extensions.dp2px
 import com.gkzxhn.helpout.presenter.LivesCirclePresenter
 import com.gkzxhn.helpout.utils.StatusBarUtil
@@ -97,7 +99,10 @@ class LivesCircleActivity : BaseActivity(), LivesCircleView, ObservableAlphaScro
             /****** 所有人的生活圈 ******/
             1 -> mPresenter.getLivesCircle("0", "10")
             /****** 我的生活圈 ******/
-            2 -> mPresenter.getMyLivesCircle("0", "10")
+            2 -> {
+                mPresenter.getMyLivesCircle("0", "10")
+
+            }
             /****** 某个人的生活圈 ******/
             3 -> {
 

@@ -1,8 +1,10 @@
 package com.gkzxhn.helpout.presenter
 
 import android.content.Context
+import com.gkzxhn.helpout.common.RxBus
 import com.gkzxhn.helpout.entity.LivesCircle
 import com.gkzxhn.helpout.entity.LivesCircleDetails
+import com.gkzxhn.helpout.entity.RxBusBean
 import com.gkzxhn.helpout.model.ILivesCircleModel
 import com.gkzxhn.helpout.model.iml.LivesCircleModel
 import com.gkzxhn.helpout.net.HttpObserver
@@ -39,6 +41,8 @@ class LivesCirclePresenter(context: Context, view: LivesCircleView) : BasePresen
 
 
     fun getMyLivesCircle(page: String, size: String) {
+        /****** 我的生活圈已经进来过了 通知红点消失 ******/
+        RxBus.instance.post(RxBusBean.MyLivesCirclePoint(false))
         mContext?.let {
             mModel.getMyLivesCircle(it, page, "100")
                     .unsubscribeOn(AndroidSchedulers.mainThread())
