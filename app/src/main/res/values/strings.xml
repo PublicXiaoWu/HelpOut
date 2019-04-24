@@ -174,4 +174,6 @@
     <string name="think_this_moment">这一刻的想法...</string>
     <string name="publish_success">发布成功</string>
 
+    <string name="liked">您已经点过赞了</string>
+
 </resources>

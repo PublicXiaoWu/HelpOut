@@ -35,8 +35,8 @@ interface ApiService {
     fun getAccountInfo(): Observable<AccountInfo>
 
     //    获取网易云信的账号
-    @GET("im/users/{username}/account")
-    fun getImAccount(@Path("username") username: String): Observable<ImInfo>
+    @GET("im/users/by-username")
+    fun getImAccount(@Query("username") username: String): Observable<ImInfo>
 
     //    获取指定法律咨询所剩视频时长
     @GET("/lawyer/my/legal-advice/{id}/video-duration")
@@ -283,6 +283,12 @@ interface ApiService {
     fun getUserIm(@Query("phoneNumber") phoneNumber: String): Observable<ImInfo>
 
     /**
+     * 获取生活圈明细
+     */
+    @GET("/customer/circleoffriends/{livesCircleId}")
+    fun getLivesCircleDetails(@Path("livesCircleId") livesCircleId: String): Observable<LivesCircleDetails>
+
+    /**
      * 发布生活圈
      */
     @POST("/customer/circleoffriends/release")
@@ -299,5 +305,10 @@ interface ApiService {
      */
     @POST("/customer/circleoffriends/praise")
     fun praise(@Body requestBody: RequestBody): Observable<ResponseBody>
+/**
+     * 评论
+     */
+    @POST("/customer/circleoffriends/comment")
+    fun comment(@Body requestBody: RequestBody): Observable<ResponseBody>
 
 }

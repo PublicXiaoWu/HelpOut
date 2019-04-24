@@ -10,9 +10,11 @@ import com.gkzxhn.helpout.adapter.LivesCircleAdapter
 import com.gkzxhn.helpout.customview.PullToRefreshLayout
 import com.gkzxhn.helpout.customview.RecyclerSpace
 import com.gkzxhn.helpout.entity.LivesCircle
+import com.gkzxhn.helpout.entity.LivesCircleDetails
 import com.gkzxhn.helpout.extensions.dp2px
 import com.gkzxhn.helpout.presenter.LivesCirclePresenter
 import com.gkzxhn.helpout.utils.StatusBarUtil
+import com.gkzxhn.helpout.utils.showToast
 import com.gkzxhn.helpout.view.LivesCircleView
 import com.gkzxhn.helpout.view.ObservableAlphaScrollView
 import kotlinx.android.synthetic.main.activity_lives_circle.*
@@ -25,6 +27,7 @@ import kotlinx.android.synthetic.main.activity_lives_circle.*
  * @description：生活圈
  */
 class LivesCircleActivity : BaseActivity(), LivesCircleView, ObservableAlphaScrollView.OnAlphaScrollChangeListener {
+
 
     lateinit var mPresenter: LivesCirclePresenter
     lateinit var mAdapter: LivesCircleAdapter
@@ -134,14 +137,23 @@ class LivesCircleActivity : BaseActivity(), LivesCircleView, ObservableAlphaScro
         mAdapter.openLoadAnimation()
         rcv_lives_circle.addItemDecoration(RecyclerSpace(1f.dp2px().toInt(), ContextCompat.getColor(this, R.color.gray_line)))
         mAdapter.setOnItemClickListener { adapter, view, position ->
-            startActivity(Intent(this, LivesCircleDetailsActivity::class.java))
+            val contentBean = adapter.data[position] as LivesCircle.ContentBean
+            val intent = Intent(this, LivesCircleDetailsActivity::class.java)
+            intent.putExtra("LivesCircleId", contentBean.id)
+            startActivity(intent)
         }
         mAdapter.setOnItemChildClickListener { adapter, view, position ->
             when (view.id) {
                 /****** 点赞 ******/
                 R.id.v_item_lives_circle_like_number -> {
+
                     val contentBean = adapter.data[position] as LivesCircle.ContentBean
-                    mPresenter.praise(contentBean.id!!, position)
+                    if (contentBean.praisesCircleoffriends) {
+                        showToast(getString(R.string.liked))
+                    } else {
+                        mPresenter.praise(contentBean.id!!, position)
+
+                    }
                 }
             }
         }
@@ -151,6 +163,9 @@ class LivesCircleActivity : BaseActivity(), LivesCircleView, ObservableAlphaScro
 
     override fun finishActivity() {
         finish()
+    }
+
+    override fun loadLivesCircleDetailsUI(t: LivesCircleDetails) {
     }
 
     /****** 点赞成功 ******/

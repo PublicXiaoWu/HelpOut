@@ -2,14 +2,17 @@ package com.gkzxhn.helpout.presenter
 
 import android.content.Context
 import com.gkzxhn.helpout.entity.LivesCircle
+import com.gkzxhn.helpout.entity.LivesCircleDetails
 import com.gkzxhn.helpout.model.ILivesCircleModel
 import com.gkzxhn.helpout.model.iml.LivesCircleModel
 import com.gkzxhn.helpout.net.HttpObserver
 import com.gkzxhn.helpout.net.HttpObserverNoDialog
+import com.gkzxhn.helpout.net.RetrofitClientChat
 import com.gkzxhn.helpout.utils.ProjectUtils
 import com.gkzxhn.helpout.view.LivesCircleView
 import okhttp3.ResponseBody
 import rx.android.schedulers.AndroidSchedulers
+import rx.schedulers.Schedulers
 
 /**
  * @classname：生活圈
@@ -22,7 +25,7 @@ class LivesCirclePresenter(context: Context, view: LivesCircleView) : BasePresen
 
     fun getLivesCircle(page: String, size: String) {
         mContext?.let {
-            mModel.getLivesCircle(it, "0", "100")
+            mModel.getLivesCircle(it, page, "100")
                     .unsubscribeOn(AndroidSchedulers.mainThread())
                     ?.observeOn(AndroidSchedulers.mainThread())
                     ?.subscribe(object : HttpObserver<LivesCircle>(mContext!!) {
@@ -37,7 +40,7 @@ class LivesCirclePresenter(context: Context, view: LivesCircleView) : BasePresen
 
     fun getMyLivesCircle(page: String, size: String) {
         mContext?.let {
-            mModel.getMyLivesCircle(it, "0", "10")
+            mModel.getMyLivesCircle(it, page, "100")
                     .unsubscribeOn(AndroidSchedulers.mainThread())
                     ?.observeOn(AndroidSchedulers.mainThread())
                     ?.subscribe(object : HttpObserver<LivesCircle>(mContext!!) {
@@ -52,7 +55,7 @@ class LivesCirclePresenter(context: Context, view: LivesCircleView) : BasePresen
 
     fun getLivesCircleByID(page: String, size: String) {
         mContext?.let {
-            mModel.getLivesCircle(it, "0", "10")
+            mModel.getLivesCircle(it, page, "100")
                     .unsubscribeOn(AndroidSchedulers.mainThread())
                     ?.observeOn(AndroidSchedulers.mainThread())
                     ?.subscribe(object : HttpObserver<LivesCircle>(mContext!!) {
@@ -67,9 +70,9 @@ class LivesCirclePresenter(context: Context, view: LivesCircleView) : BasePresen
      * @methodName： created by liushaoxiang on 2019/4/23 3:07 PM.
      * @description：点赞
      */
-    fun praise(circleoffriendsId: String,position:Int) {
+    fun praise(circleoffriendsId: String, position: Int) {
         val map = LinkedHashMap<String, String>()
-        map["circleoffriendsId"] =circleoffriendsId
+        map["circleoffriendsId"] = circleoffriendsId
         val requestBody = ProjectUtils.getRequestBody(map)
         mContext?.let {
             mModel.praise(it, requestBody)
@@ -78,6 +81,46 @@ class LivesCirclePresenter(context: Context, view: LivesCircleView) : BasePresen
                     ?.subscribe(object : HttpObserverNoDialog<ResponseBody>(mContext!!) {
                         override fun success(t: ResponseBody) {
                             mView?.praiseSuccess(position)
+                        }
+                    })
+        }
+    }
+
+    /**
+     * @methodName： created by liushaoxiang on 2019/4/24 11:32 AM.
+     * @description：生活圈明细
+     */
+    fun getLivesCircleDetails(livesCircleId: String) {
+        mContext?.let {
+            RetrofitClientChat
+                    .getInstance(it).mApi.getLivesCircleDetails(livesCircleId)
+                    .subscribeOn(Schedulers.io())
+                    ?.unsubscribeOn(AndroidSchedulers.mainThread())
+                    ?.observeOn(AndroidSchedulers.mainThread())
+                    ?.subscribe(object : HttpObserver<LivesCircleDetails>(it) {
+                        override fun success(t: LivesCircleDetails) {
+                            mView?.loadLivesCircleDetailsUI(t)
+                        }
+                    })
+        }
+    }
+
+    /**
+     * @methodName： created by liushaoxiang on 2019/4/23 3:07 PM.
+     * @description：评论
+     */
+    fun comment(content: String, circleoffriendsId: String) {
+        val map = LinkedHashMap<String, String>()
+        map["content"] = content
+        map["circleoffriendsId"] = circleoffriendsId
+        val requestBody = ProjectUtils.getRequestBody(map)
+        mContext?.let {
+            mModel.comment(it, requestBody)
+                    .unsubscribeOn(AndroidSchedulers.mainThread())
+                    ?.observeOn(AndroidSchedulers.mainThread())
+                    ?.subscribe(object : HttpObserverNoDialog<ResponseBody>(mContext!!) {
+                        override fun success(t: ResponseBody) {
+                            getLivesCircleDetails(circleoffriendsId)
                         }
                     })
         }

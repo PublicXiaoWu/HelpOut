@@ -22,6 +22,11 @@ class LivesCircleModel : BaseModel(), ILivesCircleModel {
                 .praise(body)
                 .subscribeOn(Schedulers.io())
                 as Observable<ResponseBody>
+    }override fun comment(context: Context, body: RequestBody): Observable<ResponseBody> {
+        return RetrofitClientChat.Companion.getInstance(context).mApi
+                .comment(body)
+                .subscribeOn(Schedulers.io())
+                as Observable<ResponseBody>
     }
 
     override fun getLivesCircle(context: Context, page: String, size: String): Observable<LivesCircle> {

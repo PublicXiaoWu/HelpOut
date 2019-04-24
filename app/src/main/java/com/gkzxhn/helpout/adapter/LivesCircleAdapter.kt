@@ -1,11 +1,9 @@
 package com.gkzxhn.helpout.adapter
 
-import android.content.Intent
 import android.view.View
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.gkzxhn.helpout.R
-import com.gkzxhn.helpout.activity.LivesCircleDetailsActivity
 import com.gkzxhn.helpout.entity.LivesCircle
 import com.gkzxhn.helpout.utils.ProjectUtils
 import com.gkzxhn.helpout.utils.StringUtils
@@ -23,7 +21,7 @@ class LivesCircleAdapter(datas: List<LivesCircle.ContentBean>?) : BaseQuickAdapt
     override fun convert(helper: BaseViewHolder?, item: LivesCircle.ContentBean) {
         /****** 整理图片list ******/
         val circleoffriendsPicture = item.circleoffriendsPicture!!
-        val pictureList=ArrayList<String>()
+        val pictureList = ArrayList<String>()
         for (picture in circleoffriendsPicture) {
             pictureList.add(picture.fileId!!)
         }
@@ -35,12 +33,16 @@ class LivesCircleAdapter(datas: List<LivesCircle.ContentBean>?) : BaseQuickAdapt
                 ?.setText(R.id.tv_item_lives_circle_like_number, item.praiseNum.toString())
                 ?.setOnClickListener(R.id.iv_item_lives_circle_share, share())
                 ?.setOnClickListener(R.id.tv_item_lives_circle_share, share())
-                ?.setOnClickListener(R.id.tv_item_lives_circle_comment, comment())
-                ?.setOnClickListener(R.id.tv_item_lives_circle_comment_number, comment())
                 ?.addOnClickListener(R.id.v_item_lives_circle_like_number)
                 ?.getView<NineGridTestLayout>(R.id.item_lives_circle_image)?.setUrlList(pictureList)
 
-        ProjectUtils.loadMyIcon(mContext,helper?.getView(R.id.iv_item_lives_circle_avatar)!!)
+        ProjectUtils.loadRoundImageByUserName(mContext, item.username, helper?.getView(R.id.iv_item_lives_circle_avatar)!!)
+        if (item.praisesCircleoffriends) {
+            helper?.setImageResource(R.id.iv_item_lives_circle_like_number, R.mipmap.ic_lives_liked)
+        } else {
+            helper?.setImageResource(R.id.iv_item_lives_circle_like_number, R.mipmap.ic_lives_like)
+        }
+
     }
 
     /****** 分享 ******/
@@ -48,31 +50,12 @@ class LivesCircleAdapter(datas: List<LivesCircle.ContentBean>?) : BaseQuickAdapt
         return View.OnClickListener() {
             mContext.showToast("敬请期待")
         }
-
-
-    }
-
-    /****** 评论 ******/
-    private fun comment(): View.OnClickListener? {
-        return View.OnClickListener() {
-            mContext.startActivity(Intent(mContext, LivesCircleDetailsActivity::class.java))
-        }
-    }
-
-    /****** 点赞 ******/
-    private fun like(helper: BaseViewHolder, item: LivesCircle.ContentBean?): View.OnClickListener? {
-
-        val i = item?.praiseNum!! + 1
-        return View.OnClickListener() {
-            helper.setText(R.id.tv_item_lives_circle_like_number, i.toString())
-            helper.setImageResource(R.id.iv_item_lives_circle_like_number, R.mipmap.ic_lives_liked)
-        }
     }
 
     /****** 更改某条数据之后局部刷新 ******/
     fun setDataChange(position: Int, contentBean: LivesCircle.ContentBean) {
         data[position] = contentBean
-        notifyItemChanged(position,666)
+        notifyItemChanged(position, 666)
     }
 
 }

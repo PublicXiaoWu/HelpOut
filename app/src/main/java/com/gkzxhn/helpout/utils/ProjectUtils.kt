@@ -156,7 +156,7 @@ object ProjectUtils {
             if (token.isNotEmpty()) {
                 val mtoken = "Bearer $token"
                 val addHeader = LazyHeaders.Builder().addHeader("Authorization", mtoken)
-                val glideUrl = GlideUrl(NetWorkCodeInfo.BASE_URL + "/users/" + userName + "/avatar", addHeader.build())
+                val glideUrl = GlideUrl(NetWorkCodeInfo.BASE_URL + "/users/by-username/avatar?username="+userName, addHeader.build())
                 val options = RequestOptions()
                 options.placeholder(R.mipmap.ic_user_icon)
                 options.error(R.mipmap.ic_user_icon)

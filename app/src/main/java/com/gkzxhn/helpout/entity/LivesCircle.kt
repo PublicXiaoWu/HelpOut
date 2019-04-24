@@ -42,6 +42,8 @@ class LivesCircle {
 
         var id: String? = null
         var content: String? = null
+        var praisesCircleoffriends: Boolean=false
+        var username: String=""
         var customer: CustomerBean? = null
         var commentNum: Int = 0
         var praiseNum: Int = 0

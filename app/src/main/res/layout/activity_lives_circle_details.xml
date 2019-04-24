@@ -11,21 +11,23 @@
         layout="@layout/default_top"/>
 
 
-    <View android:id="@+id/v_line"
-          android:layout_width="match_parent"
-          android:layout_height="0.5dp"
-          android:background="@color/view_line"
-          app:layout_constraintTop_toBottomOf="@+id/in_top"
+    <View
+        android:id="@+id/v_line"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/view_line"
+        app:layout_constraintTop_toBottomOf="@+id/in_top"
     />
 
-    <ImageView android:id="@+id/iv_lives_circle_avatar"
-               android:layout_width="34dp"
-               android:layout_height="34dp"
-               android:layout_marginStart="15dp"
-               android:layout_marginTop="15dp"
-               android:src="@mipmap/ic_user_icon"
-               app:layout_constraintStart_toStartOf="parent"
-               app:layout_constraintTop_toBottomOf="@+id/v_line"/>
+    <ImageView
+        android:id="@+id/iv_lives_circle_avatar"
+        android:layout_width="34dp"
+        android:layout_height="34dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="15dp"
+        android:src="@mipmap/ic_user_icon"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/v_line"/>
 
     <TextView
         android:id="@+id/tv_lives_circle_name"
@@ -33,7 +35,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="11dp"
         android:lines="1"
-        android:text="果农张三"
+        android:text="------"
         android:textColor="#ff333333"
         android:textSize="16sp"
         android:textStyle="bold"
@@ -48,7 +50,7 @@
         android:layout_marginStart="11dp"
         android:layout_marginTop="5dp"
         android:maxLines="1"
-        android:text="我是果农张三"
+        android:text="2019-01-05 16:45:01 "
         android:textColor="#ff999999"
         android:textSize="10sp"
         app:layout_constraintStart_toEndOf="@id/iv_lives_circle_avatar"
@@ -84,20 +86,20 @@
         app:sapcing="4dp"/>
 
     <View android:id="@+id/v_gray_bg"
-          android:layout_marginTop="15dp"
           android:layout_width="match_parent"
           android:layout_height="10dp"
+          android:layout_marginTop="15dp"
           android:background="@color/main_gary_bg"
           app:layout_constraintTop_toBottomOf="@+id/ll_lives_circle_image"
     />
 
     <TextView
         android:id="@+id/tv_lives_circle_comment_number_show"
-        android:layout_width="49dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="15dp"
         android:layout_marginTop="15dp"
-        android:text="评论 76"
+        android:text="评论 00"
         android:textColor="#ff333333"
         android:textSize="14sp"
         app:layout_constraintStart_toStartOf="parent"
@@ -106,38 +108,94 @@
 
     <TextView
         android:id="@+id/tv_lives_circle_like_number_show"
-        android:layout_width="48dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="15dp"
         android:layout_marginTop="15dp"
-        android:text="点赞 16"
+        android:text="点赞 00"
         android:textColor="#ff333333"
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/v_gray_bg"
     />
 
-    <View android:id="@+id/v_lives_circle_comment_number_show"
-          android:layout_width="match_parent"
-          android:layout_height="0.5dp"
-          android:layout_marginTop="15dp"
-          android:background="@color/view_line"
-          app:layout_constraintTop_toBottomOf="@+id/tv_lives_circle_comment_number_show"
+    <View
+        android:id="@+id/v_lives_circle_comment_number_show"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_marginTop="15dp"
+        android:background="@color/view_line"
+        app:layout_constraintTop_toBottomOf="@+id/tv_lives_circle_comment_number_show"
     />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rcv_lives_circle_details"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginBottom="50dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/v_lives_circle_comment_number_show">
 
 
     </android.support.v7.widget.RecyclerView>
 
-    <View android:layout_width="match_parent"
-          android:layout_height="50dp"
-          android:background="#E9E9E9"
-          app:layout_constraintBottom_toBottomOf="parent"/>
+
+    <View
+        android:id="@+id/v_lives_circle_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="#E9E9E9"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+    <View
+        android:id="@+id/v_lives_circle_bottom_line1"
+        android:layout_width="1dp"
+        android:layout_height="20dp"
+        android:background="#999999"
+        app:layout_constraintBottom_toBottomOf="@id/v_lives_circle_bottom"
+        app:layout_constraintEnd_toStartOf="@id/v_lives_circle_bottom_line2"
+        app:layout_constraintStart_toStartOf="@id/v_lives_circle_bottom"
+        app:layout_constraintTop_toTopOf="@id/v_lives_circle_bottom"
+    />
+
+    <View
+        android:id="@+id/v_lives_circle_bottom_line2"
+        android:layout_width="1dp"
+        android:layout_height="20dp"
+        android:background="#999999"
+        app:layout_constraintBottom_toBottomOf="@id/v_lives_circle_bottom"
+        app:layout_constraintEnd_toEndOf="@id/v_lives_circle_bottom"
+        app:layout_constraintStart_toEndOf="@id/v_lives_circle_bottom_line1"
+        app:layout_constraintTop_toTopOf="@id/v_lives_circle_bottom"
+    />
+
+
+    <View
+        android:id="@+id/v_lives_circle_share"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        app:layout_constraintEnd_toStartOf="@id/v_lives_circle_comment"
+        app:layout_constraintStart_toStartOf="@id/v_lives_circle_bottom"
+        app:layout_constraintTop_toTopOf="@+id/v_lives_circle_bottom"
+    />
+    <View
+        android:id="@+id/v_lives_circle_comment"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        app:layout_constraintEnd_toStartOf="@id/v_lives_circle_like"
+        app:layout_constraintStart_toEndOf="@id/v_lives_circle_share"
+        app:layout_constraintTop_toTopOf="@+id/v_lives_circle_bottom"
+
+    />
+    <View
+        android:id="@+id/v_lives_circle_like"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        app:layout_constraintEnd_toEndOf="@id/v_lives_circle_bottom"
+        app:layout_constraintStart_toEndOf="@id/v_lives_circle_comment"
+        app:layout_constraintTop_toTopOf="@+id/v_lives_circle_bottom"
+
+    />
     <!--分享-->
     <ImageView
         android:id="@+id/iv_lives_circle_share"
@@ -145,9 +203,11 @@
         android:layout_height="16dp"
         android:layout_marginEnd="4dp"
         android:src="@mipmap/ic_lives_share"
-        app:layout_constraintBottom_toBottomOf="@+id/tv_lives_circle_like_number"
-        app:layout_constraintStart_toStartOf="@id/tv_lives_circle_name"
-        app:layout_constraintTop_toTopOf="@+id/tv_lives_circle_like_number"
+        app:layout_constraintBottom_toBottomOf="@+id/v_lives_circle_share"
+        app:layout_constraintEnd_toStartOf="@id/tv_lives_circle_share"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="@id/v_lives_circle_share"
+        app:layout_constraintTop_toTopOf="@+id/v_lives_circle_share"
     />
 
     <TextView
@@ -159,21 +219,24 @@
         android:text="分享"
         android:textColor="#666666"
         android:textSize="12sp"
-        app:layout_constraintBottom_toBottomOf="@id/iv_lives_circle_share"
+
+        app:layout_constraintBottom_toBottomOf="@+id/v_lives_circle_share"
+        app:layout_constraintEnd_toEndOf="@id/v_lives_circle_share"
+        app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toEndOf="@id/iv_lives_circle_share"
-        app:layout_constraintTop_toTopOf="@id/iv_lives_circle_share"
+        app:layout_constraintTop_toTopOf="@+id/v_lives_circle_share"
     />
     <!--评论-->
     <ImageView
-        android:id="@+id/tv_lives_circle_comment"
+        android:id="@+id/iv_lives_circle_comment"
         android:layout_width="16dp"
         android:layout_height="16dp"
         android:src="@mipmap/ic_lives_comment"
-        app:layout_constraintBottom_toBottomOf="@+id/tv_lives_circle_like_number"
+        app:layout_constraintBottom_toBottomOf="@+id/v_lives_circle_comment"
         app:layout_constraintEnd_toStartOf="@id/tv_lives_circle_comment_number"
         app:layout_constraintHorizontal_chainStyle="packed"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/tv_lives_circle_like_number"
+        app:layout_constraintStart_toStartOf="@id/v_lives_circle_comment"
+        app:layout_constraintTop_toTopOf="@+id/v_lives_circle_comment"
     />
 
     <TextView
@@ -185,10 +248,11 @@
         android:text="222"
         android:textColor="#666666"
         android:textSize="12sp"
-        app:layout_constraintBottom_toBottomOf="@id/tv_lives_circle_like_number"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/tv_lives_circle_comment"
-        app:layout_constraintTop_toTopOf="@id/tv_lives_circle_like_number"
+        app:layout_constraintBottom_toBottomOf="@+id/v_lives_circle_comment"
+        app:layout_constraintEnd_toEndOf="@id/v_lives_circle_comment"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toEndOf="@id/iv_lives_circle_comment"
+        app:layout_constraintTop_toTopOf="@+id/v_lives_circle_comment"
     />
 
     <!--点赞-->
@@ -196,27 +260,53 @@
         android:id="@+id/iv_lives_circle_like_number"
         android:layout_width="16dp"
         android:layout_height="16dp"
-        android:layout_marginEnd="4dp"
         android:src="@mipmap/ic_lives_liked"
-        app:layout_constraintBottom_toBottomOf="@+id/tv_lives_circle_like_number"
+        app:layout_constraintBottom_toBottomOf="@+id/v_lives_circle_like"
         app:layout_constraintEnd_toStartOf="@id/tv_lives_circle_like_number"
-        app:layout_constraintTop_toTopOf="@+id/tv_lives_circle_like_number"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="@id/v_lives_circle_like"
+        app:layout_constraintTop_toTopOf="@+id/v_lives_circle_like"
     />
 
     <TextView
         android:id="@+id/tv_lives_circle_like_number"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="15dp"
-        android:layout_marginEnd="41dp"
-        android:layout_marginStart="11dp"
-        android:layout_marginTop="17dp"
+        android:layout_marginStart="5dp"
         android:maxLength="5"
         android:text="2"
         android:textColor="#666666"
         android:textSize="12sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/v_lives_circle_like"
+        app:layout_constraintEnd_toEndOf="@id/v_lives_circle_like"
+        app:layout_constraintStart_toEndOf="@id/iv_lives_circle_like_number"
+        app:layout_constraintTop_toTopOf="@+id/v_lives_circle_like"
     />
+
+
+    <!--输入框-->
+    <View
+        android:id="@+id/v_lives_circle_bottom_edit"
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
+        android:background="#F4F4F4"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+    <EditText
+        android:id="@+id/et_lives_circle_bottom_comment"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginStart="15dp"
+        android:background="@drawable/shape_comment_edit_bg_text"
+        android:hint="千头万绪，落笔评论一句..."
+        android:paddingStart="15dp"
+        android:textSize="14sp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/v_lives_circle_bottom_edit"
+        app:layout_constraintEnd_toEndOf="@id/v_lives_circle_bottom_edit"
+        app:layout_constraintStart_toStartOf="@id/v_lives_circle_bottom_edit"
+        app:layout_constraintTop_toTopOf="@id/v_lives_circle_bottom_edit"/>
 
 </android.support.constraint.ConstraintLayout>
