@@ -203,6 +203,4 @@ class LivesCircleActivity : BaseActivity(), LivesCircleView, ObservableAlphaScro
             ll_lives_title.setBackgroundColor(Color.argb(255, 242, 242, 242))
         }
     }
-
-
 }
