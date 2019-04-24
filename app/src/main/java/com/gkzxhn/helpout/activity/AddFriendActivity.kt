@@ -8,7 +8,7 @@ import android.view.KeyEvent
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import com.gkzxhn.helpout.R
-import com.gkzxhn.helpout.entity.ImInfo
+import com.gkzxhn.helpout.entity.FriendInfo
 import com.gkzxhn.helpout.net.HttpObserver
 import com.gkzxhn.helpout.net.RetrofitClientChat
 import com.gkzxhn.helpout.utils.SystemUtil
@@ -36,7 +36,7 @@ class AddFriendActivity : BaseActivity() {
 
             et_add_friend.setText("")
             /****** 弹出键盘 ******/
-            SystemUtil.showKeyBoard(this,et_add_friend)
+            SystemUtil.showKeyBoard(this, et_add_friend)
         }
 
         /****** 取消 ******/
@@ -91,22 +91,38 @@ class AddFriendActivity : BaseActivity() {
             return
         }
 
+        getFriendInfoByPhone(phoneNumber)
+    }
+
+    fun getFriendInfoByPhone(phoneNumber: String) {
         mCompositeSubscription.add(RetrofitClientChat
-                .getInstance(this).mApi.getUserIm(phoneNumber)
+                .getInstance(this).mApi.getFriendInfo(phoneNumber = phoneNumber)
                 .subscribeOn(Schedulers.io())
                 ?.unsubscribeOn(AndroidSchedulers.mainThread())
                 ?.observeOn(AndroidSchedulers.mainThread())
-                ?.subscribe(object : HttpObserver<ImInfo>(this) {
-                    override fun success(t: ImInfo) {
-
-                        val intent = Intent(this@AddFriendActivity, AddFriendTwoActivity::class.java)
-                        intent.putExtra("phoneNumber",phoneNumber)
-                        intent.putExtra("account",t.account)
-                        intent.putExtra("nickname",t.nickname)
-                        intent.putExtra("avatar",t.avatar)
-                        intent.putExtra("curUserName",t.curUserName)
-                        startActivity(intent)
+                ?.subscribe(object : HttpObserver<FriendInfo>(this) {
+                    override fun success(t: FriendInfo) {
+                        /****** 是否是好友,1代表是，0代表不是 ******/
+                        if (t.friendinfo == "1") {
+                            val intent = Intent(this@AddFriendActivity, FriendInfoActivity::class.java)
+                            intent.putExtra("account", t.account)
+                            startActivity(intent)
+                        } else {
+                            val intent = Intent(this@AddFriendActivity, AddFriendTwoActivity::class.java)
+                            intent.putExtra("phoneNumber", phoneNumber)
+                            intent.putExtra("account", t.account)
+                            intent.putExtra("nickname", t.name)
+                            intent.putExtra("username", t.username)
+                            intent.putExtra("curUserName", t.curUsername)
+                            startActivity(intent)
+                        }
                     }
+
+                    override fun onError(t: Throwable?) {
+                        loadDialog?.dismiss()
+                        notFindFriend()
+                    }
+
                 }))
     }
 

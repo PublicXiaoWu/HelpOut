@@ -154,7 +154,9 @@ class LivesCircleDetailsActivity : BaseActivity(), LivesCircleView {
         rcv_lives_circle_details.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         mAdapter = LivesCircleCommentAdapter(t.circleoffriendsComments)
         mAdapter.openLoadAnimation()
-        rcv_lives_circle_details.addItemDecoration(RecyclerSpace(1f.dp2px().toInt(), ContextCompat.getColor(this, R.color.gray_line)))
+        rcv_lives_circle_details.addItemDecoration(RecyclerSpace(1.2f.dp2px().toInt(), ContextCompat.getColor(this, R.color.gray_line)))
+        rcv_lives_circle_details.adapter = mAdapter
+
         mAdapter.setOnItemClickListener { adapter, view, position ->
             hideKeyBoard(this, et_lives_circle_bottom_comment)
         }
@@ -167,7 +169,6 @@ class LivesCircleDetailsActivity : BaseActivity(), LivesCircleView {
                 }
             }
         }
-        rcv_lives_circle_details.adapter = mAdapter
 
     }
 

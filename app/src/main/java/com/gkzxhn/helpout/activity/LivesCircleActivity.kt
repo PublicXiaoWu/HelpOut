@@ -99,7 +99,13 @@ class LivesCircleActivity : BaseActivity(), LivesCircleView, ObservableAlphaScro
             /****** 我的生活圈 ******/
             2 -> mPresenter.getMyLivesCircle("0", "10")
             /****** 某个人的生活圈 ******/
-            3 -> mPresenter.getLivesCircleByID("0", "10")
+            3 -> {
+
+                val userName = intent.getStringExtra("userName")
+                mPresenter.getLivesCircleByUserName(userName,"0", "10")
+
+            }
+
 
         }
 

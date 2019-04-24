@@ -147,6 +147,9 @@ interface ApiService {
     //    获取我的生活圈
     @GET("/customer/circleoffriends/getMyCircleoffriends")
     fun getMyLivesCircle(@Query("page") page: String, @Query("size") size: String, @Query("sort") sort: String): Observable<LivesCircle>
+ //    获取我的生活圈
+    @GET("/customer/circleoffriends/get-friend-circlefriend")
+    fun getLivesCircleByUserName(@Query("username") username: String,@Query("page") page: String, @Query("size") size: String, @Query("sort") sort: String): Observable<LivesCircle>
 
     //    获取抢单的明细
     @GET("/lawyer/rush/legal-advice/{id}")
@@ -277,10 +280,10 @@ interface ApiService {
     fun getWxOrder(@Path("id") id: String): Observable<WXLawOrderInfo>
 
     /**
-     * 依据手机号码获取用户IM信息
+     * 获取好友信息
      */
-    @GET("/customer/user/getuserim")
-    fun getUserIm(@Query("phoneNumber") phoneNumber: String): Observable<ImInfo>
+    @GET("/customer/customerfriend/get-customer-friend")
+    fun getFriendInfo(@Query("phoneNumber") phoneNumber: String?=null, @Query("username") username: String?=null, @Query("account") account: String?=null): Observable<FriendInfo>
 
     /**
      * 获取生活圈明细
@@ -305,7 +308,8 @@ interface ApiService {
      */
     @POST("/customer/circleoffriends/praise")
     fun praise(@Body requestBody: RequestBody): Observable<ResponseBody>
-/**
+
+    /**
      * 评论
      */
     @POST("/customer/circleoffriends/comment")

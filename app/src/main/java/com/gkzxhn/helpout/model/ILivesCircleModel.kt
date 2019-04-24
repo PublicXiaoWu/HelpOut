@@ -16,6 +16,7 @@ import rx.Observable
 interface ILivesCircleModel : IBaseModel {
     fun getLivesCircle(context: Context,page :String,size:String): Observable<LivesCircle>
     fun getMyLivesCircle(context: Context,page :String,size:String): Observable<LivesCircle>
+    fun getLivesCircleByUserName(context: Context,userName:String,page :String,size:String): Observable<LivesCircle>
     fun praise(context: Context,body: RequestBody): Observable<ResponseBody>
     fun comment(context: Context,body: RequestBody): Observable<ResponseBody>
 }

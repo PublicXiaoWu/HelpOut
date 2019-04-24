@@ -15,9 +15,6 @@ import com.gkzxhn.helpout.utils.StringUtils
 import com.gkzxhn.helpout.utils.showToast
 import com.gkzxhn.helpout.view.OrderView
 import com.netease.nim.uikit.api.NimUIKit
-import com.netease.nimlib.sdk.NIMClient
-import com.netease.nimlib.sdk.msg.MsgService
-import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum
 import okhttp3.ResponseBody
 import rx.android.schedulers.AndroidSchedulers
 
@@ -258,7 +255,7 @@ class OrderPresenter(context: Context, view: OrderView) : BasePresenter<IOrderMo
                     ?.subscribe(object : HttpObserver<ImInfo>(mContext!!) {
                         override fun success(t: ImInfo) {
                             // 删除与某个聊天对象的全部消息记录
-                            NIMClient.getService(MsgService::class.java).clearChattingHistory(t.account, SessionTypeEnum.P2P)
+//                            NIMClient.getService(MsgService::class.java).clearChattingHistory(t.account, SessionTypeEnum.P2P)
                             NimUIKit.startP2PSession(mContext, t.account)
                         }
                     })

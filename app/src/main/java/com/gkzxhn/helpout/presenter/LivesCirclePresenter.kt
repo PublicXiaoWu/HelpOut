@@ -53,9 +53,9 @@ class LivesCirclePresenter(context: Context, view: LivesCircleView) : BasePresen
         }
     }
 
-    fun getLivesCircleByID(page: String, size: String) {
+    fun getLivesCircleByUserName(userName:String,page: String, size: String) {
         mContext?.let {
-            mModel.getLivesCircle(it, page, "100")
+            mModel.getLivesCircleByUserName(it,userName, page, "100")
                     .unsubscribeOn(AndroidSchedulers.mainThread())
                     ?.observeOn(AndroidSchedulers.mainThread())
                     ?.subscribe(object : HttpObserver<LivesCircle>(mContext!!) {

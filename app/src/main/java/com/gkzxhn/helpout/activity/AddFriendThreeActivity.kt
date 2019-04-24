@@ -76,6 +76,7 @@ class AddFriendThreeActivity : BaseActivity() {
                 .setCallback(object : RequestCallback<Void> {
                     override fun onSuccess(p0: Void?) {
                         ToastHelper.showToast(this@AddFriendThreeActivity, "添加好友请求发送成功")
+                        finish()
                     }
 
                     override fun onFailed(code: Int) {
