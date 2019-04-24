@@ -160,6 +160,7 @@ class NewFriendActivity : BaseActivity() {
 
     override fun onStart() {
         RxBus.instance.post(RxBusBean.AddPoint(false))
+        newFriendNumber=0
         super.onStart()
 
     }

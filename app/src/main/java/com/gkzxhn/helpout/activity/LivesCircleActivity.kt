@@ -178,6 +178,7 @@ class LivesCircleActivity : BaseActivity(), LivesCircleView, ObservableAlphaScro
     override fun praiseSuccess(position: Int) {
         val contentBean = mAdapter.getItem(position) as LivesCircle.ContentBean
         contentBean.praiseNum = contentBean.praiseNum + 1
+        contentBean.praisesCircleoffriends = true
         mAdapter.setDataChange(position, contentBean)
     }
 
