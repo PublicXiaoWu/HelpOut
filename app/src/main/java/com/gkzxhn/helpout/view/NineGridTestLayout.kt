@@ -1,8 +1,10 @@
 package com.gkzxhn.helpout.view
 
 import android.content.Context
+import android.os.Build
+import android.support.v4.util.Pair
 import android.util.AttributeSet
-import android.widget.ImageView
+import android.view.View
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.model.GlideUrl
 import com.bumptech.glide.load.model.LazyHeaders
@@ -106,11 +108,18 @@ class NineGridTestLayout : NineGridLayout {
     }
 
     override fun displayImage(imageView: RatioImageView, url: String) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            imageView.transitionName = url
+            pairs = pairs.plus(Pair(imageView as View, url))
+        }
         ProjectUtils.loadImageByFileID(context, url, imageView)
     }
 
+    var pairs = emptyArray<Pair<View, String>>()
+
     override fun onClickImage(i: Int, url: String, urlList: List<String>) {
-        ImageActivity.launch(context, ArrayList(urlList), i, getChildAt(i) as ImageView)
+//        ImageActivity.launch(context, ArrayList(urlList), i, getChildAt(i) as ImageView)
+        ImageActivity.launch(context, ArrayList(urlList), i, pairs = *pairs)
 //        Toast.makeText(mContext, "点击了图片$url", Toast.LENGTH_SHORT).show()
     }
 
