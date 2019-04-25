@@ -49,7 +49,6 @@ class UserFragment : BaseFragment(), View.OnClickListener {
         getAccountInfo()
         getLawyersInfo()
 
-
         /****** 接受控件小红点的消息 ******/
         RxBus.instance.toObserverable(RxBusBean.HomeTopRedPoint::class.java)
                 .cache()
@@ -81,7 +80,6 @@ class UserFragment : BaseFragment(), View.OnClickListener {
                 }, {
                     it.message.toString().logE(this)
                 })
-
     }
 
     override fun initListener() {
@@ -142,7 +140,6 @@ class UserFragment : BaseFragment(), View.OnClickListener {
             }
         }
     }
-
 
     override fun onResume() {
         super.onResume()
@@ -227,9 +224,7 @@ class UserFragment : BaseFragment(), View.OnClickListener {
             iv_user_get_money_end.visibility = View.GONE
             v_user_my_money_line_bg.visibility = View.GONE
             v_user_my_money.visibility = View.GONE
-
         }
-
     }
 
     /**
@@ -293,7 +288,6 @@ class UserFragment : BaseFragment(), View.OnClickListener {
         }
     }
 
-
     /****** 刷新新的token ******/
     private fun getRefreshToken(refresh_token: String) {
         context?.let {
@@ -332,14 +326,12 @@ class UserFragment : BaseFragment(), View.OnClickListener {
                                         }
 
                                     }
-
                                 }
                             })
             )
         }
 
     }
-
 
     /**
      * @methodName： created by liushaoxiang on 2018/10/26 3:46 PM.
