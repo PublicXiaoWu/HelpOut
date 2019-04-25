@@ -33,4 +33,17 @@ class LivesCircleCommentAdapter(datas: List<LivesCircleDetails.CircleoffriendsCo
         notifyItemChanged(position, 666)
     }
 
+    override fun getItemId(position: Int): Long {
+        return if (data.isNotEmpty()) {
+            if (position == 0) {
+                 1
+            } else {
+                data[position-1].id!!.hashCode().toLong()
+            }
+        } else {
+            1
+        }
+
+    }
+
 }

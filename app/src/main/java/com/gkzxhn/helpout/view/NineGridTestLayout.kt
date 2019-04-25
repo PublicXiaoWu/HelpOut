@@ -41,8 +41,8 @@ class NineGridTestLayout : NineGridLayout {
                 val addHeader = LazyHeaders.Builder().addHeader("Authorization", mtoken)
                 val glideUrl = GlideUrl(NetWorkCodeInfo.BASE_URL + "/files/" + url, addHeader.build())
                 val options = RequestOptions()
-                options.placeholder(R.color.main_gary_bg)
-                options.error(R.color.main_gary_bg)
+                options.placeholder(R.drawable.banner_default)
+                options.error(R.drawable.banner_default)
                 val image = Glide.with(context).load(glideUrl).apply(options).into(imageView)
                 val w = image.view.width
                 val h = image.view.height
@@ -66,44 +66,6 @@ class NineGridTestLayout : NineGridLayout {
             }
         }
 
-
-//
-//        }
-//        ImageUtils.displayImage(mContext, imageView, url, ImageUtils.photoImageOption, object : ImageLoadingListener {
-//            override fun onLoadingStarted(imageUri: String, view: View) {
-//
-//            }
-//
-//            override fun onLoadingFailed(imageUri: String, view: View, failReason: FailReason) {
-//
-//            }
-//
-//            override fun onLoadingComplete(imageUri: String, view: View, bitmap: Bitmap) {
-//                val w = bitmap.width
-//                val h = bitmap.height
-//
-//                val newW: Int
-//                val newH: Int
-//                if (h > w * MAX_W_H_RATIO) {
-//                    //h:w = 5:3
-//                    newW = parentWidth / 2
-//                    newH = newW * 5 / 3
-//                } else if (h < w) {
-//                    //h:w = 2:3
-//                    newW = parentWidth * 2 / 3
-//                    newH = newW * 2 / 3
-//                } else {
-//                    //newH:h = newW :w
-//                    newW = parentWidth / 2
-//                    newH = h * newW / w
-//                }
-//                setOneImageLayoutParams(imageView, newW, newH)
-//            }
-//
-//            override fun onLoadingCancelled(imageUri: String, view: View) {
-//
-//            }
-//        })
         return false
     }
 
@@ -118,9 +80,7 @@ class NineGridTestLayout : NineGridLayout {
     var pairs = emptyArray<Pair<View, String>>()
 
     override fun onClickImage(i: Int, url: String, urlList: List<String>) {
-//        ImageActivity.launch(context, ArrayList(urlList), i, getChildAt(i) as ImageView)
         ImageActivity.launch(context, ArrayList(urlList), i, pairs = *pairs)
-//        Toast.makeText(mContext, "点击了图片$url", Toast.LENGTH_SHORT).show()
     }
 
     companion object {

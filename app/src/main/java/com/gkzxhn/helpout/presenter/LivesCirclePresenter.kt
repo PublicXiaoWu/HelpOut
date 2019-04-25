@@ -7,7 +7,6 @@ import com.gkzxhn.helpout.entity.LivesCircleDetails
 import com.gkzxhn.helpout.entity.RxBusBean
 import com.gkzxhn.helpout.model.ILivesCircleModel
 import com.gkzxhn.helpout.model.iml.LivesCircleModel
-import com.gkzxhn.helpout.net.HttpObserver
 import com.gkzxhn.helpout.net.HttpObserverNoDialog
 import com.gkzxhn.helpout.net.RetrofitClientChat
 import com.gkzxhn.helpout.utils.ProjectUtils
@@ -30,7 +29,7 @@ class LivesCirclePresenter(context: Context, view: LivesCircleView) : BasePresen
             mModel.getLivesCircle(it, page, "100")
                     .unsubscribeOn(AndroidSchedulers.mainThread())
                     ?.observeOn(AndroidSchedulers.mainThread())
-                    ?.subscribe(object : HttpObserver<LivesCircle>(mContext!!) {
+                    ?.subscribe(object : HttpObserverNoDialog<LivesCircle>(mContext!!) {
                         override fun success(t: LivesCircle) {
                             mView?.updateData(t.content!!)
                             mView?.setLastPage(t.isLast, 0)
@@ -49,7 +48,7 @@ class LivesCirclePresenter(context: Context, view: LivesCircleView) : BasePresen
             mModel.getMyLivesCircle(it, page, "100")
                     .unsubscribeOn(AndroidSchedulers.mainThread())
                     ?.observeOn(AndroidSchedulers.mainThread())
-                    ?.subscribe(object : HttpObserver<LivesCircle>(mContext!!) {
+                    ?.subscribe(object : HttpObserverNoDialog<LivesCircle>(mContext!!) {
                         override fun success(t: LivesCircle) {
                             mView?.updateData(t.content!!)
                             mView?.setLastPage(t.isLast, 0)
@@ -64,7 +63,7 @@ class LivesCirclePresenter(context: Context, view: LivesCircleView) : BasePresen
             mModel.getLivesCircleByUserName(it,userName, page, "100")
                     .unsubscribeOn(AndroidSchedulers.mainThread())
                     ?.observeOn(AndroidSchedulers.mainThread())
-                    ?.subscribe(object : HttpObserver<LivesCircle>(mContext!!) {
+                    ?.subscribe(object : HttpObserverNoDialog<LivesCircle>(mContext!!) {
                         override fun success(t: LivesCircle) {
                             mView?.updateData(t.content!!)
                         }
@@ -103,7 +102,7 @@ class LivesCirclePresenter(context: Context, view: LivesCircleView) : BasePresen
                     .subscribeOn(Schedulers.io())
                     ?.unsubscribeOn(AndroidSchedulers.mainThread())
                     ?.observeOn(AndroidSchedulers.mainThread())
-                    ?.subscribe(object : HttpObserver<LivesCircleDetails>(it) {
+                    ?.subscribe(object : HttpObserverNoDialog<LivesCircleDetails>(it) {
                         override fun success(t: LivesCircleDetails) {
                             mView?.loadLivesCircleDetailsUI(t)
                         }

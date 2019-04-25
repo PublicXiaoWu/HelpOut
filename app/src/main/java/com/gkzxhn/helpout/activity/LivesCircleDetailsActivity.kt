@@ -9,6 +9,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.gkzxhn.helpout.R
 import com.gkzxhn.helpout.adapter.LivesCircleCommentAdapter
+import com.gkzxhn.helpout.customview.PullToRefreshLayout
 import com.gkzxhn.helpout.customview.RecyclerSpace
 import com.gkzxhn.helpout.entity.LivesCircle
 import com.gkzxhn.helpout.entity.LivesCircleDetails
@@ -76,6 +77,7 @@ class LivesCircleDetailsActivity : BaseActivity(), LivesCircleView {
     override fun init() {
         initTitle()
         mPresenter = LivesCirclePresenter(this, this)
+        initRecyclerView()
         livesCircleId = intent.getStringExtra("LivesCircleId")
 
         /****** 注册软键盘监听 ******/
@@ -101,6 +103,14 @@ class LivesCircleDetailsActivity : BaseActivity(), LivesCircleView {
                 mPresenter.praise(livesCircleId, 0)
             }
         }
+
+        //下啦刷新
+        loading_refresh.setOnRefreshListener(object : PullToRefreshLayout.OnRefreshListener {
+            override fun onRefresh() {
+                mPresenter.getLivesCircleDetails(livesCircleId)
+                loading_refresh?.finishRefreshing()
+            }
+        }, 1)
 
         /****** 将回车键设置成发送 ******/
         et_lives_circle_bottom_comment.imeOptions = EditorInfo.IME_ACTION_SEND;
@@ -155,15 +165,18 @@ class LivesCircleDetailsActivity : BaseActivity(), LivesCircleView {
             iv_lives_circle_like_number.setImageResource(R.mipmap.ic_lives_like)
         }
 
-        /****** 评论列表处理 ******/
+        mAdapter.setNewData(t.circleoffriendsComments)
+        mAdapter.setHeaderView(headerView)
+
+    }
+
+    private fun initRecyclerView() {
         rcv_lives_circle_details.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
-        mAdapter = LivesCircleCommentAdapter(t.circleoffriendsComments)
+        mAdapter = LivesCircleCommentAdapter(null)
+        mAdapter.setHasStableIds(true)
         mAdapter.openLoadAnimation()
         rcv_lives_circle_details.addItemDecoration(RecyclerSpace(1.2f.dp2px().toInt(), ContextCompat.getColor(this, R.color.gray_line)))
         rcv_lives_circle_details.adapter = mAdapter
-
-        /****** 添加头布局 ******/
-        mAdapter.addHeaderView(headerView)
 
         mAdapter.setOnItemClickListener { adapter, view, position ->
             hideKeyBoard(this, et_lives_circle_bottom_comment)
@@ -177,7 +190,6 @@ class LivesCircleDetailsActivity : BaseActivity(), LivesCircleView {
                 }
             }
         }
-
     }
 
     override fun onBackPressed() {

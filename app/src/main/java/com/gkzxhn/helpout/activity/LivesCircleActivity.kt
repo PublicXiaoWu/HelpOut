@@ -142,6 +142,7 @@ class LivesCircleActivity : BaseActivity(), LivesCircleView, ObservableAlphaScro
     private fun initRecyclerView() {
         rcv_lives_circle.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         mAdapter = LivesCircleAdapter(null)
+        mAdapter.setHasStableIds(true)
         mAdapter.openLoadAnimation()
         rcv_lives_circle.addItemDecoration(RecyclerSpace(1f.dp2px().toInt(), ContextCompat.getColor(this, R.color.gray_line)))
         mAdapter.setOnItemClickListener { adapter, view, position ->

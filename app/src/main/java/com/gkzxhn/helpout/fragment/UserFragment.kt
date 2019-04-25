@@ -249,8 +249,10 @@ class UserFragment : BaseFragment(), View.OnClickListener {
                                 is ConnectException -> it.TsDialog("服务器异常，请重试", false)
                                 is HttpException -> {
                                     when (e.code()) {
-                                        401 -> getRefreshToken(App.SP.getString(Constants.SP_REFRESH_TOKEN, ""))
-
+                                        401 -> {
+                                            App.EDIT.putString(Constants.SP_TOKEN, "")?.commit()
+                                            getRefreshToken(App.SP.getString(Constants.SP_REFRESH_TOKEN, ""))
+                                        }
                                         400 -> {
                                             val errorBody = e.response().errorBody().string()
                                             val code = try {
