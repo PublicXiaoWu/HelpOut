@@ -20,6 +20,9 @@ class RxBusBean {
     /****** 添加好友验证通过 ******/
     class AddFriendPass(var userName: String, var account: String)
 
+    /****** 已经加载过生活圈了 通知发现页面刷新新的未读信息 ******/
+    class ChangeFindUnRead()
+
     class HomeTopRedPoint(var show: Boolean)
     class LoginOut(var show: Boolean)
     /****** 刷新订单数据 ******/

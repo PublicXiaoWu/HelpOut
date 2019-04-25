@@ -7,12 +7,10 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.ViewTreeObserver
 import com.gkzxhn.helpout.R
 import com.gkzxhn.helpout.adapter.LivesCircleAdapter
-import com.gkzxhn.helpout.common.RxBus
 import com.gkzxhn.helpout.customview.PullToRefreshLayout
 import com.gkzxhn.helpout.customview.RecyclerSpace
 import com.gkzxhn.helpout.entity.LivesCircle
 import com.gkzxhn.helpout.entity.LivesCircleDetails
-import com.gkzxhn.helpout.entity.RxBusBean
 import com.gkzxhn.helpout.extensions.dp2px
 import com.gkzxhn.helpout.presenter.LivesCirclePresenter
 import com.gkzxhn.helpout.utils.StatusBarUtil
@@ -29,7 +27,6 @@ import kotlinx.android.synthetic.main.activity_lives_circle.*
  * @description：生活圈
  */
 class LivesCircleActivity : BaseActivity(), LivesCircleView, ObservableAlphaScrollView.OnAlphaScrollChangeListener {
-
 
     lateinit var mPresenter: LivesCirclePresenter
     lateinit var mAdapter: LivesCircleAdapter

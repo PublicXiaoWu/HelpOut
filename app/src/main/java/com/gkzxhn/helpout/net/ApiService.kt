@@ -314,5 +314,10 @@ interface ApiService {
      */
     @POST("/customer/circleoffriends/comment")
     fun comment(@Body requestBody: RequestBody): Observable<ResponseBody>
+/**
+     * 获取最新未看生活圈
+     */
+    @GET("/customer/circleoffriends/get-circlefriend-newest")
+    fun getLivesCircleNew(): Observable<LivesCircleNew>
 
 }

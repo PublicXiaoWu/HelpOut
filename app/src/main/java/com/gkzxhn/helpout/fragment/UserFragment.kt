@@ -62,8 +62,6 @@ class UserFragment : BaseFragment(), View.OnClickListener {
                 }, {
                     it.message.toString().logE(this)
                 })
-
-
         /****** 收到有新朋友的消息 ******/
         RxBus.instance.toObserverable(RxBusBean.AddPoint::class.java)
                 .cache()
@@ -161,7 +159,7 @@ class UserFragment : BaseFragment(), View.OnClickListener {
                     .subscribeOn(Schedulers.io())
                     ?.unsubscribeOn(AndroidSchedulers.mainThread())
                     ?.observeOn(AndroidSchedulers.mainThread())
-                    ?.subscribe(object : HttpObserver<LawyersInfo>(it) {
+                    ?.subscribe(object : HttpObserverNoDialog<LawyersInfo>(it) {
                         override fun success(t: LawyersInfo) {
                             App.EDIT.putString(Constants.SP_CERTIFICATIONSTATUS, t.certificationStatus)?.commit()
                             val lawyerState = t.certificationStatus == Constants.CERTIFIED
@@ -169,12 +167,9 @@ class UserFragment : BaseFragment(), View.OnClickListener {
                             if (lawyerState) {
                                 tv_user_money.text = "￥" + t.rewardAmount
                             }
-
-
                         }
 
                         override fun onError(t: Throwable?) {
-                            loadDialog?.dismiss()
                         }
                     }))
         }
@@ -190,7 +185,7 @@ class UserFragment : BaseFragment(), View.OnClickListener {
                     .subscribeOn(Schedulers.io())
                     ?.unsubscribeOn(AndroidSchedulers.mainThread())
                     ?.observeOn(AndroidSchedulers.mainThread())
-                    ?.subscribe(object : HttpObserver<LawyersInfo>(it) {
+                    ?.subscribe(object : HttpObserverNoDialog<LawyersInfo>(it) {
                         override fun success(t: LawyersInfo) {
                             loadUIByLawyerState(t.lawyer!!)
                         }

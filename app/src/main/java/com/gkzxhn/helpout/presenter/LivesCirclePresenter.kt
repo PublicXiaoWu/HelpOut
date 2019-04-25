@@ -34,6 +34,8 @@ class LivesCirclePresenter(context: Context, view: LivesCircleView) : BasePresen
                         override fun success(t: LivesCircle) {
                             mView?.updateData(t.content!!)
                             mView?.setLastPage(t.isLast, 0)
+                            /****** 已经加载过生活圈了 通知发现页面刷新新的未读信息 ******/
+                           RxBus.instance.post(RxBusBean.ChangeFindUnRead())
                         }
                     })
         }
