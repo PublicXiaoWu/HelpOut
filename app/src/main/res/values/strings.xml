@@ -175,5 +175,6 @@
     <string name="publish_success">发布成功</string>
 
     <string name="liked">您已经点过赞了</string>
+    <string name="add_friend">添加朋友</string>
 
 </resources>
