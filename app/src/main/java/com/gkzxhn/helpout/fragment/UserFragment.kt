@@ -49,7 +49,6 @@ class UserFragment : BaseFragment(), View.OnClickListener {
         getAccountInfo()
         getLawyersInfo()
 
-
         /****** 接受控件小红点的消息 ******/
         RxBus.instance.toObserverable(RxBusBean.HomeTopRedPoint::class.java)
                 .cache()
@@ -62,8 +61,6 @@ class UserFragment : BaseFragment(), View.OnClickListener {
                 }, {
                     it.message.toString().logE(this)
                 })
-
-
         /****** 收到有新朋友的消息 ******/
         RxBus.instance.toObserverable(RxBusBean.AddPoint::class.java)
                 .cache()
@@ -74,7 +71,15 @@ class UserFragment : BaseFragment(), View.OnClickListener {
                 }, {
                     it.message.toString().logE(this)
                 })
-
+        /****** 收到有新生活圈动态的消息（点赞评论） ******/
+        RxBus.instance.toObserverable(RxBusBean.MyLivesCirclePoint::class.java)
+                .cache()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+                    v_user_lives_circle_point.visibility = if (it.show) View.VISIBLE else View.GONE
+                }, {
+                    it.message.toString().logE(this)
+                })
     }
 
     override fun initListener() {
@@ -136,7 +141,6 @@ class UserFragment : BaseFragment(), View.OnClickListener {
         }
     }
 
-
     override fun onResume() {
         super.onResume()
         init()
@@ -152,7 +156,7 @@ class UserFragment : BaseFragment(), View.OnClickListener {
                     .subscribeOn(Schedulers.io())
                     ?.unsubscribeOn(AndroidSchedulers.mainThread())
                     ?.observeOn(AndroidSchedulers.mainThread())
-                    ?.subscribe(object : HttpObserver<LawyersInfo>(it) {
+                    ?.subscribe(object : HttpObserverNoDialog<LawyersInfo>(it) {
                         override fun success(t: LawyersInfo) {
                             App.EDIT.putString(Constants.SP_CERTIFICATIONSTATUS, t.certificationStatus)?.commit()
                             val lawyerState = t.certificationStatus == Constants.CERTIFIED
@@ -160,12 +164,9 @@ class UserFragment : BaseFragment(), View.OnClickListener {
                             if (lawyerState) {
                                 tv_user_money.text = "￥" + t.rewardAmount
                             }
-
-
                         }
 
                         override fun onError(t: Throwable?) {
-                            loadDialog?.dismiss()
                         }
                     }))
         }
@@ -181,7 +182,7 @@ class UserFragment : BaseFragment(), View.OnClickListener {
                     .subscribeOn(Schedulers.io())
                     ?.unsubscribeOn(AndroidSchedulers.mainThread())
                     ?.observeOn(AndroidSchedulers.mainThread())
-                    ?.subscribe(object : HttpObserver<LawyersInfo>(it) {
+                    ?.subscribe(object : HttpObserverNoDialog<LawyersInfo>(it) {
                         override fun success(t: LawyersInfo) {
                             loadUIByLawyerState(t.lawyer!!)
                         }
@@ -223,9 +224,7 @@ class UserFragment : BaseFragment(), View.OnClickListener {
             iv_user_get_money_end.visibility = View.GONE
             v_user_my_money_line_bg.visibility = View.GONE
             v_user_my_money.visibility = View.GONE
-
         }
-
     }
 
     /**
@@ -250,8 +249,10 @@ class UserFragment : BaseFragment(), View.OnClickListener {
                                 is ConnectException -> it.TsDialog("服务器异常，请重试", false)
                                 is HttpException -> {
                                     when (e.code()) {
-                                        401 -> getRefreshToken(App.SP.getString(Constants.SP_REFRESH_TOKEN, ""))
-
+                                        401 -> {
+                                            App.EDIT.putString(Constants.SP_TOKEN, "")?.commit()
+                                            getRefreshToken(App.SP.getString(Constants.SP_REFRESH_TOKEN, ""))
+                                        }
                                         400 -> {
                                             val errorBody = e.response().errorBody().string()
                                             val code = try {
@@ -288,7 +289,6 @@ class UserFragment : BaseFragment(), View.OnClickListener {
                     }))
         }
     }
-
 
     /****** 刷新新的token ******/
     private fun getRefreshToken(refresh_token: String) {
@@ -328,14 +328,12 @@ class UserFragment : BaseFragment(), View.OnClickListener {
                                         }
 
                                     }
-
                                 }
                             })
             )
         }
 
     }
-
 
     /**
      * @methodName： created by liushaoxiang on 2018/10/26 3:46 PM.

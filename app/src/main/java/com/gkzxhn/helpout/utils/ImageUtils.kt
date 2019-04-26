@@ -1,18 +1,12 @@
 package com.gkzxhn.helpout.utils
 
-import android.content.Context
 import android.content.res.Resources
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.text.TextUtils
 import android.util.Base64
-import android.widget.ImageView
-import com.gkzxhn.helpout.R
 import com.gkzxhn.helpout.common.App.Companion.mContext
 import com.gkzxhn.helpout.common.Constants
-import com.nostra13.universalimageloader.core.DisplayImageOptions
-import com.nostra13.universalimageloader.core.ImageLoader
-import com.nostra13.universalimageloader.core.listener.ImageLoadingListener
 import java.io.*
 
 
@@ -220,31 +214,6 @@ object ImageUtils {
             return null
         }
         return file
-    }
-
-
-
-
-    val photoImageOption: DisplayImageOptions
-        get() {
-            val extra = 1
-            return DisplayImageOptions.Builder().cacheInMemory(true).cacheOnDisk(true)
-                    .showImageForEmptyUri(R.drawable.banner_default).showImageOnFail(R.drawable.banner_default)
-                    .showImageOnLoading(R.drawable.banner_default)
-                    .extraForDownloader(extra)
-                    .bitmapConfig(Bitmap.Config.RGB_565).build()
-        }
-
-    fun getImageLoader(context: Context): ImageLoader {
-        return ImageLoader.getInstance()
-    }
-
-    fun displayImage(context: Context, imageView: ImageView, url: String, options: DisplayImageOptions) {
-        getImageLoader(context).displayImage(url, imageView, options)
-    }
-
-    fun displayImage(context: Context, imageView: ImageView, url: String, options: DisplayImageOptions, listener: ImageLoadingListener) {
-        getImageLoader(context).displayImage(url, imageView, options, listener)
     }
 
 

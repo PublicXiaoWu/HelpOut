@@ -3,7 +3,6 @@ package com.netease.nim.uikit.business.session.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import com.netease.nim.uikit.common.ToastHelper;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
@@ -178,9 +177,9 @@ public class P2PMessageActivity extends BaseMessageActivity {
             int id = json.getIntValue("id");
             if (id == 1) {
                 // 正在输入
-                ToastHelper.showToastLong(P2PMessageActivity.this, "对方正在输入...");
+//                ToastHelper.showToastLong(P2PMessageActivity.this, "对方正在输入...");
             } else {
-                ToastHelper.showToast(P2PMessageActivity.this, "command: " + content);
+//                ToastHelper.showToast(P2PMessageActivity.this, "command: " + content);
             }
         } catch (Exception ignored) {
 

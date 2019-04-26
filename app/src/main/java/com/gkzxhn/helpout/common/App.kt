@@ -43,8 +43,6 @@ import com.netease.nimlib.sdk.msg.MsgServiceObserve
 import com.netease.nimlib.sdk.msg.model.CustomNotification
 import com.netease.nimlib.sdk.uinfo.model.UserInfo
 import com.netease.nimlib.sdk.util.NIMUtil
-import com.nostra13.universalimageloader.core.ImageLoader
-import com.nostra13.universalimageloader.core.ImageLoaderConfiguration
 import org.json.JSONObject
 
 /**
@@ -64,18 +62,9 @@ class App : Application() {
         EDIT = SP.edit()
         mApi = RetrofitClient.getInstance(this).mApi
 
-
-        /****** 初始化imageLoader ******/
-        initImageLoader()
-
         /****** 崩溃日志初始化 ******/
         CrashHandler.instance.init(this)
         initWY()
-    }
-
-    private fun initImageLoader() {
-        val configuration = ImageLoaderConfiguration.createDefault(this)
-        ImageLoader.getInstance().init(configuration)
     }
 
     private fun initWY() {
@@ -117,13 +106,13 @@ class App : Application() {
                         "RUSH_PAGE_REFRESH" -> {
                             RxBus.instance.post(RxBusBean.RefreshGrabOrder(true))
                         }
-                        /****** 刷新抢单页 ******/
+                        /****** 点赞 ******/
                         "NOTIFICATION_PRAISE_ADVICE" -> {
-                            RxBus.instance.post(RxBusBean.RefreshGrabOrder(true))
+                            RxBus.instance.post(RxBusBean.MyLivesCirclePoint(true))
                         }
-                        /****** 刷新抢单页 ******/
+                        /****** 评论 ******/
                         "NOTIFICATION_COMMENT_ADVICE" -> {
-                            RxBus.instance.post(RxBusBean.RefreshGrabOrder(true))
+                            RxBus.instance.post(RxBusBean.MyLivesCirclePoint(true))
                         }
                     }
                 } catch (e: Exception) {

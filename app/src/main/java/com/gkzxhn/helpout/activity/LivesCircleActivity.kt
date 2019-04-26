@@ -33,7 +33,6 @@ import java.util.*
  */
 class LivesCircleActivity : BaseActivity(), LivesCircleView, ObservableAlphaScrollView.OnAlphaScrollChangeListener {
 
-
     lateinit var mPresenter: LivesCirclePresenter
     lateinit var mAdapter: LivesCircleAdapter
 
@@ -106,7 +105,10 @@ class LivesCircleActivity : BaseActivity(), LivesCircleView, ObservableAlphaScro
             /****** 所有人的生活圈 ******/
             1 -> mPresenter.getLivesCircle("0", "10")
             /****** 我的生活圈 ******/
-            2 -> mPresenter.getMyLivesCircle("0", "10")
+            2 -> {
+                mPresenter.getMyLivesCircle("0", "10")
+
+            }
             /****** 某个人的生活圈 ******/
             3 -> {
 
@@ -149,6 +151,7 @@ class LivesCircleActivity : BaseActivity(), LivesCircleView, ObservableAlphaScro
     private fun initRecyclerView() {
         rcv_lives_circle.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         mAdapter = LivesCircleAdapter(null)
+        mAdapter.setHasStableIds(true)
         mAdapter.openLoadAnimation()
         rcv_lives_circle.addItemDecoration(RecyclerSpace(1f.dp2px().toInt(), ContextCompat.getColor(this, R.color.gray_line)))
         mAdapter.setOnItemClickListener { adapter, view, position ->
@@ -189,6 +192,7 @@ class LivesCircleActivity : BaseActivity(), LivesCircleView, ObservableAlphaScro
     override fun praiseSuccess(position: Int) {
         val contentBean = mAdapter.getItem(position) as LivesCircle.ContentBean
         contentBean.praiseNum = contentBean.praiseNum + 1
+        contentBean.praisesCircleoffriends = true
         mAdapter.setDataChange(position, contentBean)
     }
 

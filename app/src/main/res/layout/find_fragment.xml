@@ -55,10 +55,22 @@
         android:layout_height="26dp"
         android:layout_marginEnd="15dp"
         android:src="@mipmap/ic_ls_icon"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="@+id/v_lives_circle_bg"
         app:layout_constraintEnd_toStartOf="@id/iv_find_lives_circle_end"
         app:layout_constraintTop_toTopOf="@+id/v_lives_circle_bg"
     />
+
+    <!--红点-->
+    <View
+        android:id="@+id/v_find_lives_circle_point"
+        android:layout_width="7dp"
+        android:layout_height="7dp"
+        android:background="@drawable/shape_point_home_red"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="@+id/iv_find_lives_circle_image"
+        app:layout_constraintTop_toTopOf="@+id/iv_find_lives_circle_image"/>
+
 
     <ImageView
         android:id="@+id/iv_find_lives_circle_end"
