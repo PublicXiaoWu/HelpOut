@@ -10,7 +10,7 @@ import com.gkzxhn.helpout.entity.CommentInfo
 import com.gkzxhn.helpout.entity.CustomerOrderDetailInfo
 import com.gkzxhn.helpout.entity.ImInfo
 import com.gkzxhn.helpout.entity.WXLawOrderInfo
-import com.gkzxhn.helpout.entity.rxbus.PayStatus
+import com.gkzxhn.helpout.entity.rxbus.RxBusBean
 import com.gkzxhn.helpout.model.iml.CustomerModel
 import com.gkzxhn.helpout.net.HttpObserver
 import com.gkzxhn.helpout.utils.showToast
@@ -220,7 +220,7 @@ class CustomerOrderDetailPresenter(context: Context, view: CustomerOrderDetailVi
 
     fun subscribePay(): Subscription? {
         return RxBus.instance
-                .toObserverable(PayStatus::class.java)
+                .toObserverable(RxBusBean.PayStatus::class.java)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
                     if (it.payStatus == 1) {

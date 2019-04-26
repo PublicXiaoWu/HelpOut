@@ -9,7 +9,7 @@ import com.gkzxhn.helpout.common.Constants
 import com.gkzxhn.helpout.common.RxBus
 import com.gkzxhn.helpout.entity.OrderMyInfo
 import com.gkzxhn.helpout.entity.OrderReceiving
-import com.gkzxhn.helpout.entity.RxBusBean
+import com.gkzxhn.helpout.entity.rxbus.RxBusBean
 import com.gkzxhn.helpout.model.IOrderModel
 import com.gkzxhn.helpout.model.iml.OrderModel
 import com.gkzxhn.helpout.net.HttpObserver

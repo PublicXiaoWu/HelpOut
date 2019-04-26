@@ -11,7 +11,7 @@ import com.gkzxhn.helpout.common.App
 import com.gkzxhn.helpout.common.Constants
 import com.gkzxhn.helpout.common.RxBus
 import com.gkzxhn.helpout.entity.LawyersInfo
-import com.gkzxhn.helpout.entity.RxBusBean
+import com.gkzxhn.helpout.entity.rxbus.RxBusBean
 import com.gkzxhn.helpout.entity.UpdateInfo
 import com.gkzxhn.helpout.fragment.ConversationFragment
 import com.gkzxhn.helpout.fragment.FindFragment

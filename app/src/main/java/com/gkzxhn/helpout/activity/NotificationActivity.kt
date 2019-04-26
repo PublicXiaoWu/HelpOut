@@ -9,7 +9,7 @@ import com.gkzxhn.helpout.common.RxBus
 import com.gkzxhn.helpout.customview.LoadMoreWrapper
 import com.gkzxhn.helpout.customview.PullToRefreshLayout
 import com.gkzxhn.helpout.entity.NotificationInfoList
-import com.gkzxhn.helpout.entity.RxBusBean
+import com.gkzxhn.helpout.entity.rxbus.RxBusBean
 import com.gkzxhn.helpout.net.HttpObserver
 import com.gkzxhn.helpout.net.RetrofitClientPublic
 import com.gkzxhn.helpout.utils.DisplayUtils

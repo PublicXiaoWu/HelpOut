@@ -14,7 +14,7 @@ import com.gkzxhn.helpout.common.Constants
 import com.gkzxhn.helpout.common.RxBus
 import com.gkzxhn.helpout.customview.PullToRefreshLayout
 import com.gkzxhn.helpout.entity.OrderReceivingContent
-import com.gkzxhn.helpout.entity.RxBusBean
+import com.gkzxhn.helpout.entity.rxbus.RxBusBean
 import com.gkzxhn.helpout.presenter.OrderReceivingPresenter
 import com.gkzxhn.helpout.utils.*
 import com.gkzxhn.helpout.view.OrderReceivingView

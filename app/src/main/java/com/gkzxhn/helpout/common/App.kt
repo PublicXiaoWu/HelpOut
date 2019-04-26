@@ -17,7 +17,7 @@ import com.gkzxhn.helpout.R
 import com.gkzxhn.helpout.activity.MainActivity
 import com.gkzxhn.helpout.activity.NotificationActivity
 import com.gkzxhn.helpout.activity.SplashActivity
-import com.gkzxhn.helpout.entity.RxBusBean
+import com.gkzxhn.helpout.entity.rxbus.RxBusBean
 import com.gkzxhn.helpout.net.ApiService
 import com.gkzxhn.helpout.net.RetrofitClient
 import com.gkzxhn.helpout.utils.LogHelper

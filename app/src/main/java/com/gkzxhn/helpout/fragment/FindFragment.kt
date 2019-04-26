@@ -6,7 +6,7 @@ import com.gkzxhn.helpout.R
 import com.gkzxhn.helpout.activity.LivesCircleActivity
 import com.gkzxhn.helpout.common.RxBus
 import com.gkzxhn.helpout.entity.LivesCircleNew
-import com.gkzxhn.helpout.entity.RxBusBean
+import com.gkzxhn.helpout.entity.rxbus.RxBusBean
 import com.gkzxhn.helpout.net.HttpObserverNoDialog
 import com.gkzxhn.helpout.net.RetrofitClientChat
 import com.gkzxhn.helpout.utils.ProjectUtils

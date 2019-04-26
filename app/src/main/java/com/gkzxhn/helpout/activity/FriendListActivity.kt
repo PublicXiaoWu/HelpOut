@@ -1,12 +1,16 @@
 package com.gkzxhn.helpout.activity
 
 import android.content.Intent
+import android.util.Log
 import android.view.View
 import com.gkzxhn.helpout.R
 import com.gkzxhn.helpout.common.RxBus
-import com.gkzxhn.helpout.entity.RxBusBean
+import com.gkzxhn.helpout.entity.rxbus.RxBusBean
 import com.gkzxhn.helpout.utils.logE
 import com.netease.nim.uikit.business.contact.ContactsFragment
+import com.netease.nimlib.sdk.NIMClient
+import com.netease.nimlib.sdk.msg.SystemMessageService
+import com.netease.nimlib.sdk.msg.constant.SystemMessageType
 import kotlinx.android.synthetic.main.activity_friend_list.*
 import kotlinx.android.synthetic.main.default_top.*
 import rx.android.schedulers.AndroidSchedulers
@@ -36,7 +40,6 @@ class FriendListActivity : BaseActivity() {
 
         val showRedPoint = intent.getBooleanExtra("showRedPoint", false)
         v_friend_list_point_number.visibility = if (showRedPoint) View.VISIBLE else View.GONE
-        v_friend_list_point_number.text=newFriendNumber.toString()
 
         /****** 收到有新朋友的消息 ******/
         RxBus.instance.toObserverable(RxBusBean.AddPoint::class.java)
@@ -48,6 +51,11 @@ class FriendListActivity : BaseActivity() {
                     it.message.toString().logE(this)
                 })
 
+        val types = ArrayList<SystemMessageType>()
+        types.add(SystemMessageType.AddFriend)
+        val unreadCount = NIMClient.getService(SystemMessageService::class.java).querySystemMessageUnreadCountByType(types)
+        Log.e("xiaowu_unreadCount",unreadCount.toString())
+        v_friend_list_point_number.text=unreadCount.toString()
     }
 
     private fun initTitle() {

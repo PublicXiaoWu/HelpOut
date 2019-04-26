@@ -8,7 +8,7 @@ import com.gkzxhn.helpout.activity.LawsServiceActivity
 import com.gkzxhn.helpout.activity.LegalConsultingActivity
 import com.gkzxhn.helpout.activity.NotificationActivity
 import com.gkzxhn.helpout.common.RxBus
-import com.gkzxhn.helpout.entity.RxBusBean
+import com.gkzxhn.helpout.entity.rxbus.RxBusBean
 import com.gkzxhn.helpout.net.NetWorkCodeInfo
 import com.gkzxhn.helpout.utils.ProjectUtils
 import com.gkzxhn.helpout.utils.logE

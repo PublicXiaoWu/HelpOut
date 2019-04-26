@@ -7,7 +7,7 @@ import com.gkzxhn.helpout.R
 import com.gkzxhn.helpout.adapter.NewFriendAdapter
 import com.gkzxhn.helpout.common.RxBus
 import com.gkzxhn.helpout.customview.RecyclerSpace
-import com.gkzxhn.helpout.entity.RxBusBean
+import com.gkzxhn.helpout.entity.rxbus.RxBusBean
 import com.gkzxhn.helpout.extensions.dp2px
 import com.gkzxhn.helpout.net.HttpObserver
 import com.gkzxhn.helpout.net.RetrofitClientChat
@@ -41,7 +41,7 @@ class NewFriendActivity : BaseActivity() {
     private val itemIds = HashSet<Long>()
     private val addFriendVerifyRequestAccounts = HashSet<String>() // 发送过好友申请的账号（好友申请合并用）
     private val items = ArrayList<SystemMessage>()
-    private var mAdapter: NewFriendAdapter? = null
+    lateinit var mAdapter: NewFriendAdapter
     override fun provideContentViewId(): Int {
         return R.layout.activity_new_friend
     }
@@ -51,11 +51,11 @@ class NewFriendActivity : BaseActivity() {
 
         rcv_new_friend_top.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         mAdapter = NewFriendAdapter(items)
-        mAdapter?.openLoadAnimation()
+        mAdapter.openLoadAnimation()
+        mAdapter.setEmptyView(R.layout.empty_view, rcv_new_friend_top)
         rcv_new_friend_top.addItemDecoration(RecyclerSpace(0.5f.dp2px().toInt(), ContextCompat.getColor(this, R.color.gray_line)))
         rcv_new_friend_top.adapter = mAdapter
         loadData()
-
 
         /****** 收到添加好友验证通过的消息 ******/
         RxBus.instance.toObserverable(RxBusBean.AddFriendPass::class.java)
@@ -70,13 +70,19 @@ class NewFriendActivity : BaseActivity() {
     }
 
     private fun loadData() {
-
         val types = ArrayList<SystemMessageType>()
         types.add(SystemMessageType.AddFriend)
+        // 将未读消息全部置为已读
+        NIMClient.getService(SystemMessageService::class.java).resetSystemMessageUnreadCountByType(types)
+
         val addFriendList = NIMClient.getService(SystemMessageService::class.java).querySystemMessageByType(types, 0, 100)
+
+
         addFriendList.setCallback(object : RequestCallback<MutableList<SystemMessage>> {
             override fun onSuccess(addFriendList: MutableList<SystemMessage>?) {
+                items.clear()
                 for (m in addFriendList!!) {
+                    m.isUnread = true
                     // 去重
                     if (duplicateFilter(m)) {
                         continue
@@ -89,9 +95,12 @@ class NewFriendActivity : BaseActivity() {
                     items.add(m)
                 }
 
-
                 if (items.isEmpty()) {
-                    mAdapter?.setEmptyView(R.layout.empty_view, rcv_new_friend_top)
+                    Log.e("xiaowu_items_size", "null")
+
+                } else {
+                    mAdapter.setNewData(items)
+                    Log.e("xiaowu_items_size", items.size.toString())
                 }
             }
 
@@ -152,7 +161,7 @@ class NewFriendActivity : BaseActivity() {
                 ?.observeOn(AndroidSchedulers.mainThread())
                 ?.subscribe(object : HttpObserver<ResponseBody>(this) {
                     override fun success(t: ResponseBody) {
-                        Log.e("xiaowu","添加好友成功")
+                        Log.e("xiaowu", "添加好友成功")
                     }
 
                 }))
@@ -160,7 +169,6 @@ class NewFriendActivity : BaseActivity() {
 
     override fun onStart() {
         RxBus.instance.post(RxBusBean.AddPoint(false))
-        newFriendNumber=0
         super.onStart()
 
     }

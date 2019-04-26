@@ -90,7 +90,6 @@ class AllOrderAdapter(private val mContext: Context) : RecyclerView.Adapter<AllO
                 mCurrentIndex = position
                 onItemClickListener?.onItemClick(this, holder, position)
             }
-
         }
     }
 

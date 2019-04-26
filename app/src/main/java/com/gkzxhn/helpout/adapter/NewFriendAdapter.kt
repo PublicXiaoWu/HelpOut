@@ -6,7 +6,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.gkzxhn.helpout.R
 import com.gkzxhn.helpout.common.RxBus
-import com.gkzxhn.helpout.entity.RxBusBean
+import com.gkzxhn.helpout.entity.rxbus.RxBusBean
 import com.gkzxhn.helpout.utils.showToast
 import com.gkzxhn.helpout.view.SwipeMenuLayout
 import com.netease.nim.uikit.common.ui.imageview.HeadImageView
@@ -27,29 +27,32 @@ import org.json.JSONObject
 class NewFriendAdapter(datas: List<SystemMessage>?) : BaseQuickAdapter<SystemMessage, BaseViewHolder>(R.layout.item_new_friend, datas) {
 
     override fun convert(helper: BaseViewHolder?, item: SystemMessage?) {
-        if (item?.content!!.isEmpty()) {
-            helper?.itemView?.visibility=View.GONE
-            return
-        }
-        val verifyContent = JSONObject(item.content).getString("verifyContent")
-        val userName = JSONObject(item.content).getString("nickName")
+        try {
+            val verifyContent = JSONObject(item?.content).getString("verifyContent")
+            val userName = JSONObject(item?.content).getString("nickName")
+            Log.e("xiaowu_items_verift", verifyContent.toString())
 
-        helper?.setText(R.id.tv_name, userName)
-                ?.setText(R.id.tv_msg, verifyContent)
-                ?.setOnClickListener(R.id.tv_new_friend_item_add, add(helper, item))
-                ?.setOnClickListener(R.id.tv_new_friend_item_delete, delete(helper, item))
+            helper?.setText(R.id.tv_name, userName)
+                    ?.setText(R.id.tv_msg, verifyContent)
+                    ?.setOnClickListener(R.id.tv_new_friend_item_add, add(helper, item))
+                    ?.setOnClickListener(R.id.tv_new_friend_item_delete, delete(helper, item))
 
-        if (item.status == SystemMessageStatus.init) {
-            helper?.setVisible(R.id.tv_new_friend_item_add, true)
-            helper?.setVisible(R.id.tv_new_friend_item_state, false)
-        } else {
-            helper?.setVisible(R.id.tv_new_friend_item_add, false)
-            helper?.setVisible(R.id.tv_new_friend_item_state, true)
-            val verifyNotificationDealResult = getVerifyNotificationDealResult(item)
-            helper?.setText(R.id.tv_new_friend_item_state, verifyNotificationDealResult)
+            if (item?.status == SystemMessageStatus.init) {
+                helper?.setVisible(R.id.tv_new_friend_item_add, true)
+                helper?.setVisible(R.id.tv_new_friend_item_state, false)
+            } else {
+                helper?.setVisible(R.id.tv_new_friend_item_add, false)
+                helper?.setVisible(R.id.tv_new_friend_item_state, true)
+                val verifyNotificationDealResult = getVerifyNotificationDealResult(item!!)
+                helper?.setText(R.id.tv_new_friend_item_state, verifyNotificationDealResult)
+            }
+            /****** 通过网易ID加载头像 ******/
+            helper?.getView<HeadImageView>(R.id.iv_item_new_friend_avatar)?.loadBuddyAvatar(item.fromAccount)
+            Log.e("xiaowu_items_OK", verifyContent.toString())
+
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
-        /****** 通过网易ID加载头像 ******/
-        helper?.getView<HeadImageView>(R.id.iv_item_new_friend_avatar)?.loadBuddyAvatar(item.fromAccount)
     }
 
     fun getVerifyNotificationDealResult(message: SystemMessage): String {

@@ -9,7 +9,7 @@ import com.gkzxhn.helpout.R
 import com.gkzxhn.helpout.activity.BaseActivity
 import com.gkzxhn.helpout.common.Constants
 import com.gkzxhn.helpout.common.RxBus
-import com.gkzxhn.helpout.entity.rxbus.PayStatus
+import com.gkzxhn.helpout.entity.rxbus.RxBusBean
 import com.tencent.mm.opensdk.constants.ConstantsAPI
 import com.tencent.mm.opensdk.modelbase.BaseReq
 import com.tencent.mm.opensdk.modelbase.BaseResp
@@ -152,7 +152,7 @@ class WXPayEntryActivity : BaseActivity(), IWXAPIEventHandler {
             } catch (e: Exception) {
             }
         }
-        val payStatus = PayStatus()
+        val payStatus = RxBusBean.PayStatus()
         payStatus.payType = 2
         when (payCode) {
             BaseResp.ErrCode.ERR_OK -> {

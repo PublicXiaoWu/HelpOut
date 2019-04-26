@@ -14,7 +14,7 @@ import com.gkzxhn.helpout.customview.PullToRefreshLayout
 import com.gkzxhn.helpout.customview.RecyclerSpace
 import com.gkzxhn.helpout.entity.LivesCircle
 import com.gkzxhn.helpout.entity.LivesCircleDetails
-import com.gkzxhn.helpout.entity.rxbus.PublishEntity
+import com.gkzxhn.helpout.entity.rxbus.RxBusBean
 import com.gkzxhn.helpout.extensions.dp2px
 import com.gkzxhn.helpout.presenter.LivesCirclePresenter
 import com.gkzxhn.helpout.utils.StatusBarUtil
@@ -120,7 +120,7 @@ class LivesCircleActivity : BaseActivity(), LivesCircleView, ObservableAlphaScro
         loading_more.setOnLoadMoreListener(object : com.gkzxhn.helpout.customview.LoadMoreWrapper.OnLoadMoreListener {
             override fun onLoadMore() {
                 if (loadMore) {
-                    mPresenter.getLivesCircle((page + 1).toString(), "10")
+                    getDataWithType(livesCircleType)
                 } else {
                     offLoadMore()
                 }
@@ -130,7 +130,7 @@ class LivesCircleActivity : BaseActivity(), LivesCircleView, ObservableAlphaScro
         //下啦刷新
         loading_refresh.setOnRefreshListener(object : PullToRefreshLayout.OnRefreshListener {
             override fun onRefresh() {
-                mPresenter.getLivesCircle("0", "10")
+                getDataWithType(livesCircleType)
                 loading_refresh?.finishRefreshing()
             }
         }, 1)
@@ -144,17 +144,12 @@ class LivesCircleActivity : BaseActivity(), LivesCircleView, ObservableAlphaScro
             /****** 我的生活圈 ******/
             2 -> {
                 mPresenter.getMyLivesCircle("0", "10")
-
             }
             /****** 某个人的生活圈 ******/
             3 -> {
-
                 val userName = intent.getStringExtra("userName")
                 mPresenter.getLivesCircleByUserName(userName, "0", "10")
-
             }
-
-
         }
     }
 
@@ -256,7 +251,7 @@ class LivesCircleActivity : BaseActivity(), LivesCircleView, ObservableAlphaScro
     }
 
     fun subscribe() {
-        RxBus.instance.toObserverable(PublishEntity::class.java)
+        RxBus.instance.toObserverable(RxBusBean.PublishEntity::class.java)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe { getDataWithType(livesCircleType) }
     }

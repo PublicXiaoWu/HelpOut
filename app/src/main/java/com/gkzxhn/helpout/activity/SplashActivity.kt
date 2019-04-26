@@ -30,8 +30,7 @@ class SplashActivity : BaseActivity() {
 
     override fun init() {
         if (App.SP.getString(Constants.SP_TOKEN, "")?.isNotEmpty()!!) {
-            App.EDIT.putString(Constants.SP_TOKEN, "").commit()
-            getRefreshToken(App.SP.getString(Constants.SP_REFRESH_TOKEN, ""))
+            getRefreshToken(App.SP.getString(Constants.SP_REFRESH_TOKEN, ""), false)
         } else {
             handler.sendEmptyMessageDelayed(0, 1000)
         }
@@ -48,7 +47,7 @@ class SplashActivity : BaseActivity() {
     })
 
     /****** 刷新新的token ******/
-    private fun getRefreshToken(refresh_token: String) {
+    private fun getRefreshToken(refresh_token: String, again: Boolean) {
         RetrofitClientPublic.Companion.getInstance(this)
                 .mApi.getToken("refresh_token", refreshToken = refresh_token)
                 .subscribeOn(Schedulers.io())
@@ -72,10 +71,16 @@ class SplashActivity : BaseActivity() {
                                 App.EDIT.putString(Constants.SP_REFRESH_TOKEN, refreshToken)?.commit()
                                 handler.sendEmptyMessageDelayed(0, 1000)
                             }
+                        } else if (t.code() == 401) {
+                            if (again) {
+                                handler.sendEmptyMessageDelayed(0, 1000)
+                            } else {
+                                App.EDIT.putString(Constants.SP_TOKEN, "").commit()
+                                getRefreshToken(App.SP.getString(Constants.SP_REFRESH_TOKEN, ""), true)
+                            }
                         } else {
                             handler.sendEmptyMessageDelayed(0, 1000)
                         }
-
                     }
 
                     override fun onError(t: Throwable?) {

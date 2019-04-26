@@ -1,4 +1,4 @@
-package com.gkzxhn.helpout.entity
+package com.gkzxhn.helpout.entity.rxbus
 
 /**
  * @classname：dd
@@ -30,5 +30,14 @@ class RxBusBean {
 
     /****** 刷新抢单数据 ******/
     class RefreshGrabOrder(var show: Boolean)
+
+    //code 0 表示成功
+    class PublishEntity(val code: Int)
+
+    /**
+     * payStatus  1 表示支付成功    0 表示失败  2 表示取消
+     * payType  1 支付宝    2 微信
+     */
+    class PayStatus(var payStatus: Int?=null, var payType: Int?=null)
 
 }

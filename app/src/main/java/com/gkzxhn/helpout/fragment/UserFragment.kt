@@ -11,7 +11,7 @@ import com.gkzxhn.helpout.common.Constants
 import com.gkzxhn.helpout.common.RxBus
 import com.gkzxhn.helpout.entity.AccountInfo
 import com.gkzxhn.helpout.entity.LawyersInfo
-import com.gkzxhn.helpout.entity.RxBusBean
+import com.gkzxhn.helpout.entity.rxbus.RxBusBean
 import com.gkzxhn.helpout.net.HttpObserver
 import com.gkzxhn.helpout.net.HttpObserverNoDialog
 import com.gkzxhn.helpout.net.RetrofitClient

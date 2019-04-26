@@ -12,7 +12,7 @@ import com.gkzxhn.helpout.common.App
 import com.gkzxhn.helpout.common.RxBus
 import com.gkzxhn.helpout.customview.PullToRefreshLayout
 import com.gkzxhn.helpout.entity.OrderDispose
-import com.gkzxhn.helpout.entity.RxBusBean
+import com.gkzxhn.helpout.entity.rxbus.RxBusBean
 import com.gkzxhn.helpout.presenter.OrderDisposePresenter
 import com.gkzxhn.helpout.utils.DisplayUtils
 import com.gkzxhn.helpout.utils.ItemDecorationHelper

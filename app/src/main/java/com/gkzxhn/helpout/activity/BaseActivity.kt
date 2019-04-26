@@ -22,7 +22,7 @@ import com.gkzxhn.helpout.R
 import com.gkzxhn.helpout.common.App
 import com.gkzxhn.helpout.common.Constants
 import com.gkzxhn.helpout.common.RxBus
-import com.gkzxhn.helpout.entity.RxBusBean
+import com.gkzxhn.helpout.entity.rxbus.RxBusBean
 import com.gkzxhn.helpout.entity.UpdateInfo
 import com.gkzxhn.helpout.net.NetWorkCodeInfo
 import com.gkzxhn.helpout.utils.SystemUtil
@@ -57,7 +57,6 @@ abstract class BaseActivity : AppCompatActivity(), BaseView {
     var open = 0x00001
     var rxPermissions: RxPermissions? = null
     lateinit var mCompositeSubscription: CompositeSubscription
-    var newFriendNumber=0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -132,9 +131,6 @@ abstract class BaseActivity : AppCompatActivity(), BaseView {
                 }
                 AddFriendNotify.Event.RECV_ADD_FRIEND_VERIFY_REQUEST -> {
                     RxBus.instance.post(RxBusBean.AddPoint(true))
-                    if (systemMessage.isUnread) {
-                        newFriendNumber++
-                    }
                     Log.e("xiaowu_add", "对方请求添加好友，一般场景会让用户选择同意或拒绝对方的好友请求。" + attachData.account + attachData.msg)
                     // 对方请求添加好友，一般场景会让用户选择同意或拒绝对方的好友请求。
                     // 通过message.getContent()获取好友验证请求的附言

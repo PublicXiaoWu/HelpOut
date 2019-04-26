@@ -4,7 +4,7 @@ import android.content.Context
 import com.gkzxhn.helpout.common.RxBus
 import com.gkzxhn.helpout.entity.LivesCircle
 import com.gkzxhn.helpout.entity.LivesCircleDetails
-import com.gkzxhn.helpout.entity.RxBusBean
+import com.gkzxhn.helpout.entity.rxbus.RxBusBean
 import com.gkzxhn.helpout.model.ILivesCircleModel
 import com.gkzxhn.helpout.model.iml.LivesCircleModel
 import com.gkzxhn.helpout.net.HttpObserverNoDialog

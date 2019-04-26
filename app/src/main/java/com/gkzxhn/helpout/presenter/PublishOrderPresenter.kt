@@ -9,7 +9,7 @@ import com.gkzxhn.helpout.common.RxBus
 import com.gkzxhn.helpout.entity.PublishOrderInfo
 import com.gkzxhn.helpout.entity.PublishRequestInfo
 import com.gkzxhn.helpout.entity.WXLawOrderInfo
-import com.gkzxhn.helpout.entity.rxbus.PayStatus
+import com.gkzxhn.helpout.entity.rxbus.RxBusBean
 import com.gkzxhn.helpout.model.iml.CustomerModel
 import com.gkzxhn.helpout.net.HttpObserver
 import com.gkzxhn.helpout.utils.showToast
@@ -129,7 +129,7 @@ class PublishOrderPresenter(context: Context, view: PublishOrderView)
 
     fun subscribePay(): Subscription? {
         return RxBus.instance
-                .toObserverable(PayStatus::class.java)
+                .toObserverable(RxBusBean.PayStatus::class.java)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
                     if (it.payStatus == 1) {
