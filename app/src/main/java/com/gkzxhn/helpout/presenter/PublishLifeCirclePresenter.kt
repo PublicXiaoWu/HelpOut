@@ -48,7 +48,8 @@ class PublishLifeCirclePresenter(context: Context, view: BaseView)
                                     deleteImg(it)
                                 }
                             }
-                            super.onError(t)
+//                            super.onError(t)
+                            mContext?.let { it.showToast(it.getString(R.string.publish_failed)) }
                         }
                     })
         }
@@ -110,7 +111,7 @@ class PublishLifeCirclePresenter(context: Context, view: BaseView)
                                 deleteImg(it)
                             }
                         }
-                        super.onError(t)
+//                        super.onError(t)
                         mContext?.let { it.showToast(it.getString(R.string.publish_failed)) }
                         RxBus.instance.post(RxBusBean.PublishEntity(1))
                     }

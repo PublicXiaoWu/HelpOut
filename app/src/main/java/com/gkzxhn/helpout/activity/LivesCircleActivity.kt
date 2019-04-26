@@ -232,8 +232,6 @@ class LivesCircleActivity : BaseActivity(), LivesCircleView, ObservableAlphaScro
                     val content = data?.getStringExtra(IntentConstants.CONTENT)
                     val selectList = data?.getParcelableArrayListExtra<LocalMedia>(IntentConstants.IMAGES)
                     addLocalData(content, selectList)
-                }else if(resultCode == PublishLifeCircleActivity.PUBLISH_SUCCESS) {
-                    getDataWithType(livesCircleType)
                 }
             }
             else -> {
@@ -253,7 +251,13 @@ class LivesCircleActivity : BaseActivity(), LivesCircleView, ObservableAlphaScro
     fun subscribe() {
         RxBus.instance.toObserverable(RxBusBean.PublishEntity::class.java)
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe { getDataWithType(livesCircleType) }
+                .subscribe {
+                    if (it.code == 0) {
+                        getDataWithType(livesCircleType)
+                    } else {
+                        getDataWithType(livesCircleType)
+                    }
+                }
     }
 
 }

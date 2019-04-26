@@ -180,7 +180,7 @@ class LoginPresenter(context: Context, view: LoginView) : BasePresenter<ILoginMo
                                     getLawyersInfo()
                                 }
                             } else if (t.code() == 400) {
-                                when (JSONObject(t.errorBody().string()).getString("error")) {
+                                when (JSONObject(t.errorBody().string()).getString("code")) {
                                     "user.password.NotMatched" -> {
                                         mContext?.TsDialog(mContext?.getString(R.string.password_error).toString(), false)
                                     }

@@ -13,7 +13,9 @@ import com.gkzxhn.helpout.R
 import com.gkzxhn.helpout.adapter.FullyGridLayoutManager
 import com.gkzxhn.helpout.adapter.GridImageAdapter
 import com.gkzxhn.helpout.common.IntentConstants
+import com.gkzxhn.helpout.extensions.isNetworkConnected
 import com.gkzxhn.helpout.presenter.PublishLifeCirclePresenter
+import com.gkzxhn.helpout.utils.showToast
 import com.gkzxhn.helpout.view.BaseView
 import com.luck.picture.lib.PictureSelector
 import com.luck.picture.lib.config.PictureConfig
@@ -27,7 +29,6 @@ class PublishLifeCircleActivity : BaseActivity(), BaseView {
     private lateinit var mPresenter: PublishLifeCirclePresenter
 
     companion object {
-        val PUBLISH_SUCCESS = 1
         fun launch(context: Context) {
             context.startActivity(Intent(context, PublishLifeCircleActivity::class.java))
         }
@@ -51,6 +52,10 @@ class PublishLifeCircleActivity : BaseActivity(), BaseView {
         tv_cancel.setOnClickListener { finish() }
         tv_publish.setOnClickListener {
             if (!TextUtils.isEmpty(et_content.text.toString())) {
+                if (!isNetworkConnected()) {
+                    showToast(getString(R.string.network_is_not_available))
+                    return@setOnClickListener
+                }
                 // 发布
                 val content = et_content.text.toString().trim()
                 mPresenter.uploadAllImg(selectList, content)
@@ -71,7 +76,7 @@ class PublishLifeCircleActivity : BaseActivity(), BaseView {
 
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
                 if (TextUtils.isEmpty(p0)) {
-                    tv_publish.setTextColor(resources.getColor(R.color.text_gray))
+                    tv_publish.setTextColor(resources.getColor(R.color.text_un_edit))
                 } else {
                     tv_publish.setTextColor(resources.getColor(R.color.dark_blue))
                 }
