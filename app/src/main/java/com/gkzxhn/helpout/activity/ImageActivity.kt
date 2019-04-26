@@ -17,10 +17,13 @@ import android.support.v4.view.ViewPager
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.gkzxhn.helpout.R
 import com.gkzxhn.helpout.common.IntentConstants
 import com.gkzxhn.helpout.utils.ProjectUtils
 import kotlinx.android.synthetic.main.activity_image.*
+import java.io.File
 
 
 /**
@@ -88,7 +91,7 @@ class ImageActivity : BaseActivity() {
             }
         }
 
-        fun launch(context: Context, urls: ArrayList<*>, index: Int = 0, vararg pairs: Pair<View, String>) {
+        fun launch(context: Context, urls: ArrayList<String>, index: Int = 0, vararg pairs: Pair<View, String>) {
             val intent = Intent(context, ImageActivity::class.java)
             intent.putStringArrayListExtra(IntentConstants.INTENT_String_URLS, urls as ArrayList<String>)
             intent.putExtra(IntentConstants.INDEX, index)
@@ -165,7 +168,15 @@ class ImageActivity : BaseActivity() {
                 val params = ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
                 imageView.layoutParams = params
                 urls[position1].let {
-                    ProjectUtils.loadImageByFileID(this@ImageActivity, it, imageView)
+                    if (it.startsWith("local&&")) {
+                        Glide.with(this@ImageActivity).load(File(it.substring(7)))
+                                .apply(RequestOptions()
+                                        .placeholder(R.color.main_gary_bg)
+                                        .error(R.color.main_gary_bg))
+                                .into(imageView)
+                    }else {
+                        ProjectUtils.loadImageByFileID(this@ImageActivity, it, imageView)
+                    }
 //                    imageView.load(this@ImageActivity, "$it?token=${Constants.IMAGE_TOKEN}", R.mipmap.img_error)
                 }
                 imageView.setOnClickListener {

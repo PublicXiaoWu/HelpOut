@@ -12,6 +12,7 @@ import android.view.View
 import com.gkzxhn.helpout.R
 import com.gkzxhn.helpout.adapter.FullyGridLayoutManager
 import com.gkzxhn.helpout.adapter.GridImageAdapter
+import com.gkzxhn.helpout.common.IntentConstants
 import com.gkzxhn.helpout.presenter.PublishLifeCirclePresenter
 import com.gkzxhn.helpout.view.BaseView
 import com.luck.picture.lib.PictureSelector
@@ -20,7 +21,6 @@ import com.luck.picture.lib.config.PictureMimeType
 import com.luck.picture.lib.entity.LocalMedia
 import kotlinx.android.synthetic.main.activity_publish_life_circle.*
 import java.io.File
-import java.util.*
 
 class PublishLifeCircleActivity : BaseActivity(), BaseView {
 
@@ -29,6 +29,10 @@ class PublishLifeCircleActivity : BaseActivity(), BaseView {
     companion object {
         fun launch(context: Context) {
             context.startActivity(Intent(context, PublishLifeCircleActivity::class.java))
+        }
+
+        fun launch4Result(activity: Activity, requestCode: Int) {
+            activity.startActivityForResult(Intent(activity, PublishLifeCircleActivity::class.java), requestCode)
         }
     }
 
@@ -49,6 +53,10 @@ class PublishLifeCircleActivity : BaseActivity(), BaseView {
                 // 发布
                 val content = et_content.text.toString().trim()
                 mPresenter.uploadAllImg(selectList, content)
+                val data = Intent()
+                data.putExtra(IntentConstants.CONTENT, content)
+                data.putParcelableArrayListExtra(IntentConstants.IMAGES, selectList as ArrayList)
+                setResult(Activity.RESULT_OK, data)
                 finish()
             }
         }

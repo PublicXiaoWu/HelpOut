@@ -29,7 +29,7 @@ abstract class NineGridLayout : ViewGroup {
 
     private var mIsShowAll = false
     private var mIsFirst = true
-    private val mUrlList = ArrayList<String>()
+    private val mUrlList = ArrayList<Any>()
 
     constructor(context: Context) : super(context) {
         init(context)
@@ -81,7 +81,7 @@ abstract class NineGridLayout : ViewGroup {
         mIsShowAll = isShowAll
     }
 
-    fun setUrlList(urlList: List<String>) {
+    fun setUrlList(urlList: List<Any>) {
         if (getListSize(urlList) == 0) {
             visibility = View.GONE
             return
@@ -168,7 +168,7 @@ abstract class NineGridLayout : ViewGroup {
         layoutParams = params
     }
 
-    private fun createImageView(i: Int, url: String): RatioImageView {
+    private fun createImageView(i: Int, url: Any): RatioImageView {
         val imageView = RatioImageView(mContext)
         imageView.scaleType = ImageView.ScaleType.CENTER_CROP
         imageView.setOnClickListener { onClickImage(i, url, mUrlList) }
@@ -180,7 +180,7 @@ abstract class NineGridLayout : ViewGroup {
      * @param url
      * @param showNumFlag 是否在最大值的图片上显示还有未显示的图片张数
      */
-    private fun layoutImageView(imageView: RatioImageView, i: Int, url: String, showNumFlag: Boolean) {
+    private fun layoutImageView(imageView: RatioImageView, i: Int, url: Any, showNumFlag: Boolean) {
         val singleWidth = ((mTotalWidth - mSpacing * (3 - 1)) / 3).toInt()
 
         val position = findPosition(i)
@@ -266,7 +266,7 @@ abstract class NineGridLayout : ViewGroup {
         layoutParams = params
     }
 
-    private fun getListSize(list: List<String>?): Int {
+    private fun getListSize(list: List<Any>?): Int {
         return if (list == null || list.size == 0) {
             0
         } else list.size
@@ -285,11 +285,11 @@ abstract class NineGridLayout : ViewGroup {
      * @param parentWidth 父控件宽度
      * @return true 代表按照九宫格默认大小显示，false 代表按照自定义宽高显示
      */
-    protected abstract fun displayOneImage(imageView: RatioImageView, url: String, parentWidth: Int): Boolean
+    protected abstract fun displayOneImage(imageView: RatioImageView, url: Any, parentWidth: Int): Boolean
 
-    protected abstract fun displayImage(imageView: RatioImageView, url: String)
+    protected abstract fun displayImage(imageView: RatioImageView, url: Any)
 
-    protected abstract fun onClickImage(position: Int, url: String, urlList: List<String>)
+    protected abstract fun onClickImage(position: Int, url: Any, urlList: List<Any>)
 
     companion object {
 

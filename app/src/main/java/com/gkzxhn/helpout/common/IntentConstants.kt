@@ -20,4 +20,10 @@ object IntentConstants {
 
     //index
     val INDEX = "index"
+
+    //images
+    val IMAGES = "images"
+
+    //content
+    val CONTENT = "content"
 }
