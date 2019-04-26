@@ -1,5 +1,7 @@
 package com.gkzxhn.helpout.entity
 
+import com.luck.picture.lib.entity.LocalMedia
+
 /**
  * @classname：生活圈数据
  * @author：liushaoxiang
@@ -49,6 +51,7 @@ class LivesCircle {
         var praiseNum: Int = 0
         var createdTime: String? = null
         var circleoffriendsPicture: List<CircleoffriendsPictureBean>? = null
+        var localImages : List<LocalMedia>? = null  //本地图片列表
 
         class CustomerBean {
             /**

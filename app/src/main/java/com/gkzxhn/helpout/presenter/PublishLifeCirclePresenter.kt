@@ -3,9 +3,11 @@ package com.gkzxhn.helpout.presenter
 import android.content.Context
 import android.util.Log
 import com.gkzxhn.helpout.R
+import com.gkzxhn.helpout.common.RxBus
 import com.gkzxhn.helpout.entity.CircleoffriendsPicture
 import com.gkzxhn.helpout.entity.PublishRequest
 import com.gkzxhn.helpout.entity.UploadFile
+import com.gkzxhn.helpout.entity.rxbus.PublishEntity
 import com.gkzxhn.helpout.model.iml.CustomerModel
 import com.gkzxhn.helpout.net.HttpObserverNoDialog
 import com.gkzxhn.helpout.utils.showToast
@@ -98,6 +100,7 @@ class PublishLifeCirclePresenter(context: Context, view: BaseView)
                     override fun success(t: ResponseBody) {
                         //发布成功
                         mContext?.let { it.showToast(it.getString(R.string.publish_success)) }
+                        RxBus.instance.post(PublishEntity(0))
                     }
 
                     override fun onError(t: Throwable?) {

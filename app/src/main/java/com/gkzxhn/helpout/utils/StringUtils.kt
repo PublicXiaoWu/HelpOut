@@ -103,6 +103,18 @@ object StringUtils {
 //        sdf.timeZone = TimeZone.getTimeZone("GMT")
         return sdf.format(result)
     }
+
+    fun parseTime2TString(time: Long): String {
+        var str = ""
+        val dateFormat = SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss.SSSZ")
+        str = try {
+            dateFormat.format(time)
+        } catch (e: Exception) {
+            ""
+        }
+        return str
+    }
+
     /**
      * @methodName： created by liushaoxiang on 2018/11/7 2:40 PM.
      * @description： 将2019-03-04T14:44:35  改成标准时间

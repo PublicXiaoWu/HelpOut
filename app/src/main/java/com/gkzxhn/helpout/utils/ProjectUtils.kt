@@ -138,8 +138,11 @@ object ProjectUtils {
             if (token.isNotEmpty()) {
                 val mtoken = "Bearer $token"
                 val addHeader = LazyHeaders.Builder().addHeader("Authorization", mtoken)
+                val options = RequestOptions()
+                options.placeholder(R.color.main_gary_bg)
+                options.error(R.color.main_gary_bg)
                 val glideUrl = GlideUrl(NetWorkCodeInfo.BASE_URL + "/files/" + fileId, addHeader.build())
-                Glide.with(context).load(glideUrl).into(imageview)
+                Glide.with(context).load(glideUrl).apply(options).into(imageview)
             }
         }
     }

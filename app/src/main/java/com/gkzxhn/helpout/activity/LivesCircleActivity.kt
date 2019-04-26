@@ -1,5 +1,6 @@
 package com.gkzxhn.helpout.activity
 
+import android.app.Activity
 import android.content.Intent
 import android.graphics.Color
 import android.support.v4.content.ContextCompat
@@ -7,17 +8,24 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.ViewTreeObserver
 import com.gkzxhn.helpout.R
 import com.gkzxhn.helpout.adapter.LivesCircleAdapter
+import com.gkzxhn.helpout.common.IntentConstants
+import com.gkzxhn.helpout.common.RxBus
 import com.gkzxhn.helpout.customview.PullToRefreshLayout
 import com.gkzxhn.helpout.customview.RecyclerSpace
 import com.gkzxhn.helpout.entity.LivesCircle
 import com.gkzxhn.helpout.entity.LivesCircleDetails
+import com.gkzxhn.helpout.entity.rxbus.PublishEntity
 import com.gkzxhn.helpout.extensions.dp2px
 import com.gkzxhn.helpout.presenter.LivesCirclePresenter
 import com.gkzxhn.helpout.utils.StatusBarUtil
+import com.gkzxhn.helpout.utils.StringUtils
 import com.gkzxhn.helpout.utils.showToast
 import com.gkzxhn.helpout.view.LivesCircleView
 import com.gkzxhn.helpout.view.ObservableAlphaScrollView
+import com.luck.picture.lib.entity.LocalMedia
 import kotlinx.android.synthetic.main.activity_lives_circle.*
+import rx.android.schedulers.AndroidSchedulers
+import java.util.*
 
 
 /**
@@ -38,6 +46,12 @@ class LivesCircleActivity : BaseActivity(), LivesCircleView, ObservableAlphaScro
 
     var loadMore = false
     var page = 0
+
+    var livesCircleType = 1
+
+    companion object {
+        val PUBLISH_REQUEST_CODE = 1
+    }
 
     override fun setLastPage(lastPage: Boolean, page: Int) {
         this.loadMore = !lastPage
@@ -91,32 +105,15 @@ class LivesCircleActivity : BaseActivity(), LivesCircleView, ObservableAlphaScro
 
         initRecyclerView()
 
-        val livesCircleType = intent.getIntExtra("LivesCircleType", 1)
-        when (livesCircleType) {
-            /****** 所有人的生活圈 ******/
-            1 -> mPresenter.getLivesCircle("0", "10")
-            /****** 我的生活圈 ******/
-            2 -> {
-                mPresenter.getMyLivesCircle("0", "10")
-
-            }
-            /****** 某个人的生活圈 ******/
-            3 -> {
-
-                val userName = intent.getStringExtra("userName")
-                mPresenter.getLivesCircleByUserName(userName,"0", "10")
-
-            }
-
-
-        }
+        livesCircleType = intent.getIntExtra("LivesCircleType", 1)
+        getDataWithType(livesCircleType)
 
         iv_lives_back.setOnClickListener {
             finish()
         }
 
         iv_take_picture.setOnClickListener {
-            PublishLifeCircleActivity.launch(this)
+            PublishLifeCircleActivity.launch4Result(this, PUBLISH_REQUEST_CODE)
         }
 
         //加载更多
@@ -137,6 +134,28 @@ class LivesCircleActivity : BaseActivity(), LivesCircleView, ObservableAlphaScro
                 loading_refresh?.finishRefreshing()
             }
         }, 1)
+        subscribe()
+    }
+
+    private fun getDataWithType(livesCircleType: Int) {
+        when (livesCircleType) {
+            /****** 所有人的生活圈 ******/
+            1 -> mPresenter.getLivesCircle("0", "10")
+            /****** 我的生活圈 ******/
+            2 -> {
+                mPresenter.getMyLivesCircle("0", "10")
+
+            }
+            /****** 某个人的生活圈 ******/
+            3 -> {
+
+                val userName = intent.getStringExtra("userName")
+                mPresenter.getLivesCircleByUserName(userName, "0", "10")
+
+            }
+
+
+        }
     }
 
     private fun initRecyclerView() {
@@ -148,8 +167,10 @@ class LivesCircleActivity : BaseActivity(), LivesCircleView, ObservableAlphaScro
         mAdapter.setOnItemClickListener { adapter, view, position ->
             val contentBean = adapter.data[position] as LivesCircle.ContentBean
             val intent = Intent(this, LivesCircleDetailsActivity::class.java)
-            intent.putExtra("LivesCircleId", contentBean.id)
-            startActivity(intent)
+            contentBean.id?.let {
+                intent.putExtra("LivesCircleId", it)
+                startActivity(intent)
+            }
         }
         mAdapter.setOnItemChildClickListener { adapter, view, position ->
             when (view.id) {
@@ -207,4 +228,37 @@ class LivesCircleActivity : BaseActivity(), LivesCircleView, ObservableAlphaScro
             ll_lives_title.setBackgroundColor(Color.argb(255, 242, 242, 242))
         }
     }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        when (requestCode) {
+            PUBLISH_REQUEST_CODE -> {
+                if (resultCode == Activity.RESULT_OK) {
+                    val content = data?.getStringExtra(IntentConstants.CONTENT)
+                    val selectList = data?.getParcelableArrayListExtra<LocalMedia>(IntentConstants.IMAGES)
+                    addLocalData(content, selectList)
+                }else if(resultCode == PublishLifeCircleActivity.PUBLISH_SUCCESS) {
+                    getDataWithType(livesCircleType)
+                }
+            }
+            else -> {
+            }
+        }
+    }
+
+    fun addLocalData(content: String?, selectList: ArrayList<LocalMedia>?) {
+        val currentTime = StringUtils.parseTime2TString(System.currentTimeMillis())
+        val contentBean = LivesCircle.ContentBean()
+        contentBean.content = content
+        contentBean.localImages = selectList
+        contentBean.createdTime = currentTime
+        mAdapter.addData(0, contentBean)
+    }
+
+    fun subscribe() {
+        RxBus.instance.toObserverable(PublishEntity::class.java)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe { getDataWithType(livesCircleType) }
+    }
+
 }
