@@ -9,10 +9,12 @@ import android.view.ViewTreeObserver
 import com.gkzxhn.helpout.R
 import com.gkzxhn.helpout.adapter.LivesCircleAdapter
 import com.gkzxhn.helpout.common.IntentConstants
+import com.gkzxhn.helpout.common.RxBus
 import com.gkzxhn.helpout.customview.PullToRefreshLayout
 import com.gkzxhn.helpout.customview.RecyclerSpace
 import com.gkzxhn.helpout.entity.LivesCircle
 import com.gkzxhn.helpout.entity.LivesCircleDetails
+import com.gkzxhn.helpout.entity.rxbus.PublishEntity
 import com.gkzxhn.helpout.extensions.dp2px
 import com.gkzxhn.helpout.presenter.LivesCirclePresenter
 import com.gkzxhn.helpout.utils.StatusBarUtil
@@ -22,6 +24,7 @@ import com.gkzxhn.helpout.view.LivesCircleView
 import com.gkzxhn.helpout.view.ObservableAlphaScrollView
 import com.luck.picture.lib.entity.LocalMedia
 import kotlinx.android.synthetic.main.activity_lives_circle.*
+import rx.android.schedulers.AndroidSchedulers
 import java.util.*
 
 
@@ -131,6 +134,7 @@ class LivesCircleActivity : BaseActivity(), LivesCircleView, ObservableAlphaScro
                 loading_refresh?.finishRefreshing()
             }
         }, 1)
+        subscribe()
     }
 
     private fun getDataWithType(livesCircleType: Int) {
@@ -250,4 +254,11 @@ class LivesCircleActivity : BaseActivity(), LivesCircleView, ObservableAlphaScro
         contentBean.createdTime = currentTime
         mAdapter.addData(0, contentBean)
     }
+
+    fun subscribe() {
+        RxBus.instance.toObserverable(PublishEntity::class.java)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe { getDataWithType(livesCircleType) }
+    }
+
 }

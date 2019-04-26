@@ -130,6 +130,4 @@ class LivesCirclePresenter(context: Context, view: LivesCircleView) : BasePresen
                     })
         }
     }
-
-
 }
