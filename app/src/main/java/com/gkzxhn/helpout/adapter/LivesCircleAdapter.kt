@@ -35,8 +35,8 @@ class LivesCircleAdapter(datas: List<LivesCircle.ContentBean>?) : BaseQuickAdapt
         }
 
         val myName = App.SP.getString(Constants.SP_NAME, "")
-        helper?.setText(R.id.tv_item_lives_circle_name, item.customer?.name?.takeIf { (TextUtils.isEmpty(item.customer?.name)) }
-                ?: myName)
+        helper?.setText(R.id.tv_item_lives_circle_name, if (TextUtils.isEmpty(item.customer?.name))
+            myName else item.customer?.name)
                 ?.setText(R.id.tv_item_lives_circle_time, StringUtils.parseDate(item.createdTime!!))
                 ?.setText(R.id.tv_item_lives_circle_content, item.content)
                 ?.setText(R.id.tv_item_lives_circle_comment_number, item.commentNum.toString())
@@ -74,8 +74,8 @@ class LivesCircleAdapter(datas: List<LivesCircle.ContentBean>?) : BaseQuickAdapt
 
     override fun getItemId(position: Int): Long {
         if (data.isNotEmpty()) {
-            return data[position].id!!.hashCode().toLong()
-        }else{
+            return data[position].id?.hashCode()?.toLong() ?: 1
+        } else {
             return 1
         }
 

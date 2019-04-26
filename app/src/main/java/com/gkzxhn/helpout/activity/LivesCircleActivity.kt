@@ -44,6 +44,8 @@ class LivesCircleActivity : BaseActivity(), LivesCircleView, ObservableAlphaScro
     var loadMore = false
     var page = 0
 
+    var livesCircleType = 1
+
     companion object {
         val PUBLISH_REQUEST_CODE = 1
     }
@@ -100,25 +102,8 @@ class LivesCircleActivity : BaseActivity(), LivesCircleView, ObservableAlphaScro
 
         initRecyclerView()
 
-        val livesCircleType = intent.getIntExtra("LivesCircleType", 1)
-        when (livesCircleType) {
-            /****** 所有人的生活圈 ******/
-            1 -> mPresenter.getLivesCircle("0", "10")
-            /****** 我的生活圈 ******/
-            2 -> {
-                mPresenter.getMyLivesCircle("0", "10")
-
-            }
-            /****** 某个人的生活圈 ******/
-            3 -> {
-
-                val userName = intent.getStringExtra("userName")
-                mPresenter.getLivesCircleByUserName(userName, "0", "10")
-
-            }
-
-
-        }
+        livesCircleType = intent.getIntExtra("LivesCircleType", 1)
+        getDataWithType(livesCircleType)
 
         iv_lives_back.setOnClickListener {
             finish()
@@ -146,6 +131,27 @@ class LivesCircleActivity : BaseActivity(), LivesCircleView, ObservableAlphaScro
                 loading_refresh?.finishRefreshing()
             }
         }, 1)
+    }
+
+    private fun getDataWithType(livesCircleType: Int) {
+        when (livesCircleType) {
+            /****** 所有人的生活圈 ******/
+            1 -> mPresenter.getLivesCircle("0", "10")
+            /****** 我的生活圈 ******/
+            2 -> {
+                mPresenter.getMyLivesCircle("0", "10")
+
+            }
+            /****** 某个人的生活圈 ******/
+            3 -> {
+
+                val userName = intent.getStringExtra("userName")
+                mPresenter.getLivesCircleByUserName(userName, "0", "10")
+
+            }
+
+
+        }
     }
 
     private fun initRecyclerView() {
@@ -227,6 +233,8 @@ class LivesCircleActivity : BaseActivity(), LivesCircleView, ObservableAlphaScro
                     val content = data?.getStringExtra(IntentConstants.CONTENT)
                     val selectList = data?.getParcelableArrayListExtra<LocalMedia>(IntentConstants.IMAGES)
                     addLocalData(content, selectList)
+                }else if(resultCode == PublishLifeCircleActivity.PUBLISH_SUCCESS) {
+                    getDataWithType(livesCircleType)
                 }
             }
             else -> {

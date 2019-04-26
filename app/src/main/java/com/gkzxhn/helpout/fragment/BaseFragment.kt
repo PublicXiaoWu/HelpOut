@@ -65,4 +65,8 @@ abstract class BaseFragment : Fragment(),BaseView {
     override fun finish() {
         activity?.let { it.finish() }
     }
+
+    override fun setResult(resultCode: Int) {
+        activity?.let { it.setResult(resultCode) }
+    }
 }

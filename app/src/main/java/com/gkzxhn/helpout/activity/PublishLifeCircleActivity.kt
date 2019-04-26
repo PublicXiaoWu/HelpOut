@@ -27,6 +27,7 @@ class PublishLifeCircleActivity : BaseActivity(), BaseView {
     private lateinit var mPresenter: PublishLifeCirclePresenter
 
     companion object {
+        val PUBLISH_SUCCESS = 1
         fun launch(context: Context) {
             context.startActivity(Intent(context, PublishLifeCircleActivity::class.java))
         }
