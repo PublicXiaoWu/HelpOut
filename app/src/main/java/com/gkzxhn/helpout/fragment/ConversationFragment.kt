@@ -51,6 +51,9 @@ class ConversationFragment : BaseFragment(), ConversationView {
         mPopupWindow.contentView = contentView
         contentView.findViewById<TextView>(R.id.tv_add_friend).setOnClickListener {
             context?.startActivity(Intent(context, AddFriendActivity::class.java))
+            if (mPopupWindow?.isShowing) {
+                mPopupWindow?.dismiss()
+            }
         }
         // 为了避免部分机型不显示，我们需要重新设置一下宽高
         mPopupWindow.width = 114f.dp2px().toInt()
