@@ -1,11 +1,19 @@
 package com.gkzxhn.helpout.adapter
 
-import com.chad.library.adapter.base.BaseQuickAdapter
-import com.chad.library.adapter.base.BaseViewHolder
+import android.annotation.SuppressLint
+import android.content.Context
+import android.support.v7.widget.RecyclerView
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.LinearLayout
 import com.gkzxhn.helpout.R
 import com.gkzxhn.helpout.entity.LivesCircleDetails
 import com.gkzxhn.helpout.utils.ProjectUtils
 import com.gkzxhn.helpout.utils.StringUtils
+import com.zhy.adapter.recyclerview.MultiItemTypeAdapter
+import kotlinx.android.synthetic.main.item_lives_circle_comment.view.*
+import kotlinx.android.synthetic.main.layout_comment_top.view.*
 
 /**
  * @classname：
@@ -13,111 +21,92 @@ import com.gkzxhn.helpout.utils.StringUtils
  * @date：2019/4/16 5:59 PM
  * @description：
  */
-class LivesCircleCommentAdapter(datas: List<LivesCircleDetails.CircleoffriendsCommentsBean>?) : BaseQuickAdapter<LivesCircleDetails.CircleoffriendsCommentsBean, BaseViewHolder>(R.layout.item_lives_circle_comment, datas) {
 
-    override fun convert(helper: BaseViewHolder?, item: LivesCircleDetails.CircleoffriendsCommentsBean) {
+class LivesCircleCommentAdapter(private val mContext: Context) : RecyclerView.Adapter<LivesCircleCommentAdapter.ViewHolder>() {
 
-        helper?.setText(R.id.tv_item_lives_circle_comment_name, item.customerName)
-                ?.setText(R.id.tv_item_lives_circle_comment_time, StringUtils.parseDate(item.createdTime!!))
-                ?.setText(R.id.tv_item_lives_circle_comment_content, item.content)
-                ?.addOnClickListener(R.id.iv_item_lives_circle_comment_avatar)
+     var mDatas: LivesCircleDetails? = null
+    private var onItemClickListener: MultiItemTypeAdapter.OnItemClickListener? = null
+    private var mCurrentIndex = -1
 
-        ProjectUtils.loadRoundImageByUserName(mContext, item.username, helper?.getView(R.id.iv_item_lives_circle_comment_avatar)!!)
-
+    /**
+     *  获取当前项实体
+     */
+    fun getCurrentItem(): LivesCircleDetails.CircleoffriendsCommentsBean {
+        return mDatas?.circleoffriendsComments!![mCurrentIndex]
     }
 
-
-    /****** 更改某条数据之后局部刷新 ******/
-    fun setDataChange(position: Int, contentBean: LivesCircleDetails.CircleoffriendsCommentsBean) {
-        data[position] = contentBean
-        notifyItemChanged(position, 666)
+    fun setOnItemClickListener(onItemClickListener: MultiItemTypeAdapter.OnItemClickListener?) {
+        this.onItemClickListener = onItemClickListener
     }
 
-    override fun getItemId(position: Int): Long {
-        return if (data.isNotEmpty()) {
-            if (position == 0) {
-                 1
-            } else {
-                data[position-1].id!!.hashCode().toLong()
-            }
+    /**
+     * 更新数据
+     */
+    fun updateItems(mDatas: LivesCircleDetails) {
+        this.mDatas=mDatas
+        notifyDataSetChanged()
+    }
+
+    override fun onCreateViewHolder(p0: ViewGroup, viewType: Int): ViewHolder {
+        if (viewType == 11) {
+            val view = LayoutInflater.from(mContext).inflate(R.layout.layout_comment_top, null)
+            view.layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT)
+            return ViewHolder(view)
         } else {
-            1
+            val view = LayoutInflater.from(mContext).inflate(R.layout.item_lives_circle_comment, null)
+            view.layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT)
+            return ViewHolder(view)
         }
 
     }
 
-}
+    override fun getItemViewType(position: Int): Int {
+        return if (position == 0) {
+            11
+        }else{
+            super.getItemViewType(position)
+        }
+    }
 
-//class LivesCircleCommentAdapter(private val mContext: Context) : RecyclerView.Adapter<AllOrderAdapter.ViewHolder>() {
-//
-//    private var mDatas: LivesCircleDetails=null
-//    private var onItemClickListener: MultiItemTypeAdapter.OnItemClickListener? = null
-//    private var mCurrentIndex = -1
-//
-//    /**
-//     *  获取当前项实体
-//     */
-//    fun getCurrentItem(): LivesCircleDetails.CircleoffriendsCommentsBean {
-//
-//        return mDatas.circleoffriendsComments!![mCurrentIndex]
-//    }
-//
-//    fun setOnItemClickListener(onItemClickListener: MultiItemTypeAdapter.OnItemClickListener?) {
-//        this.onItemClickListener = onItemClickListener
-//    }
-//
-//    /**
-//     * 更新数据
-//     */
-//    fun updateItems(mDatas: LivesCircleDetails) {
-//        this.mDatas=mDatas
-//        notifyDataSetChanged()
-//    }
-//
-//    override fun onCreateViewHolder(p0: ViewGroup, viewType: Int): ViewHolder {
-//        val view = LayoutInflater.from(mContext).inflate(R.layout.item_order_all_dispose, null)
-//        view.layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT)
-//        return ViewHolder(view)
-//    }
-//
-//    class ViewHolder(view: View?) : RecyclerView.ViewHolder(view!!)
-//
-//    @SuppressLint("SetTextI18n")
-//    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-//        with(holder.itemView) {
-//            val entity = mDatas[position]
-//            tv_order_dispose_name.text = entity.customer!!.name
-//            ProjectUtils.loadRoundImageByUserName(context, entity.customer!!.username, iv_order_dispose_item)
-//            /****** 价格 ******/
-//            tv_main_top_end.text = "￥" + entity.reward
-//            tv_order_dispose_time.text = StringUtils.parseDate(entity.createdTime)
-//            v_item_order_receiving_type.text = ProjectUtils.categoriesConversion(entity.category!!)
-//
-//            when (entity.status) {
-//                Constants.ORDER_STATE_ACCEPTED ->
-//                    iv_order_dispose_state.setImageResource(R.mipmap.ic_order_yjd)
-//                Constants.ORDER_STATE_PROCESSING ->
-//                    iv_order_dispose_state.setImageResource(R.mipmap.ic_order_clz)
-//                Constants.ORDER_STATE_COMPLETE ->
-//                    iv_order_dispose_state.setImageResource(R.mipmap.ic_order_ywc)
-//                Constants.ORDER_STATE_CANCELLED ->
-//                    iv_order_dispose_state.setImageResource(R.mipmap.ic_order_yqx)
-//                Constants.ORDER_STATE_REFUSED ->{
-//                    iv_order_dispose_state.setImageResource(R.mipmap.ic_order_ygb)
-//                }
-//                else ->
-//                    iv_order_dispose_state.setImageResource(R.mipmap.ic_order_clz)
-//            }
-//            holder.itemView.setOnClickListener {
-//                mCurrentIndex = position
-//                onItemClickListener?.onItemClick(this, holder, position)
-//            }
-//
-//        }
-//    }
-//
-//    override fun getItemCount(): Int {
-//        return mDatas.circleoffriendsComments?.size!!+1
-//    }
-//
-//}
+    class ViewHolder(view: View?) : RecyclerView.ViewHolder(view!!)
+
+    @SuppressLint("SetTextI18n")
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        /****** 头布局 ******/
+        if (holder.itemViewType == 11) {
+            val circleoffriendsPicture = mDatas?.circleoffriendsPicture!!
+            val pictureList = ArrayList<String>()
+            for (picture in circleoffriendsPicture) {
+                pictureList.add(picture.fileId!!)
+            }
+            with(holder.itemView) {
+                tv_lives_circle_content.text = mDatas?.content
+                tv_lives_circle_like_number_show.text = "点赞 " + mDatas?.praiseNum
+                tv_lives_circle_comment_number_show.text = "评论 " + mDatas?.commentNum
+                tv_lives_circle_time.text = StringUtils.parseDate(mDatas?.createdTime)
+                ll_lives_circle_image.setUrlList(pictureList)
+                ProjectUtils.loadRoundImageByUserName(mContext, mDatas?.username, iv_lives_circle_avatar)
+                tv_lives_circle_name.text=mDatas?.customer?.name
+
+            }
+        }else{
+            val itemData = mDatas?.circleoffriendsComments!![position - 1]
+            with(holder.itemView) {
+                tv_item_lives_circle_comment_name.text= itemData.customerName
+                tv_item_lives_circle_comment_time.text= StringUtils.parseDate(itemData.createdTime)
+                tv_item_lives_circle_comment_content.text= itemData.content
+                ProjectUtils.loadRoundImageByUserName(mContext, itemData.username, iv_item_lives_circle_comment_avatar)
+            }
+        }
+    }
+
+    override fun getItemCount(): Int {
+        if (mDatas == null) {
+            return 0
+        } else {
+            return mDatas?.circleoffriendsComments?.size!!+1
+        }
+    }
+
+
+}

@@ -5,8 +5,6 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.KeyEvent
 import android.view.View
 import android.view.inputmethod.EditorInfo
-import android.widget.ImageView
-import android.widget.TextView
 import com.gkzxhn.helpout.R
 import com.gkzxhn.helpout.adapter.LivesCircleCommentAdapter
 import com.gkzxhn.helpout.customview.PullToRefreshLayout
@@ -15,14 +13,11 @@ import com.gkzxhn.helpout.entity.LivesCircle
 import com.gkzxhn.helpout.entity.LivesCircleDetails
 import com.gkzxhn.helpout.extensions.dp2px
 import com.gkzxhn.helpout.presenter.LivesCirclePresenter
-import com.gkzxhn.helpout.utils.ProjectUtils
 import com.gkzxhn.helpout.utils.SoftKeyBoardListener
-import com.gkzxhn.helpout.utils.StringUtils
 import com.gkzxhn.helpout.utils.SystemUtil.hideKeyBoard
 import com.gkzxhn.helpout.utils.SystemUtil.showKeyBoard
 import com.gkzxhn.helpout.utils.showToast
 import com.gkzxhn.helpout.view.LivesCircleView
-import com.gkzxhn.helpout.view.NineGridTestLayout
 import kotlinx.android.synthetic.main.activity_lives_circle_details.*
 import kotlinx.android.synthetic.main.default_top.*
 
@@ -139,23 +134,6 @@ class LivesCircleDetailsActivity : BaseActivity(), LivesCircleView {
     override fun loadLivesCircleDetailsUI(t: LivesCircleDetails) {
         praisesCircleoffriends = t.praisesCircleoffriends
 
-        /****** 加载头布局 ******/
-        val headerView = View.inflate(this, R.layout.layout_comment_top, null)
-        val circleoffriendsPicture = t.circleoffriendsPicture!!
-        val pictureList = ArrayList<String>()
-        for (picture in circleoffriendsPicture) {
-            pictureList.add(picture.fileId!!)
-        }
-        headerView.findViewById<TextView>(R.id.tv_lives_circle_name).text = t.customer?.name
-        headerView.findViewById<TextView>(R.id.tv_lives_circle_content).text = t.content
-        headerView.findViewById<TextView>(R.id.tv_lives_circle_like_number_show).text = "点赞 " + t.praiseNum
-        headerView.findViewById<TextView>(R.id.tv_lives_circle_comment_number_show).text = "评论 " + t.commentNum
-        headerView.findViewById<TextView>(R.id.tv_lives_circle_time).text = StringUtils.parseDate(t.createdTime)
-        headerView.findViewById<NineGridTestLayout>(R.id.ll_lives_circle_image).setUrlList(pictureList)
-        val IvCircleAvatar = headerView.findViewById<ImageView>(R.id.iv_lives_circle_avatar)
-        ProjectUtils.loadRoundImageByUserName(this, t.username, IvCircleAvatar)
-
-
         tv_lives_circle_comment_number.text = t.commentNum.toString()
         tv_lives_circle_like_number.text = t.praiseNum.toString()
 
@@ -165,31 +143,17 @@ class LivesCircleDetailsActivity : BaseActivity(), LivesCircleView {
             iv_lives_circle_like_number.setImageResource(R.mipmap.ic_lives_like)
         }
 
-        mAdapter.setNewData(t.circleoffriendsComments)
-        mAdapter.setHeaderView(headerView)
+        mAdapter.updateItems(t)
 
     }
 
     private fun initRecyclerView() {
         rcv_lives_circle_details.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
-        mAdapter = LivesCircleCommentAdapter(null)
+        mAdapter = LivesCircleCommentAdapter(this)
         mAdapter.setHasStableIds(true)
-        mAdapter.openLoadAnimation()
         rcv_lives_circle_details.addItemDecoration(RecyclerSpace(1.2f.dp2px().toInt(), ContextCompat.getColor(this, R.color.gray_line)))
         rcv_lives_circle_details.adapter = mAdapter
 
-        mAdapter.setOnItemClickListener { adapter, view, position ->
-            hideKeyBoard(this, et_lives_circle_bottom_comment)
-        }
-
-        mAdapter.setOnItemChildClickListener { adapter, view, position ->
-            when (view.id) {
-                /****** 点头像 ******/
-                R.id.iv_item_lives_circle_comment_avatar -> {
-
-                }
-            }
-        }
     }
 
     override fun onBackPressed() {
