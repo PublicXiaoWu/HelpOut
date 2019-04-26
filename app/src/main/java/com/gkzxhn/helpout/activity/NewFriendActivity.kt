@@ -80,7 +80,6 @@ class NewFriendActivity : BaseActivity() {
 
         addFriendList.setCallback(object : RequestCallback<MutableList<SystemMessage>> {
             override fun onSuccess(addFriendList: MutableList<SystemMessage>?) {
-                items.clear()
                 for (m in addFriendList!!) {
                     m.isUnread = true
                     // 去重
@@ -88,16 +87,15 @@ class NewFriendActivity : BaseActivity() {
                         continue
                     }
                     // 同一个账号的好友申请仅保留最近一条
-                    if (addFriendVerifyFilter(m)) {
-                        continue
-                    }
+//                    if (addFriendVerifyFilter(m)) {
+//                        continue
+//                    }
                     // 保存有效消息
                     items.add(m)
                 }
 
                 if (items.isEmpty()) {
                     Log.e("xiaowu_items_size", "null")
-
                 } else {
                     mAdapter.setNewData(items)
                     Log.e("xiaowu_items_size", items.size.toString())
