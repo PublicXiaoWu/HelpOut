@@ -111,6 +111,8 @@ class PublishLifeCirclePresenter(context: Context, view: BaseView)
                             }
                         }
                         super.onError(t)
+                        mContext?.let { it.showToast(it.getString(R.string.publish_failed)) }
+                        RxBus.instance.post(PublishEntity(1))
                     }
                 })
         }
