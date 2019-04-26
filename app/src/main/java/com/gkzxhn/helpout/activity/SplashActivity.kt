@@ -30,6 +30,7 @@ class SplashActivity : BaseActivity() {
 
     override fun init() {
         if (App.SP.getString(Constants.SP_TOKEN, "")?.isNotEmpty()!!) {
+            App.EDIT.putString(Constants.SP_TOKEN, "").commit()
             getRefreshToken(App.SP.getString(Constants.SP_REFRESH_TOKEN, ""))
         } else {
             handler.sendEmptyMessageDelayed(0, 1000)
@@ -45,7 +46,6 @@ class SplashActivity : BaseActivity() {
         finish()
         false
     })
-
 
     /****** 刷新新的token ******/
     private fun getRefreshToken(refresh_token: String) {
