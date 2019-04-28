@@ -140,17 +140,6 @@ interface ApiService {
     @GET("im/notifications/my")
     fun getNotifications(@Query("page") page: String, @Query("size") size: String, @Query("sort") sort: String): Observable<NotificationInfoList>
 
-    //    获取我的生活圈
-    @GET("/customer/circleoffriends/getCircleoffriends")
-    fun getLivesCircle(@Query("page") page: String, @Query("size") size: String, @Query("sort") sort: String): Observable<LivesCircle>
-
-    //    获取我的生活圈
-    @GET("/customer/circleoffriends/getMyCircleoffriends")
-    fun getMyLivesCircle(@Query("page") page: String, @Query("size") size: String, @Query("sort") sort: String): Observable<LivesCircle>
- //    获取我的生活圈
-    @GET("/customer/circleoffriends/get-friend-circlefriend")
-    fun getLivesCircleByUserName(@Query("username") username: String,@Query("page") page: String, @Query("size") size: String, @Query("sort") sort: String): Observable<LivesCircle>
-
     //    获取抢单的明细
     @GET("/lawyer/rush/legal-advice/{id}")
     fun getOrderRushInfo(@Path("id") id: String): Observable<OrderRushInfo>
@@ -283,7 +272,7 @@ interface ApiService {
      * 获取好友信息
      */
     @GET("/customer/customerfriend/get-customer-friend")
-    fun getFriendInfo(@Query("phoneNumber") phoneNumber: String?=null, @Query("username") username: String?=null, @Query("account") account: String?=null): Observable<FriendInfo>
+    fun getFriendInfo(@Query("phoneNumber") phoneNumber: String? = null, @Query("username") username: String? = null, @Query("account") account: String? = null): Observable<FriendInfo>
 
     /**
      * 获取生活圈明细
@@ -314,10 +303,24 @@ interface ApiService {
      */
     @POST("/customer/circleoffriends/comment")
     fun comment(@Body requestBody: RequestBody): Observable<ResponseBody>
-/**
+
+    /**
      * 获取最新未看生活圈
      */
     @GET("/customer/circleoffriends/get-circlefriend-newest")
     fun getLivesCircleNew(): Observable<LivesCircleNew>
+
+    //    获取所有人生活圈
+    @GET("/customer/circleoffriends/getCircleoffriends")
+    fun getLivesCircle(@Query("page") page: String, @Query("size") size: String, @Query("sort") sort: String): Observable<LivesCircle>
+
+    //    获取我的生活圈
+    @GET("/customer/circleoffriends/getMyCircleoffriends")
+    fun getMyLivesCircle(@Query("page") page: String, @Query("size") size: String, @Query("sort") sort: String): Observable<LivesCircle>
+
+    //    获取别人的生活圈
+    @GET("/customer/circleoffriends/get-friend-circlefriend")
+    fun getLivesCircleByUserName(@Query("username") username: String, @Query("page") page: String, @Query("size") size: String, @Query("sort") sort: String): Observable<LivesCircle>
+
 
 }

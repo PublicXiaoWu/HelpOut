@@ -72,14 +72,4 @@ class LivesCircleAdapter(datas: List<LivesCircle.ContentBean>?) : BaseQuickAdapt
     }
 
 
-    override fun getItemId(position: Int): Long {
-        if (data.isNotEmpty()) {
-            return data[position].id?.hashCode()?.toLong() ?: 1
-        } else {
-            return 1
-        }
-
-    }
-
-
 }

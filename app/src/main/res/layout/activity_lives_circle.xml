@@ -9,10 +9,6 @@
         android:layout_height="match_parent"
     >
 
-        <com.gkzxhn.helpout.customview.LoadMoreWrapper
-            android:id="@+id/loading_more"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
             <com.gkzxhn.helpout.view.ObservableAlphaScrollView
                 android:id="@+id/s_lives_scrollView"
                 android:layout_width="match_parent"
@@ -47,7 +43,6 @@
 
                 </LinearLayout>
             </com.gkzxhn.helpout.view.ObservableAlphaScrollView>
-        </com.gkzxhn.helpout.customview.LoadMoreWrapper>
 
     </com.gkzxhn.helpout.customview.PullToRefreshLayout>
 

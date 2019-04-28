@@ -24,48 +24,52 @@ import rx.schedulers.Schedulers
 
 class LivesCirclePresenter(context: Context, view: LivesCircleView) : BasePresenter<ILivesCircleModel, LivesCircleView>(context, LivesCircleModel(), view) {
 
-    fun getLivesCircle(page: String, size: String) {
+    fun getLivesCircle(page: Int) {
         mContext?.let {
-            mModel.getLivesCircle(it, page, "100")
+            mModel.getLivesCircle(it, page.toString(), "10")
                     .unsubscribeOn(AndroidSchedulers.mainThread())
                     ?.observeOn(AndroidSchedulers.mainThread())
                     ?.subscribe(object : HttpObserverNoDialog<LivesCircle>(mContext!!) {
                         override fun success(t: LivesCircle) {
-                            mView?.updateData(t.content!!)
-                            mView?.setLastPage(t.isLast, 0)
-                            /****** 已经加载过生活圈了 通知发现页面刷新新的未读信息 ******/
-                           RxBus.instance.post(RxBusBean.ChangeFindUnRead())
+                            mView?.updateData(t.content!!,t.first)
+                            mView?.setLastPage(t.last, page)
+                            mView?.offLoadMore()
+                            if (t.first) {
+                                /****** 已经加载过生活圈了 通知发现页面刷新新的未读信息 ******/
+                                RxBus.instance.post(RxBusBean.ChangeFindUnRead())
+                            }
                         }
                     })
         }
     }
 
-
-    fun getMyLivesCircle(page: String, size: String) {
+    fun getMyLivesCircle(page: Int) {
         /****** 我的生活圈已经进来过了 通知红点消失 ******/
         RxBus.instance.post(RxBusBean.MyLivesCirclePoint(false))
         mContext?.let {
-            mModel.getMyLivesCircle(it, page, "100")
+            mModel.getMyLivesCircle(it, page.toString(), "10")
                     .unsubscribeOn(AndroidSchedulers.mainThread())
                     ?.observeOn(AndroidSchedulers.mainThread())
                     ?.subscribe(object : HttpObserverNoDialog<LivesCircle>(mContext!!) {
                         override fun success(t: LivesCircle) {
-                            mView?.updateData(t.content!!)
-                            mView?.setLastPage(t.isLast, 0)
-
+                            mView?.updateData(t.content!!,t.first)
+                            mView?.setLastPage(t.last, page)
+                            mView?.offLoadMore()
                         }
                     })
         }
     }
 
-    fun getLivesCircleByUserName(userName:String,page: String, size: String) {
+    fun getLivesCircleByUserName(userName:String,page: Int) {
         mContext?.let {
-            mModel.getLivesCircleByUserName(it,userName, page, "100")
+            mModel.getLivesCircleByUserName(it,userName, page.toString(), "10")
                     .unsubscribeOn(AndroidSchedulers.mainThread())
                     ?.observeOn(AndroidSchedulers.mainThread())
                     ?.subscribe(object : HttpObserverNoDialog<LivesCircle>(mContext!!) {
                         override fun success(t: LivesCircle) {
-                            mView?.updateData(t.content!!)
+                            mView?.updateData(t.content!!,t.first)
+                            mView?.setLastPage(t.last, page)
+                            mView?.offLoadMore()
                         }
                     })
         }
