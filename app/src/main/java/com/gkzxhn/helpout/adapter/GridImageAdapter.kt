@@ -33,6 +33,7 @@ class GridImageAdapter(private val context: Context,
     private var selectMax = 9
 
     protected var mItemClickListener: OnItemClickListener? = null
+    protected var mItemRemovedListener: OnItemRemovedListener? = null
 
     interface onAddPicClickListener {
         fun onAddPicClick()
@@ -112,6 +113,7 @@ class GridImageAdapter(private val context: Context,
                     list.removeAt(index)
                     notifyItemRemoved(index)
                     notifyItemRangeChanged(index, list.size)
+                    mItemRemovedListener?.onItemRemoved(index, it)
                 }
             }
             val media = list[position]
@@ -178,8 +180,16 @@ class GridImageAdapter(private val context: Context,
         fun onItemClick(position: Int, v: View)
     }
 
+    interface OnItemRemovedListener {
+        fun onItemRemoved(position: Int, v: View)
+    }
+
     fun setOnItemClickListener(listener: OnItemClickListener) {
         this.mItemClickListener = listener
+    }
+
+    fun setOnItemRemovedListener(listener: OnItemRemovedListener) {
+        this.mItemRemovedListener = listener
     }
 
     companion object {

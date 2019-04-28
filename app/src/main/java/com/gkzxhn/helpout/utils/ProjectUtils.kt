@@ -1,6 +1,7 @@
 package com.gkzxhn.helpout.utils
 
 import android.content.Context
+import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.util.Log
 import android.view.MotionEvent
@@ -10,6 +11,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.model.GlideUrl
 import com.bumptech.glide.load.model.LazyHeaders
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
+import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.signature.ObjectKey
 import com.gkzxhn.helpout.R
@@ -128,7 +130,7 @@ object ProjectUtils {
     }
 
     /****** 通过fileID加载图片 ******/
-    fun loadImageByFileID(context: Context, fileId: String?, imageview: ImageView) {
+    fun loadImageByFileID(context: Context, fileId: String?, imageview: ImageView, listener: RequestListener<Drawable>? = null) {
         if (fileId == null || fileId.isEmpty()) {
             imageview.setImageResource(R.color.main_gary_bg)
             return
@@ -142,7 +144,8 @@ object ProjectUtils {
                 options.placeholder(R.color.main_gary_bg)
                 options.error(R.color.main_gary_bg)
                 val glideUrl = GlideUrl(NetWorkCodeInfo.BASE_URL + "/files/" + fileId, addHeader.build())
-                Glide.with(context).load(glideUrl).apply(options).into(imageview)
+                Glide.with(context).load(glideUrl).apply(options)
+                        .listener(listener).into(imageview)
             }
         }
     }
