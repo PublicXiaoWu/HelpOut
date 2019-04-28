@@ -8,5 +8,5 @@ package com.gkzxhn.helpout.entity
  */
 
 class LivesCircleNew {
-    var username:String=""
+    var username:String?=null
 }

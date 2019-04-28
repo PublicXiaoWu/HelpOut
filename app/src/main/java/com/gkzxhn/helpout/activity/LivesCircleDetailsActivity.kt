@@ -29,6 +29,13 @@ import kotlinx.android.synthetic.main.default_top.*
  * @description：生活圈详情
  */
 class LivesCircleDetailsActivity : BaseActivity(), LivesCircleView {
+
+    override fun updateData(data: List<LivesCircle.ContentBean>, isFirst: Boolean) {
+    }
+
+    override fun endLoadMore() {
+    }
+
     override fun finishActivity() {
         finish()
     }
@@ -36,8 +43,6 @@ class LivesCircleDetailsActivity : BaseActivity(), LivesCircleView {
     override fun offLoadMore() {
     }
 
-    override fun updateData(data: List<LivesCircle.ContentBean>) {
-    }
 
     override fun setLastPage(lastPage: Boolean, page: Int) {
     }

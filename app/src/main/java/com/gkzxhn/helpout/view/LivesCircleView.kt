@@ -15,11 +15,12 @@ interface LivesCircleView : BaseView {
 
     fun offLoadMore()
 
-    fun updateData(data: List<LivesCircle.ContentBean>)
+    fun updateData(data: List<LivesCircle.ContentBean>,isFirst:Boolean)
 
     fun setLastPage(lastPage: Boolean, page: Int)
 
     fun praiseSuccess(position: Int)
 
     fun loadLivesCircleDetailsUI(t: LivesCircleDetails)
+    fun endLoadMore()
 }

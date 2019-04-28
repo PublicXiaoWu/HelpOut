@@ -5,7 +5,9 @@ import android.content.Intent
 import android.graphics.Color
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
+import android.util.Log
 import android.view.ViewTreeObserver
+import com.chad.library.adapter.base.BaseQuickAdapter
 import com.gkzxhn.helpout.R
 import com.gkzxhn.helpout.adapter.LivesCircleAdapter
 import com.gkzxhn.helpout.common.IntentConstants
@@ -56,17 +58,27 @@ class LivesCircleActivity : BaseActivity(), LivesCircleView, ObservableAlphaScro
     override fun setLastPage(lastPage: Boolean, page: Int) {
         this.loadMore = !lastPage
         this.page = page
+        Log.e("xiaowu666", "page:" + page + "__loadMore:" + loadMore)
+
     }
 
     override fun offLoadMore() {
-        //加载更多取消
-        if (loading_more.isLoading) {
-            loading_more?.finishLoading()
-        }
+        mAdapter.loadMoreComplete()
+        Log.e("xiaowu666", "加载完成")
     }
 
-    override fun updateData(data: List<LivesCircle.ContentBean>) {
-        mAdapter.setNewData(data)
+    override fun endLoadMore() {
+        mAdapter.loadMoreEnd()
+        Log.e("xiaowu666", "----------加载结束---------------")
+
+    }
+
+    override fun updateData(data: List<LivesCircle.ContentBean>, isFirst: Boolean) {
+        if (isFirst) {
+            mAdapter.setNewData(data)
+        } else {
+            mAdapter.addData(data)
+        }
     }
 
     override fun provideContentViewId(): Int {
@@ -116,17 +128,6 @@ class LivesCircleActivity : BaseActivity(), LivesCircleView, ObservableAlphaScro
             PublishLifeCircleActivity.launch4Result(this, PUBLISH_REQUEST_CODE)
         }
 
-        //加载更多
-        loading_more.setOnLoadMoreListener(object : com.gkzxhn.helpout.customview.LoadMoreWrapper.OnLoadMoreListener {
-            override fun onLoadMore() {
-                if (loadMore) {
-                    getDataWithType(livesCircleType)
-                } else {
-                    offLoadMore()
-                }
-            }
-        })
-
         //下啦刷新
         loading_refresh.setOnRefreshListener(object : PullToRefreshLayout.OnRefreshListener {
             override fun onRefresh() {
@@ -137,18 +138,18 @@ class LivesCircleActivity : BaseActivity(), LivesCircleView, ObservableAlphaScro
         subscribe()
     }
 
-    private fun getDataWithType(livesCircleType: Int) {
+    private fun getDataWithType(livesCircleType: Int, page: Int = 0) {
         when (livesCircleType) {
             /****** 所有人的生活圈 ******/
-            1 -> mPresenter.getLivesCircle("0", "10")
+            1 -> mPresenter.getLivesCircle(page)
             /****** 我的生活圈 ******/
             2 -> {
-                mPresenter.getMyLivesCircle("0", "10")
+                mPresenter.getMyLivesCircle(page)
             }
             /****** 某个人的生活圈 ******/
             3 -> {
                 val userName = intent.getStringExtra("userName")
-                mPresenter.getLivesCircleByUserName(userName, "0", "10")
+                mPresenter.getLivesCircleByUserName(userName, page)
             }
         }
     }
@@ -157,6 +158,9 @@ class LivesCircleActivity : BaseActivity(), LivesCircleView, ObservableAlphaScro
         rcv_lives_circle.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         mAdapter = LivesCircleAdapter(null)
         mAdapter.setHasStableIds(true)
+        mAdapter.disableLoadMoreIfNotFullPage(rcv_lives_circle)
+        mAdapter.setPreLoadNumber(2)
+
         mAdapter.openLoadAnimation()
         rcv_lives_circle.addItemDecoration(RecyclerSpace(1f.dp2px().toInt(), ContextCompat.getColor(this, R.color.gray_line)))
         mAdapter.setOnItemClickListener { adapter, view, position ->
@@ -182,9 +186,22 @@ class LivesCircleActivity : BaseActivity(), LivesCircleView, ObservableAlphaScro
                 }
             }
         }
+        mAdapter.setOnLoadMoreListener(requestLoadMoreListener, rcv_lives_circle)
         rcv_lives_circle.adapter = mAdapter
         mAdapter.setEmptyView(R.layout.empty_default, rcv_lives_circle)
     }
+
+    /****** 设置上拉加载的监听  ******/
+    val requestLoadMoreListener = BaseQuickAdapter.RequestLoadMoreListener {
+        Log.e("xiaowu666", "-----------开始加载更多")
+
+        if (loadMore) {
+            getDataWithType(livesCircleType, page + 1)
+        } else {
+            endLoadMore()
+        }
+    }
+
 
     override fun finishActivity() {
         finish()
