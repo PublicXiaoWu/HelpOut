@@ -6,7 +6,7 @@ package com.gkzxhn.helpout.entity
  * @date：2019/4/23 4:14 PM
  * @description：
  */
-class LivesCircleDetails {
+class LivesCircleDetails{
 
     /**
      * id : cc9938f6-6af7-49a5-8d38-6471b21ad859

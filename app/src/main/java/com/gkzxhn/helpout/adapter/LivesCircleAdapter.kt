@@ -68,7 +68,7 @@ class LivesCircleAdapter(datas: List<LivesCircle.ContentBean>?) : BaseQuickAdapt
     /****** 更改某条数据之后局部刷新 ******/
     fun setDataChange(position: Int, contentBean: LivesCircle.ContentBean) {
         data[position] = contentBean
-        notifyItemChanged(position, 666)
+        notifyItemChanged(position+1, 666)
     }
 
 

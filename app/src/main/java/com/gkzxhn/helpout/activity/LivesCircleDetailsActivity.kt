@@ -1,5 +1,7 @@
 package com.gkzxhn.helpout.activity
 
+import android.app.Activity
+import android.content.Intent
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
 import android.view.KeyEvent
@@ -7,6 +9,7 @@ import android.view.View
 import android.view.inputmethod.EditorInfo
 import com.gkzxhn.helpout.R
 import com.gkzxhn.helpout.adapter.LivesCircleCommentAdapter
+import com.gkzxhn.helpout.common.IntentConstants
 import com.gkzxhn.helpout.customview.PullToRefreshLayout
 import com.gkzxhn.helpout.customview.RecyclerSpace
 import com.gkzxhn.helpout.entity.LivesCircle
@@ -52,7 +55,9 @@ class LivesCircleDetailsActivity : BaseActivity(), LivesCircleView {
     }
 
     lateinit var livesCircleId: String
+    var position: Int=0
     var praisesCircleoffriends = false
+    var mLivesCircleDetails: LivesCircleDetails?=null
     lateinit var mAdapter: LivesCircleCommentAdapter
     lateinit var mPresenter: LivesCirclePresenter
 
@@ -79,6 +84,7 @@ class LivesCircleDetailsActivity : BaseActivity(), LivesCircleView {
         mPresenter = LivesCirclePresenter(this, this)
         initRecyclerView()
         livesCircleId = intent.getStringExtra("LivesCircleId")
+        position = intent.getIntExtra("position",0)
 
         /****** 注册软键盘监听 ******/
         SoftKeyBoardListener.setListener(this, onSoftKeyBoardChangeListener)
@@ -132,13 +138,17 @@ class LivesCircleDetailsActivity : BaseActivity(), LivesCircleView {
 
     private fun initTitle() {
         tv_default_top_title.text = "生活圈"
-        iv_default_top_back.setOnClickListener { finish() }
+        iv_default_top_back.setOnClickListener {
+
+            onBackPressed()
+
+        }
     }
 
 
     override fun loadLivesCircleDetailsUI(t: LivesCircleDetails) {
         praisesCircleoffriends = t.praisesCircleoffriends
-
+        mLivesCircleDetails=t
         tv_lives_circle_comment_number.text = t.commentNum.toString()
         tv_lives_circle_like_number.text = t.praiseNum.toString()
 
@@ -166,7 +176,14 @@ class LivesCircleDetailsActivity : BaseActivity(), LivesCircleView {
             v_lives_circle_bottom_edit.visibility = View.GONE
             et_lives_circle_bottom_comment.visibility = View.GONE
         } else {
+            val data = Intent()
+            data.putExtra(IntentConstants.position, position)
+            data.putExtra(IntentConstants.praiseNum, mLivesCircleDetails?.praiseNum)
+            data.putExtra(IntentConstants.commentNum,mLivesCircleDetails?.commentNum)
+            setResult(Activity.RESULT_OK, data)
             super.onBackPressed()
+
+
         }
 
 

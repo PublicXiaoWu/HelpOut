@@ -26,4 +26,11 @@ object IntentConstants {
 
     //content
     val CONTENT = "content"
+
+    /****** 朋友圈详情返回给朋友圈列表的评论数据 ******/
+    //praiseNum
+    val commentNum = "commentNum"
+    val position = "position"
+    //praiseNum
+    val praiseNum = "praiseNum"
 }

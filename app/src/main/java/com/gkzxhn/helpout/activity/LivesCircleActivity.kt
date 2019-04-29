@@ -5,7 +5,6 @@ import android.app.Activity
 import android.content.Intent
 import android.graphics.Color
 import android.os.Handler
-import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.util.Log
@@ -52,8 +51,12 @@ class LivesCircleActivity : BaseActivity(), LivesCircleView {
 
     var livesCircleType = 1
 
+    lateinit var linearLayoutManager: LinearLayoutManager
+
+
     companion object {
         val PUBLISH_REQUEST_CODE = 1
+        val PUBLISH_REQUEST_DETAIL_CODE = 2
     }
 
     override fun setLastPage(lastPage: Boolean, page: Int) {
@@ -92,10 +95,11 @@ class LivesCircleActivity : BaseActivity(), LivesCircleView {
 
         initRecyclerView()
 
-//        buttonBarLayout.alpha = 0f
-//        toolbar.setBackgroundColor(0)
-
         livesCircleType = intent.getIntExtra("LivesCircleType", 1)
+
+        /****** 根据不同的生活圈加载不同的UI ******/
+        getOtherUIByLivesCircleType(livesCircleType)
+
         getDataWithType(livesCircleType)
 
         iv_lives_back.setOnClickListener {
@@ -125,12 +129,30 @@ class LivesCircleActivity : BaseActivity(), LivesCircleView {
             override fun onHeaderMoving(header: RefreshHeader?, isDragging: Boolean, percent: Float, offset: Int, headerHeight: Int, maxDragHeight: Int) {
                 mOffset = offset / 2
                 parallax.translationY = (mOffset - mScrollY).toFloat()
-//                toolbar.alpha = 1 - Math.min(percent, 1f)
             }
         })
         subscribe()
     }
 
+
+    /****** 根据不同的生活圈加载不同的UI ******/
+    private fun getOtherUIByLivesCircleType(livesCircleType: Int) {
+
+        when (livesCircleType) {
+            /****** 所有人的生活圈 ******/
+            1 -> iv_take_picture.visibility=View.VISIBLE
+            /****** 我的生活圈 ******/
+            2 -> {
+                iv_take_picture.visibility=View.GONE
+            }
+            /****** 某个人的生活圈 ******/
+            3 -> {
+                iv_take_picture.visibility=View.GONE
+            }
+        }
+    }
+
+    /****** 根据不同的生活圈加载不同的数据 ******/
     private fun getDataWithType(livesCircleType: Int, page: Int = 0) {
         when (livesCircleType) {
             /****** 所有人的生活圈 ******/
@@ -155,12 +177,17 @@ class LivesCircleActivity : BaseActivity(), LivesCircleView {
         mAdapter.setOnLoadMoreListener(requestLoadMoreListener, rcv_lives_circle)
         mAdapter.setHasStableIds(true)
         mAdapter.openLoadAnimation()
+        val headView = View.inflate(this, R.layout.lives_circle_head_view, null)
+        mAdapter.setHeaderView(headView)
+        rcv_lives_circle.adapter = mAdapter
+
         mAdapter.setOnItemClickListener { adapter, view, position ->
             val contentBean = adapter.data[position] as LivesCircle.ContentBean
             val intent = Intent(this, LivesCircleDetailsActivity::class.java)
             contentBean.id?.let {
                 intent.putExtra("LivesCircleId", it)
-                startActivity(intent)
+                intent.putExtra("position", position)
+                startActivityForResult(intent,PUBLISH_REQUEST_DETAIL_CODE)
             }
         }
         mAdapter.setOnItemChildClickListener { adapter, view, position ->
@@ -178,10 +205,6 @@ class LivesCircleActivity : BaseActivity(), LivesCircleView {
                 }
             }
         }
-        val headView = View.inflate(this, R.layout.lives_circle_head_view, null)
-        mAdapter.setHeaderView(headView)
-        rcv_lives_circle.adapter = mAdapter
-
         rcv_lives_circle.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
@@ -196,17 +219,12 @@ class LivesCircleActivity : BaseActivity(), LivesCircleView {
 
     internal var mHandler = Handler(Handler.Callback {
         val scollYDistance = getScollYDistance()
-        Log.e("xiaowuSSS", scollYDistance.toString()+"--h:"+h)
-        val color = ContextCompat.getColor(this, R.color.main_gary_bg) and 0x00ffffff
         var scrollY = scollYDistance
         if (lastScrollY < h) {
             scrollY = Math.min(h, scrollY)
             mScrollY = if (scrollY > h) h else scrollY
-//            buttonBarLayout.alpha = 1f * mScrollY / h
             buttonBarLayout.alpha = 1f
             toolbar.setBackgroundColor(Color.argb(0, 242, 242, 242))
-
-//            toolbar.setBackgroundColor(255 * mScrollY / h shl 24 or color)
             parallax.translationY = (mOffset - mScrollY).toFloat()
 
             iv_take_picture.isSelected=false
@@ -223,9 +241,8 @@ class LivesCircleActivity : BaseActivity(), LivesCircleView {
         true
     })
 
-    lateinit var linearLayoutManager: LinearLayoutManager
     /**
-     * 不同Item VERTICAL
+     * 获得recyclerview滑动高度
      */
     fun getScollYDistance(): Int {
         val position = linearLayoutManager.findFirstVisibleItemPosition()
@@ -269,6 +286,20 @@ class LivesCircleActivity : BaseActivity(), LivesCircleView {
                     val content = data?.getStringExtra(IntentConstants.CONTENT)
                     val selectList = data?.getParcelableArrayListExtra<LocalMedia>(IntentConstants.IMAGES)
                     addLocalData(content, selectList)
+                }
+            }
+            /****** 从详情返回 ******/
+            PUBLISH_REQUEST_DETAIL_CODE ->{
+                if (resultCode == Activity.RESULT_OK) {
+                    val commentNum = data?.getIntExtra(IntentConstants.commentNum,0)
+                    val praiseNum = data?.getIntExtra(IntentConstants.praiseNum,0)
+                    val position = data?.getIntExtra(IntentConstants.position,0)
+                    val contentBean = mAdapter.getItem(position!!) as LivesCircle.ContentBean
+                    contentBean.praiseNum = praiseNum!!
+                    contentBean.commentNum = commentNum!!
+                    contentBean.praisesCircleoffriends = true
+                    mAdapter.setDataChange(position, contentBean)
+
                 }
             }
             else -> {
