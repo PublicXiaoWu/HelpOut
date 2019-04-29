@@ -6,15 +6,11 @@ import com.gkzxhn.helpout.R
 import com.gkzxhn.helpout.activity.LivesCircleActivity
 import com.gkzxhn.helpout.common.RxBus
 import com.gkzxhn.helpout.entity.LivesCircleNew
-import com.gkzxhn.helpout.entity.rxbus.RxBusBean
-import com.gkzxhn.helpout.net.HttpObserverNoDialog
-import com.gkzxhn.helpout.net.RetrofitClientChat
 import com.gkzxhn.helpout.utils.ProjectUtils
 import com.gkzxhn.helpout.utils.logE
 import com.gkzxhn.helpout.utils.showToast
 import kotlinx.android.synthetic.main.find_fragment.*
 import rx.android.schedulers.AndroidSchedulers
-import rx.schedulers.Schedulers
 
 /**
  * @classname：发现页面
@@ -30,14 +26,21 @@ class FindFragment : BaseFragment() {
     }
 
     override fun init() {
-        getLivesCircleNew()
 
         /****** 收到 已经加载过生活圈了 通知发现页面刷新新的未读信息 ******/
-        RxBus.instance.toObserverable(RxBusBean.ChangeFindUnRead::class.java)
+        RxBus.instance.toObserverable(LivesCircleNew::class.java)
                 .cache()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
-                    getLivesCircleNew()
+                    if (!it.username.isNullOrEmpty()) {
+                        iv_find_lives_circle_image.visibility = View.VISIBLE
+                        v_find_lives_circle_point.visibility = View.VISIBLE
+                        context?.let { it1 -> ProjectUtils.loadRoundImageByUserName(it1, it.username, iv_find_lives_circle_image) }
+                    } else {
+                        iv_find_lives_circle_image.visibility = View.GONE
+                        v_find_lives_circle_point.visibility = View.GONE
+
+                    }
                 }, {
                     it.message.toString().logE(this)
                 })
@@ -55,41 +58,5 @@ class FindFragment : BaseFragment() {
             context?.showToast("敬请期待")
         }
     }
-
-
-    /**
-     * @methodName： created by liushaoxiang on 2019/4/25 9:46 AM.
-     * @description：获取最新未看生活圈
-     */
-    fun getLivesCircleNew() {
-        mCompositeSubscription.add(context?.let {
-            RetrofitClientChat
-                    .getInstance(it).mApi.getLivesCircleNew()
-                    .subscribeOn(Schedulers.io())
-                    ?.unsubscribeOn(AndroidSchedulers.mainThread())
-                    ?.observeOn(AndroidSchedulers.mainThread())
-                    ?.subscribe(object : HttpObserverNoDialog<LivesCircleNew>(it) {
-                        override fun success(t: LivesCircleNew) {
-                            if (!t.username.isNullOrEmpty()) {
-                                iv_find_lives_circle_image.visibility = View.VISIBLE
-                                v_find_lives_circle_point.visibility = View.VISIBLE
-                                ProjectUtils.loadRoundImageByUserName(it, t.username, iv_find_lives_circle_image)
-                            } else {
-                                iv_find_lives_circle_image.visibility = View.GONE
-                                v_find_lives_circle_point.visibility = View.GONE
-
-                            }
-                        }
-                    })
-        })
-    }
-
-    override fun setUserVisibleHint(isVisibleToUser: Boolean) {
-        if (isVisibleToUser) {
-            getLivesCircleNew()
-        }
-        super.setUserVisibleHint(isVisibleToUser)
-    }
-
 
 }

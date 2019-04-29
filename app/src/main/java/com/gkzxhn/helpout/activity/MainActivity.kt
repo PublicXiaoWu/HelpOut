@@ -11,23 +11,24 @@ import com.gkzxhn.helpout.common.App
 import com.gkzxhn.helpout.common.Constants
 import com.gkzxhn.helpout.common.RxBus
 import com.gkzxhn.helpout.entity.LawyersInfo
-import com.gkzxhn.helpout.entity.rxbus.RxBusBean
+import com.gkzxhn.helpout.entity.LivesCircleNew
 import com.gkzxhn.helpout.entity.UpdateInfo
+import com.gkzxhn.helpout.entity.rxbus.RxBusBean
 import com.gkzxhn.helpout.fragment.ConversationFragment
 import com.gkzxhn.helpout.fragment.FindFragment
 import com.gkzxhn.helpout.fragment.HomeFragment
 import com.gkzxhn.helpout.fragment.UserFragment
 import com.gkzxhn.helpout.net.HttpObserver
+import com.gkzxhn.helpout.net.HttpObserverNoDialog
+import com.gkzxhn.helpout.net.RetrofitClientChat
 import com.gkzxhn.helpout.net.RetrofitClientPublic
 import com.gkzxhn.helpout.net.error_exception.ApiException
-import com.gkzxhn.helpout.utils.ObtainVersion
-import com.gkzxhn.helpout.utils.TsClickDialog
-import com.gkzxhn.helpout.utils.TsDialog
-import com.gkzxhn.helpout.utils.showToast
+import com.gkzxhn.helpout.utils.*
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.dialog_ts.*
 import retrofit2.adapter.rxjava.HttpException
 import rx.android.schedulers.AndroidSchedulers
+import rx.schedulers.Schedulers
 import java.io.IOException
 import java.net.ConnectException
 import java.util.*
@@ -66,6 +67,21 @@ class MainActivity : BaseActivity() {
 
         updateApp()
 
+        findLifeCircle()
+    }
+
+    private fun findLifeCircle() {
+        getLivesCircleNew()
+
+        /****** 收到 已经加载过生活圈了 通知发现页面刷新新的未读信息 ******/
+        RxBus.instance.toObserverable(RxBusBean.ChangeFindUnRead::class.java)
+                .cache()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+                    getLivesCircleNew()
+                }, {
+                    it.message.toString().logE(this)
+                })
     }
 
 
@@ -124,6 +140,7 @@ class MainActivity : BaseActivity() {
         tv_main_lives_circle.setTextColor(ContextCompat.getColor(this,R.color.main_bottom_purple))
         mainMy.setTextColor(ContextCompat.getColor(this,R.color.main_bottom_black))
 
+        getLivesCircleNew()
     }
 
     /**
@@ -204,4 +221,28 @@ class MainActivity : BaseActivity() {
 
     }
 
+
+    /**
+     * @methodName： created by liushaoxiang on 2019/4/25 9:46 AM.
+     * @description：获取最新未看生活圈
+     */
+    fun getLivesCircleNew() {
+        mCompositeSubscription.add(
+            RetrofitClientChat
+                    .getInstance(this).mApi.getLivesCircleNew()
+                    .subscribeOn(Schedulers.io())
+                    ?.unsubscribeOn(AndroidSchedulers.mainThread())
+                    ?.observeOn(AndroidSchedulers.mainThread())
+                    ?.subscribe(object : HttpObserverNoDialog<LivesCircleNew>(this) {
+                        override fun success(t: LivesCircleNew) {
+                            RxBus.instance.post(t)
+                            if (!t.username.isNullOrEmpty()) {
+                                view_red_point.visibility = View.VISIBLE
+                            } else {
+                                view_red_point.visibility = View.GONE
+                            }
+                        }
+                    })
+        )
+    }
 }
