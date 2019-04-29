@@ -1,30 +1,33 @@
 package com.gkzxhn.helpout.activity
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.graphics.Color
+import android.os.Handler
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.util.Log
-import android.view.ViewTreeObserver
+import android.view.View
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.gkzxhn.helpout.R
 import com.gkzxhn.helpout.adapter.LivesCircleAdapter
 import com.gkzxhn.helpout.common.IntentConstants
 import com.gkzxhn.helpout.common.RxBus
-import com.gkzxhn.helpout.customview.PullToRefreshLayout
-import com.gkzxhn.helpout.customview.RecyclerSpace
 import com.gkzxhn.helpout.entity.LivesCircle
 import com.gkzxhn.helpout.entity.LivesCircleDetails
 import com.gkzxhn.helpout.entity.rxbus.RxBusBean
-import com.gkzxhn.helpout.extensions.dp2px
 import com.gkzxhn.helpout.presenter.LivesCirclePresenter
-import com.gkzxhn.helpout.utils.StatusBarUtil
+import com.gkzxhn.helpout.utils.StatusBarUtils
 import com.gkzxhn.helpout.utils.StringUtils
 import com.gkzxhn.helpout.utils.showToast
 import com.gkzxhn.helpout.view.LivesCircleView
-import com.gkzxhn.helpout.view.ObservableAlphaScrollView
 import com.luck.picture.lib.entity.LocalMedia
+import com.scwang.smartrefresh.layout.api.RefreshHeader
+import com.scwang.smartrefresh.layout.api.RefreshLayout
+import com.scwang.smartrefresh.layout.listener.SimpleMultiPurposeListener
+import com.scwang.smartrefresh.layout.util.DensityUtil
 import kotlinx.android.synthetic.main.activity_lives_circle.*
 import rx.android.schedulers.AndroidSchedulers
 import java.util.*
@@ -36,15 +39,13 @@ import java.util.*
  * @date：2019/4/16 10:13 AM
  * @description：生活圈
  */
-class LivesCircleActivity : BaseActivity(), LivesCircleView, ObservableAlphaScrollView.OnAlphaScrollChangeListener {
+class LivesCircleActivity : BaseActivity(), LivesCircleView {
 
     lateinit var mPresenter: LivesCirclePresenter
     lateinit var mAdapter: LivesCircleAdapter
 
-    private var mTitleHeight: Int = 0
-    private var mHeadHeight: Int = 0
-    private var mDistance: Int = 0
-    private val mDistanceY = 30// 设置一个临界值吧
+    private var mOffset = 0
+    private var mScrollY = 0
 
     var loadMore = false
     var page = 0
@@ -58,64 +59,41 @@ class LivesCircleActivity : BaseActivity(), LivesCircleView, ObservableAlphaScro
     override fun setLastPage(lastPage: Boolean, page: Int) {
         this.loadMore = !lastPage
         this.page = page
-        Log.e("xiaowu666", "page:" + page + "__loadMore:" + loadMore)
-
     }
 
     override fun offLoadMore() {
         mAdapter.loadMoreComplete()
-        Log.e("xiaowu666", "加载完成")
     }
 
     override fun endLoadMore() {
         mAdapter.loadMoreEnd()
-        Log.e("xiaowu666", "----------加载结束---------------")
-
     }
 
     override fun updateData(data: List<LivesCircle.ContentBean>, isFirst: Boolean) {
         if (isFirst) {
             mAdapter.setNewData(data)
+            mAdapter.setEnableLoadMore(true)//这里的作用是放开 可以上拉加载
+
         } else {
             mAdapter.addData(data)
         }
     }
 
     override fun provideContentViewId(): Int {
-        /****** 状态栏相关设置 ******/
-        setStatus()
         return R.layout.activity_lives_circle
     }
 
-    /****** 状态栏相关设置 ******/
-    private fun setStatus() {
-        //当FitsSystemWindows设置 true 时，会在屏幕最上方预留出状态栏高度的 padding
-        StatusBarUtil.setRootViewFitsSystemWindows(this, true);
-        //设置状态栏透明
-        StatusBarUtil.setTranslucentStatus(this);
-        //一般的手机的状态栏文字和图标都是白色的, 可如果你的应用也是纯白色的, 或导致状态栏文字看不清
-        //所以如果你是这种情况,请使用以下代码, 设置状态使用深色文字图标风格, 否则你可以选择性注释掉这个if内容
-        if (!StatusBarUtil.setStatusBarDarkTheme(this, true)) {
-            //如果不支持设置深色风格 为了兼容总不能让状态栏白白的看不清, 于是设置一个状态栏颜色为半透明,
-            //这样半透明+白=灰, 状态栏的文字能看得清
-            StatusBarUtil.setStatusBarColor(this, 0x55000000);
-        }
-    }
 
     override fun init() {
         mPresenter = LivesCirclePresenter(this, this)
-        val viewTreeObserver = ll_lives_head?.viewTreeObserver
-        viewTreeObserver?.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
-            override fun onGlobalLayout() {
-                ll_lives_head.viewTreeObserver.removeOnGlobalLayoutListener(this)
-                mTitleHeight = ll_lives_title.measuredHeight
-                mHeadHeight = ll_lives_head.measuredHeight
-                mDistance = mHeadHeight - mTitleHeight
-                s_lives_scrollView.setOnAlphaScrollChangeListener(this@LivesCircleActivity)
-            }
-        })
+        //状态栏透明和间距处理
+        StatusBarUtils.immersive(this)
+        StatusBarUtils.setPaddingSmart(this, toolbar)
 
         initRecyclerView()
+
+//        buttonBarLayout.alpha = 0f
+//        toolbar.setBackgroundColor(0)
 
         livesCircleType = intent.getIntExtra("LivesCircleType", 1)
         getDataWithType(livesCircleType)
@@ -129,12 +107,27 @@ class LivesCircleActivity : BaseActivity(), LivesCircleView, ObservableAlphaScro
         }
 
         //下啦刷新
-        loading_refresh.setOnRefreshListener(object : PullToRefreshLayout.OnRefreshListener {
-            override fun onRefresh() {
-                getDataWithType(livesCircleType)
-                loading_refresh?.finishRefreshing()
+        loading_refresh.setOnRefreshListener {
+            mAdapter.setEnableLoadMore(false)//这里的作用是防止下拉刷新的时候还可以上拉加载
+            getDataWithType(livesCircleType)
+            loading_refresh.finishRefresh(500)
+        }
+
+        loading_refresh.setOnMultiPurposeListener(object : SimpleMultiPurposeListener() {
+            override fun onRefresh(refreshLayout: RefreshLayout) {
+                refreshLayout.finishRefresh(3000)
             }
-        }, 1)
+
+            override fun onLoadMore(refreshLayout: RefreshLayout) {
+                refreshLayout.finishLoadMore(2000)
+            }
+
+            override fun onHeaderMoving(header: RefreshHeader?, isDragging: Boolean, percent: Float, offset: Int, headerHeight: Int, maxDragHeight: Int) {
+                mOffset = offset / 2
+                parallax.translationY = (mOffset - mScrollY).toFloat()
+//                toolbar.alpha = 1 - Math.min(percent, 1f)
+            }
+        })
         subscribe()
     }
 
@@ -154,15 +147,14 @@ class LivesCircleActivity : BaseActivity(), LivesCircleView, ObservableAlphaScro
         }
     }
 
+    @SuppressLint("NewApi")
     private fun initRecyclerView() {
-        rcv_lives_circle.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+        linearLayoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+        rcv_lives_circle.layoutManager = linearLayoutManager
         mAdapter = LivesCircleAdapter(null)
+        mAdapter.setOnLoadMoreListener(requestLoadMoreListener, rcv_lives_circle)
         mAdapter.setHasStableIds(true)
-        mAdapter.disableLoadMoreIfNotFullPage(rcv_lives_circle)
-        mAdapter.setPreLoadNumber(2)
-
         mAdapter.openLoadAnimation()
-        rcv_lives_circle.addItemDecoration(RecyclerSpace(1f.dp2px().toInt(), ContextCompat.getColor(this, R.color.gray_line)))
         mAdapter.setOnItemClickListener { adapter, view, position ->
             val contentBean = adapter.data[position] as LivesCircle.ContentBean
             val intent = Intent(this, LivesCircleDetailsActivity::class.java)
@@ -186,15 +178,66 @@ class LivesCircleActivity : BaseActivity(), LivesCircleView, ObservableAlphaScro
                 }
             }
         }
-        mAdapter.setOnLoadMoreListener(requestLoadMoreListener, rcv_lives_circle)
+        val headView = View.inflate(this, R.layout.lives_circle_head_view, null)
+        mAdapter.setHeaderView(headView)
         rcv_lives_circle.adapter = mAdapter
-        mAdapter.setEmptyView(R.layout.empty_default, rcv_lives_circle)
+
+        rcv_lives_circle.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                mHandler.sendEmptyMessage(1)
+            }
+        })
+
     }
+
+    var lastScrollY = 0
+    val h = DensityUtil.dp2px(180f)
+
+    internal var mHandler = Handler(Handler.Callback {
+        val scollYDistance = getScollYDistance()
+        Log.e("xiaowuSSS", scollYDistance.toString()+"--h:"+h)
+        val color = ContextCompat.getColor(this, R.color.main_gary_bg) and 0x00ffffff
+        var scrollY = scollYDistance
+        if (lastScrollY < h) {
+            scrollY = Math.min(h, scrollY)
+            mScrollY = if (scrollY > h) h else scrollY
+//            buttonBarLayout.alpha = 1f * mScrollY / h
+            buttonBarLayout.alpha = 1f
+            toolbar.setBackgroundColor(Color.argb(0, 242, 242, 242))
+
+//            toolbar.setBackgroundColor(255 * mScrollY / h shl 24 or color)
+            parallax.translationY = (mOffset - mScrollY).toFloat()
+
+            iv_take_picture.isSelected=false
+            iv_lives_back.isSelected=false
+            tv_lives_title.alpha=0f
+        }else{
+            iv_take_picture.isSelected=true
+            iv_lives_back.isSelected=true
+            tv_lives_title.alpha=1f
+            buttonBarLayout.alpha = 1f
+            toolbar.setBackgroundColor(Color.argb(255, 242, 242, 242))
+        }
+        lastScrollY = scrollY
+        true
+    })
+
+    lateinit var linearLayoutManager: LinearLayoutManager
+    /**
+     * 不同Item VERTICAL
+     */
+    fun getScollYDistance(): Int {
+        val position = linearLayoutManager.findFirstVisibleItemPosition()
+        val firstVisiableChildView = linearLayoutManager.findViewByPosition(position)
+        val itemHeight = firstVisiableChildView?.height
+        return position * itemHeight!! - firstVisiableChildView.getTop()
+    }
+
 
     /****** 设置上拉加载的监听  ******/
     val requestLoadMoreListener = BaseQuickAdapter.RequestLoadMoreListener {
         Log.e("xiaowu666", "-----------开始加载更多")
-
         if (loadMore) {
             getDataWithType(livesCircleType, page + 1)
         } else {
@@ -216,29 +259,6 @@ class LivesCircleActivity : BaseActivity(), LivesCircleView, ObservableAlphaScro
         contentBean.praiseNum = contentBean.praiseNum + 1
         contentBean.praisesCircleoffriends = true
         mAdapter.setDataChange(position, contentBean)
-    }
-
-    override fun onVerticalScrollChanged(t: Int) {
-        if (t <= mDistance - mDistanceY) {
-            tv_lives_title.alpha = 0f
-            iv_lives_back.isSelected = false
-            iv_take_picture.isSelected = false
-            ll_lives_title.setBackgroundColor(Color.argb(0, 242, 242, 242))
-        } else if (t <= mDistance) {
-            tv_lives_title.alpha = 0f
-            iv_lives_back.isSelected = false
-            iv_take_picture.isSelected = false
-        } else if (t <= mDistance + mDistanceY) {
-            tv_lives_title.alpha = 1f
-            iv_lives_back.isSelected = true
-            iv_take_picture.isSelected = true
-            ll_lives_title.setBackgroundColor(Color.argb(0, 242, 242, 242))
-        } else {
-            tv_lives_title.alpha = 1f
-            iv_lives_back.isSelected = true
-            iv_take_picture.isSelected = true
-            ll_lives_title.setBackgroundColor(Color.argb(255, 242, 242, 242))
-        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

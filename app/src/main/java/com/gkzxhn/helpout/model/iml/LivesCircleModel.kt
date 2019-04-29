@@ -38,7 +38,7 @@ class LivesCircleModel : BaseModel(), ILivesCircleModel {
 
     override fun getLivesCircle(context: Context, page: String, size: String): Observable<LivesCircle> {
         return RetrofitClientChat.Companion.getInstance(context).mApi
-                .getLivesCircle(page, size, "createdTime,desc")
+                .getLivesCircle(page, size)
                 .subscribeOn(Schedulers.io())
                 as Observable<LivesCircle>
     }

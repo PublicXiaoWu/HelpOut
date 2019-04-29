@@ -1,5 +1,6 @@
 package com.gkzxhn.helpout.utils
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.net.Uri
 import android.util.Log
@@ -56,9 +57,9 @@ object ProjectUtils {
     /**
      * @methodName： created by liushaoxiang on 2019/4/23 2:03 PM.
      * @description：
-            val map = LinkedHashMap<String, String>()
-            map["phoneNumber"] =
-            val body= ProjectUtils.getRequestBody(map)
+    val map = LinkedHashMap<String, String>()
+    map["phoneNumber"] =
+    val body= ProjectUtils.getRequestBody(map)
      */
     fun getRequestBody(map: LinkedHashMap<String, String>): RequestBody {
         return RequestBody.create(MediaType.parse("application/json; charset=utf-8"),
@@ -128,6 +129,7 @@ object ProjectUtils {
     }
 
     /****** 通过fileID加载图片 ******/
+    @SuppressLint("LongLogTag")
     fun loadImageByFileID(context: Context, fileId: String?, imageview: ImageView) {
         if (fileId == null || fileId.isEmpty()) {
             imageview.setImageResource(R.color.main_gary_bg)
@@ -142,7 +144,11 @@ object ProjectUtils {
                 options.placeholder(R.color.main_gary_bg)
                 options.error(R.color.main_gary_bg)
                 val glideUrl = GlideUrl(NetWorkCodeInfo.BASE_URL + "/files/" + fileId, addHeader.build())
-                Glide.with(context).load(glideUrl).apply(options).into(imageview)
+                try {
+                    Glide.with(context).load(glideUrl).apply(options).into(imageview)
+                } catch (e: IllegalArgumentException) {
+                    Log.e("IllegalArgumentException",e.toString())
+                }
             }
         }
     }
@@ -153,13 +159,12 @@ object ProjectUtils {
             imageview.setImageResource(R.mipmap.ic_user_icon)
             return
         }
-        Log.v("OkHttp", "-----------图片userName:$userName")
         val token = App.SP.getString(Constants.SP_TOKEN, "")
         if (token != null) {
             if (token.isNotEmpty()) {
                 val mtoken = "Bearer $token"
                 val addHeader = LazyHeaders.Builder().addHeader("Authorization", mtoken)
-                val glideUrl = GlideUrl(NetWorkCodeInfo.BASE_URL + "/users/by-username/avatar?username="+userName, addHeader.build())
+                val glideUrl = GlideUrl(NetWorkCodeInfo.BASE_URL + "/users/by-username/avatar?username=" + userName, addHeader.build())
                 val options = RequestOptions()
                 options.placeholder(R.mipmap.ic_user_icon)
                 options.error(R.mipmap.ic_user_icon)
