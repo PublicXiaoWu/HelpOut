@@ -1,5 +1,6 @@
 package com.gkzxhn.helpout.utils
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.drawable.Drawable
 import android.net.Uri
@@ -130,6 +131,7 @@ object ProjectUtils {
     }
 
     /****** 通过fileID加载图片 ******/
+    @SuppressLint("LongLogTag")
     fun loadImageByFileID(context: Context, fileId: String?, imageview: ImageView, listener: RequestListener<Drawable>? = null) {
         if (fileId == null || fileId.isEmpty()) {
             imageview.setImageResource(R.color.main_gary_bg)
@@ -144,8 +146,13 @@ object ProjectUtils {
                 options.placeholder(R.color.main_gary_bg)
                 options.error(R.color.main_gary_bg)
                 val glideUrl = GlideUrl(NetWorkCodeInfo.BASE_URL + "/files/" + fileId, addHeader.build())
-                Glide.with(context).load(glideUrl).apply(options)
-                        .listener(listener).into(imageview)
+                try {
+                    Glide.with(context).load(glideUrl).apply(options)
+                            .listener(listener).into(imageview)
+                } catch (e: IllegalArgumentException) {
+                    Log.e("IllegalArgumentException",e.toString())
+                }
+
             }
         }
     }

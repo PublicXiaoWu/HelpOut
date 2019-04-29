@@ -312,7 +312,7 @@ interface ApiService {
 
     //    获取所有人生活圈
     @GET("/customer/circleoffriends/getCircleoffriends")
-    fun getLivesCircle(@Query("page") page: String, @Query("size") size: String, @Query("sort") sort: String): Observable<LivesCircle>
+    fun getLivesCircle(@Query("page") page: String, @Query("size") size: String): Observable<LivesCircle>
 
     //    获取我的生活圈
     @GET("/customer/circleoffriends/getMyCircleoffriends")

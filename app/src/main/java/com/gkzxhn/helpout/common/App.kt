@@ -20,6 +20,7 @@ import com.gkzxhn.helpout.activity.SplashActivity
 import com.gkzxhn.helpout.entity.rxbus.RxBusBean
 import com.gkzxhn.helpout.net.ApiService
 import com.gkzxhn.helpout.net.RetrofitClient
+import com.gkzxhn.helpout.utils.DynamicTimeFormat
 import com.gkzxhn.helpout.utils.LogHelper
 import com.gkzxhn.helpout.utils.location.helper.MLocationProvider
 import com.netease.nim.avchatkit.AVChatKit
@@ -43,6 +44,8 @@ import com.netease.nimlib.sdk.msg.MsgServiceObserve
 import com.netease.nimlib.sdk.msg.model.CustomNotification
 import com.netease.nimlib.sdk.uinfo.model.UserInfo
 import com.netease.nimlib.sdk.util.NIMUtil
+import com.scwang.smartrefresh.layout.SmartRefreshLayout
+import com.scwang.smartrefresh.layout.header.ClassicsHeader
 import org.json.JSONObject
 
 /**
@@ -65,6 +68,13 @@ class App : Application() {
         /****** 崩溃日志初始化 ******/
         CrashHandler.instance.init(this)
         initWY()
+
+        SmartRefreshLayout.setDefaultRefreshHeaderCreator { context, layout ->
+            //全局设置主题颜色（优先级第二低，可以覆盖 DefaultRefreshInitializer 的配置，与下面的ClassicsHeader绑定）
+            layout.setPrimaryColorsId(R.color.colorPrimary, android.R.color.white)
+
+            ClassicsHeader(context).setTimeFormat(DynamicTimeFormat("更新于 %s"))
+        }
     }
 
     private fun initWY() {
