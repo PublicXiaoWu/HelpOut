@@ -7,9 +7,11 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Matrix
+import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Build
 import android.provider.MediaStore
+import android.support.v4.app.ActivityOptionsCompat
 import android.support.v4.util.Pair
 import android.support.v4.view.PagerAdapter
 import android.support.v4.view.ViewPager
@@ -17,7 +19,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.RequestOptions
+import com.bumptech.glide.request.target.Target
 import com.gkzxhn.helpout.R
 import com.gkzxhn.helpout.common.IntentConstants
 import com.gkzxhn.helpout.utils.ProjectUtils
@@ -94,17 +100,17 @@ class ImageActivity : BaseActivity() {
             val intent = Intent(context, ImageActivity::class.java)
             intent.putStringArrayListExtra(IntentConstants.INTENT_String_URLS, urls as ArrayList<String>)
             intent.putExtra(IntentConstants.INDEX, index)
-//            if (Build.VERSION.SDK_INT > 21) {
-//                /**
-//                 *4、生成带有共享元素的Bundle，这样系统才会知道这几个元素需要做动画
-//                 */
-//                val activityOptionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(context as Activity, *pairs)
-//
-//                context.startActivity(intent,
-//                        activityOptionsCompat.toBundle())
-//            } else {
+            if (Build.VERSION.SDK_INT > 21) {
+                /**
+                 *4、生成带有共享元素的Bundle，这样系统才会知道这几个元素需要做动画
+                 */
+                val activityOptionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(context as Activity, null)
+
+                context.startActivity(intent,
+                        activityOptionsCompat.toBundle())
+            } else {
                 context.startActivity(intent)
-//            }
+            }
         }
 
     }
@@ -120,6 +126,8 @@ class ImageActivity : BaseActivity() {
     }
 
     override fun init() {
+        //转场动画
+        supportPostponeEnterTransition()
         uri = intent.getParcelableExtra<Uri>(IntentConstants.INTENT_CROP_IMAGE_URI)
         url = intent.getStringExtra(IntentConstants.INTENT_String_URL)
         urls = intent.getStringArrayListExtra(IntentConstants.INTENT_String_URLS)
@@ -146,9 +154,9 @@ class ImageActivity : BaseActivity() {
 
     private fun setViewPager(urls: ArrayList<String>, index: Int) {
         viewpager.visibility = View.VISIBLE
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            viewpager.transitionName = urls[index]
-        }
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+//            viewpager.transitionName = urls[index]
+//        }
         viewpager.adapter = object : PagerAdapter() {
             override fun isViewFromObject(view: View, `object`: Any): Boolean {
                 return view == `object`
@@ -160,9 +168,9 @@ class ImageActivity : BaseActivity() {
 
             override fun instantiateItem(container: ViewGroup, position1: Int): Any {
                 val imageView = ImageView(this@ImageActivity)
-//                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-//                    imageView.transitionName = urls[position1]
-//                }
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && position1 == index) {
+                    imageView.transitionName = urls[position1]
+                }
                 imageView.scaleType = ImageView.ScaleType.FIT_CENTER
                 val params = ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
                 imageView.layoutParams = params
@@ -173,8 +181,19 @@ class ImageActivity : BaseActivity() {
                                         .placeholder(R.color.main_gary_bg)
                                         .error(R.color.main_gary_bg))
                                 .into(imageView)
-                    }else {
-                        ProjectUtils.loadImageByFileID(this@ImageActivity, it, imageView)
+                    } else {
+                        ProjectUtils.loadImageByFileID(this@ImageActivity, it, imageView,
+                                object : RequestListener<Drawable> {
+                                    override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Drawable>?, isFirstResource: Boolean): Boolean {
+                                        supportStartPostponedEnterTransition()
+                                        return false
+                                    }
+
+                                    override fun onResourceReady(resource: Drawable?, model: Any?, target: Target<Drawable>?, dataSource: DataSource?, isFirstResource: Boolean): Boolean {
+                                        supportStartPostponedEnterTransition()
+                                        return false
+                                    }
+                                })
                     }
 //                    imageView.load(this@ImageActivity, "$it?token=${Constants.IMAGE_TOKEN}", R.mipmap.img_error)
                 }
@@ -203,7 +222,8 @@ class ImageActivity : BaseActivity() {
 
             override fun onPageSelected(position: Int) {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    viewpager.transitionName = urls[position]
+//                    viewpager.getChildAt(position).transitionName = urls[position]
+//                    viewpager.transitionName = urls[position]
                 }
             }
         })

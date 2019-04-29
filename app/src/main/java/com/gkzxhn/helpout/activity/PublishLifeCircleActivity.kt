@@ -51,7 +51,7 @@ class PublishLifeCircleActivity : BaseActivity(), BaseView {
     private fun initToolbar() {
         tv_cancel.setOnClickListener { finish() }
         tv_publish.setOnClickListener {
-            if (!TextUtils.isEmpty(et_content.text.toString())) {
+            if (!TextUtils.isEmpty(et_content.text.toString()) || selectList.isNotEmpty()) {
                 if (!isNetworkConnected()) {
                     showToast(getString(R.string.network_is_not_available))
                     return@setOnClickListener
@@ -75,7 +75,7 @@ class PublishLifeCircleActivity : BaseActivity(), BaseView {
             }
 
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                if (TextUtils.isEmpty(p0)) {
+                if (TextUtils.isEmpty(p0) && selectList.isEmpty()) {
                     tv_publish.setTextColor(resources.getColor(R.color.text_un_edit))
                 } else {
                     tv_publish.setTextColor(resources.getColor(R.color.dark_blue))
@@ -115,6 +115,15 @@ class PublishLifeCircleActivity : BaseActivity(), BaseView {
                 }
             }
         })
+        adapter.setOnItemRemovedListener(object : GridImageAdapter.OnItemRemovedListener{
+            override fun onItemRemoved(position: Int, v: View) {
+                if (selectList.isEmpty() && TextUtils.isEmpty(et_content.text.toString())) {
+                    tv_publish.setTextColor(resources.getColor(R.color.text_un_edit))
+                }else {
+                    tv_publish.setTextColor(resources.getColor(R.color.dark_blue))
+                }
+            }
+        })
     }
 
     private val onAddPicClickListener = object : GridImageAdapter.onAddPicClickListener {
@@ -148,7 +157,7 @@ class PublishLifeCircleActivity : BaseActivity(), BaseView {
                     .showCropFrame(false)// 是否显示裁剪矩形边框 圆形裁剪时建议设为false
                     .showCropGrid(false)// 是否显示裁剪矩形网格 圆形裁剪时建议设为false
                     .openClickSound(false)// 是否开启点击声音
-                    .selectionMedia(selectList)// 是否传入已选图片
+//                    .selectionMedia(selectList)// 是否传入已选图片
                     //.isDragFrame(false)// 是否可拖动裁剪框(固定)
                     //                        .videoMaxSecond(15)
                     //                        .videoMinSecond(10)
@@ -180,6 +189,11 @@ class PublishLifeCircleActivity : BaseActivity(), BaseView {
                     // 如果裁剪并压缩了，已取压缩路径为准，因为是先裁剪后压缩的
                     for (media in selectList) {
                         Log.i("图片-----》", media.path)
+                    }
+                    if (selectList.isEmpty() && TextUtils.isEmpty(et_content.text.toString())) {
+                        tv_publish.setTextColor(resources.getColor(R.color.text_un_edit))
+                    }else {
+                        tv_publish.setTextColor(resources.getColor(R.color.dark_blue))
                     }
                     adapter.setList(selectList)
                     adapter.notifyDataSetChanged()
