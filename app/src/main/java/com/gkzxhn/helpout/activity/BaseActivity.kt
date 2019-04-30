@@ -22,8 +22,8 @@ import com.gkzxhn.helpout.R
 import com.gkzxhn.helpout.common.App
 import com.gkzxhn.helpout.common.Constants
 import com.gkzxhn.helpout.common.RxBus
-import com.gkzxhn.helpout.entity.rxbus.RxBusBean
 import com.gkzxhn.helpout.entity.UpdateInfo
+import com.gkzxhn.helpout.entity.rxbus.RxBusBean
 import com.gkzxhn.helpout.net.NetWorkCodeInfo
 import com.gkzxhn.helpout.utils.SystemUtil
 import com.gkzxhn.helpout.utils.TsClickDialog
