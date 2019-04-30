@@ -147,7 +147,6 @@ public class ContactsFragment extends TFragment {
     private void findViews() {
         // loading
         loadingFrame = findView(R.id.contact_loading_frame);
-
         // count
         View countLayout = View.inflate(getView().getContext(), R.layout.nim_contacts_count_item, null);
         countLayout.setClickable(false);
@@ -185,7 +184,7 @@ public class ContactsFragment extends TFragment {
         TextView litterHit = view.findViewById(R.id.tv_hit_letter);
         litterIdx = adapter.createLivIndex(listView, livIndex, litterHit, imgBackLetter);
 
-        litterIdx.show();
+        litterIdx.hide();
     }
 
     private final class ContactItemClickListener implements OnItemClickListener, OnItemLongClickListener {

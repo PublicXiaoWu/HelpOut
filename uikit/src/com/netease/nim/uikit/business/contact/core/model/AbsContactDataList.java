@@ -41,11 +41,15 @@ public abstract class AbsContactDataList {
     }
 
     public AbsContactDataList(ContactGroupStrategy groupStrategy) {
-        if (groupStrategy == null) {
-            groupStrategy = new NoneGroupStrategy();
-        }
+//        if (groupStrategy == null) {
+//            groupStrategy = new NoneGroupStrategy();
+//        }
+//
+//        this.groupStrategy = groupStrategy;
 
-        this.groupStrategy = groupStrategy;
+
+//      去掉首字母筛选item，直接返回null 即可
+        this.groupStrategy = new NoneGroupStrategy();
     }
 
     //
