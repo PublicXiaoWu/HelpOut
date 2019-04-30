@@ -74,7 +74,7 @@ class MainActivity : BaseActivity() {
         getLivesCircleNew()
 
         /****** 收到 已经加载过生活圈了 通知发现页面刷新新的未读信息 ******/
-        RxBus.instance.toObserverable(RxBusBean.ChangeFindUnRead::class.java)
+        val rxSubscription = RxBus.instance.toObserverable(RxBusBean.ChangeFindUnRead::class.java)
                 .cache()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
@@ -82,8 +82,8 @@ class MainActivity : BaseActivity() {
                 }, {
                     it.message.toString().logE(this)
                 })
+        mCompositeSubscription.add(rxSubscription)
     }
-
 
     /**
      * Explanation: 首页的点击方法

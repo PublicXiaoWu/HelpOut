@@ -318,7 +318,7 @@ class LivesCircleActivity : BaseActivity(), LivesCircleView {
     }
 
     fun subscribe() {
-        RxBus.instance.toObserverable(RxBusBean.PublishEntity::class.java)
+        val rxSubscription = RxBus.instance.toObserverable(RxBusBean.PublishEntity::class.java)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe {
                     if (it.code == 0) {
@@ -327,6 +327,6 @@ class LivesCircleActivity : BaseActivity(), LivesCircleView {
                         getDataWithType(livesCircleType)
                     }
                 }
+        mCompositeSubscription.add(rxSubscription)
     }
-
 }
