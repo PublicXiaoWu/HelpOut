@@ -176,7 +176,6 @@ class LivesCircleActivity : BaseActivity(), LivesCircleView {
         mAdapter = LivesCircleAdapter(null)
         mAdapter.setOnLoadMoreListener(requestLoadMoreListener, rcv_lives_circle)
         mAdapter.setHasStableIds(true)
-        mAdapter.openLoadAnimation()
         val headView = View.inflate(this, R.layout.lives_circle_head_view, null)
         mAdapter.setHeaderView(headView)
         rcv_lives_circle.adapter = mAdapter
