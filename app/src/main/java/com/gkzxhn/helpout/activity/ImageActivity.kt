@@ -11,7 +11,6 @@ import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Build
 import android.provider.MediaStore
-import android.support.v4.app.ActivityOptionsCompat
 import android.support.v4.util.Pair
 import android.support.v4.view.PagerAdapter
 import android.support.v4.view.ViewPager
@@ -100,17 +99,17 @@ class ImageActivity : BaseActivity() {
             val intent = Intent(context, ImageActivity::class.java)
             intent.putStringArrayListExtra(IntentConstants.INTENT_String_URLS, urls as ArrayList<String>)
             intent.putExtra(IntentConstants.INDEX, index)
-            if (Build.VERSION.SDK_INT > 21) {
-                /**
-                 *4、生成带有共享元素的Bundle，这样系统才会知道这几个元素需要做动画
-                 */
-                val activityOptionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(context as Activity, null)
-
-                context.startActivity(intent,
-                        activityOptionsCompat.toBundle())
-            } else {
+//            if (Build.VERSION.SDK_INT > 21) {
+//                /**
+//                 *4、生成带有共享元素的Bundle，这样系统才会知道这几个元素需要做动画
+//                 */
+//                val activityOptionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(context as Activity, *pairs)
+//
+//                context.startActivity(intent,
+//                        activityOptionsCompat.toBundle())
+//            } else {
                 context.startActivity(intent)
-            }
+//            }
         }
 
     }

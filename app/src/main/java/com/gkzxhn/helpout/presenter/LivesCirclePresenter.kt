@@ -29,7 +29,7 @@ class LivesCirclePresenter(context: Context, view: LivesCircleView) : BasePresen
             mModel.getLivesCircle(it, page.toString(), "10")
                     .unsubscribeOn(AndroidSchedulers.mainThread())
                     ?.observeOn(AndroidSchedulers.mainThread())
-                    ?.subscribe(object : HttpObserverNoDialog<LivesCircle>(mContext!!) {
+                    ?.subscribe(object : HttpObserverNoDialog<LivesCircle>(it) {
                         override fun success(t: LivesCircle) {
                             mView?.updateData(t.content!!,t.first)
                             mView?.setLastPage(t.last, page)
@@ -50,7 +50,7 @@ class LivesCirclePresenter(context: Context, view: LivesCircleView) : BasePresen
             mModel.getMyLivesCircle(it, page.toString(), "10")
                     .unsubscribeOn(AndroidSchedulers.mainThread())
                     ?.observeOn(AndroidSchedulers.mainThread())
-                    ?.subscribe(object : HttpObserverNoDialog<LivesCircle>(mContext!!) {
+                    ?.subscribe(object : HttpObserverNoDialog<LivesCircle>(it) {
                         override fun success(t: LivesCircle) {
                             mView?.updateData(t.content!!,t.first)
                             mView?.setLastPage(t.last, page)
@@ -65,7 +65,7 @@ class LivesCirclePresenter(context: Context, view: LivesCircleView) : BasePresen
             mModel.getLivesCircleByUserName(it,userName, page.toString(), "10")
                     .unsubscribeOn(AndroidSchedulers.mainThread())
                     ?.observeOn(AndroidSchedulers.mainThread())
-                    ?.subscribe(object : HttpObserverNoDialog<LivesCircle>(mContext!!) {
+                    ?.subscribe(object : HttpObserverNoDialog<LivesCircle>(it) {
                         override fun success(t: LivesCircle) {
                             mView?.updateData(t.content!!,t.first)
                             mView?.setLastPage(t.last, page)
@@ -87,7 +87,7 @@ class LivesCirclePresenter(context: Context, view: LivesCircleView) : BasePresen
             mModel.praise(it, requestBody)
                     .unsubscribeOn(AndroidSchedulers.mainThread())
                     ?.observeOn(AndroidSchedulers.mainThread())
-                    ?.subscribe(object : HttpObserverNoDialog<ResponseBody>(mContext!!) {
+                    ?.subscribe(object : HttpObserverNoDialog<ResponseBody>(it) {
                         override fun success(t: ResponseBody) {
                             mView?.praiseSuccess(position)
                         }
@@ -127,7 +127,7 @@ class LivesCirclePresenter(context: Context, view: LivesCircleView) : BasePresen
             mModel.comment(it, requestBody)
                     .unsubscribeOn(AndroidSchedulers.mainThread())
                     ?.observeOn(AndroidSchedulers.mainThread())
-                    ?.subscribe(object : HttpObserverNoDialog<ResponseBody>(mContext!!) {
+                    ?.subscribe(object : HttpObserverNoDialog<ResponseBody>(it) {
                         override fun success(t: ResponseBody) {
                             getLivesCircleDetails(circleoffriendsId)
                         }
