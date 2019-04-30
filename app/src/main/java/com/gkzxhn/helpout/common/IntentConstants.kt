@@ -31,6 +31,7 @@ object IntentConstants {
     //praiseNum
     val commentNum = "commentNum"
     val position = "position"
+    val praisesCircleoffriends = "praisesCircleoffriends"
     //praiseNum
     val praiseNum = "praiseNum"
 }

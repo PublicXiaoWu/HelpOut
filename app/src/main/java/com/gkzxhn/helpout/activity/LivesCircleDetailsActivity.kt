@@ -180,6 +180,7 @@ class LivesCircleDetailsActivity : BaseActivity(), LivesCircleView {
             data.putExtra(IntentConstants.position, position)
             data.putExtra(IntentConstants.praiseNum, mLivesCircleDetails?.praiseNum)
             data.putExtra(IntentConstants.commentNum,mLivesCircleDetails?.commentNum)
+            data.putExtra(IntentConstants.praisesCircleoffriends,mLivesCircleDetails?.praisesCircleoffriends)
             setResult(Activity.RESULT_OK, data)
             super.onBackPressed()
 

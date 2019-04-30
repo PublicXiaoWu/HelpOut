@@ -294,10 +294,11 @@ class LivesCircleActivity : BaseActivity(), LivesCircleView {
                     val commentNum = data?.getIntExtra(IntentConstants.commentNum,0)
                     val praiseNum = data?.getIntExtra(IntentConstants.praiseNum,0)
                     val position = data?.getIntExtra(IntentConstants.position,0)
+                    val praisesCircleoffriends = data?.getBooleanExtra(IntentConstants.praisesCircleoffriends,false)
                     val contentBean = mAdapter.getItem(position!!) as LivesCircle.ContentBean
                     contentBean.praiseNum = praiseNum!!
                     contentBean.commentNum = commentNum!!
-                    contentBean.praisesCircleoffriends = true
+                    contentBean.praisesCircleoffriends = praisesCircleoffriends!!
                     mAdapter.setDataChange(position, contentBean)
 
                 }
