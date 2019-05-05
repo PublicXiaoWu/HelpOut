@@ -37,7 +37,7 @@ class AddFriendTwoActivity : BaseActivity() {
 
         tv_add_friend_two_add.setOnClickListener {
             if (phoneNumber == App.SP.getString(Constants.SP_PHONE, "")) {
-                TsDialog("不能将自己添加到通讯录", true)
+                TsDialog("你不能添加自己到通讯录", true)
                 return@setOnClickListener
             }
             val intent = Intent(this, AddFriendThreeActivity::class.java)

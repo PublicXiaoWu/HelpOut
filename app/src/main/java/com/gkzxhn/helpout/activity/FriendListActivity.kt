@@ -1,7 +1,6 @@
 package com.gkzxhn.helpout.activity
 
 import android.content.Intent
-import android.util.Log
 import android.view.View
 import com.gkzxhn.helpout.R
 import com.gkzxhn.helpout.common.RxBus
@@ -54,7 +53,6 @@ class FriendListActivity : BaseActivity() {
         val types = ArrayList<SystemMessageType>()
         types.add(SystemMessageType.AddFriend)
         val unreadCount = NIMClient.getService(SystemMessageService::class.java).querySystemMessageUnreadCountByType(types)
-        Log.e("xiaowu_unreadCount",unreadCount.toString())
         v_friend_list_point_number.text=unreadCount.toString()
     }
 

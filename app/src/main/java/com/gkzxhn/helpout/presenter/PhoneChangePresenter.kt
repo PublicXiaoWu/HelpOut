@@ -11,6 +11,7 @@ import com.gkzxhn.helpout.common.Constants
 import com.gkzxhn.helpout.model.IPhoneChangeModel
 import com.gkzxhn.helpout.model.iml.PhoneChangeModel
 import com.gkzxhn.helpout.net.HttpObserver
+import com.gkzxhn.helpout.net.error_exception.NetCodeHelper
 import com.gkzxhn.helpout.utils.StringUtils
 import com.gkzxhn.helpout.utils.TsClickDialog
 import com.gkzxhn.helpout.utils.TsDialog
@@ -155,25 +156,8 @@ class PhoneChangePresenter(context: Context, view: PhoneChangeView) : BasePresen
                                         mView?.onFinish()
                                     }
                                 }
-
                                 400 -> {
-                                    when (JSONObject(t.errorBody().string()).getString("error")) {
-                                        "user.password.NotMatched" -> {
-                                            mContext?.TsDialog(mContext?.getString(R.string.password_error).toString(), false)
-                                        }
-                                        "user.group.NotMatched" -> {
-                                            mContext?.TsDialog(mContext?.getString(R.string.group_error).toString(), false)
-                                        }
-                                        "invalid_grant" -> {
-                                            mContext?.TsDialog(mContext?.getString(R.string.group_error_disable).toString(), false)
-                                        }
-                                        "user.sms.verification-code.NotMatched" -> {
-                                            mContext?.TsDialog(mContext?.getString(R.string.verify_number_error).toString(), false)
-                                        }
-                                        else -> {
-                                            mContext?.showToast("服务器异常")
-                                        }
-                                    }
+                                    NetCodeHelper.handleCommonCode(it,t.errorBody().string())
                                 }
                                 401 -> {
                                     mContext?.TsClickDialog("登录已过期", false)?.dialog_save?.setOnClickListener {

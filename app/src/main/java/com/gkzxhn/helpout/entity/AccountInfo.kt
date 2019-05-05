@@ -18,5 +18,4 @@ class AccountInfo {
     var createdTime: String? = null
     var lastUpdatedTime: String? = null
 
-
 }

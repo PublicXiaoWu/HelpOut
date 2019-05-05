@@ -16,6 +16,7 @@ import com.gkzxhn.helpout.model.ILoginModel
 import com.gkzxhn.helpout.model.iml.LoginModel
 import com.gkzxhn.helpout.net.HttpObserver
 import com.gkzxhn.helpout.net.HttpObserverNoDialog
+import com.gkzxhn.helpout.net.error_exception.NetCodeHelper
 import com.gkzxhn.helpout.utils.*
 import com.gkzxhn.helpout.view.LoginView
 import com.google.gson.Gson
@@ -58,10 +59,9 @@ class LoginPresenter(context: Context, view: LoginView) : BasePresenter<ILoginMo
             mContext?.showToast("暂无网络")
         } else {
             mContext?.let {
-                var map = LinkedHashMap<String, String>()
+                val map = LinkedHashMap<String, String>()
                 map["phoneNumber"] = mView?.getPhone().toString()
-                var body = RequestBody.create(MediaType.parse("application/json; charset=utf-8"),
-                        Gson().toJson(map))
+                val body = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), Gson().toJson(map))
                 mModel.getCode(it, body)
                         .unsubscribeOn(AndroidSchedulers.mainThread())
                         ?.observeOn(AndroidSchedulers.mainThread())
@@ -96,53 +96,35 @@ class LoginPresenter(context: Context, view: LoginView) : BasePresenter<ILoginMo
         map["verificationCode"] = mView?.getCode().toString()
         map["name"] = mView?.getPhone().toString()
         map["group"] = "CUSTOMER"
-        val body= ProjectUtils.getRequestBody(map)
-        mModel.login(mContext!!, body)
-                .unsubscribeOn(AndroidSchedulers.mainThread())
-                ?.observeOn(AndroidSchedulers.mainThread())
-                ?.subscribe(object : HttpObserver<Response<Void>>(mContext!!) {
-                    override fun success(t: Response<Void>) {
-                        when (t.code()) {
-                            201 -> {
-                                //注册成功 sms.verification-code.NotMatched user.Existed
-                                getToken(map["phoneNumber"].toString(), map["verificationCode"].toString())
-                                rememberPhone()
-                            }
-                            400 -> {
-                                try {
-                                    val errorBody = t.errorBody().string()
-                                    when (JSONObject(errorBody).getString("code")) {
-                                        "user.SmsVerificationCodeNotMatched" -> {
-                                            mContext?.TsDialog(mContext?.getString(R.string.verify_number_error).toString(), false)
-                                        }
-                                        "user.PhoneNumberExisted" -> {
-                                            getToken(map["phoneNumber"].toString(), map["verificationCode"].toString())
-                                            rememberPhone()
-                                        }
-                                        //user.password.NotMatched=账号密码不匹配。
-                                        "user.password.NotMatched" -> {
-                                            mContext?.TsDialog(mContext?.getString(R.string.password_error).toString(), false)
-                                        }
-                                        "user.group.NotMatched" -> {
-                                            mContext?.TsDialog(mContext?.getString(R.string.group_error).toString(), false)
-                                        }
-                                        "invalid_grant" -> {
-                                            mContext?.TsDialog(mContext?.getString(R.string.group_error_disable).toString(), false)
-                                        }
-                                        else -> {
-
-                                        }
-                                    }
-                                } catch (e: Exception) {
+        val body = ProjectUtils.getRequestBody(map)
+        mContext?.let {
+            mModel.login(it, body)
+                    .unsubscribeOn(AndroidSchedulers.mainThread())
+                    ?.observeOn(AndroidSchedulers.mainThread())
+                    ?.subscribe(object : HttpObserver<Response<Void>>(it) {
+                        override fun success(t: Response<Void>) {
+                            when (t.code()) {
+                                201 -> {
+                                    //注册成功 sms.verification-code.NotMatched user.Existed
+                                    getToken(map["phoneNumber"].toString(), map["verificationCode"].toString())
+                                    rememberPhone()
                                 }
-                            }
-                            else -> {
+                                400 -> {
+                                    val separateCode = NetCodeHelper.handleCommonCode(it, t.errorBody().string())
+                                    /****** 账号已存在 ******/
+                                    if (separateCode=="user.PhoneNumberExisted") {
+                                        getToken(map["phoneNumber"].toString(), map["verificationCode"].toString())
+                                        rememberPhone()
+                                    }
+                                }
+                                else -> {
 
+                                }
                             }
                         }
                     }
-                }
-                )
+                    )
+        }
     }
 
     /****** 记住账号 ******/
@@ -180,23 +162,7 @@ class LoginPresenter(context: Context, view: LoginView) : BasePresenter<ILoginMo
                                     getLawyersInfo()
                                 }
                             } else if (t.code() == 400) {
-                                when (JSONObject(t.errorBody().string()).getString("code")) {
-                                    "user.password.NotMatched" -> {
-                                        mContext?.TsDialog(mContext?.getString(R.string.password_error).toString(), false)
-                                    }
-                                    "user.group.NotMatched" -> {
-                                        mContext?.TsDialog(mContext?.getString(R.string.group_error).toString(), false)
-                                    }
-                                    "invalid_grant" -> {
-                                        mContext?.TsDialog(mContext?.getString(R.string.group_error_disable).toString(), false)
-                                    }
-                                    "user.sms.verification-code.NotMatched" -> {
-                                        mContext?.TsDialog(mContext?.getString(R.string.verify_number_error).toString(), false)
-                                    }
-                                    else -> {
-                                        mContext?.TsDialog("数据异常", false)
-                                    }
-                                }
+                                 NetCodeHelper.handleCommonCode(it, t.errorBody().string())
                             } else if (t.code() == 401) {
                                 mContext?.TsClickDialog("登录已过期", false)?.dialog_save?.setOnClickListener {
                                     App.EDIT.putString(Constants.SP_TOKEN, "")?.commit()
@@ -303,8 +269,6 @@ class LoginPresenter(context: Context, view: LoginView) : BasePresenter<ILoginMo
             }
         })
     }
-
-
 
 }
 

@@ -14,7 +14,7 @@
         android:layout_height="48dp"
         android:background="@color/white"
         android:gravity="center"
-        android:text="个人中心"
+        android:text="我"
         android:textColor="#FF666666"
         android:textSize="16sp"/>
     <ScrollView
