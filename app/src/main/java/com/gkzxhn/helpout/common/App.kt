@@ -28,6 +28,7 @@ import com.netease.nim.avchatkit.config.AVChatOptions
 import com.netease.nim.avchatkit.model.ITeamDataProvider
 import com.netease.nim.avchatkit.model.IUserInfoProvider
 import com.netease.nim.uikit.api.NimUIKit
+import com.netease.nim.uikit.business.contact.core.query.PinYin
 import com.netease.nim.uikit.business.team.helper.TeamHelper
 import com.netease.nim.uikit.business.uinfo.UserInfoHelper
 import com.netease.nim.uikit.common.util.sys.ScreenUtil
@@ -84,6 +85,8 @@ class App : Application() {
         if (NIMUtil.isMainProcess(this)) {
 
             NimUIKit.init(this)
+            // init pinyin
+            PinYin.init(this)
             // 初始化音视频模块
             initAVChatKit()
             /****** 注册自定义消息 ******/

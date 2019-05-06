@@ -6,7 +6,6 @@
     <string-array name="letter_list">
         <item>↑</item>
         <item>\@</item>
-        <item>\#</item>
         <item>A</item>
         <item>B</item>
         <item>C</item>
@@ -33,6 +32,7 @@
         <item>X</item>
         <item>Y</item>
         <item>Z</item>
+        <item>\#</item>
     </string-array>
 
     <string-array name="letter_list2">
