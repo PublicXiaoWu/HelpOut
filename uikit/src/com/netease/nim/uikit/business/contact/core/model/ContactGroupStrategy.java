@@ -40,8 +40,9 @@ public class ContactGroupStrategy implements Comparator<String> {
     }
 
     protected final int addABC(int order) {
+        String id = ContactGroupStrategy.GROUP_SHARP;
 
-        String id = "";
+        add(id, order++, id);
 
         for (char i = 0; i < 26; i++) {
             id = Character.toString((char) ('A' + i));
@@ -49,8 +50,6 @@ public class ContactGroupStrategy implements Comparator<String> {
             add(id, order++, id);
         }
 
-        String sharp = ContactGroupStrategy.GROUP_SHARP;
-        add("[", order++, sharp);
         return order;
     }
 

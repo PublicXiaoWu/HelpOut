@@ -184,7 +184,7 @@ public class ContactsFragment extends TFragment {
         TextView litterHit = view.findViewById(R.id.tv_hit_letter);
         litterIdx = adapter.createLivIndex(listView, livIndex, litterHit, imgBackLetter);
 
-        litterIdx.hide();
+        litterIdx.show();
     }
 
     private final class ContactItemClickListener implements OnItemClickListener, OnItemLongClickListener {
