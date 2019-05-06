@@ -79,8 +79,8 @@ class App : Application() {
     }
 
     private fun initWY() {
-//        NIMClient.init(this, loginInfo(), options(this))
-        NIMClient.init(this, loginInfo(), null)
+        NIMClient.init(this, loginInfo(), options(this))
+//        NIMClient.init(this, loginInfo(), null)
         // 以下逻辑只在主进程初始化时执行
         if (NIMUtil.isMainProcess(this)) {
 
