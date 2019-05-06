@@ -99,7 +99,7 @@ private constructor() : Thread.UncaughtExceptionHandler {
      */
     private fun uploadCrash(crashLogger: CrashLogger) {
         var map = LinkedHashMap<String, String>()
-        map.put("platform", "ASSISTANT_APP")
+        map.put("platform", "ASSISTANT")
         map.put("appVersion", crashLogger.appVersion)
         map.put("deviceType", crashLogger.deviceType)
         map.put("deviceName", crashLogger.deviceName)
