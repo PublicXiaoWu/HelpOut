@@ -5,7 +5,6 @@ import com.gkzxhn.helpout.R
 import com.gkzxhn.helpout.utils.TsDialog
 import org.json.JSONObject
 
-
 /**
  * @classname：NetCodeHelper
  * @author：liushaoxiang
@@ -55,7 +54,6 @@ object NetCodeHelper {
                 }
             }
         }
-
         return separateCode
     }
 }

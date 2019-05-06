@@ -36,7 +36,12 @@ class FriendInfoActivity : BaseActivity() {
         initTopTitle()
 
         val account = intent.getStringExtra("account")
-        getFriendInfoByAccount(account)
+        val username = intent.getStringExtra("username")
+        if (account.isNullOrEmpty()) {
+            getFriendInfoByUserName(username)
+        } else {
+            getFriendInfoByAccount(account)
+        }
 
         /****** 生活圈 ******/
         v_friend_info_lives_circle.setOnClickListener {
@@ -74,36 +79,54 @@ class FriendInfoActivity : BaseActivity() {
                 ?.observeOn(AndroidSchedulers.mainThread())
                 ?.subscribe(object : HttpObserver<FriendInfo>(this) {
                     override fun success(t: FriendInfo) {
-                        /****** 是否是好友,1代表是，0代表不是 ******/
-                        isFriend = t.friendinfo == "1"
-                        friendAccountID= t.account!!
-                        userName= t.username!!
-                        ProjectUtils.loadRoundImageByUserName(this@FriendInfoActivity, t.username, iv_friend_info)
-                        tv_friend_info_name.text = t.name
-                        tv_friend_info_phone.text = StringUtils.phoneChange(t.phoneNumber!!)
-
-                        if (t.circleoffriendsPicture!=null&&t.circleoffriendsPicture!!.isNotEmpty()) {
-                            iv_friend_info_lives_circle_1.visibility=View.VISIBLE
-                            ProjectUtils.loadImageByFileID(this@FriendInfoActivity, t.circleoffriendsPicture!![0].fileId, iv_friend_info_lives_circle_1)
-                            if (t.circleoffriendsPicture!!.size > 1) {
-                                iv_friend_info_lives_circle_2.visibility=View.VISIBLE
-
-                                ProjectUtils.loadImageByFileID(this@FriendInfoActivity, t.circleoffriendsPicture!![1].fileId, iv_friend_info_lives_circle_2)
-                            }
-                            if (t.circleoffriendsPicture!!.size > 2) {
-                                iv_friend_info_lives_circle_3.visibility=View.VISIBLE
-
-                                ProjectUtils.loadImageByFileID(this@FriendInfoActivity, t.circleoffriendsPicture!![2].fileId, iv_friend_info_lives_circle_3)
-                            }
-                            if (t.circleoffriendsPicture!!.size > 3) {
-                                iv_friend_info_lives_circle_4.visibility=View.VISIBLE
-
-                                ProjectUtils.loadImageByFileID(this@FriendInfoActivity, t.circleoffriendsPicture!![3].fileId, iv_friend_info_lives_circle_4)
-                            }
-                        }
+                        loadUI(t)
                     }
 
                 }))
+    }
+
+    fun getFriendInfoByUserName(username: String) {
+        mCompositeSubscription.add(RetrofitClientChat
+                .getInstance(this).mApi.getFriendInfo(username = username)
+                .subscribeOn(Schedulers.io())
+                ?.unsubscribeOn(AndroidSchedulers.mainThread())
+                ?.observeOn(AndroidSchedulers.mainThread())
+                ?.subscribe(object : HttpObserver<FriendInfo>(this) {
+                    override fun success(t: FriendInfo) {
+                        loadUI(t)
+                    }
+
+                }))
+    }
+
+    private fun loadUI(t: FriendInfo) {
+        /****** 是否是好友,1代表是，0代表不是 ******/
+        isFriend = t.friendinfo == "1"
+        friendAccountID = t.account!!
+        userName = t.username!!
+        ProjectUtils.loadRoundImageByUserName(this@FriendInfoActivity, t.username, iv_friend_info)
+        tv_friend_info_name.text = t.name
+        tv_friend_info_phone.text = StringUtils.phoneChange(t.phoneNumber!!)
+
+        if (t.circleoffriendsPicture != null && t.circleoffriendsPicture!!.isNotEmpty()) {
+            iv_friend_info_lives_circle_1.visibility = View.VISIBLE
+            ProjectUtils.loadImageByFileID(this@FriendInfoActivity, t.circleoffriendsPicture!![0].fileId, iv_friend_info_lives_circle_1)
+            if (t.circleoffriendsPicture!!.size > 1) {
+                iv_friend_info_lives_circle_2.visibility = View.VISIBLE
+
+                ProjectUtils.loadImageByFileID(this@FriendInfoActivity, t.circleoffriendsPicture!![1].fileId, iv_friend_info_lives_circle_2)
+            }
+            if (t.circleoffriendsPicture!!.size > 2) {
+                iv_friend_info_lives_circle_3.visibility = View.VISIBLE
+
+                ProjectUtils.loadImageByFileID(this@FriendInfoActivity, t.circleoffriendsPicture!![2].fileId, iv_friend_info_lives_circle_3)
+            }
+            if (t.circleoffriendsPicture!!.size > 3) {
+                iv_friend_info_lives_circle_4.visibility = View.VISIBLE
+
+                ProjectUtils.loadImageByFileID(this@FriendInfoActivity, t.circleoffriendsPicture!![3].fileId, iv_friend_info_lives_circle_4)
+            }
+        }
     }
 
 }

@@ -1,10 +1,12 @@
 package com.gkzxhn.helpout.adapter
 
+import android.content.Intent
 import android.text.TextUtils
 import android.view.View
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.gkzxhn.helpout.R
+import com.gkzxhn.helpout.activity.FriendInfoActivity
 import com.gkzxhn.helpout.common.App
 import com.gkzxhn.helpout.common.Constants
 import com.gkzxhn.helpout.entity.LivesCircle
@@ -42,6 +44,8 @@ class LivesCircleAdapter(datas: List<LivesCircle.ContentBean>?) : BaseQuickAdapt
                 ?.setText(R.id.tv_item_lives_circle_comment_number, item.commentNum.toString())
                 ?.setText(R.id.tv_item_lives_circle_like_number, item.praiseNum.toString())
                 ?.setOnClickListener(R.id.iv_item_lives_circle_share, share())
+                ?.setOnClickListener(R.id.tv_item_lives_circle_share, share())
+                ?.setOnClickListener(R.id.iv_item_lives_circle_avatar, goFriendInfo(item.username))
                 ?.getView<NineGridTestLayout>(R.id.item_lives_circle_image)?.setUrlList(pictureList)
         if (item.id != null) helper?.addOnClickListener(R.id.v_item_lives_circle_like_number)
 
@@ -56,12 +60,27 @@ class LivesCircleAdapter(datas: List<LivesCircle.ContentBean>?) : BaseQuickAdapt
             helper?.setImageResource(R.id.iv_item_lives_circle_like_number, R.mipmap.ic_lives_like)
         }
 
+        if (item.content.isNullOrEmpty()) {
+            helper?.setGone(R.id.tv_item_lives_circle_content, false)
+        }else{
+            helper?.setGone(R.id.tv_item_lives_circle_content, true)
+        }
+
     }
 
     /****** 分享 ******/
     private fun share(): View.OnClickListener? {
         return View.OnClickListener() {
             mContext.showToast("敬请期待")
+        }
+    }
+
+    /****** 头像 ******/
+    private fun goFriendInfo(name: String?): View.OnClickListener? {
+        return View.OnClickListener() {
+            val intent = Intent(mContext, FriendInfoActivity::class.java)
+            intent.putExtra("username",name)
+            mContext.startActivity(intent)
         }
     }
 
