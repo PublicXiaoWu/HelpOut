@@ -6,8 +6,8 @@
     </style>
     <style name="FullScreenTheme" parent="@android:style/Theme.Black.NoTitleBar.Fullscreen">
         <!-- Customize your theme here. -->
-        <item name="windowFullscreen">true</item>
-        <item name="windowContentOverlay">@null</item>
+        <!--<item name="windowFullscreen">true</item>-->
+        <!--<item name="windowContentOverlay">@null</item>-->
     </style>
 
 </resources>

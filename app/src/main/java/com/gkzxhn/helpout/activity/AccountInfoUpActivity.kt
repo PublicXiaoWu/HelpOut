@@ -141,7 +141,6 @@ class AccountInfoUpActivity : BaseActivity() {
                 })
     }
 
-
     /**
      * 弹出图片来源选择窗
      */
