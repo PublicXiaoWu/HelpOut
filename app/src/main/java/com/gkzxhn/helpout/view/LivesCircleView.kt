@@ -23,4 +23,5 @@ interface LivesCircleView : BaseView {
 
     fun loadLivesCircleDetailsUI(t: LivesCircleDetails)
     fun endLoadMore()
+    fun finishRefresh()
 }

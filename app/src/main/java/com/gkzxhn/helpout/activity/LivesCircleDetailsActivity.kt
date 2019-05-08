@@ -33,6 +33,9 @@ import kotlinx.android.synthetic.main.default_top.*
  */
 class LivesCircleDetailsActivity : BaseActivity(), LivesCircleView {
 
+    override fun finishRefresh() {
+    }
+
     override fun updateData(data: List<LivesCircle.ContentBean>, isFirst: Boolean) {
     }
 
@@ -55,9 +58,9 @@ class LivesCircleDetailsActivity : BaseActivity(), LivesCircleView {
     }
 
     lateinit var livesCircleId: String
-    var position: Int=0
+    var position: Int = 0
     var praisesCircleoffriends = false
-    var mLivesCircleDetails: LivesCircleDetails?=null
+    var mLivesCircleDetails: LivesCircleDetails? = null
     lateinit var mAdapter: LivesCircleCommentAdapter
     lateinit var mPresenter: LivesCirclePresenter
 
@@ -84,7 +87,7 @@ class LivesCircleDetailsActivity : BaseActivity(), LivesCircleView {
         mPresenter = LivesCirclePresenter(this, this)
         initRecyclerView()
         livesCircleId = intent.getStringExtra("LivesCircleId")
-        position = intent.getIntExtra("position",0)
+        position = intent.getIntExtra("position", 0)
 
         /****** 注册软键盘监听 ******/
         SoftKeyBoardListener.setListener(this, onSoftKeyBoardChangeListener)
@@ -122,7 +125,7 @@ class LivesCircleDetailsActivity : BaseActivity(), LivesCircleView {
         et_lives_circle_bottom_comment.imeOptions = EditorInfo.IME_ACTION_SEND;
         /****** 回车监听 ******/
         et_lives_circle_bottom_comment.setOnKeyListener { v, keyCode, event ->
-            if (keyCode == KeyEvent.KEYCODE_ENTER&& event.action == KeyEvent.ACTION_DOWN) {
+            if (keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_DOWN) {
                 val content = et_lives_circle_bottom_comment.text.toString().trim()
                 if (!content.isEmpty()) {
                     mPresenter.comment(content, livesCircleId)
@@ -131,8 +134,9 @@ class LivesCircleDetailsActivity : BaseActivity(), LivesCircleView {
                     showToast("评论不能为空")
                 }
                 true;
-            } else
-                false
+            } else {
+            }
+            false
         }
     }
 
@@ -148,7 +152,7 @@ class LivesCircleDetailsActivity : BaseActivity(), LivesCircleView {
 
     override fun loadLivesCircleDetailsUI(t: LivesCircleDetails) {
         praisesCircleoffriends = t.praisesCircleoffriends
-        mLivesCircleDetails=t
+        mLivesCircleDetails = t
         tv_lives_circle_comment_number.text = t.commentNum.toString()
         tv_lives_circle_like_number.text = t.praiseNum.toString()
 
@@ -179,8 +183,8 @@ class LivesCircleDetailsActivity : BaseActivity(), LivesCircleView {
             val data = Intent()
             data.putExtra(IntentConstants.position, position)
             data.putExtra(IntentConstants.praiseNum, mLivesCircleDetails?.praiseNum)
-            data.putExtra(IntentConstants.commentNum,mLivesCircleDetails?.commentNum)
-            data.putExtra(IntentConstants.praisesCircleoffriends,mLivesCircleDetails?.praisesCircleoffriends)
+            data.putExtra(IntentConstants.commentNum, mLivesCircleDetails?.commentNum)
+            data.putExtra(IntentConstants.praisesCircleoffriends, mLivesCircleDetails?.praisesCircleoffriends)
             setResult(Activity.RESULT_OK, data)
             super.onBackPressed()
 

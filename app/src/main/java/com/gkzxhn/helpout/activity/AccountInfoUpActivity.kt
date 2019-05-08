@@ -39,6 +39,7 @@ import java.util.*
  * @date：2019/2/22 11:12 AM
  * @description：账号的信息上传
  */
+
 class AccountInfoUpActivity : BaseActivity() {
 
     private val TAKE_PHOTO_IMAGE = 101       //拍头像
@@ -50,7 +51,6 @@ class AccountInfoUpActivity : BaseActivity() {
 
     override fun provideContentViewId(): Int {
         window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
-
         return R.layout.activity_accountinfoup
     }
 
@@ -91,8 +91,9 @@ class AccountInfoUpActivity : BaseActivity() {
     private fun modifyAvatar(file: File) {
         val requestFile = RequestBody.create(MediaType.parse("image/jpeg"), file)
         val body = MultipartBody.Part.createFormData("file", file.name, requestFile)
-        RetrofitClientPublic.getInstance(this).mApi?.modifyAvatar(body)
-                ?.subscribeOn(Schedulers.io())
+        RetrofitClientPublic.getInstance(this).mApi
+                .modifyAvatar(body)
+                .subscribeOn(Schedulers.io())
                 ?.unsubscribeOn(AndroidSchedulers.mainThread())
                 ?.observeOn(AndroidSchedulers.mainThread())
                 ?.subscribe(object : HttpObserver<Response<Void>>(this) {
@@ -121,8 +122,9 @@ class AccountInfoUpActivity : BaseActivity() {
         val body = RequestBody.create(MediaType.parse("application/json; charset=utf-8"),
                 Gson().toJson(map))
 
-        RetrofitClientPublic.getInstance(this).mApi?.modifyAccountInfo(body)
-                ?.subscribeOn(Schedulers.io())
+        RetrofitClientPublic.getInstance(this).mApi
+                .modifyAccountInfo(body)
+                .subscribeOn(Schedulers.io())
                 ?.unsubscribeOn(AndroidSchedulers.mainThread())
                 ?.observeOn(AndroidSchedulers.mainThread())
                 ?.subscribe(object : HttpObserver<Response<Void>>(this) {
@@ -295,7 +297,7 @@ class AccountInfoUpActivity : BaseActivity() {
                         if (data?.data == null) {
                             return
                         }
-                        var uri = data.data
+                        val uri = data.data
                         val cropImagePath = ClipViewLayout.getRealFilePathFromUri(applicationContext, uri)
                         //此处后面可以将bitMap转为二进制上传后台网络
                         modifyAvatar(File(cropImagePath))

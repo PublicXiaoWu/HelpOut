@@ -59,6 +59,34 @@ class LivesCircleActivity : BaseActivity(), LivesCircleView {
         val PUBLISH_REQUEST_DETAIL_CODE = 2
     }
 
+    var lastScrollY = 0
+    val h = DensityUtil.dp2px(180f)
+
+    internal var mHandler = Handler(Handler.Callback {
+        val scollYDistance = getScollYDistance()
+        var scrollY = scollYDistance
+        if (lastScrollY < h) {
+            scrollY = Math.min(h, scrollY)
+            mScrollY = if (scrollY > h) h else scrollY
+            buttonBarLayout.alpha = 1f
+            toolbar.setBackgroundColor(Color.argb(0, 242, 242, 242))
+            parallax.translationY = (mOffset - mScrollY).toFloat()
+
+            iv_take_picture.isSelected=false
+            iv_lives_back.isSelected=false
+            tv_lives_title.alpha=0f
+        }else{
+            iv_take_picture.isSelected=true
+            iv_lives_back.isSelected=true
+            tv_lives_title.alpha=1f
+            buttonBarLayout.alpha = 1f
+            toolbar.setBackgroundColor(Color.argb(255, 242, 242, 242))
+        }
+        lastScrollY = scrollY
+        true
+    })
+
+
     override fun setLastPage(lastPage: Boolean, page: Int) {
         this.loadMore = !lastPage
         this.page = page
@@ -70,6 +98,10 @@ class LivesCircleActivity : BaseActivity(), LivesCircleView {
 
     override fun endLoadMore() {
         mAdapter.loadMoreEnd()
+    }
+
+    override fun finishRefresh() {
+        loading_refresh.finishRefresh()
     }
 
     override fun updateData(data: List<LivesCircle.ContentBean>, isFirst: Boolean) {
@@ -114,7 +146,6 @@ class LivesCircleActivity : BaseActivity(), LivesCircleView {
         loading_refresh.setOnRefreshListener {
             mAdapter.setEnableLoadMore(false)//这里的作用是防止下拉刷新的时候还可以上拉加载
             getDataWithType(livesCircleType)
-            loading_refresh.finishRefresh(500)
         }
 
         loading_refresh.setOnMultiPurposeListener(object : SimpleMultiPurposeListener() {
@@ -177,7 +208,9 @@ class LivesCircleActivity : BaseActivity(), LivesCircleView {
         mAdapter.setOnLoadMoreListener(requestLoadMoreListener, rcv_lives_circle)
         mAdapter.setHasStableIds(true)
         val headView = View.inflate(this, R.layout.lives_circle_head_view, null)
+        val emptyView = View.inflate(this, R.layout.lives_circle_empty_view, null)
         mAdapter.setHeaderView(headView)
+        mAdapter.emptyView = emptyView
         rcv_lives_circle.adapter = mAdapter
 
         mAdapter.setOnItemClickListener { adapter, view, position ->
@@ -212,33 +245,6 @@ class LivesCircleActivity : BaseActivity(), LivesCircleView {
         })
 
     }
-
-    var lastScrollY = 0
-    val h = DensityUtil.dp2px(180f)
-
-    internal var mHandler = Handler(Handler.Callback {
-        val scollYDistance = getScollYDistance()
-        var scrollY = scollYDistance
-        if (lastScrollY < h) {
-            scrollY = Math.min(h, scrollY)
-            mScrollY = if (scrollY > h) h else scrollY
-            buttonBarLayout.alpha = 1f
-            toolbar.setBackgroundColor(Color.argb(0, 242, 242, 242))
-            parallax.translationY = (mOffset - mScrollY).toFloat()
-
-            iv_take_picture.isSelected=false
-            iv_lives_back.isSelected=false
-            tv_lives_title.alpha=0f
-        }else{
-            iv_take_picture.isSelected=true
-            iv_lives_back.isSelected=true
-            tv_lives_title.alpha=1f
-            buttonBarLayout.alpha = 1f
-            toolbar.setBackgroundColor(Color.argb(255, 242, 242, 242))
-        }
-        lastScrollY = scrollY
-        true
-    })
 
     /**
      * 获得recyclerview滑动高度

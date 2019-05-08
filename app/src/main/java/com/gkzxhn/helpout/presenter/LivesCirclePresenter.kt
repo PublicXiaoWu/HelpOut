@@ -34,10 +34,17 @@ class LivesCirclePresenter(context: Context, view: LivesCircleView) : BasePresen
                             mView?.updateData(t.content!!,t.first)
                             mView?.setLastPage(t.last, page)
                             mView?.offLoadMore()
+                            mView?.finishRefresh()
                             if (t.first) {
                                 /****** 已经加载过生活圈了 通知发现页面刷新新的未读信息 ******/
                                 RxBus.instance.post(RxBusBean.ChangeFindUnRead())
                             }
+                        }
+
+                        override fun onError(t: Throwable?) {
+                            super.onError(t)
+                            mView?.finishRefresh()
+
                         }
                     })
         }
@@ -55,6 +62,13 @@ class LivesCirclePresenter(context: Context, view: LivesCircleView) : BasePresen
                             mView?.updateData(t.content!!,t.first)
                             mView?.setLastPage(t.last, page)
                             mView?.offLoadMore()
+                            mView?.finishRefresh()
+
+                        }
+                        override fun onError(t: Throwable?) {
+                            super.onError(t)
+                            mView?.finishRefresh()
+
                         }
                     })
         }
@@ -70,6 +84,13 @@ class LivesCirclePresenter(context: Context, view: LivesCircleView) : BasePresen
                             mView?.updateData(t.content!!,t.first)
                             mView?.setLastPage(t.last, page)
                             mView?.offLoadMore()
+                            mView?.finishRefresh()
+                        }
+
+                        override fun onError(t: Throwable?) {
+                            super.onError(t)
+                            mView?.finishRefresh()
+
                         }
                     })
         }
