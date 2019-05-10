@@ -97,7 +97,7 @@ class PhoneChangePresenter(context: Context, view: PhoneChangeView) : BasePresen
                             }
                             400 -> {
                                 try {
-                                    val errorBody = t.errorBody().string()
+                                    val errorBody = t.errorBody()?.string()
                                     when (JSONObject(errorBody).getString("code")) {
                                         "sms.verification-code.NotMatched" -> {
                                             mContext?.TsDialog(mContext?.getString(R.string.verify_number_error).toString(), false)
@@ -139,7 +139,7 @@ class PhoneChangePresenter(context: Context, view: PhoneChangeView) : BasePresen
                         override fun success(t: Response<ResponseBody>) {
                             when (t.code()) {
                                 200 -> {
-                                    val string = t.body().string()
+                                    val string = t.body()?.string()
                                     if (!TextUtils.isEmpty(string)) {
                                         var token: String? = null
                                         var refreshToken: String? = null
@@ -157,7 +157,7 @@ class PhoneChangePresenter(context: Context, view: PhoneChangeView) : BasePresen
                                     }
                                 }
                                 400 -> {
-                                    NetCodeHelper.handleCommonCode(it,t.errorBody().string())
+                                    NetCodeHelper.handleCommonCode(it,t.errorBody()!!.string())
                                 }
                                 401 -> {
                                     mContext?.TsClickDialog("登录已过期", false)?.dialog_save?.setOnClickListener {
@@ -208,7 +208,7 @@ class PhoneChangePresenter(context: Context, view: PhoneChangeView) : BasePresen
                                 mView?.onFinish()
                             }
                             400 -> {
-                                val errorBody = t.errorBody().string()
+                                val errorBody = t.errorBody()?.string()
                                 when (JSONObject(errorBody).getString("code")) {
                                     "user.Existed" ->
                                         mContext?.showToast(JSONObject(errorBody).getString("message").toString())

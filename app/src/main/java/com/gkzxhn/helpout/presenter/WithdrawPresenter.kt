@@ -105,7 +105,7 @@ class WithdrawPresenter(context: Context, view: WithdrawView) : BasePresenter<IW
                                     mView?.onFinish()
 
                                 } else if (t.code() == 400) {
-                                    val errorBody = t.errorBody().string()
+                                    val errorBody = t.errorBody()?.string()
                                     val codeStr = JSONObject(errorBody).getString("code")
                                     when (codeStr) {
                                         "lawyer.CanNotWithdrawalBalanceInsufficient" -> {

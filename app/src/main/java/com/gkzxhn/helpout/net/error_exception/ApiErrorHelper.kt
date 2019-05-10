@@ -36,7 +36,7 @@ object ApiErrorHelper {
                         context.startActivity(intent)
                     }
                     400 -> {
-                        val errorBody = e.response().errorBody().string()
+                        val errorBody = e.response().errorBody()?.string()
                         val code = try {
                             JSONObject(errorBody).getString("code")
                         } catch (e: Exception) {

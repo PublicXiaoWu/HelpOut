@@ -254,7 +254,7 @@ class UserFragment : BaseFragment(), View.OnClickListener {
                                             getRefreshToken(App.SP.getString(Constants.SP_REFRESH_TOKEN, ""))
                                         }
                                         400 -> {
-                                            val errorBody = e.response().errorBody().string()
+                                            val errorBody = e.response().errorBody()?.string()
                                             val code = try {
                                                 JSONObject(errorBody).getString("code")
                                             } catch (e: Exception) {
@@ -303,7 +303,7 @@ class UserFragment : BaseFragment(), View.OnClickListener {
                                 override fun success(t: Response<ResponseBody>) {
                                     if (t.code() == 200) {
 
-                                        val string = t.body().string()
+                                        val string = t.body()?.string()
                                         if (!TextUtils.isEmpty(string)) {
                                             var token: String? = null
                                             var refreshToken: String? = null

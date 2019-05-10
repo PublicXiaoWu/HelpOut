@@ -57,7 +57,7 @@ class SplashActivity : BaseActivity() {
                     override fun success(t: Response<ResponseBody>) {
                         if (t.code() == 200) {
 
-                            val string = t.body().string()
+                            val string = t.body()?.string()
                             if (!TextUtils.isEmpty(string)) {
                                 var token: String? = null
                                 var refreshToken: String? = null

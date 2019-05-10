@@ -110,7 +110,7 @@ class LoginPresenter(context: Context, view: LoginView) : BasePresenter<ILoginMo
                                     rememberPhone()
                                 }
                                 400 -> {
-                                    val separateCode = NetCodeHelper.handleCommonCode(it, t.errorBody().string())
+                                    val separateCode = NetCodeHelper.handleCommonCode(it, t.errorBody()?.string()!!)
                                     /****** 账号已存在 ******/
                                     if (separateCode=="user.PhoneNumberExisted") {
                                         getToken(map["phoneNumber"].toString(), map["verificationCode"].toString())
@@ -146,7 +146,7 @@ class LoginPresenter(context: Context, view: LoginView) : BasePresenter<ILoginMo
                     ?.subscribe(object : HttpObserver<Response<ResponseBody>>(it) {
                         override fun success(t: Response<ResponseBody>) {
                             if (t.code() == 200) {
-                                val string = t.body().string()
+                                val string = t.body()?.string()
                                 if (!TextUtils.isEmpty(string)) {
                                     var token: String? = null
                                     var refreshToken: String? = null
@@ -162,7 +162,7 @@ class LoginPresenter(context: Context, view: LoginView) : BasePresenter<ILoginMo
                                     getLawyersInfo()
                                 }
                             } else if (t.code() == 400) {
-                                 NetCodeHelper.handleCommonCode(it, t.errorBody().string())
+                                 NetCodeHelper.handleCommonCode(it, t.errorBody()!!.string())
                             } else if (t.code() == 401) {
                                 mContext?.TsClickDialog("登录已过期", false)?.dialog_save?.setOnClickListener {
                                     App.EDIT.putString(Constants.SP_TOKEN, "")?.commit()
