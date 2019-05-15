@@ -8,6 +8,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import com.gkzxhn.helpout.R
+import com.gkzxhn.helpout.common.App
+import com.gkzxhn.helpout.common.Constants
 import com.gkzxhn.helpout.entity.OrderReceivingContent
 import com.gkzxhn.helpout.utils.ProjectUtils
 import com.gkzxhn.helpout.utils.StringUtils
@@ -87,8 +89,10 @@ class OrderReceivingAdapter(private val mContext: Context) : RecyclerView.Adapte
             tv_item_order_receiving_time.text = StringUtils.parseDate(entity.createdTime!!)
 
             v_item_order_receiving_type.text= ProjectUtils.categoriesConversion(entity.category!!)
-
-            if (!ProjectUtils.certificationStatus()) {
+            /****** 正在进行中的订单 ******/
+            val processingOrderId = App.SP.getString(Constants.PROCESSING_ORDER_ID, "")
+            /****** 有正在进行的单时 按扭置灰  认证未通过时也置灰 ******/
+            if (!ProjectUtils.certificationStatus()|| processingOrderId.isNotEmpty()) {
                 /****** 认证未通过 按扭变成灰色 ******/
                 tv_item_order_receiving_rush.setBackgroundResource(R.drawable.shape_order_bg_select_gary)
             }else{

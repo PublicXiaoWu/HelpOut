@@ -114,4 +114,7 @@ object Constants {
 
     //微信APP_ID
     val WX_APPID = "wx21aed62551567801"
+
+    /****** 正在处理中的订单号 ******/
+    val PROCESSING_ORDER_ID="PROCESSING_ORDER_ID"
 }

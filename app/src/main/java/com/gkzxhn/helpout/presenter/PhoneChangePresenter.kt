@@ -45,14 +45,13 @@ class PhoneChangePresenter(context: Context, view: PhoneChangeView) : BasePresen
         }
     }
 
-
     fun sendCode() {
         if (!StringUtils.isMobileNO(mView?.getPhone()!!)) {
             mContext?.showToast("手机号格式不正确")
             return
         }
         mContext?.let {
-            var map = LinkedHashMap<String, String>()
+            val map = LinkedHashMap<String, String>()
             map["phoneNumber"] = mView?.getPhone().toString()
             var body = RequestBody.create(MediaType.parse("application/json; charset=utf-8"),
                     Gson().toJson(map))
@@ -179,7 +178,6 @@ class PhoneChangePresenter(context: Context, view: PhoneChangeView) : BasePresen
         }
     }
 
-
     /**
      * @methodName： created by liushaoxiang on 2018/10/29 10:57 AM.
      * @description：修改手机号
@@ -226,8 +224,6 @@ class PhoneChangePresenter(context: Context, view: PhoneChangeView) : BasePresen
 
                 }
                 )
-
     }
-
 
 }

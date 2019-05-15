@@ -50,7 +50,7 @@ class WithdrawFirstActivity : BaseActivity(), WithdrawView {
                     tv_withdraw_1_money_end.visibility = View.GONE
                 } else {
                     tv_withdraw_1_money_end.visibility = View.VISIBLE
-                    if (s?.startsWith(".")!!) {
+                    if (s.startsWith(".")) {
                         tv_withdraw_1_money_end.text = "该输入不合法"
                         return
                     }
@@ -78,8 +78,6 @@ class WithdrawFirstActivity : BaseActivity(), WithdrawView {
 
         val phone = App.SP.getString(Constants.SP_PHONE, "")
         tv_withdraw_top_title.text = "提现需要短信确认，验证码已发送至手机：${StringUtils.phoneChange(phone)}，轻按提示操作。"
-
-
     }
 
     fun onClickWithdraw(view: View) {

@@ -71,11 +71,12 @@ class PublishOrderActivity : BaseActivity(), PublishOrderView {
             if (!BuildConfig.DEBUG && 20 > reward) {
                 showToast(getString(R.string.cost20_at_least))
                 return@setOnClickListener
-            } else if (reward <= 0) {
+            } else
+                if (reward <= 0) {
 //                CustomerOrderDetailActivity.launch(this, mPresenter.orderId?:"382aaf77-e97a-4ec7-abbd-ad28a17fefb8")
-                showToast(getString(R.string.please_enter_price))
-                return@setOnClickListener
-            }
+                    showToast(getString(R.string.please_enter_price))
+                    return@setOnClickListener
+                }
             mCompositeSubscription.add(mPresenter.publishOrder(orderCategory, reward))
         }
     }

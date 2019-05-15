@@ -119,11 +119,28 @@ class OrderReceivingFragment : BaseFragment(), OrderReceivingView {
             override fun onItemClick(view: View?, holder: RecyclerView.ViewHolder?, position: Int) {
                 /****** 认证通过才能进入  ******/
                 if (ProjectUtils.certificationStatus()) {
-                    val intent = Intent(context, OrderActivity::class.java)
-                    val data = mAdapter!!.getCurrentItem()
-                    intent.putExtra("orderId", data.id)
-                    intent.putExtra("orderState", 1)
-                    startActivity(intent)
+
+                    val processingOrderId = App.SP.getString(Constants.PROCESSING_ORDER_ID, "")
+                    if (processingOrderId.isNotEmpty()) {
+                        val selectDialog = context?.selectDialog("您有订单未处理，请先处理", false)
+                        val cancel = selectDialog?.findViewById<TextView>(R.id.dialog_cancel)
+                        val next = selectDialog?.findViewById<TextView>(R.id.dialog_save)
+                        cancel?.text = "关闭"
+                        next?.text = "查看"
+                        next?.setOnClickListener {
+                            val intent = Intent(selectDialog.context, OrderActivity::class.java)
+                            intent.putExtra("orderId", processingOrderId)
+                            intent.putExtra("orderState", 2)
+                            selectDialog.context.startActivity(intent)
+                            selectDialog.dismiss()
+                        }
+                    } else {
+                        val intent = Intent(context, OrderActivity::class.java)
+                        val data = mAdapter!!.getCurrentItem()
+                        intent.putExtra("orderId", data.id)
+                        intent.putExtra("orderState", 1)
+                        startActivity(intent)
+                    }
                 } else {
                     showTsDialog()
                 }
@@ -134,7 +151,24 @@ class OrderReceivingFragment : BaseFragment(), OrderReceivingView {
         mAdapter?.setOnItemRushListener(object : OrderReceivingAdapter.ItemRushListener {
             override fun onRushListener() {
                 if (ProjectUtils.certificationStatus()) {
-                    mPresenter.acceptRushOrder(mAdapter!!.getCurrentItem().id!!, mCompositeSubscription)
+                    val processingOrderId = App.SP.getString(Constants.PROCESSING_ORDER_ID, "")
+                    if (processingOrderId.isNotEmpty()) {
+                        val selectDialog = context?.selectDialog("您有订单未处理，请先处理", false)
+                        val cancel = selectDialog?.findViewById<TextView>(R.id.dialog_cancel)
+                        val next = selectDialog?.findViewById<TextView>(R.id.dialog_save)
+                        cancel?.text = "关闭"
+                        next?.text = "查看"
+                        next?.setOnClickListener {
+                            val intent = Intent(selectDialog.context, OrderActivity::class.java)
+                            intent.putExtra("orderId", processingOrderId)
+                            intent.putExtra("orderState", 2)
+                            selectDialog.context.startActivity(intent)
+                            selectDialog.dismiss()
+                        }
+                    } else {
+                        mPresenter.acceptRushOrder(mAdapter!!.getCurrentItem().id!!, mCompositeSubscription)
+                    }
+
                 } else {
                     showTsDialog()
                 }

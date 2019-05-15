@@ -49,7 +49,7 @@ object ApiErrorHelper {
                         }
                         when (code) {
                             "lawyer.CanNotRushToAcceptIsBusy" -> {
-                                context.TsDialog("您有订单未处理，请处理", false)
+                                context.TsDialog("您有订单未处理，请先处理", false)
                             }
                             "customer.friend.isExist" -> {
                                 Log.e("xiaowu","好友关系已存在")

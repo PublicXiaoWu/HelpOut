@@ -48,6 +48,4 @@ interface NetWorkCodeInfo {
             else -> ""
         }
     }
-
-
 }

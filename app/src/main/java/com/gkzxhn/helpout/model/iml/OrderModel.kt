@@ -37,6 +37,12 @@ class OrderModel : BaseModel(), IOrderModel {
                 .subscribeOn(Schedulers.io()) as Observable<OrderReceiving>
 
     }
+    override fun getProcessingOrder(context: Context): Observable<OrderInfo> {
+        return RetrofitClient.Companion.getInstance(context).mApi
+                .getProcessingOrder()
+                .subscribeOn(Schedulers.io()) as Observable<OrderInfo>
+
+    }
 
     override fun getOrderDispose(context: Context, page: String, size: String): Observable<OrderDispose> {
         return RetrofitClient.Companion.getInstance(context).mApi
