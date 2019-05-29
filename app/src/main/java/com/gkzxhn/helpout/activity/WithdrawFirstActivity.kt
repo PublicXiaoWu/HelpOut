@@ -7,6 +7,7 @@ import android.view.View
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
+import com.gkzxhn.helpout.BuildConfig
 import com.gkzxhn.helpout.R
 import com.gkzxhn.helpout.common.App
 import com.gkzxhn.helpout.common.Constants
@@ -55,7 +56,7 @@ class WithdrawFirstActivity : BaseActivity(), WithdrawView {
                         return
                     }
                     val money = s.toString().toDouble() * 0.7
-                    if (s.toString().toDouble() < 1) {
+                    if (!BuildConfig.DEBUG&&s.toString().toDouble() < 1) {
                         tv_withdraw_1_money_end.text = "提现金额不能小于1"
                     } else {
                         val format = StringUtils.formatStringTwo(money)
