@@ -69,18 +69,13 @@ interface ApiService {
     /**
      *获取android最新版本
      */
-    @GET("/versions/latest/ASSISTANT_APP/ANDROID")
+    @GET("/versions/latest?clientKey=assistant.app&deviceType=ANDROID")
     fun updateApp(): Observable<UpdateInfo>
 
     /****** 设置接单状态 ******/
     @POST("lawyer/profiles/service-status")
     @Headers("Content-Type:application/json;charset=utf-8")
     fun setOrderState(@Body map: RequestBody): Observable<Response<Void>>
-
-    /****** 意见反馈 ******/
-    @POST("lawyer/feedback")
-    @Headers("Content-Type:application/json;charset=utf-8")
-    fun feedback(@Body map: RequestBody): Observable<Response<Void>>
 
     /****** 添加或更新律师认证 ******/
     @POST("lawyer/certification")

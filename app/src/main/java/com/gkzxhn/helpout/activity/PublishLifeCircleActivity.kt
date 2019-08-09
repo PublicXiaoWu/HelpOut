@@ -98,7 +98,7 @@ class PublishLifeCircleActivity : BaseActivity(), BaseView {
             override fun onItemClick(position: Int, v: View) {
                 if (selectList.size > 0) {
                     val media = selectList.get(position)
-                    val pictureType = media.getPictureType()
+                    val pictureType = media.pictureType
                     val mediaType = PictureMimeType.pictureToVideo(pictureType)
                     when (mediaType) {
                         1 ->

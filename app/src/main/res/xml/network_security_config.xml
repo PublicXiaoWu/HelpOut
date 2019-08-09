@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<network-security-config>
+    <base-config cleartextTrafficPermitted="true" />
+</network-security-config>
+<!--为了解决部分  AndroidP 高版本联网失败报错解决java.net.UnknownServiceException: CLEARTEXT communication ** not permitted by 的问题-->
+

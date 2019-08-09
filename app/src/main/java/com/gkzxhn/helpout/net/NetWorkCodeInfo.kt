@@ -15,7 +15,7 @@ interface NetWorkCodeInfo {
         val ENVIRONMENT_FORMAL = 0x13
 
         /****** 更改这个 切换环境 ******/
-        val environment = ENVIRONMENT_DEV
+        val environment = ENVIRONMENT_TEST
 
         /****** 公共平台 ******/
         val BASE_URL = when (environment) {
