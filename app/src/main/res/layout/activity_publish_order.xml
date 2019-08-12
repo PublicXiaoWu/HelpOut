@@ -14,143 +14,189 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <android.support.v7.widget.CardView
-            android:id="@+id/cv_category"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/dimen_15"
-            android:layout_marginStart="@dimen/dimen_15"
-            android:layout_marginTop="@dimen/dimen_10"
-            app:cardElevation="0dp">
 
-            <RelativeLayout
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/cv_category"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingBottom="@dimen/dimen_20"
-                android:paddingEnd="@dimen/dimen_15"
-                android:paddingStart="@dimen/dimen_15"
-                android:paddingTop="@dimen/dimen_20">
+                android:layout_marginStart="@dimen/dimen_15"
+                android:layout_marginTop="@dimen/dimen_10"
+                android:layout_marginEnd="@dimen/dimen_15"
+                app:cardElevation="0dp">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:drawablePadding="@dimen/dimen_3"
-                    android:drawableStart="@mipmap/counsel_category"
-                    android:text="@string/counsel_category"
-                    android:textColor="@color/text_black"
-                    android:textSize="@dimen/text_common"/>
-
-                <TextView
-                    android:id="@+id/tv_category"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:textColor="@color/text_gray"
-                    android:textSize="@dimen/text_middle"
-                    tools:text="婚姻家庭"/>
-
-            </RelativeLayout>
-
-        </android.support.v7.widget.CardView>
-
-        <android.support.v7.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/cv_category"
-            android:layout_marginEnd="@dimen/dimen_15"
-            android:layout_marginStart="@dimen/dimen_15"
-            android:layout_marginTop="@dimen/dimen_10"
-            app:cardElevation="0dp">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:paddingBottom="@dimen/dimen_12"
-                android:paddingEnd="@dimen/dimen_15"
-                android:paddingStart="@dimen/dimen_15"
-                android:paddingTop="@dimen/dimen_30">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:drawablePadding="@dimen/dimen_3"
-                    android:drawableStart="@mipmap/icon_consulting_fees"
-                    android:text="@string/consulting_fees"
-                    android:textColor="@color/text_black"
-                    android:textSize="@dimen/text_common"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_marginStart="@dimen/dimen_15"
-                    android:id="@+id/tv_fee_tips"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/dimen_8"
-                    tools:text="咨询费用越多，回复效率与质量越高！"
-                    android:textColor="#ff999999"
-                    android:textSize="@dimen/text_little"
-                    />
-
-                <LinearLayout
+                <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginTop="20dp"
-                    android:orientation="horizontal">
+                    android:paddingStart="@dimen/dimen_15"
+                    android:paddingTop="@dimen/dimen_20"
+                    android:paddingEnd="@dimen/dimen_15"
+                    android:paddingBottom="@dimen/dimen_20">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:drawableStart="@mipmap/counsel_category"
+                        android:drawablePadding="@dimen/dimen_3"
+                        android:text="@string/counsel_category"
+                        android:textColor="@color/text_black"
+                        android:textSize="@dimen/text_common"/>
+
+                    <TextView
+                        android:id="@+id/tv_category"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:textColor="@color/text_gray"
+                        android:textSize="@dimen/text_middle"
+                        tools:text="婚姻家庭"/>
+
+                </RelativeLayout>
+
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/cv_category"
+                android:layout_marginStart="@dimen/dimen_15"
+                android:layout_marginTop="@dimen/dimen_10"
+                android:layout_marginEnd="@dimen/dimen_15"
+                app:cardElevation="0dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingStart="@dimen/dimen_15"
+                    android:paddingTop="@dimen/dimen_30"
+                    android:paddingEnd="@dimen/dimen_15"
+                    android:paddingBottom="@dimen/dimen_12">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawableStart="@mipmap/icon_consulting_fees"
+                        android:drawablePadding="@dimen/dimen_3"
                         android:text="@string/consulting_fees"
                         android:textColor="@color/text_black"
                         android:textSize="@dimen/text_common"/>
 
                     <EditText
                         android:id="@+id/et_reward"
-                        android:maxLength="5"
-                        android:inputType="numberDecimal"
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
+                        android:layout_width="match_parent"
                         android:layout_height="@dimen/dimen_34"
-                        android:layout_marginStart="@dimen/dimen_10"
+                        android:layout_marginTop="10dp"
                         android:background="@drawable/shape_rectangle_stroke_gray_4r"
                         android:button="@null"
-                        android:hint="@string/cost20_at_least"
-                        android:paddingEnd="@dimen/dimen_10"
+                        android:hint="@string/please_cost100_at_least"
+                        android:inputType="numberDecimal"
+                        android:maxLength="5"
                         android:paddingStart="@dimen/dimen_10"
+                        android:paddingEnd="@dimen/dimen_10"
                         android:textColor="@color/text_gray"
                         android:textSize="@dimen/text_common"/>
 
-                    <TextView
-                        android:layout_marginStart="@dimen/dimen_10"
-                        android:layout_width="wrap_content"
+                    <RadioGroup
+                        android:id="@+id/rg_price"
+                        android:layout_marginTop="10dp"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/minutes_20"
-                        android:textColor="@color/dark_blue"
-                        android:textSize="@dimen/text_common"/>
+                        android:orientation="horizontal">
 
-                </LinearLayout>
+                        <RadioButton
+                            android:id="@+id/rb_1"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:background="@drawable/selector_radio_bg_btn"
+                            android:button="@null"
+                            android:gravity="center"
+                            android:text="@string/yuan_100"
+                            android:textColor="@color/dark_blue"
+                            android:textSize="@dimen/text_little"/>
+
+                        <RadioButton
+                            android:id="@+id/rb_2"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="@dimen/dimen_34"
+                            android:layout_marginStart="@dimen/dimen_5"
+                            android:background="@drawable/selector_radio_bg_btn"
+                            android:button="@null"
+                            android:gravity="center"
+                            android:text="@string/yuan_200"
+                            android:textColor="@color/dark_blue"
+                            android:textSize="@dimen/text_little"/>
+
+                        <RadioButton
+                            android:id="@+id/rb_3"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="@dimen/dimen_34"
+                            android:layout_marginStart="@dimen/dimen_5"
+                            android:background="@drawable/selector_radio_bg_btn"
+                            android:button="@null"
+                            android:gravity="center"
+                            android:text="@string/yuan_300"
+                            android:textColor="@color/dark_blue"
+                            android:textSize="@dimen/text_little"/>
+
+                    </RadioGroup>
+
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginTop="20dp">
+
+                        <TextView
+                            android:layout_gravity="start"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:drawableStart="@mipmap/icon_time_length"
+                            android:drawablePadding="@dimen/dimen_3"
+                            android:text="@string/consulting_time_length"
+                            android:textColor="@color/text_black"
+                            android:textSize="@dimen/text_common"/>
+
+
+                        <TextView
+                            android:layout_gravity="end"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/minutes_20"
+                            android:textColor="@color/dark_blue"
+                            android:textSize="@dimen/text_common"/>
+
+                    </FrameLayout>
 
                     <CheckBox
                         android:id="@+id/cb_use_contract"
                         style="@style/register_radio_button"
+                        android:drawableStart="@drawable/selector_y_o_n_check"
                         android:layout_gravity="end"
                         android:layout_marginTop="@dimen/dimen_5"
                         android:layout_weight="0"
                         android:checked="true"
-                        android:text="@string/laws_contract"
-                        android:padding="@dimen/dimen_5"/>
+                        android:padding="@dimen/dimen_5"
+                        android:text="@string/laws_contract"/>
 
-            </LinearLayout>
-        </android.support.v7.widget.CardView>
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
 
-        <View
-            android:layout_width="11dp"
-            android:layout_height="37dp"
-            android:layout_below="@+id/cv_category"
-            android:layout_marginStart="@dimen/dimen_30"
-            android:layout_marginTop="-15dp"
-            android:background="@mipmap/family_server_link"/>
+            <View
+                android:layout_width="11dp"
+                android:layout_height="37dp"
+                android:layout_below="@+id/cv_category"
+                android:layout_marginStart="@dimen/dimen_30"
+                android:layout_marginTop="-15dp"
+                android:background="@mipmap/family_server_link"/>
+        </RelativeLayout>
     </RelativeLayout>
 
 
@@ -166,6 +212,17 @@
         android:text="@string/publish_order"
         android:textColor="@color/white"
         android:textSize="@dimen/text_big"/>
+
+    <TextView
+        android:id="@+id/tv_fee_tips"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/dimen_15"
+        android:textColor="#ff999999"
+        android:textSize="@dimen/text_little"
+        tools:text="咨询费用越多，回复效率与质量越高！"
+    />
 
     <TextView
         android:visibility="gone"

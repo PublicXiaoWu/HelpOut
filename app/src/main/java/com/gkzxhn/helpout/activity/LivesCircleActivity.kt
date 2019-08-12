@@ -53,7 +53,6 @@ class LivesCircleActivity : BaseActivity(), LivesCircleView {
 
     lateinit var linearLayoutManager: LinearLayoutManager
 
-
     companion object {
         val PUBLISH_REQUEST_CODE = 1
         val PUBLISH_REQUEST_DETAIL_CODE = 2
@@ -85,7 +84,6 @@ class LivesCircleActivity : BaseActivity(), LivesCircleView {
         lastScrollY = scrollY
         true
     })
-
 
     override fun setLastPage(lastPage: Boolean, page: Int) {
         this.loadMore = !lastPage
@@ -165,10 +163,8 @@ class LivesCircleActivity : BaseActivity(), LivesCircleView {
         subscribe()
     }
 
-
     /****** 根据不同的生活圈加载不同的UI ******/
     private fun getOtherUIByLivesCircleType(livesCircleType: Int) {
-
         when (livesCircleType) {
             /****** 所有人的生活圈 ******/
             1 -> iv_take_picture.visibility=View.VISIBLE

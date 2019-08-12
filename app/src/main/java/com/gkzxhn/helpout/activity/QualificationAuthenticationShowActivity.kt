@@ -19,7 +19,6 @@ class QualificationAuthenticationShowActivity : BaseActivity(), QualificationAut
 
     lateinit var mPresenter: QualificationAuthenticationShowPresenter
 
-
     override fun provideContentViewId(): Int {
         return R.layout.activity_qualification_authentication_show
     }

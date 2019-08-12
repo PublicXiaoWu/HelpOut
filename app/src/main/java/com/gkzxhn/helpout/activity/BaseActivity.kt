@@ -41,6 +41,7 @@ import com.netease.nimlib.sdk.friend.model.AddFriendNotify
 import com.netease.nimlib.sdk.msg.SystemMessageObserver
 import com.netease.nimlib.sdk.msg.constant.SystemMessageType
 import com.netease.nimlib.sdk.msg.model.SystemMessage
+import com.tbruyelle.rxpermissions2.Permission
 import com.tbruyelle.rxpermissions2.RxPermissions
 import kotlinx.android.synthetic.main.dialog_ts.*
 import rx.android.schedulers.AndroidSchedulers
@@ -189,27 +190,28 @@ abstract class BaseActivity : AppCompatActivity(), BaseView {
     //一次获取所有权限,
     open fun multiPermissions() {
         open = 0x00001
-        //常用权限,定位，相机，SD卡读写，日历
-        rxPermissions?.requestEach(
-                Manifest.permission.ACCESS_FINE_LOCATION,
-                Manifest.permission.ACCESS_COARSE_LOCATION,
-                Manifest.permission.CAMERA,
-                Manifest.permission.READ_EXTERNAL_STORAGE,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                Manifest.permission.READ_PHONE_STATE
-        )
-                ?.subscribe { permission ->
-                    when (permission.granted) {
-                        // 用户已经同意该权限
-                        true -> {
-                            println("同意了" + permission.name)
+        RxPermissions(this)
+                .requestEach(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.CAMERA)
+                .subscribe({ permission: Permission ->
+                    when {
+                        permission.granted -> {
+                            // 用户已经同意该权限
+                            Log.d(javaClass.simpleName, permission.name + " is granted.")
                         }
-                        // 用户拒绝了该权限，并且选中『不再询问』
-                        permission.shouldShowRequestPermissionRationale -> judge()
-                        // 用户拒绝了该权限，没有选中『不再询问』（Never ask again）,那么下次再次启动时，还会提示请求权限的对话框
-                        else -> multiPermissions()
+                        permission.shouldShowRequestPermissionRationale -> {
+                            // 用户拒绝了该权限，没有选中『不再询问』（Never ask again）,那么下次再次启动时，还会提示请求权限的对话框
+                            Log.d(javaClass.simpleName, permission.name + " is denied. More info should be provided.")
+                        }
+                        else -> {
+                            // 用户拒绝了该权限，并且选中『不再询问』
+                            multiPermissions()
+                            Log.d(javaClass.simpleName, permission.name + " is denied.")
+
+                        }
                     }
-                }
+                }, {
+                    it.message.toString().logE(this)
+                })
     }
 
     private fun judge() {

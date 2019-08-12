@@ -26,11 +26,19 @@ import com.gkzxhn.helpout.view.PublishOrderView
 import kotlinx.android.synthetic.main.activity_publish_order.*
 import kotlinx.android.synthetic.main.default_top.*
 
+
+/**
+ * @classname：发布抢单
+ * @author：liushaoxiang
+ * @date：2019-08-12 10:41
+ * @description：
+ */
 class PublishOrderActivity : BaseActivity(), PublishOrderView {
 
     private lateinit var mPresenter: PublishOrderPresenter
 
     private lateinit var orderCategory: String
+    private var reward = 0.0
 
     companion object {
         fun launch(context: Context, intentId: String) {
@@ -58,6 +66,52 @@ class PublishOrderActivity : BaseActivity(), PublishOrderView {
     }
 
     private fun initListener() {
+
+        et_reward.setOnClickListener {
+            rg_price.clearCheck()
+            SystemUtil.showKeyBoard(this, et_reward)
+        }
+
+        rg_price.setOnCheckedChangeListener { group, checkedId ->
+            when (checkedId) {
+                R.id.rb_1 -> {
+                    reward = 100.0
+                    rb_1.setTextColor(resources.getColor(R.color.white))
+                    rb_2.setTextColor(resources.getColor(R.color.dark_blue))
+                    rb_3.setTextColor(resources.getColor(R.color.dark_blue))
+                    et_reward.setText("100")
+                    et_reward.setSelection(3)
+                    SystemUtil.hideKeyBoard(this, et_reward)
+                }
+                R.id.rb_2 -> {
+                    reward = 200.0
+                    rb_1.setTextColor(resources.getColor(R.color.dark_blue))
+                    rb_2.setTextColor(resources.getColor(R.color.white))
+                    rb_3.setTextColor(resources.getColor(R.color.dark_blue))
+                    et_reward.setText("200")
+                    et_reward.setSelection(3)
+                    SystemUtil.hideKeyBoard(this, et_reward)
+
+                }
+                R.id.rb_3 -> {
+                    reward = 300.0
+                    rb_1.setTextColor(resources.getColor(R.color.dark_blue))
+                    rb_2.setTextColor(resources.getColor(R.color.dark_blue))
+                    rb_3.setTextColor(resources.getColor(R.color.white))
+                    et_reward.setText("300")
+                    et_reward.setSelection(3)
+                    SystemUtil.hideKeyBoard(this, et_reward)
+
+                }
+                else -> {
+                    rb_1.setTextColor(resources.getColor(R.color.dark_blue))
+                    rb_2.setTextColor(resources.getColor(R.color.dark_blue))
+                    rb_3.setTextColor(resources.getColor(R.color.dark_blue))
+                }
+            }
+        }
+
+
         bt_publish_order.setOnClickListener {
             val reward = try {
                 et_reward.text.toString().trim().toDouble()
@@ -73,7 +127,6 @@ class PublishOrderActivity : BaseActivity(), PublishOrderView {
                 return@setOnClickListener
             } else
                 if (reward <= 0) {
-//                CustomerOrderDetailActivity.launch(this, mPresenter.orderId?:"382aaf77-e97a-4ec7-abbd-ad28a17fefb8")
                     showToast(getString(R.string.please_enter_price))
                     return@setOnClickListener
                 }

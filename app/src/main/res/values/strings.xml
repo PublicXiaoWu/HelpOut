@@ -177,5 +177,10 @@
     <string name="liked">您已经点过赞了</string>
     <string name="add_friend">添加朋友</string>
     <string name="publish_failed">发布失败</string>
+    <string name="please_cost100_at_least">请输入咨询金额，不少于100元</string>
+    <string name="yuan_100">100元</string>
+    <string name="yuan_200">200元</string>
+    <string name="yuan_300">300元</string>
+    <string name="consulting_time_length">咨询时长</string>
 
 </resources>

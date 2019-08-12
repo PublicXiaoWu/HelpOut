@@ -68,6 +68,7 @@ class MainActivity : BaseActivity() {
         updateApp()
 
         findLifeCircle()
+        multiPermissions()
     }
 
     private fun findLifeCircle() {
@@ -97,10 +98,10 @@ class MainActivity : BaseActivity() {
         tv_main_lives_circle.setDrawable(resources.getDrawable(R.mipmap.ic_lives_circle_selelct_no))
         mainMy.setDrawable(resources.getDrawable(R.mipmap.ic_my_black))
 
-        mainHome.setTextColor(ContextCompat.getColor(this,R.color.main_bottom_purple))
-        mainConversation.setTextColor(ContextCompat.getColor(this,R.color.main_bottom_black))
-        tv_main_lives_circle.setTextColor(ContextCompat.getColor(this,R.color.main_bottom_black))
-        mainMy.setTextColor(ContextCompat.getColor(this,R.color.main_bottom_black))
+        mainHome.setTextColor(ContextCompat.getColor(this, R.color.main_bottom_purple))
+        mainConversation.setTextColor(ContextCompat.getColor(this, R.color.main_bottom_black))
+        tv_main_lives_circle.setTextColor(ContextCompat.getColor(this, R.color.main_bottom_black))
+        mainMy.setTextColor(ContextCompat.getColor(this, R.color.main_bottom_black))
 
     }
 
@@ -116,10 +117,10 @@ class MainActivity : BaseActivity() {
         tv_main_lives_circle.setDrawable(resources.getDrawable(R.mipmap.ic_lives_circle_selelct_no))
         mainMy.setDrawable(resources.getDrawable(R.mipmap.ic_my_black))
 
-        mainHome.setTextColor(ContextCompat.getColor(this,R.color.main_bottom_black))
-        mainConversation.setTextColor(ContextCompat.getColor(this,R.color.main_bottom_purple))
-        tv_main_lives_circle.setTextColor(ContextCompat.getColor(this,R.color.main_bottom_black))
-        mainMy.setTextColor(ContextCompat.getColor(this,R.color.main_bottom_black))
+        mainHome.setTextColor(ContextCompat.getColor(this, R.color.main_bottom_black))
+        mainConversation.setTextColor(ContextCompat.getColor(this, R.color.main_bottom_purple))
+        tv_main_lives_circle.setTextColor(ContextCompat.getColor(this, R.color.main_bottom_black))
+        mainMy.setTextColor(ContextCompat.getColor(this, R.color.main_bottom_black))
 
     }
 
@@ -135,10 +136,10 @@ class MainActivity : BaseActivity() {
         tv_main_lives_circle.setDrawable(resources.getDrawable(R.mipmap.ic_lives_circle_selelct))
         mainMy.setDrawable(resources.getDrawable(R.mipmap.ic_my_black))
 
-        mainHome.setTextColor(ContextCompat.getColor(this,R.color.main_bottom_black))
-        mainConversation.setTextColor(ContextCompat.getColor(this,R.color.main_bottom_black))
-        tv_main_lives_circle.setTextColor(ContextCompat.getColor(this,R.color.main_bottom_purple))
-        mainMy.setTextColor(ContextCompat.getColor(this,R.color.main_bottom_black))
+        mainHome.setTextColor(ContextCompat.getColor(this, R.color.main_bottom_black))
+        mainConversation.setTextColor(ContextCompat.getColor(this, R.color.main_bottom_black))
+        tv_main_lives_circle.setTextColor(ContextCompat.getColor(this, R.color.main_bottom_purple))
+        mainMy.setTextColor(ContextCompat.getColor(this, R.color.main_bottom_black))
 
         getLivesCircleNew()
     }
@@ -150,14 +151,14 @@ class MainActivity : BaseActivity() {
      */
     fun onClickGoUser(view: View) {
         vpMain.currentItem = 3
-        mainHome.setDrawable(ContextCompat.getDrawable(this,R.mipmap.ic_home_black)!!)
-        mainConversation.setDrawable(ContextCompat.getDrawable(this,R.mipmap.ic_conversation_black)!!)
-        tv_main_lives_circle.setDrawable(ContextCompat.getDrawable(this,R.mipmap.ic_lives_circle_selelct_no)!!)
-        mainMy.setDrawable(ContextCompat.getDrawable(this,R.mipmap.ic_my_purple)!!)
-        mainHome.setTextColor(ContextCompat.getColor(this,R.color.main_bottom_black))
-        mainConversation.setTextColor(ContextCompat.getColor(this,R.color.main_bottom_black))
-        tv_main_lives_circle.setTextColor(ContextCompat.getColor(this,R.color.main_bottom_black))
-        mainMy.setTextColor(ContextCompat.getColor(this,R.color.main_bottom_purple))
+        mainHome.setDrawable(ContextCompat.getDrawable(this, R.mipmap.ic_home_black)!!)
+        mainConversation.setDrawable(ContextCompat.getDrawable(this, R.mipmap.ic_conversation_black)!!)
+        tv_main_lives_circle.setDrawable(ContextCompat.getDrawable(this, R.mipmap.ic_lives_circle_selelct_no)!!)
+        mainMy.setDrawable(ContextCompat.getDrawable(this, R.mipmap.ic_my_purple)!!)
+        mainHome.setTextColor(ContextCompat.getColor(this, R.color.main_bottom_black))
+        mainConversation.setTextColor(ContextCompat.getColor(this, R.color.main_bottom_black))
+        tv_main_lives_circle.setTextColor(ContextCompat.getColor(this, R.color.main_bottom_black))
+        mainMy.setTextColor(ContextCompat.getColor(this, R.color.main_bottom_purple))
     }
 
 
@@ -228,21 +229,21 @@ class MainActivity : BaseActivity() {
      */
     fun getLivesCircleNew() {
         mCompositeSubscription.add(
-            RetrofitClientChat
-                    .getInstance(this).mApi.getLivesCircleNew()
-                    .subscribeOn(Schedulers.io())
-                    ?.unsubscribeOn(AndroidSchedulers.mainThread())
-                    ?.observeOn(AndroidSchedulers.mainThread())
-                    ?.subscribe(object : HttpObserverNoDialog<LivesCircleNew>(this) {
-                        override fun success(t: LivesCircleNew) {
-                            RxBus.instance.post(t)
-                            if (!t.username.isNullOrEmpty()) {
-                                view_red_point.visibility = View.VISIBLE
-                            } else {
-                                view_red_point.visibility = View.GONE
+                RetrofitClientChat
+                        .getInstance(this).mApi.getLivesCircleNew()
+                        .subscribeOn(Schedulers.io())
+                        ?.unsubscribeOn(AndroidSchedulers.mainThread())
+                        ?.observeOn(AndroidSchedulers.mainThread())
+                        ?.subscribe(object : HttpObserverNoDialog<LivesCircleNew>(this) {
+                            override fun success(t: LivesCircleNew) {
+                                RxBus.instance.post(t)
+                                if (!t.username.isNullOrEmpty()) {
+                                    view_red_point.visibility = View.VISIBLE
+                                } else {
+                                    view_red_point.visibility = View.GONE
+                                }
                             }
-                        }
-                    })
+                        })
         )
     }
 }

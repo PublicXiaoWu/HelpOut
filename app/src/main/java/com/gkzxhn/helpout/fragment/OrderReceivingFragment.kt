@@ -217,8 +217,8 @@ class OrderReceivingFragment : BaseFragment(), OrderReceivingView {
     }
 
     override fun offLoadMore() {
-        if (loading_more!!.isLoading) {
-            loading_more?.finishLoading()
+        if (loading_more!=null&&loading_more.isLoading) {
+            loading_more.finishLoading()
         }
     }
 
