@@ -80,7 +80,7 @@ class AccountInfoUpActivity : BaseActivity() {
         if (nickName.isNotEmpty()) {
             modifyNickname(nickName)
         } else {
-            showToast("请输入昵称")
+            showToast(getString(R.string.please_enter_nicknam))
         }
     }
 
@@ -99,12 +99,12 @@ class AccountInfoUpActivity : BaseActivity() {
                 ?.subscribe(object : HttpObserver<Response<Void>>(this) {
                     override fun success(t: Response<Void>) {
                         if (t.code() == 204) {
-                            showToast("上传成功")
+                            showToast(getString(R.string.upload_successful))
                             App.EDIT.putString(Constants.SP_MY_ICON, System.currentTimeMillis().toString()).commit()
                             ProjectUtils.loadMyIcon(this@AccountInfoUpActivity, iv_account_info_image)
                             photoIsUp = true
                         } else {
-                            showToast("上传失败")
+                            showToast(getString(R.string.upload_fail))
                         }
                     }
                 })
@@ -135,7 +135,7 @@ class AccountInfoUpActivity : BaseActivity() {
                             startActivity(Intent(this@AccountInfoUpActivity, MainActivity::class.java))
                             finish()
                         } else {
-                            showToast("修改昵称失败")
+                            showToast(getString(R.string.modify_the_nickname_failure))
                         }
                     }
                 })

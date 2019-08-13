@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">帮帮忙</string>
+    <string name="app_name" >帮帮忙</string>
 
 
     <!--下拉刷新-->
@@ -119,7 +119,7 @@
     <string name="waiting_4_receiving">待接单</string>
     <string name="unknow">未知</string>
     <string name="have_accepted_order">已接单</string>
-    <string name="accepted_time">接单时间</string>
+    <string name="accepted_time" >接单时间</string>
     <string name="finish_time">完成时间</string>
     <string name="linkup_now">立即沟通</string>
     <string name="end_consult">结束咨询</string>
@@ -145,6 +145,9 @@
     <string name="please_add_advice">请补充详细问题和意见</string>
     <string name="please_enter_content">请输入不少于10个字的描述</string>
     <string name="please_provide_picture_4_most">请提供相关问题的截图或照片（最多4张）</string>
+    <string name="uploading">上传中...</string>
+    <string name="upload_successful">上传成功</string>
+    <string name="upload_fail">上传失败</string>
     <string name="uploading">上传中...</string>
     <string name="upload_evidence">上传凭证</string>
     <string name="commit">提交</string>
@@ -182,5 +185,13 @@
     <string name="yuan_200">200元</string>
     <string name="yuan_300">300元</string>
     <string name="consulting_time_length">咨询时长</string>
+
+    <string name="please_enter_nicknam">请输入昵称</string>
+    <string name="please_enter_phone">请输入手机号</string>
+    <string name="modify_the_nickname_failure">修改昵称失败</string>
+    <string name="i_is">我是</string>
+    <string name="friend_verification">朋友验证</string>
+    <string name="add_friend_success">添加好友请求发送成功</string>
+    <string name="add_friend_fail">添加好友请求发送失败</string>
 
 </resources>

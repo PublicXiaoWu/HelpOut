@@ -38,7 +38,7 @@ class AddFriendThreeActivity : BaseActivity() {
         account = intent.getStringExtra("account")
         curUserName = intent.getStringExtra("curUserName")
 
-        et_add_friend_three_content.setText("我是" + App.SP.getString(Constants.SP_NAME, ""))
+        et_add_friend_three_content.setText(getString(R.string.i_is) + App.SP.getString(Constants.SP_NAME, ""))
         iv_add_friend_three_close_text.setOnClickListener {
             et_add_friend_three_content.setText("")
         }
@@ -51,12 +51,12 @@ class AddFriendThreeActivity : BaseActivity() {
 
 
     private fun initTopTitle() {
-        tv_default_top_title.text = "朋友验证"
+        tv_default_top_title.text = getString(R.string.friend_verification)
         iv_default_top_back.setOnClickListener {
             finish()
         }
         tv_default_top_end.visibility = View.VISIBLE
-        tv_default_top_end.text = "发送"
+        tv_default_top_end.text = getString(R.string.send)
         tv_default_top_end.setOnClickListener {
             /****** 如果键盘没有关掉 执行关掉代码 ******/
             val inputManger = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
@@ -75,7 +75,7 @@ class AddFriendThreeActivity : BaseActivity() {
         NIMClient.getService(FriendService::class.java).addFriend(AddFriendData(account, VerifyType.VERIFY_REQUEST, json))
                 .setCallback(object : RequestCallback<Void> {
                     override fun onSuccess(p0: Void?) {
-                        ToastHelper.showToast(this@AddFriendThreeActivity, "添加好友请求发送成功")
+                        ToastHelper.showToast(this@AddFriendThreeActivity,  getString(R.string.add_friend_success))
                         finish()
                     }
 
@@ -88,7 +88,7 @@ class AddFriendThreeActivity : BaseActivity() {
                     }
 
                     override fun onException(p0: Throwable?) {
-                        ToastHelper.showToast(this@AddFriendThreeActivity, "添加好友请求发送失败")
+                        ToastHelper.showToast(this@AddFriendThreeActivity, getString(R.string.add_friend_fail))
 
                     }
 

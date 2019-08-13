@@ -87,7 +87,7 @@ class AddFriendActivity : BaseActivity() {
     private fun goSearch() {
         val phoneNumber = et_add_friend.text.toString().trim()
         if (phoneNumber.isEmpty()) {
-            showToast("请输入手机号")
+            showToast(getString(R.string.please_enter_phone))
             return
         }
 
