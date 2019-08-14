@@ -84,11 +84,9 @@ class ChangePhoneFirstActivity : BaseActivity(), PhoneChangeView {
                             tv_change_phone_code_send.text = "${60L - it}s"
                             tv_change_phone_code_send.setTextColor(resources.getColor(R.color.text_gray))
                             tv_change_phone_code_send.isClickable = false
-
                         }
                     }
                 }, {
-                    //                    it.message!!.logE(this)
                 })
     }
 

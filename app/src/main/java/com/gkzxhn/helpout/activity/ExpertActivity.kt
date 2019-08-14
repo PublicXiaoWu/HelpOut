@@ -29,7 +29,7 @@ class ExpertActivity : BaseActivity() {
     override fun init() {
         initTopTitle()
         v_expert_bg_1.setOnClickListener {
-            showToast("敬请期待")
+            showToast(getString(R.string.please_expectantly))
         }
         v_expert_bg_2.setOnClickListener {
             when (App.SP.getString(Constants.SP_CERTIFICATIONSTATUS, "")) {

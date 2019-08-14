@@ -142,6 +142,7 @@
     <string name="service_comment">服务评价</string>
     <string name="the_user_have_not_comment">此用户没有填写评价</string>
     <string name="delete_success">删除成功</string>
+    <string name="delete">删除</string>
     <string name="cancel_reason">取消原因</string>
     <string name="auto_cancel_in_3_days">三天内无人接单，系统自动取消</string>
     <string name="user_cancel_order">用户主动取消</string>
@@ -215,6 +216,11 @@
     <string name="ok">确定</string>
     <string name="can_choose_at_more_three">可多选（不超过三个）</string>
     <string name="at_more_three">最多选择三个</string>
+    <string name="now_support_weichat">暂不支持微信,敬请期待</string>
+    <string name="please_expectantly">敬请期待</string>
+    <string name="look">查看</string>
+    <string name="new_friend">新的朋友</string>
+    <string name="address_book">通讯录</string>
 
 
 </resources>

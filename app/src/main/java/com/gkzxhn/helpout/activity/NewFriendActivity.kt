@@ -135,7 +135,7 @@ class NewFriendActivity : BaseActivity() {
 
 
     private fun initTopTitle() {
-        tv_default_top_title.text = "新的朋友"
+        tv_default_top_title.text = getString(R.string.new_friend)
         iv_default_top_back.setOnClickListener {
             finish()
         }
@@ -159,7 +159,7 @@ class NewFriendActivity : BaseActivity() {
                 ?.observeOn(AndroidSchedulers.mainThread())
                 ?.subscribe(object : HttpObserver<ResponseBody>(this) {
                     override fun success(t: ResponseBody) {
-                        Log.e("xiaowu", "添加好友成功")
+                        Log.e("xiaowu", "add_friend_success")
                     }
 
                 }))

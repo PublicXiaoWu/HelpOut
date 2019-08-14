@@ -23,11 +23,7 @@ import java.io.File
 import java.util.*
 
 
-class GridImageAdapter(private val context: Context,
-                       /**
-                        * 点击添加图片跳转
-                        */
-                       private val mOnAddPicClickListener: onAddPicClickListener) : RecyclerView.Adapter<GridImageAdapter.ViewHolder>() {
+class GridImageAdapter(private val context: Context, private val mOnAddPicClickListener: onAddPicClickListener) : RecyclerView.Adapter<GridImageAdapter.ViewHolder>() {
     private val mInflater: LayoutInflater
     private var list: MutableList<LocalMedia> = ArrayList()
     private var selectMax = 9

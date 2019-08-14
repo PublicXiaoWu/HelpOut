@@ -102,7 +102,7 @@ class LivesCircleDetailsActivity : BaseActivity(), LivesCircleView {
         }
         /****** 分享 ******/
         v_lives_circle_share.setOnClickListener {
-            showToast("敬请期待")
+            showToast(getString(R.string.please_expectantly))
         }
         /****** 点赞 ******/
         v_lives_circle_like.setOnClickListener {

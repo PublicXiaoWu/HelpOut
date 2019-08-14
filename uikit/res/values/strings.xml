@@ -229,4 +229,8 @@
     <string name="input_panel_video_call">视频通话</string>
 
 
+    <string name="ren_unread">人未读</string>
+    <string name="now_unread">还未查看</string>
+
+
 </resources>

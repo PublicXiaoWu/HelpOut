@@ -863,14 +863,14 @@ public class MessageListPanelEx {
             longClickItemResend(selectedItem, alertDialog);
             // 2 copy
             longClickItemCopy(selectedItem, alertDialog, msgType);
-            // 3 revoke
-            if (enableRevokeButton(selectedItem)) {
-                longClickRevokeMsg(selectedItem, alertDialog);
-            }
+            // 3 revoke  撤回功能
+//            if (enableRevokeButton(selectedItem)) {
+//                longClickRevokeMsg(selectedItem, alertDialog);
+//            }
             // 4 delete
             longClickItemDelete(selectedItem, alertDialog);
             // 5 trans
-            longClickItemVoidToText(selectedItem, alertDialog, msgType);
+//            longClickItemVoidToText(selectedItem, alertDialog, msgType);
 
 //            if (!NimUIKitImpl.getMsgForwardFilter().shouldIgnore(selectedItem) && !recordOnly) {
 //                // 6 forward to person

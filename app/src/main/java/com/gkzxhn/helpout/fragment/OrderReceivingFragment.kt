@@ -125,8 +125,8 @@ class OrderReceivingFragment : BaseFragment(), OrderReceivingView {
                         val selectDialog = context?.selectDialog("您有订单未处理，请先处理", false)
                         val cancel = selectDialog?.findViewById<TextView>(R.id.dialog_cancel)
                         val next = selectDialog?.findViewById<TextView>(R.id.dialog_save)
-                        cancel?.text = "关闭"
-                        next?.text = "查看"
+                        cancel?.text = getString(R.string.close)
+                        next?.text = getString(R.string.look)
                         next?.setOnClickListener {
                             val intent = Intent(selectDialog.context, OrderActivity::class.java)
                             intent.putExtra("orderId", processingOrderId)
@@ -156,8 +156,8 @@ class OrderReceivingFragment : BaseFragment(), OrderReceivingView {
                         val selectDialog = context?.selectDialog("您有订单未处理，请先处理", false)
                         val cancel = selectDialog?.findViewById<TextView>(R.id.dialog_cancel)
                         val next = selectDialog?.findViewById<TextView>(R.id.dialog_save)
-                        cancel?.text = "关闭"
-                        next?.text = "查看"
+                        cancel?.text = getString(R.string.close)
+                        next?.text = getString(R.string.look)
                         next?.setOnClickListener {
                             val intent = Intent(selectDialog.context, OrderActivity::class.java)
                             intent.putExtra("orderId", processingOrderId)
@@ -192,7 +192,7 @@ class OrderReceivingFragment : BaseFragment(), OrderReceivingView {
             Constants.PENDING_APPROVAL -> {
                 val tsClickDialog = context?.TsClickDialog("认证正在审核中", true)
                 val send = tsClickDialog?.findViewById<TextView>(R.id.dialog_save)
-                send?.text = "查看"
+                send?.text =getString(R.string.look)
                 send?.setOnClickListener {
                     context?.startActivity(Intent(context, QualificationAuthenticationActivity::class.java))
                     tsClickDialog.dismiss()

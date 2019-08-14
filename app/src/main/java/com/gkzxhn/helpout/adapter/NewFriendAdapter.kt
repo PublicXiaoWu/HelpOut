@@ -1,6 +1,5 @@
 package com.gkzxhn.helpout.adapter
 
-import android.util.Log
 import android.view.View
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
@@ -30,7 +29,6 @@ class NewFriendAdapter(datas: List<SystemMessage>?) : BaseQuickAdapter<SystemMes
         try {
             val verifyContent = JSONObject(item?.content).getString("verifyContent")
             val userName = JSONObject(item?.content).getString("nickName")
-            Log.e("xiaowu_items_verift", verifyContent.toString())
 
             helper?.setText(R.id.tv_name, userName)
                     ?.setText(R.id.tv_msg, verifyContent)
@@ -48,7 +46,6 @@ class NewFriendAdapter(datas: List<SystemMessage>?) : BaseQuickAdapter<SystemMes
             }
             /****** 通过网易ID加载头像 ******/
             helper?.getView<HeadImageView>(R.id.iv_item_new_friend_avatar)?.loadBuddyAvatar(item.fromAccount)
-            Log.e("xiaowu_items_OK", verifyContent.toString())
 
         } catch (e: Exception) {
             e.printStackTrace()

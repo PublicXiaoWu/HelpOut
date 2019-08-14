@@ -92,8 +92,8 @@ class OrderReceivingPresenter(context: Context, view: OrderReceivingView) : Base
                                 val selectDialog = it.selectDialog("恭喜您，抢单成功", false)
                                 val cancel = selectDialog.findViewById<TextView>(R.id.dialog_cancel)
                                 val next = selectDialog.findViewById<TextView>(R.id.dialog_save)
-                                cancel.text = "关闭"
-                                next.text = "查看"
+                                cancel.text = mContext!!.getString(R.string.close)
+                                next.text = mContext!!.getString(R.string.look)
                                 next.setOnClickListener {
                                     val intent = Intent(selectDialog.context, OrderActivity::class.java)
                                     intent.putExtra("orderId", id)

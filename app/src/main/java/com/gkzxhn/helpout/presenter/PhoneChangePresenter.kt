@@ -53,7 +53,7 @@ class PhoneChangePresenter(context: Context, view: PhoneChangeView) : BasePresen
         mContext?.let {
             val map = LinkedHashMap<String, String>()
             map["phoneNumber"] = mView?.getPhone().toString()
-            var body = RequestBody.create(MediaType.parse("application/json; charset=utf-8"),
+            val body = RequestBody.create(MediaType.parse("application/json; charset=utf-8"),
                     Gson().toJson(map))
             mModel.getCode(it, body)
                     .unsubscribeOn(AndroidSchedulers.mainThread())
@@ -78,12 +78,12 @@ class PhoneChangePresenter(context: Context, view: PhoneChangeView) : BasePresen
      * @description：登录
      */
     private fun requestLogin() {
-        var map = LinkedHashMap<String, String>()
+        val map = LinkedHashMap<String, String>()
         map["phoneNumber"] = mView?.getPhone().toString()
         map["verificationCode"] = mView?.getCode().toString()
         map["name"] = mView?.getPhone().toString()
         map["group"] = "CUSTOMER"
-        var body = RequestBody.create(MediaType.parse("application/json; charset=utf-8"),
+        val body = RequestBody.create(MediaType.parse("application/json; charset=utf-8"),
                 Gson().toJson(map))
         mModel.login(mContext!!, body)
                 .unsubscribeOn(AndroidSchedulers.mainThread())
@@ -190,10 +190,10 @@ class PhoneChangePresenter(context: Context, view: PhoneChangeView) : BasePresen
             mContext?.showToast("手机号格式不正确")
             return
         }
-        var map = LinkedHashMap<String, String>()
+        val map = LinkedHashMap<String, String>()
         map["phoneNumber"] = mView?.getPhone().toString()
         map["verificationCode"] = mView?.getCode().toString()
-        var body = RequestBody.create(MediaType.parse("application/json; charset=utf-8"),
+        val body = RequestBody.create(MediaType.parse("application/json; charset=utf-8"),
                 Gson().toJson(map))
         mModel.updatePhoneNumber(mContext!!, body)
                 .unsubscribeOn(AndroidSchedulers.mainThread())

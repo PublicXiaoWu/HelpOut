@@ -46,19 +46,29 @@ class FriendListActivity : BaseActivity() {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
                     v_friend_list_point_number.visibility = if (it.show) View.VISIBLE else View.GONE
+                    getNewFriendMessage()
                 }, {
                     it.message.toString().logE(this)
                 })
 
+        getNewFriendMessage()
+    }
+
+    /**
+     * @methodName： created by liushaoxiang on 2019-08-14 15:39.
+     * @description： 获取最新添加好友的未读消息数
+     */
+    private fun getNewFriendMessage() {
         val types = ArrayList<SystemMessageType>()
         types.add(SystemMessageType.AddFriend)
         val unreadCount = NIMClient.getService(SystemMessageService::class.java).querySystemMessageUnreadCountByType(types)
-        v_friend_list_point_number.text=unreadCount.toString()
+        v_friend_list_point_number.text = unreadCount.toString()
     }
 
     private fun initTitle() {
-        tv_default_top_title.text = "通讯录"
+        tv_default_top_title.text = getString(R.string.address_book)
         iv_default_top_back.setOnClickListener { finish() }
     }
+
 
 }

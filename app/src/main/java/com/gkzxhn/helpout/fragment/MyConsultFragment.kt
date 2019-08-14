@@ -68,7 +68,7 @@ class MyConsultFragment : BaseFragment() {
 
 
     private fun selectTwoItem() {
-        context?.showToast("敬请期待")
+        context?.showToast(getString(R.string.please_expectantly))
 //        resources.getColor(R.color.main_top_gary).let { it1 -> tv_tab_1.setTextColor(it1) }
 //        resources.getColor(R.color.main_top_blue).let { it1 -> tv_tab_2.setTextColor(it1) }
 //        v_consult_select_line1.visibility = View.INVISIBLE

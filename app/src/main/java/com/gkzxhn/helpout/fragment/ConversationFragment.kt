@@ -12,7 +12,6 @@ import com.gkzxhn.helpout.view.ConversationView
 import kotlinx.android.synthetic.main.conversation_fragment.*
 import kotlin.math.roundToInt
 
-
 /**
  * Explanation: 网易会话列表页面
  * @author LSX
@@ -35,6 +34,7 @@ class ConversationFragment : BaseFragment(), ConversationView {
     }
 
     private val mPopupWindow = PopupWindow()
+
     private fun showPop() {
         // 设置布局文件
         val contentView = LayoutInflater.from(context).inflate(R.layout.pop_window_msg_add, null)

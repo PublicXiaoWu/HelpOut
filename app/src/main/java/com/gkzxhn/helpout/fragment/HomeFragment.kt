@@ -59,7 +59,7 @@ class HomeFragment : BaseFragment() {
 
     override fun initListener() {
         v_home_psychological.setOnClickListener {
-            context?.showToast("敬请期待")
+            context?.showToast(getString(R.string.please_expectantly))
         }
         v_home_legal_advice.setOnClickListener {
             if (ProjectUtils.certificationStatus()) {
@@ -69,10 +69,10 @@ class HomeFragment : BaseFragment() {
             }
         }
         v_home_business.setOnClickListener {
-            context?.showToast("敬请期待")
+            context?.showToast(getString(R.string.please_expectantly))
         }
         iv_home_have_a_tree.setOnClickListener {
-            context?.showToast("敬请期待")
+            context?.showToast(getString(R.string.please_expectantly))
         }
 
         iv_main_message_top.setOnClickListener {

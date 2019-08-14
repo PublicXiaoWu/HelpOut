@@ -63,7 +63,6 @@ class PublishLifeCirclePresenter(context: Context, view: BaseView)
         mModel.deleteFile(filename)
                 ?.observeOn(AndroidSchedulers.mainThread())
                 ?.subscribe({
-                    Log.d(filename.toString(), "删除成功")
                 }, {
                     Log.e(this.javaClass.simpleName, it.message?.toString())
                 })
@@ -78,7 +77,7 @@ class PublishLifeCirclePresenter(context: Context, view: BaseView)
                 val file = File(if (it.isCompressed) it.compressPath else it.path)
                 uploadImg(file)
             }
-        }else {
+        } else {
             publishLifeCircle(content)
         }
     }
@@ -96,26 +95,26 @@ class PublishLifeCirclePresenter(context: Context, view: BaseView)
         }
         mContext?.let {
             mModel.publishLifeCircle(request)
-                ?.observeOn(AndroidSchedulers.mainThread())
-                ?.subscribe(object : HttpObserverNoDialog<ResponseBody>(it) {
-                    override fun success(t: ResponseBody) {
-                        //发布成功
-                        mContext?.let { it.showToast(it.getString(R.string.publish_success)) }
-                        RxBus.instance.post(RxBusBean.PublishEntity(0))
-                    }
-
-                    override fun onError(t: Throwable?) {
-                        //发布失败
-                        if (fileNameList.isNotEmpty()) {
-                            fileNameList.forEach {
-                                deleteImg(it)
-                            }
+                    ?.observeOn(AndroidSchedulers.mainThread())
+                    ?.subscribe(object : HttpObserverNoDialog<ResponseBody>(it) {
+                        override fun success(t: ResponseBody) {
+                            //发布成功
+                            mContext?.let { it.showToast(it.getString(R.string.publish_success)) }
+                            RxBus.instance.post(RxBusBean.PublishEntity(0))
                         }
+
+                        override fun onError(t: Throwable?) {
+                            //发布失败
+                            if (fileNameList.isNotEmpty()) {
+                                fileNameList.forEach {
+                                    deleteImg(it)
+                                }
+                            }
 //                        super.onError(t)
-                        mContext?.let { it.showToast(it.getString(R.string.publish_failed)) }
-                        RxBus.instance.post(RxBusBean.PublishEntity(1))
-                    }
-                })
+                            mContext?.let { it.showToast(it.getString(R.string.publish_failed)) }
+                            RxBus.instance.post(RxBusBean.PublishEntity(1))
+                        }
+                    })
         }
     }
 }

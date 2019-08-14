@@ -71,7 +71,7 @@ class LivesCircleAdapter(datas: List<LivesCircle.ContentBean>?) : BaseQuickAdapt
     /****** 分享 ******/
     private fun share(): View.OnClickListener? {
         return View.OnClickListener() {
-            mContext.showToast("敬请期待")
+            mContext.showToast(mContext.getString(R.string.please_expectantly))
         }
     }
 

@@ -408,9 +408,9 @@ public abstract class MsgViewHolderBase extends RecyclerViewHolder<BaseMultiItem
                 // 自己发的需要已读回执的消息，显示未读人数
                 ackMsgTextView.setVisibility(View.VISIBLE);
                 if (message.getTeamMsgAckCount() == 0 && message.getTeamMsgUnAckCount() == 0) {
-                    ackMsgTextView.setText("还未查看");
+                    ackMsgTextView.setText(context.getString(R.string.now_unread));
                 } else {
-                    ackMsgTextView.setText(message.getTeamMsgUnAckCount() + "人未读");
+                    ackMsgTextView.setText(message.getTeamMsgUnAckCount() + context.getString(R.string.ren_unread));
                 }
             }
         } else {

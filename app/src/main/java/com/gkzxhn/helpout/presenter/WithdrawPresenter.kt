@@ -163,7 +163,7 @@ class WithdrawPresenter(context: Context, view: WithdrawView) : BasePresenter<IW
             dialog.dismiss()
         }
         tvTwo.setOnClickListener {
-            mContext!!.showToast("暂不支持微信,敬请期待")
+            mContext!!.showToast(mContext!!.getString(R.string.now_support_weichat))
             dialog.dismiss()
         }
         tvVerify.setOnClickListener {

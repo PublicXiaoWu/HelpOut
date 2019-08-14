@@ -55,7 +55,7 @@ class FindFragment : BaseFragment() {
             context?.startActivity(intent)
         }
         v_scan_bg.setOnClickListener {
-            context?.showToast("敬请期待")
+            context?.showToast(getString(R.string.please_expectantly))
         }
     }
 

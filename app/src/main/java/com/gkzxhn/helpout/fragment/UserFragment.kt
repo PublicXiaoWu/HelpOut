@@ -2,7 +2,6 @@ package com.gkzxhn.helpout.fragment
 
 import android.content.Intent
 import android.text.TextUtils
-import android.util.Log
 import android.view.View
 import com.gkzxhn.helpout.R
 import com.gkzxhn.helpout.activity.*
@@ -255,11 +254,6 @@ class UserFragment : BaseFragment(), View.OnClickListener {
                                         }
                                         400 -> {
                                             val errorBody = e.response().errorBody()?.string()
-                                            val code = try {
-                                                JSONObject(errorBody).getString("code")
-                                            } catch (e: Exception) {
-                                                ""
-                                            }
                                             val message = try {
                                                 JSONObject(errorBody).getString("message")
                                             } catch (e: Exception) {
@@ -278,11 +272,9 @@ class UserFragment : BaseFragment(), View.OnClickListener {
                                 //后台返回的message
                                 is ApiException -> {
                                     it.TsDialog(e.message!!, false)
-                                    Log.e("ApiErrorHelper", e.message, e)
                                 }
                                 else -> {
                                     it.showToast("数据异常")
-                                    Log.e("ApiErrorHelper", e!!.message, e)
                                 }
                             }
                         }

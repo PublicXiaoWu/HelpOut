@@ -66,7 +66,6 @@ object ApiErrorHelper {
             }
             is IOException -> {
                 context.showToast("网络连接超时，请重试")
-//                context.TsDialog("网络连接超时，请重试", false)
             }
         //后台返回的message
             is ApiException -> {
