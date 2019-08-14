@@ -23,5 +23,8 @@ data class LawChannel(
 
         fun find(category: String): LawChannel? =
                 CHANNELS.find { it.category == category }
+
+        fun findByName(name: String): LawChannel? =
+                CHANNELS.find { it.name == name }
     }
 }

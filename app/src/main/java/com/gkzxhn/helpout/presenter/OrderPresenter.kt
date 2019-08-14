@@ -6,12 +6,15 @@ import com.gkzxhn.helpout.R
 import com.gkzxhn.helpout.common.App
 import com.gkzxhn.helpout.common.Constants
 import com.gkzxhn.helpout.common.RxBus
-import com.gkzxhn.helpout.entity.*
+import com.gkzxhn.helpout.entity.ImInfo
+import com.gkzxhn.helpout.entity.OrderComment
+import com.gkzxhn.helpout.entity.OrderMyInfo
+import com.gkzxhn.helpout.entity.OrderRushInfo
+import com.gkzxhn.helpout.entity.UIInfo.LawChannel
 import com.gkzxhn.helpout.entity.rxbus.RxBusBean
 import com.gkzxhn.helpout.model.IOrderModel
 import com.gkzxhn.helpout.model.iml.OrderModel
 import com.gkzxhn.helpout.net.HttpObserver
-import com.gkzxhn.helpout.utils.ProjectUtils
 import com.gkzxhn.helpout.utils.StringUtils
 import com.gkzxhn.helpout.utils.showToast
 import com.gkzxhn.helpout.view.OrderView
@@ -51,7 +54,7 @@ class OrderPresenter(context: Context, view: OrderView) : BasePresenter<IOrderMo
                             mView?.setShowOrderState(View.GONE, "", "", "")
                             mView?.setShowGetMoney(View.GONE, "", "")
                             mView?.setShowEvaluation(View.GONE, "", "", 0)
-                            val str1 = ProjectUtils.categoriesConversion(t.category!!)
+                            val str1 = LawChannel.find(t.category)!!.name
                             mView?.setOrderType(str1)
                         }
                     })
@@ -103,8 +106,10 @@ class OrderPresenter(context: Context, view: OrderView) : BasePresenter<IOrderMo
         userName = t.customer?.username!!
         videoDuration = t.videoDuration
 
-        val str1 = ProjectUtils.categoriesConversion(t.category!!)
-        mView?.setOrderType(str1)
+        val str1 = LawChannel.find(t.category!!)?.name
+        if (str1 != null) {
+            mView?.setOrderType(str1)
+        }
         when (t.status) {
         /****** 待接单 ******/
             Constants.ORDER_STATE_PENDING_RECEIVING -> {

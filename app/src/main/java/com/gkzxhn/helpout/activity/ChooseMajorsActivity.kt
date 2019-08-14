@@ -36,9 +36,9 @@ class ChooseMajorsActivity : BaseActivity() {
     }
 
     private fun initTopTitle() {
-        tv_default_top_title.text = "选择专业领域"
+        tv_default_top_title.text = getString(R.string.choose_professional)
         tv_default_top_end.visibility = View.VISIBLE
-        tv_default_top_end.text = "确定"
+        tv_default_top_end.text = getString(R.string.ok)
         iv_default_top_back.setOnClickListener {
             onBackPressed()
         }
@@ -87,58 +87,58 @@ class ChooseMajorsActivity : BaseActivity() {
             selectString?.add(findMajors(number))
             selectNumber++
         } else {
-            showToast("最多选择三个")
+            showToast(getString(R.string.at_more_three))
         }
     }
 
     private fun findMajors(number: Int): String {
 
         return when (number) {
-            1 -> "财产纠纷"
-            2 -> "婚姻家庭"
-            3 -> "交通事故"
-            4 -> "工伤赔偿"
-            5 -> "合同纠纷"
-            6 -> "刑事辩护"
-            7 -> "房产纠纷"
-            8 -> "劳动就业"
+            1 -> getString(R.string.property_dispute)
+            2 -> getString(R.string.msttishr_family)
+            3 -> getString(R.string.traffic_accident)
+            4 -> getString(R.string.work_cover)
+            5 -> getString(R.string.icon_contract_dispute)
+            6 -> getString(R.string.criminal_defense)
+            7 -> getString(R.string.property_disputes)
+            8 -> getString(R.string.labour_employment)
             else -> {
-                "未知"
+                "unknown"
             }
         }
     }
 
     private fun initSelect(string: String) {
         when (string) {
-            "财产纠纷" -> {
+            getString(R.string.property_dispute) -> {
                 changeViewVisibility(iv_choose_majors_1, 1)
             }
-            "婚姻家庭" -> {
+            getString(R.string.msttishr_family) -> {
                 changeViewVisibility(iv_choose_majors_2, 2)
             }
-            "交通事故" -> {
+            getString(R.string.traffic_accident) -> {
                 changeViewVisibility(iv_choose_majors_3, 3)
             }
-            "工伤赔偿" -> {
+            getString(R.string.work_cover) -> {
                 changeViewVisibility(iv_choose_majors_4, 4)
             }
-            "合同纠纷" -> {
+           getString(R.string.icon_contract_dispute) -> {
                 changeViewVisibility(iv_choose_majors_5, 5)
             }
-            "刑事辩护" -> {
+           getString(R.string.criminal_defense) -> {
                 changeViewVisibility(iv_choose_majors_6, 6)
             }
-            "房产纠纷" -> {
+            getString(R.string.property_disputes) -> {
                 changeViewVisibility(iv_choose_majors_7, 7)
             }
-            "劳动就业" -> {
+            getString(R.string.labour_employment) -> {
                 changeViewVisibility(iv_choose_majors_8, 8)
             }
         }
     }
 
     override fun onBackPressed() {
-        var intent = Intent()
+        val intent = Intent()
         intent.putStringArrayListExtra(Constants.RESULT_CHOOSE_MAJORS, selectString)
         setResult(Constants.RESULTCODE_CHOOSE_MAJORS, intent)
         finish()

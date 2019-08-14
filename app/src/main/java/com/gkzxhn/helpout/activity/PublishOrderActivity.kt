@@ -208,9 +208,9 @@ class PublishOrderActivity : BaseActivity(), PublishOrderView {
                 }
             }
         })
-        popupWindow?.setBackgroundAlpha(0.5f)
-        (popupWindow as PaySelectPopupWindow).setAmount(reward.toDouble())
-        popupWindow?.showAtLocation(ll_content, Gravity.BOTTOM or Gravity.CENTER_HORIZONTAL,
+        popupWindow.setBackgroundAlpha(0.5f)
+        popupWindow.setAmount(reward)
+        popupWindow.showAtLocation(ll_content, Gravity.BOTTOM or Gravity.CENTER_HORIZONTAL,
                 0, 0)
     }
 
@@ -249,7 +249,7 @@ class PublishOrderActivity : BaseActivity(), PublishOrderView {
                     // 判断resultStatus 为9000则代表支付成功
                     if (TextUtils.equals(resultStatus, "9000")) {
                         // 该笔订单是否真实支付成功，需要依赖服务端的异步通知。
-                        popupWindow?.dismiss()
+                        popupWindow.dismiss()
 //                        FamilyCallBalanceActivity.launch(this@BuyCardActivity)
 //                        close()
 //                        showToast(getString(R.string.pay_success))

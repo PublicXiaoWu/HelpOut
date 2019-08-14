@@ -84,7 +84,7 @@ class OrderDisposeAdapter(private val mContext: Context, private val data: List<
             val entity = mDatas[position]
             tv_order_dispose_name.text = entity.customer!!.name
             ProjectUtils.loadRoundImageByUserName(context, entity.customer!!.username, iv_order_dispose_item)
-            v_item_order_receiving_type.text = ProjectUtils.categoriesConversion(entity.category!!)
+            v_item_order_receiving_type.text = LawChannel.find(entity.category!!)?.name
             /****** 价格 ******/
             tv_main_top_end.text = "￥" + entity.reward
             tv_order_dispose_time.text = StringUtils.parseDate(entity.createdTime)

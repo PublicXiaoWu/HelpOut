@@ -27,7 +27,7 @@ class ApplyResultActivity : BaseActivity() {
     override fun init() {
         initTop()
 
-        tv_pay_status.text = "反馈成功"
+        tv_pay_status.text = getString(R.string.feedback_success)
         tv_pay_status.setTextColor(resources.getColor(R.color.dark_blue))
         tv_pay_status.setTextSize(TypedValue.COMPLEX_UNIT_PX, resources.getDimension(R.dimen.text_large))
         val params = tv_pay_status.layoutParams as LinearLayout.LayoutParams

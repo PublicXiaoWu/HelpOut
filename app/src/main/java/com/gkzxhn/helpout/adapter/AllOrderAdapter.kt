@@ -10,6 +10,7 @@ import android.widget.LinearLayout
 import com.gkzxhn.helpout.R
 import com.gkzxhn.helpout.common.Constants
 import com.gkzxhn.helpout.entity.OrderDispose
+import com.gkzxhn.helpout.entity.UIInfo.LawChannel
 import com.gkzxhn.helpout.utils.ProjectUtils
 import com.gkzxhn.helpout.utils.StringUtils
 import com.zhy.adapter.recyclerview.MultiItemTypeAdapter
@@ -69,7 +70,7 @@ class AllOrderAdapter(private val mContext: Context) : RecyclerView.Adapter<AllO
             /****** 价格 ******/
             tv_main_top_end.text = "￥" + entity.reward
             tv_order_dispose_time.text = StringUtils.parseDate(entity.createdTime)
-            v_item_order_receiving_type.text = ProjectUtils.categoriesConversion(entity.category!!)
+            v_item_order_receiving_type.text = LawChannel.find(entity.category!!)?.name
 
             when (entity.status) {
                 Constants.ORDER_STATE_ACCEPTED ->

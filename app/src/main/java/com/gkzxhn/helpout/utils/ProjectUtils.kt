@@ -86,49 +86,6 @@ object ProjectUtils {
         return certificationStatus == Constants.CERTIFIED
     }
 
-    /**
-     * @methodName： created by liushaoxiang on 2018/11/20 8:56 PM.
-     * @description：专业领域的转换
-     */
-    fun categoriesStrToType(str: String): String {
-        if (str.isEmpty()) {
-            return ""
-        }
-        return when (str) {
-            "财产纠纷" -> "PROPERTY_DISPUTES"
-            "婚姻家庭" -> "MARRIAGE_FAMILY"
-            "交通事故" -> "TRAFFIC_ACCIDENT"
-            "工伤赔偿" -> "WORK_COMPENSATION"
-            "合同纠纷" -> "CONTRACT_DISPUTE"
-            "刑事辩护" -> "CRIMINAL_DEFENSE"
-            "房产纠纷" -> "HOUSING_DISPUTES"
-            "劳动就业" -> "LABOR_EMPLOYMENT"
-            else -> ""
-        }
-    }
-
-    /**
-     * @methodName： created by liushaoxiang on 2018/11/9 9:57 AM.
-     * @description：专业类别的转化
-     */
-    fun categoriesConversion(str: String): String {
-        if (str.isEmpty()) {
-            return ""
-        }
-        return when (str) {
-            "PROPERTY_DISPUTES" -> "财产纠纷"
-            "MARRIAGE_FAMILY" -> "婚姻家庭"
-            "TRAFFIC_ACCIDENT" -> "交通事故"
-            "WORK_COMPENSATION" -> "工伤赔偿"
-            "CONTRACT_DISPUTE" -> "合同纠纷"
-            "CRIMINAL_DEFENSE" -> "刑事辩护"
-            "HOUSING_DISPUTES" -> "房产纠纷"
-            "LABOR_EMPLOYMENT" -> "劳动就业"
-            else -> {
-                "其它"
-            }
-        }
-    }
 
     /****** 通过fileID加载图片 ******/
     @SuppressLint("LongLogTag")

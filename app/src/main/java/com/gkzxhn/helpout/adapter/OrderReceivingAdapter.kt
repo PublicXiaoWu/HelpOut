@@ -11,6 +11,7 @@ import com.gkzxhn.helpout.R
 import com.gkzxhn.helpout.common.App
 import com.gkzxhn.helpout.common.Constants
 import com.gkzxhn.helpout.entity.OrderReceivingContent
+import com.gkzxhn.helpout.entity.UIInfo.LawChannel
 import com.gkzxhn.helpout.utils.ProjectUtils
 import com.gkzxhn.helpout.utils.StringUtils
 import com.zhy.adapter.recyclerview.MultiItemTypeAdapter
@@ -88,7 +89,7 @@ class OrderReceivingAdapter(private val mContext: Context) : RecyclerView.Adapte
             tv_main_top_end.text = "￥" + entity.reward.toString()
             tv_item_order_receiving_time.text = StringUtils.parseDate(entity.createdTime!!)
 
-            v_item_order_receiving_type.text= ProjectUtils.categoriesConversion(entity.category!!)
+            v_item_order_receiving_type.text= LawChannel.find(entity.category!!)?.name
             /****** 正在进行中的订单 ******/
             val processingOrderId = App.SP.getString(Constants.PROCESSING_ORDER_ID, "")
             /****** 有正在进行的单时 按扭置灰  认证未通过时也置灰 ******/

@@ -5,6 +5,7 @@ import com.gkzxhn.helpout.R
 import com.gkzxhn.helpout.common.App
 import com.gkzxhn.helpout.common.Constants
 import com.gkzxhn.helpout.entity.LawyersInfo
+import com.gkzxhn.helpout.entity.UIInfo.LawChannel
 import com.gkzxhn.helpout.net.HttpObserver
 import com.gkzxhn.helpout.net.RetrofitClient
 import com.gkzxhn.helpout.utils.ProjectUtils
@@ -38,14 +39,14 @@ class LawyerFragment : BaseFragment() {
         tv_home_address.text = "执业律所：" + t.lawOffice
         if (categories != null && categories.isNotEmpty() && ProjectUtils.certificationStatus()) {
             tv_home_type1.visibility = View.VISIBLE
-            tv_home_type1.text = ProjectUtils.categoriesConversion(categories[0])
+            tv_home_type1.text = LawChannel.find(categories[0])?.name
             if (categories.size > 1) {
                 tv_home_type2.visibility = View.VISIBLE
-                tv_home_type2.text = ProjectUtils.categoriesConversion(categories[1])
+                tv_home_type2.text =LawChannel.find(categories[1])?.name
             }
             if (categories.size > 2) {
                 tv_home_type3.visibility = View.VISIBLE
-                tv_home_type3.text = ProjectUtils.categoriesConversion(categories[2])
+                tv_home_type3.text = LawChannel.find(categories[2])?.name
             }
         } else {
             tv_home_type1.visibility = View.INVISIBLE

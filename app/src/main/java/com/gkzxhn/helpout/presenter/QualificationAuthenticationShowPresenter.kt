@@ -2,10 +2,10 @@ package com.gkzxhn.helpout.presenter
 
 import android.content.Context
 import com.gkzxhn.helpout.entity.QualificationAuthentication
+import com.gkzxhn.helpout.entity.UIInfo.LawChannel
 import com.gkzxhn.helpout.model.IQualificationAuthenticationModel
 import com.gkzxhn.helpout.model.iml.QualificationAuthenticationModel
 import com.gkzxhn.helpout.net.HttpObserver
-import com.gkzxhn.helpout.utils.ProjectUtils
 import com.gkzxhn.helpout.view.QualificationAuthenticationShowView
 import rx.android.schedulers.AndroidSchedulers
 
@@ -31,7 +31,7 @@ class QualificationAuthenticationShowPresenter(context: Context, view: Qualifica
                             mView?.setLawOffice(t.lawOffice!!)
                             var professional = ""
                             for (s in t.categories!!) {
-                                val categoriesString = ProjectUtils.categoriesConversion(s)
+                                val categoriesString = LawChannel.find(s)?.name
                                 professional = "$professional、$categoriesString"
                             }
                             mView?.setProfessional(professional.substring(1))

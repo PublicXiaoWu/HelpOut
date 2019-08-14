@@ -12,10 +12,10 @@ import android.widget.TextView
 import com.gkzxhn.helpout.R
 import com.gkzxhn.helpout.activity.QualificationAuthenticationSuccessActivity
 import com.gkzxhn.helpout.entity.*
+import com.gkzxhn.helpout.entity.UIInfo.LawChannel
 import com.gkzxhn.helpout.model.IQualificationAuthenticationModel
 import com.gkzxhn.helpout.model.iml.QualificationAuthenticationModel
 import com.gkzxhn.helpout.net.HttpObserver
-import com.gkzxhn.helpout.utils.ProjectUtils
 import com.gkzxhn.helpout.utils.showToast
 import com.gkzxhn.helpout.view.QualificationAuthenticationEditView
 import com.google.gson.Gson
@@ -119,7 +119,7 @@ class QualificationAuthenticationEditPresenter(context: Context, view: Qualifica
         qualificationAuthentication.workExperience = mView?.getYear()!!
 
         for (s in mView?.getSelectStr()!!) {
-            categories?.add(ProjectUtils.categoriesStrToType(s))
+            categories?.add(LawChannel.findByName(s)?.category!!)
         }
         qualificationAuthentication.categories = categories
 
@@ -205,9 +205,11 @@ class QualificationAuthenticationEditPresenter(context: Context, view: Qualifica
                             //    专业领域的集合
                             val selectString: ArrayList<String>? = arrayListOf()
                             for (s in t.categories!!) {
-                                val categoriesString = ProjectUtils.categoriesConversion(s)
+                                val categoriesString = LawChannel.find(s)?.name
                                 professional = "$professional、$categoriesString"
-                                selectString?.add(categoriesString)
+                                if (categoriesString != null) {
+                                    selectString?.add(categoriesString)
+                                }
                             }
                             mView?.setSelectStr(selectString!!)
                             mView?.setProfessional(professional.substring(1))

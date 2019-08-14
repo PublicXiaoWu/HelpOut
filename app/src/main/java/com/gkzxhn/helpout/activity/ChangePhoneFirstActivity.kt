@@ -1,6 +1,5 @@
 package com.gkzxhn.helpout.activity
 
-//import rx.android.schedulers.AndroidSchedulers
 import android.annotation.SuppressLint
 import android.view.View
 import com.gkzxhn.helpout.R
@@ -50,15 +49,15 @@ class ChangePhoneFirstActivity : BaseActivity(), PhoneChangeView {
 
     fun onClickChangPhone(view: View) {
         when (view.id) {
-        /****** 返回 ******/
+            /****** 返回 ******/
             R.id.iv_change_phone_back -> {
                 finish()
             }
-        /****** 下一步 ******/
+            /****** 下一步 ******/
             R.id.tv_change_phone_next -> {
                 mPresenter.login()
             }
-        /****** 发送验证码 ******/
+            /****** 发送验证码 ******/
             R.id.tv_change_phone_code_send -> {
                 mPresenter.sendCode()
             }

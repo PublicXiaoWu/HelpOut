@@ -107,24 +107,10 @@ class PublishOrderPresenter(context: Context, view: PublishOrderView)
             mContext?.let{ it.showToast(it.getString(R.string.weixin_uninstalled)) }
             return
         }
-        /*if (!api.isWXAppSupportAPI) {
-            context.toast("Android版本太低,不支持微信支付")
-            return
-        }*/
         api.registerApp(request.appId)
-
-        /*val signParams = LinkedList<Pair<String, String>>()
-        signParams.add(Pair("appid", request.appId))
-        signParams.add(Pair("noncestr", request.nonceStr))
-        signParams.add(Pair("package", request.packageValue))
-        signParams.add(Pair("partnerid", request.partnerId))
-        signParams.add(Pair("prepayid", request.prepayId))
-        //signParams.add(new BasicNameValuePair("sign", sign));
-        signParams.add(Pair("timestamp", request.timeStamp))
-        request.sign = getAppSign(signParams)*/
         request.extData = "$amount&"
         api.sendReq(request)
-        (mView as PublishOrderActivity).popupWindow?.dismiss()
+        (mView as PublishOrderActivity).popupWindow.dismiss()
     }
 
     fun subscribePay(): Subscription? {

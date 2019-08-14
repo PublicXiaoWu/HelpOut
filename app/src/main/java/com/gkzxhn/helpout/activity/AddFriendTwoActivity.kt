@@ -37,7 +37,7 @@ class AddFriendTwoActivity : BaseActivity() {
 
         tv_add_friend_two_add.setOnClickListener {
             if (phoneNumber == App.SP.getString(Constants.SP_PHONE, "")) {
-                TsDialog("你不能添加自己到通讯录", true)
+                TsDialog(getString(R.string.not_add_my_phone), true)
                 return@setOnClickListener
             }
             val intent = Intent(this, AddFriendThreeActivity::class.java)
@@ -58,9 +58,8 @@ class AddFriendTwoActivity : BaseActivity() {
         tv_add_friend_two_phone.text = StringUtils.phoneChange(phoneNumber)
     }
 
-
     private fun initTopTitle() {
-        tv_default_top_title.text = "好友信息"
+        tv_default_top_title.text = getString(R.string.friend_Info)
         iv_default_top_back.setOnClickListener {
             finish()
         }

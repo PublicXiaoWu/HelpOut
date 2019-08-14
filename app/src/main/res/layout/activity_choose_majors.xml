@@ -17,7 +17,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="15dp"
         android:layout_marginTop="15dp"
-        android:text="可多选（不超过三个）"
+        android:text="@string/can_choose_at_more_three"
         android:textColor="#ff5159a2"
         android:textSize="12sp"
         app:layout_constraintStart_toStartOf="parent"
@@ -43,7 +43,7 @@
 
     <TextView
         style="@style/choose_majors_text"
-        android:text="财产纠纷"
+        android:text="@string/property_dispute"
         app:layout_constraintBottom_toBottomOf="@+id/v_choose_majors_bg_1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/v_choose_majors_bg_1"
@@ -72,7 +72,7 @@
 
     <TextView
         style="@style/choose_majors_text"
-        android:text="婚姻家庭"
+        android:text="@string/msttishr_family"
         app:layout_constraintBottom_toBottomOf="@id/v_choose_majors_bg_2"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/v_choose_majors_bg_2"
@@ -100,7 +100,7 @@
 
     <TextView
         style="@style/choose_majors_text"
-        android:text="交通事故"
+        android:text="@string/traffic_accident"
         app:layout_constraintBottom_toBottomOf="@id/v_choose_majors_bg_3"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/v_choose_majors_bg_3"
@@ -127,7 +127,7 @@
 
     <TextView
         style="@style/choose_majors_text"
-        android:text="工伤赔偿"
+        android:text="@string/work_cover"
         app:layout_constraintBottom_toBottomOf="@id/v_choose_majors_bg_4"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/v_choose_majors_bg_4"
@@ -154,7 +154,7 @@
 
     <TextView
         style="@style/choose_majors_text"
-        android:text="合同纠纷"
+        android:text="@string/icon_contract_dispute"
         app:layout_constraintBottom_toBottomOf="@id/v_choose_majors_bg_5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/v_choose_majors_bg_5"
@@ -181,7 +181,7 @@
 
     <TextView
         style="@style/choose_majors_text"
-        android:text="刑事辩护"
+        android:text="@string/criminal_defense"
         app:layout_constraintBottom_toBottomOf="@id/v_choose_majors_bg_6"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/v_choose_majors_bg_6"
@@ -208,7 +208,7 @@
 
     <TextView
         style="@style/choose_majors_text"
-        android:text="房产纠纷"
+        android:text="@string/property_disputes"
         app:layout_constraintBottom_toBottomOf="@id/v_choose_majors_bg_7"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/v_choose_majors_bg_7"
@@ -235,7 +235,7 @@
 
     <TextView
         style="@style/choose_majors_text"
-        android:text="劳动就业"
+        android:text="@string/labour_employment"
         app:layout_constraintBottom_toBottomOf="@id/v_choose_majors_bg_8"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/v_choose_majors_bg_8"

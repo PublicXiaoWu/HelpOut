@@ -52,7 +52,7 @@
                         android:layout_alignParentEnd="true"
                         android:textColor="@color/text_gray"
                         android:textSize="@dimen/text_middle"
-                        tools:text="婚姻家庭"/>
+                        tools:text="@string/msttishr_family"/>
 
                 </RelativeLayout>
 

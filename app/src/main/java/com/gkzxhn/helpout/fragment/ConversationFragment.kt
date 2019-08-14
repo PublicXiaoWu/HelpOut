@@ -30,16 +30,6 @@ class ConversationFragment : BaseFragment(), ConversationView {
         }
 
         iv_conversation_menu.setOnClickListener {
-            /*val contentView = LayoutInflater.from(context).inflate(R.layout.pop_window_msg_add, null, false)
-            val pop = PopupWindow(contentView)
-            pop.isTouchable = true
-            pop.setBackgroundDrawable(context?.resources?.getDrawable(R.drawable.back_add_pop))
-            with(contentView) {
-                tv_add_friend.setOnClickListener {
-                    context?.startActivity(Intent(context, AddFriendActivity::class.java))
-                }
-            }
-            pop.showAsDropDown(iv_conversation_menu, -120f.dp2px().roundToInt(), 0)*/
             showPop()
         }
     }
@@ -51,8 +41,8 @@ class ConversationFragment : BaseFragment(), ConversationView {
         mPopupWindow.contentView = contentView
         contentView.findViewById<TextView>(R.id.tv_add_friend).setOnClickListener {
             context?.startActivity(Intent(context, AddFriendActivity::class.java))
-            if (mPopupWindow?.isShowing) {
-                mPopupWindow?.dismiss()
+            if (mPopupWindow.isShowing) {
+                mPopupWindow.dismiss()
             }
         }
         // 为了避免部分机型不显示，我们需要重新设置一下宽高

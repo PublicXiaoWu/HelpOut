@@ -16,7 +16,7 @@ import java.io.FileOutputStream
 import java.util.regex.Pattern
 
 
- /**
+/**
  * Explanation:
  * @author LSX
  *    -----2018/9/6
@@ -35,8 +35,7 @@ inline fun <reified T : Activity> Activity.newIntent() {
 }
 
 fun <T> Observable<T>.applySchedulers(): Observable<T> {
-    return subscribeOn(Schedulers.io()).
-            unsubscribeOn(AndroidSchedulers.mainThread())
+    return subscribeOn(Schedulers.io()).unsubscribeOn(AndroidSchedulers.mainThread())
             .observeOn(AndroidSchedulers.mainThread())
 }
 
@@ -97,6 +96,7 @@ fun Bitmap.compressImage(file: File, size: Int): File? {
     }
     return file
 }
+
 fun Long.toGMKSizeStr(): String {
     val gb = this / (1024 * 1024 * 1024)
     val mb = this % (1024 * 1024 * 1024) / (1024 * 1024)

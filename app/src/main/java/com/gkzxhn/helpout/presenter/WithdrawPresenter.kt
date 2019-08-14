@@ -165,7 +165,6 @@ class WithdrawPresenter(context: Context, view: WithdrawView) : BasePresenter<IW
         tvTwo.setOnClickListener {
             mContext!!.showToast("暂不支持微信,敬请期待")
             dialog.dismiss()
-//            checkSelect(ivOne, ivTwo, 2)
         }
         tvVerify.setOnClickListener {
             dialog.dismiss()

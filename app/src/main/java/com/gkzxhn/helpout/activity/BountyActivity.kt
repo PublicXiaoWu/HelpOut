@@ -33,7 +33,7 @@ class BountyActivity : BaseActivity(), BountyView {
     }
 
     private fun initTopTitle() {
-        tv_default_top_title.text = "账户余额"
+        tv_default_top_title.text = getString(R.string.balance)
 
         iv_default_top_back.setOnClickListener {
             finish()
@@ -68,10 +68,10 @@ class BountyActivity : BaseActivity(), BountyView {
 
     override fun changeBingState(bindState: Boolean) {
         if (bindState) {
-            tv_bounty_bind_state.text = "已绑定"
+            tv_bounty_bind_state.text = getString(R.string.bind)
             tv_bounty_bind_state.setTextColor(resources.getColor(R.color.bind_blue))
         } else {
-            tv_bounty_bind_state.text = "未绑定"
+            tv_bounty_bind_state.text = getString(R.string.un_bind)
             tv_bounty_bind_state.setTextColor(resources.getColor(R.color.bind_gary))
         }
     }

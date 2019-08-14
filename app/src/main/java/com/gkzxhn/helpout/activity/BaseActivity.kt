@@ -2,7 +2,6 @@ package com.gkzxhn.helpout.activity
 
 import android.Manifest
 import android.annotation.SuppressLint
-import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.net.Uri
@@ -90,7 +89,7 @@ abstract class BaseActivity : AppCompatActivity(), BaseView {
                     if (javaClass.simpleName == "LoginActivity" || javaClass.simpleName == "SplashActivity") {
                         /****** 已经在登录 闪屏 页面就不要弹出来了 ******/
                     } else {
-                        TsClickDialog("您的账号已经在其它地方登录", false).dialog_save.setOnClickListener {
+                        TsClickDialog(getString(R.string.account_logout), false).dialog_save.setOnClickListener {
                             App.EDIT.putString(Constants.SP_TOKEN, "")?.commit()
                             App.EDIT.putString(Constants.SP_NAME, "")?.commit()
                             App.EDIT.putString(Constants.SP_LAWOFFICE, "")?.commit()
@@ -119,20 +118,16 @@ abstract class BaseActivity : AppCompatActivity(), BaseView {
             val attachData = systemMessage.attachObject as AddFriendNotify
             when (attachData.event) {
                 AddFriendNotify.Event.RECV_ADD_FRIEND_DIRECT -> {
-                    Log.e("xiaowu_add", "对方直接添加你为好友")
                     // 对方直接添加你为好友
                 }
                 AddFriendNotify.Event.RECV_AGREE_ADD_FRIEND -> {
-                    Log.e("xiaowu_add", "对方通过了你的好友验证请求")
                     // 对方通过了你的好友验证请求
                 }
                 AddFriendNotify.Event.RECV_REJECT_ADD_FRIEND -> {
-                    Log.e("xiaowu_add", "对方拒绝了你的好友验证请求")
                     // 对方拒绝了你的好友验证请求
                 }
                 AddFriendNotify.Event.RECV_ADD_FRIEND_VERIFY_REQUEST -> {
                     RxBus.instance.post(RxBusBean.AddPoint(true))
-                    Log.e("xiaowu_add", "对方请求添加好友，一般场景会让用户选择同意或拒绝对方的好友请求。" + attachData.account + attachData.msg)
                     // 对方请求添加好友，一般场景会让用户选择同意或拒绝对方的好友请求。
                     // 通过message.getContent()获取好友验证请求的附言
                 }
@@ -223,11 +218,11 @@ abstract class BaseActivity : AppCompatActivity(), BaseView {
     private fun Dialog() {
         open = 0x0002
         val builder = AlertDialog.Builder(this)
-        builder.setMessage("权限未开启，暂无法使用此功能")
+        builder.setMessage(getString(R.string.permission_is_not_open))
                 .setCancelable(false)
-                .setPositiveButton("取消", DialogInterface.OnClickListener { dialog, id -> dialog.cancel() })
-                .setNegativeButton("前去设置", DialogInterface.OnClickListener { dialog, id -> getAppDetailSettingIntent() }).show()
-        val alert = builder.create()
+                .setPositiveButton(getString(R.string.cancel)) { dialog, id -> dialog.cancel() }
+                .setNegativeButton(getString(R.string.go_set)) { dialog, id -> getAppDetailSettingIntent() }.show()
+        builder.create()
     }
 
     //当权限被拒绝前往设置界面
@@ -383,7 +378,6 @@ abstract class BaseActivity : AppCompatActivity(), BaseView {
                     DownState.START -> {
                         //正在下载中, 暂停下载
                         HttpDownManager.getInstance().pause(downloadInfo)
-//                        tvConfirm.text = getString(R.string.go_on)
                     }
                     DownState.FINISH -> {
                         installApk()
@@ -391,15 +385,12 @@ abstract class BaseActivity : AppCompatActivity(), BaseView {
                     DownState.PAUSE, DownState.STOP -> {
                         //暂停, 点击继续下载
                         HttpDownManager.getInstance().startDown(downloadInfo)
-//                        tvConfirm.text = getString(R.string.pause)
                     }
                     DownState.ERROR -> {
                         HttpDownManager.getInstance().startDown(downloadInfo)
-//                        tvConfirm.text = getString(R.string.pause)
                     }
                     else -> {
                         HttpDownManager.getInstance().startDown(downloadInfo)
-//                        tvConfirm.text = getString(R.string.pause)
                     }
                 }
             }
@@ -422,7 +413,7 @@ abstract class BaseActivity : AppCompatActivity(), BaseView {
             intent.setDataAndType(uri, "application/vnd.android.package-archive")
             startActivity(intent)
         } else {
-            showToast("文件损坏,重新下载")
+            showToast(getString(R.string.file_is_damaged))
             HttpDownManager.getInstance().let {
                 it.subMap.remove(downloadInfo?.url)
                 it.downInfos.remove(downloadInfo)

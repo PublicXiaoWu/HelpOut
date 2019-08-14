@@ -51,7 +51,7 @@ class AllOrderActivity : BaseActivity() {
     }
 
     private fun initTopTitle() {
-        tv_default_top_title.text = "所有订单"
+        tv_default_top_title.text = getString(R.string.all_order)
         iv_default_top_back.setOnClickListener {
             finish()
         }
