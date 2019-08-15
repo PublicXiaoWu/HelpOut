@@ -48,7 +48,7 @@ object NetCodeHelper {
             }
             else -> {
                 if (message.isEmpty()) {
-                    context.TsDialog("服务异常", false)
+                    context.TsDialog(context.getString(R.string.abnormal_server), false)
                 } else {
                     context.TsDialog(message, false)
                 }

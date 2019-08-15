@@ -4,6 +4,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import com.gkzxhn.helpout.R
 import com.gkzxhn.helpout.adapter.MoneyListAdapter
+import com.gkzxhn.helpout.customview.LoadMoreWrapper
 import com.gkzxhn.helpout.customview.PullToRefreshLayout
 import com.gkzxhn.helpout.entity.MoneyList
 import com.gkzxhn.helpout.net.HttpObserver
@@ -40,7 +41,7 @@ class MoneyListActivity : BaseActivity() {
 
 
         //加载更多
-        loading_more.setOnLoadMoreListener(object : com.gkzxhn.helpout.customview.LoadMoreWrapper.OnLoadMoreListener {
+        loading_more.setOnLoadMoreListener(object : LoadMoreWrapper.OnLoadMoreListener {
             override fun onLoadMore() {
                 if (loadMore) {
                     getMoneyList((page + 1).toString())

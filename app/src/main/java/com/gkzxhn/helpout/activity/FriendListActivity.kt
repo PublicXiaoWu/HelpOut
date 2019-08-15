@@ -69,6 +69,4 @@ class FriendListActivity : BaseActivity() {
         tv_default_top_title.text = getString(R.string.address_book)
         iv_default_top_back.setOnClickListener { finish() }
     }
-
-
 }

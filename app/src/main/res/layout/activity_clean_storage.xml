@@ -30,7 +30,7 @@
                 android:layout_marginBottom="@dimen/dimen_10"
                 android:layout_marginTop="@dimen/dimen_15"
                 android:ellipsize="end"
-                android:text="已用空间"
+                android:text="@string/used_space"
                 android:textColor="@color/text_gray"
                 android:textSize="@dimen/text_little"/>
 
@@ -69,7 +69,7 @@
                 android:layout_marginTop="@dimen/dimen_5"
                 android:textColor="@color/text_gray"
                 android:textSize="@dimen/text_little"
-                tools:text="占据手机7％存储空间e"/>
+                tools:text=""/>
 
             <Button
                 android:id="@+id/bt_clean_storage"
@@ -77,7 +77,7 @@
                 android:layout_height="@dimen/dimen_30"
                 android:layout_marginTop="@dimen/dimen_20"
                 android:background="@drawable/shape_set_login_out_bg_text"
-                android:text="清理缓存"
+                android:text="@string/clean_cache"
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_common"/>
 

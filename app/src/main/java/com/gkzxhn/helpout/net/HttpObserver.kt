@@ -3,6 +3,7 @@ package com.gkzxhn.helpout.net
 
 import android.app.Dialog
 import android.content.Context
+import com.gkzxhn.helpout.R
 import com.gkzxhn.helpout.net.error_exception.ApiErrorHelper
 import com.gkzxhn.helpout.utils.loadDialog
 
@@ -18,7 +19,7 @@ abstract class HttpObserver<T>(context: Context) : MySubscriber<T>(), OnRequestL
 
     init {
         contexts = context
-        loadDialog = context.loadDialog("加载中", false)
+        loadDialog = context.loadDialog(context.getString(R.string.loading), false)
         loadDialog?.show()
     }
 

@@ -57,7 +57,7 @@ class WithdrawPresenter(context: Context, view: WithdrawView) : BasePresenter<IW
                         })
             }
         } else {
-            mContext?.showToast("请填写完成后操作！")
+            mContext?.showToast(mContext!!.getString(R.string.please_fill_out_the_complete))
         }
     }
 
@@ -113,10 +113,10 @@ class WithdrawPresenter(context: Context, view: WithdrawView) : BasePresenter<IW
                                             mContext?.TsDialog("余额不足，不能提现。", false)
                                         }
                                         "sms.verification-code.Error" -> {
-                                            mContext?.TsDialog("验证码错误！", false)
+                                            mContext?.TsDialog(mContext!!.getString(R.string.verify_number_error), false)
                                         }
                                         else -> {
-                                            mContext?.showToast("服务异常")
+                                            mContext?.showToast(mContext!!.getString(R.string.abnormal_server))
                                         }
                                     }
                                 } else {
@@ -128,7 +128,7 @@ class WithdrawPresenter(context: Context, view: WithdrawView) : BasePresenter<IW
                         })
             }
         } else {
-            mContext?.showToast("请填写完成后操作！")
+            mContext?.showToast(mContext!!.getString(R.string.please_fill_out_the_complete))
         }
     }
 

@@ -2,7 +2,6 @@ package com.gkzxhn.helpout.activity
 
 import android.annotation.SuppressLint
 import android.content.Intent
-import android.util.Log
 import android.view.View
 import android.widget.TextView
 import com.gkzxhn.helpout.R
@@ -11,18 +10,14 @@ import com.gkzxhn.helpout.common.Constants
 import com.gkzxhn.helpout.entity.UpdateInfo
 import com.gkzxhn.helpout.net.HttpObserver
 import com.gkzxhn.helpout.net.RetrofitClientPublic
-import com.gkzxhn.helpout.net.error_exception.ApiException
 import com.gkzxhn.helpout.utils.*
 import com.netease.nimlib.sdk.NIMClient
 import com.netease.nimlib.sdk.auth.AuthService
 import kotlinx.android.synthetic.main.activity_setting.*
 import kotlinx.android.synthetic.main.default_top.*
-import kotlinx.android.synthetic.main.dialog_ts.*
 import retrofit2.adapter.rxjava.HttpException
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
-import java.io.IOException
-import java.net.ConnectException
 
 /**
  * @classname：SettingActivtiy
@@ -48,7 +43,7 @@ class SettingActivity : BaseActivity() {
     }
 
     private fun initTopTitle() {
-        tv_default_top_title.text = "设置"
+        tv_default_top_title.text = getString(R.string.set)
         iv_default_top_back.setOnClickListener {
             finish()
         }
@@ -132,34 +127,11 @@ class SettingActivity : BaseActivity() {
                     }
 
                     override fun onError(e: Throwable?) {
-                        loadDialog?.dismiss()
-                        when (e) {
-                            is ConnectException -> TsDialog("服务器异常，请重试", false)
-                            is HttpException -> {
-                                when {
-                                    e.code() == 401 -> TsClickDialog("登录已过期", false).dialog_save.setOnClickListener {
-                                        App.EDIT.putString(Constants.SP_TOKEN, "")?.commit()
-                                        val intent = Intent(this@SettingActivity, LoginActivity::class.java)
-                                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
-                                        startActivity(intent)
-                                    }
-                                    e.code() == 404 ->
-                                        /****** 不处理 ******/
-                                        TsDialog("已是最新版本", false)
-                                    else -> TsDialog("服务器异常，请重试", false)
-                                }
-                            }
-                            is IOException -> showToast("网络连接超时，请重试")
-
-                            //后台返回的message
-                            is ApiException -> {
-                                TsDialog(e.message!!, false)
-                                Log.e("ApiErrorHelper", e.message, e)
-                            }
-                            else -> {
-                                showToast("数据异常")
-                                Log.e("ApiErrorHelper", e?.message, e)
-                            }
+                        if (e is HttpException && e.code() == 404) {
+                            loadDialog?.dismiss()
+                            /****** 不处理 ******/
+                        } else {
+                            super.onError(e)
                         }
                     }
 

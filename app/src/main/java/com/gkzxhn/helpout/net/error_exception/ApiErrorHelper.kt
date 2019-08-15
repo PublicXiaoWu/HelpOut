@@ -3,6 +3,7 @@ package com.gkzxhn.helpout.net.error_exception
 import android.content.Context
 import android.content.Intent
 import android.util.Log
+import com.gkzxhn.helpout.R
 import com.gkzxhn.helpout.activity.LoginActivity
 import com.gkzxhn.helpout.common.App
 import com.gkzxhn.helpout.common.Constants
@@ -24,12 +25,11 @@ import java.net.ConnectException
 object ApiErrorHelper {
 
     fun handleCommonError(context: Context, e: Throwable) {
-        print("网络异常：" + e::javaClass)
         when (e) {
-            is ConnectException -> context.TsDialog("服务器异常，请重试", false)
+            is ConnectException -> context.TsDialog(context.getString(R.string.abnormal_server), false)
             is HttpException -> {
                 when (e.code()) {
-                    401 -> context.TsClickDialog("登录已过期", false).dialog_save.setOnClickListener {
+                    401 -> context.TsClickDialog(context.getString(R.string.login_has_expired), false).dialog_save.setOnClickListener {
                         App.EDIT.putString(Constants.SP_TOKEN, "")?.commit()
                         val intent = Intent(context, LoginActivity::class.java)
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
@@ -49,10 +49,10 @@ object ApiErrorHelper {
                         }
                         when (code) {
                             "lawyer.CanNotRushToAcceptIsBusy" -> {
-                                context.TsDialog("您有订单未处理，请先处理", false)
+                                context.TsDialog(context.getString(R.string.you_have_pending_orders), false)
                             }
                             "customer.friend.isExist" -> {
-                                Log.e("xiaowu","好友关系已存在")
+                                context.showToast(context.getString(R.string.friend_relationship_exists))
                             }
                             else -> {
                                 context.TsDialog(message, false)
@@ -60,20 +60,20 @@ object ApiErrorHelper {
                         }
                     }
                     else -> {
-                        context.TsDialog("服务器异常，请重试", false)
+                        context.TsDialog(context.getString(R.string.abnormal_server), false)
                     }
                 }
             }
             is IOException -> {
-                context.showToast("网络连接超时，请重试")
+                context.showToast(context.getString(R.string.net_time_out))
             }
-        //后台返回的message
+            //后台返回的message
             is ApiException -> {
                 context.TsDialog(e.message!!, false)
                 Log.e("ApiErrorHelper", e.message, e)
             }
             else -> {
-                context.showToast("数据异常")
+                context.showToast(context.getString(R.string.abnormal_data_processing))
                 Log.e("ApiErrorHelper", e.message, e)
             }
         }

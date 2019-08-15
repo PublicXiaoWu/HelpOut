@@ -180,34 +180,11 @@ class MainActivity : BaseActivity() {
                     }
 
                     override fun onError(e: Throwable?) {
-                        loadDialog?.dismiss()
-                        when (e) {
-                            is ConnectException -> TsDialog("服务器异常，请重试", false)
-                            is HttpException -> {
-                                when {
-                                    e.code() == 401 -> TsClickDialog("登录已过期", false).dialog_save.setOnClickListener {
-                                        App.EDIT.putString(Constants.SP_TOKEN, "")?.commit()
-                                        val intent = Intent(this@MainActivity, LoginActivity::class.java)
-                                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
-                                        startActivity(intent)
-                                    }
-                                    e.code() == 404 -> {
-                                        /****** 不处理 ******/
-                                    }
-                                    else -> TsDialog("服务器异常，请重试", false)
-                                }
-                            }
-                            is IOException -> showToast("网络连接超时，请重试")
-
-                            //后台返回的message
-                            is ApiException -> {
-                                TsDialog(e.message!!, false)
-                                Log.e("ApiErrorHelper", e.message, e)
-                            }
-                            else -> {
-                                showToast("数据异常")
-                                Log.e("ApiErrorHelper", e?.message, e)
-                            }
+                        if (e is HttpException && e.code() == 404) {
+                            loadDialog?.dismiss()
+                            /****** 不处理 ******/
+                        } else {
+                            super.onError(e)
                         }
                     }
 

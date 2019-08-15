@@ -122,7 +122,7 @@ class OrderReceivingFragment : BaseFragment(), OrderReceivingView {
 
                     val processingOrderId = App.SP.getString(Constants.PROCESSING_ORDER_ID, "")
                     if (processingOrderId.isNotEmpty()) {
-                        val selectDialog = context?.selectDialog("您有订单未处理，请先处理", false)
+                        val selectDialog = context?.selectDialog(getString(R.string.you_have_pending_orders), false)
                         val cancel = selectDialog?.findViewById<TextView>(R.id.dialog_cancel)
                         val next = selectDialog?.findViewById<TextView>(R.id.dialog_save)
                         cancel?.text = getString(R.string.close)
@@ -153,7 +153,7 @@ class OrderReceivingFragment : BaseFragment(), OrderReceivingView {
                 if (ProjectUtils.certificationStatus()) {
                     val processingOrderId = App.SP.getString(Constants.PROCESSING_ORDER_ID, "")
                     if (processingOrderId.isNotEmpty()) {
-                        val selectDialog = context?.selectDialog("您有订单未处理，请先处理", false)
+                        val selectDialog = context?.selectDialog(getString(R.string.you_have_pending_orders), false)
                         val cancel = selectDialog?.findViewById<TextView>(R.id.dialog_cancel)
                         val next = selectDialog?.findViewById<TextView>(R.id.dialog_save)
                         cancel?.text = getString(R.string.close)

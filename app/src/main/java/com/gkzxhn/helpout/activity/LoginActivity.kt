@@ -1,28 +1,17 @@
 package com.gkzxhn.helpout.activity
 
 import android.annotation.SuppressLint
-import android.content.Intent
-import android.util.Log
 import android.view.WindowManager
 import com.gkzxhn.helpout.R
 import com.gkzxhn.helpout.common.App
 import com.gkzxhn.helpout.common.Constants
-import com.gkzxhn.helpout.entity.UpdateInfo
-import com.gkzxhn.helpout.net.HttpObserver
-import com.gkzxhn.helpout.net.RetrofitClientPublic
-import com.gkzxhn.helpout.net.error_exception.ApiException
 import com.gkzxhn.helpout.presenter.LoginPresenter
-import com.gkzxhn.helpout.utils.*
+import com.gkzxhn.helpout.utils.ProjectUtils
 import com.gkzxhn.helpout.view.LoginView
 import io.reactivex.Observable
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_login.*
-import kotlinx.android.synthetic.main.dialog_ts.*
-import retrofit2.adapter.rxjava.HttpException
-import rx.android.schedulers.AndroidSchedulers
-import java.io.IOException
-import java.net.ConnectException
 import java.util.concurrent.TimeUnit
 import kotlinx.android.synthetic.main.activity_login.et_login_code as code
 import kotlinx.android.synthetic.main.activity_login.et_login_phone as loginPhone
@@ -46,7 +35,7 @@ class LoginActivity : BaseActivity(), LoginView {
     private var sendClick: Boolean = false  //是否已经点击发送验证码
 
 
-    var mPresenter: LoginPresenter? = null
+    lateinit var mPresenter: LoginPresenter
 
     override fun getPhone(): String {
         return loginPhone.text.toString().trim()
@@ -71,7 +60,6 @@ class LoginActivity : BaseActivity(), LoginView {
         mPresenter = LoginPresenter(this, this)
 
         val phone = App.SP.getString(Constants.SP_REMEMBER_PHONE, "")
-        Log.e("xiaowu", "phone" + phone)
 
         if (phone.isNotEmpty()) {
             loginPhone.setText(phone)
@@ -79,13 +67,13 @@ class LoginActivity : BaseActivity(), LoginView {
             code.requestFocus()
         }
 
-        updateApp()
+        mPresenter.updateApp()
         login.setOnClickListener {
-            mPresenter?.login()
+            mPresenter.login()
         }
 
         sendCode.setOnClickListener {
-            mPresenter?.sendCode()
+            mPresenter.sendCode()
         }
         ProjectUtils.addViewTouchChange(login)
     }
@@ -113,7 +101,6 @@ class LoginActivity : BaseActivity(), LoginView {
                         }
                     }
                 }, {
-                    //                    it.message!!.logE(this)
                 })
     }
 
@@ -130,57 +117,6 @@ class LoginActivity : BaseActivity(), LoginView {
         sendCode.isClickable = true
         sendCode.text = getString(R.string.get_verify)
         sendCode.setTextColor(resources.getColor(R.color.dark_blue))
-    }
-
-
-    /**
-     * @methodName： created by liushaoxiang on 2018/11/6 4:09 PM.
-     * @description：检查更新
-     */
-    private fun updateApp() {
-        RetrofitClientPublic.getInstance(this).mApi.updateApp()
-                .subscribeOn(rx.schedulers.Schedulers.io())
-                ?.unsubscribeOn(AndroidSchedulers.mainThread())
-                ?.observeOn(AndroidSchedulers.mainThread())
-                ?.subscribe(object : HttpObserver<UpdateInfo>(this) {
-                    override fun success(t: UpdateInfo) {
-                        val versionCode = ObtainVersion.getVersionCode(App.mContext)
-                        if (t.number!! > versionCode) {
-                            showDownloadDialog(t)
-                        }
-                    }
-
-                    override fun onError(e: Throwable?) {
-                        loadDialog?.dismiss()
-                        when (e) {
-                            is ConnectException -> TsDialog("服务器异常，请重试", false)
-                            is HttpException -> {
-                                when {
-                                    e.code() == 401 -> TsClickDialog("登录已过期", false).dialog_save.setOnClickListener {
-                                        App.EDIT.putString(Constants.SP_TOKEN, "")?.commit()
-                                        val intent = Intent(this@LoginActivity, LoginActivity::class.java)
-                                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
-                                        startActivity(intent)
-                                    }
-                                    e.code() == 404 -> {
-                                        /****** 不处理 ******/
-                                    }
-                                    else -> TsDialog("服务器异常，请重试", false)
-                                }
-                            }
-                            is IOException -> TsDialog("数据加载失败，请检查您的网络", false)
-                        //后台返回的message
-                            is ApiException -> {
-                                TsDialog(e.message!!, false)
-                                Log.e("ApiErrorHelper", e.message, e)
-                            }
-                            else -> {
-                                showToast("数据异常")
-                                Log.e("ApiErrorHelper", e?.message, e)
-                            }
-                        }
-                    }
-                })
     }
 
 }

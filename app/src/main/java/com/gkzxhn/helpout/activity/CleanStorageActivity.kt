@@ -51,7 +51,7 @@ class CleanStorageActivity : BaseActivity() {
 
         setOnclick()
         avi.show()
-        tv_storage_size_percent.text = "正在计算已用空间"
+        tv_storage_size_percent.text =getString(R.string.calculating_used_space)
         bt_clean_storage.visibility = View.GONE
         tv_cache_storage.visibility = View.GONE
 
@@ -89,7 +89,7 @@ class CleanStorageActivity : BaseActivity() {
 
 
     private fun initTopTitle() {
-        tv_default_top_title.text = "存储空间"
+        tv_default_top_title.text = getString(R.string.storage_space)
         iv_default_top_back.setOnClickListener {
             finish()
         }

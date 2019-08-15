@@ -12,10 +12,12 @@ import com.gkzxhn.helpout.common.Constants
 import com.gkzxhn.helpout.entity.AccountInfo
 import com.gkzxhn.helpout.entity.ImInfo
 import com.gkzxhn.helpout.entity.LawyersInfo
+import com.gkzxhn.helpout.entity.UpdateInfo
 import com.gkzxhn.helpout.model.ILoginModel
 import com.gkzxhn.helpout.model.iml.LoginModel
 import com.gkzxhn.helpout.net.HttpObserver
 import com.gkzxhn.helpout.net.HttpObserverNoDialog
+import com.gkzxhn.helpout.net.RetrofitClientPublic
 import com.gkzxhn.helpout.net.error_exception.NetCodeHelper
 import com.gkzxhn.helpout.utils.*
 import com.gkzxhn.helpout.view.LoginView
@@ -31,6 +33,7 @@ import okhttp3.RequestBody
 import okhttp3.ResponseBody
 import org.json.JSONObject
 import retrofit2.Response
+import retrofit2.adapter.rxjava.HttpException
 import rx.android.schedulers.AndroidSchedulers
 import java.util.*
 
@@ -44,9 +47,9 @@ class LoginPresenter(context: Context, view: LoginView) : BasePresenter<ILoginMo
 
     fun login() {
         if (mView?.getCode()?.isEmpty()!! || mView?.getPhone()?.isEmpty()!!) {
-            mContext?.showToast("请填写完成后操作！")
+            mContext?.showToast(mContext!!.getString(R.string.please_fill_out_the_complete))
         } else if (!StringUtils.isMobileNO(mView?.getPhone()!!)) {
-            mContext?.showToast("手机号格式不正确")
+            mContext?.showToast(mContext!!.getString(R.string.phone_is_not_correct))
         } else {
             requestLogin()
         }
@@ -54,9 +57,9 @@ class LoginPresenter(context: Context, view: LoginView) : BasePresenter<ILoginMo
 
     fun sendCode() {
         if (!StringUtils.isMobileNO(mView?.getPhone()!!)) {
-            mContext?.showToast("手机号格式不正确")
+            mContext?.showToast(mContext!!.getString(R.string.phone_is_not_correct))
         } else if (!NetworkUtils.isNetConneted(mContext!!)) {
-            mContext?.showToast("暂无网络")
+            mContext?.showToast(mContext!!.getString(R.string.no_network))
         } else {
             mContext?.let {
                 val map = LinkedHashMap<String, String>()
@@ -71,7 +74,7 @@ class LoginPresenter(context: Context, view: LoginView) : BasePresenter<ILoginMo
                                     mView?.startCountDown(60)
                                     it.showToast(it.getString(R.string.have_send).toString())
                                 } else {
-                                    it.showToast("服务器异常，请重试")
+                                    it.showToast(it.getString(R.string.abnormal_server))
                                 }
                             }
 
@@ -112,7 +115,7 @@ class LoginPresenter(context: Context, view: LoginView) : BasePresenter<ILoginMo
                                 400 -> {
                                     val separateCode = NetCodeHelper.handleCommonCode(it, t.errorBody()?.string()!!)
                                     /****** 账号已存在 ******/
-                                    if (separateCode=="user.PhoneNumberExisted") {
+                                    if (separateCode == "user.PhoneNumberExisted") {
                                         getToken(map["phoneNumber"].toString(), map["verificationCode"].toString())
                                         rememberPhone()
                                     }
@@ -162,16 +165,16 @@ class LoginPresenter(context: Context, view: LoginView) : BasePresenter<ILoginMo
                                     getLawyersInfo()
                                 }
                             } else if (t.code() == 400) {
-                                 NetCodeHelper.handleCommonCode(it, t.errorBody()!!.string())
+                                NetCodeHelper.handleCommonCode(it, t.errorBody()!!.string())
                             } else if (t.code() == 401) {
-                                mContext?.TsClickDialog("登录已过期", false)?.dialog_save?.setOnClickListener {
+                                mContext?.TsClickDialog(it.getString(R.string.login_has_expired), false)?.dialog_save?.setOnClickListener {
                                     App.EDIT.putString(Constants.SP_TOKEN, "")?.commit()
                                     val intent = Intent(mContext, LoginActivity::class.java)
                                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
                                     mContext?.startActivity(intent)
                                 }
                             } else {
-                                mContext?.showToast("服务器异常")
+                                mContext?.showToast(mContext!!.getString(R.string.abnormal_server))
                             }
 
                         }
@@ -270,5 +273,36 @@ class LoginPresenter(context: Context, view: LoginView) : BasePresenter<ILoginMo
         })
     }
 
+
+    /**
+     * @methodName： created by liushaoxiang on 2018/11/6 4:09 PM.
+     * @description：检查更新
+     */
+    fun updateApp() {
+        mContext?.let {
+            RetrofitClientPublic.getInstance(it).mApi.updateApp()
+                    .subscribeOn(rx.schedulers.Schedulers.io())
+                    ?.unsubscribeOn(AndroidSchedulers.mainThread())
+                    ?.observeOn(AndroidSchedulers.mainThread())
+                    ?.subscribe(object : HttpObserver<UpdateInfo>(it) {
+                        override fun success(t: UpdateInfo) {
+                            val versionCode = ObtainVersion.getVersionCode(App.mContext)
+                            if (t.number!! > versionCode) {
+                                (mView as LoginActivity).showDownloadDialog(t)
+                            }
+                        }
+
+
+                        override fun onError(e: Throwable?) {
+                            if (e is HttpException && e.code() == 404) {
+                                loadDialog?.dismiss()
+                                /****** 不处理 ******/
+                            } else {
+                                super.onError(e)
+                            }
+                        }
+                    })
+        }
+    }
 }
 

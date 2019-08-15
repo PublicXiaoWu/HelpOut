@@ -72,7 +72,7 @@ class BountyPresenter(context: Context, view: BountyView) : BasePresenter<IBount
                                 mContext?.showToast("绑定成功")
                                 getLawyersInfo()
                             } else {
-                                mContext?.showToast("服务器异常 code:" + t.code())
+                                mContext?.showToast(mContext!!.getString(R.string.abnormal_server))
                             }
                         }
                     })
@@ -94,7 +94,7 @@ class BountyPresenter(context: Context, view: BountyView) : BasePresenter<IBount
                                 mContext?.showToast("解绑成功")
                                 getLawyersInfo()
                             } else {
-                                mContext?.showToast("服务器异常 code:" + t.code())
+                                mContext?.showToast(mContext!!.getString(R.string.abnormal_server))
                             }
                         }
                     })

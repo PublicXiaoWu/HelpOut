@@ -245,7 +245,7 @@ class UserFragment : BaseFragment(), View.OnClickListener {
 
                         override fun onError(e: Throwable?) {
                             when (e) {
-                                is ConnectException -> it.TsDialog("服务器异常，请重试", false)
+                                is ConnectException -> it.TsDialog(getString(R.string.abnormal_server), false)
                                 is HttpException -> {
                                     when (e.code()) {
                                         401 -> {
@@ -262,19 +262,19 @@ class UserFragment : BaseFragment(), View.OnClickListener {
                                             it.TsDialog(message, false)
                                         }
                                         else -> {
-                                            it.TsDialog("服务器异常，请重试", false)
+                                            it.TsDialog(getString(R.string.abnormal_server), false)
                                         }
                                     }
                                 }
                                 is IOException -> {
-                                    it.showToast("网络连接超时，请重试")
+                                    it.showToast(getString(R.string.net_time_out))
                                 }
                                 //后台返回的message
                                 is ApiException -> {
                                     it.TsDialog(e.message!!, false)
                                 }
                                 else -> {
-                                    it.showToast("数据异常")
+                                    it.showToast(getString(R.string.abnormal_data_processing))
                                 }
                             }
                         }
@@ -312,7 +312,7 @@ class UserFragment : BaseFragment(), View.OnClickListener {
                                         }
                                     } else {
 
-                                        it.TsClickDialog("登录已过期", false).dialog_save.setOnClickListener {
+                                        it.TsClickDialog(getString(R.string.login_has_expired), false).dialog_save.setOnClickListener {
                                             App.EDIT.putString(Constants.SP_TOKEN, "")?.commit()
                                             val intent = Intent(context, LoginActivity::class.java)
                                             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)

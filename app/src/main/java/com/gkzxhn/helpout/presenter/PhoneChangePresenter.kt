@@ -37,9 +37,9 @@ class PhoneChangePresenter(context: Context, view: PhoneChangeView) : BasePresen
 
     fun login() {
         if (mView?.getCode()?.isEmpty()!!) {
-            mContext?.showToast("请填写完成后操作！")
+            mContext?.showToast(mContext!!.getString(R.string.please_fill_out_the_complete))
         } else if (!StringUtils.isMobileNO(mView?.getPhone()!!)) {
-            mContext?.showToast("手机号格式不正确")
+            mContext?.showToast(mContext!!.getString(R.string.phone_is_not_correct))
         } else {
             requestLogin()
         }
@@ -47,7 +47,7 @@ class PhoneChangePresenter(context: Context, view: PhoneChangeView) : BasePresen
 
     fun sendCode() {
         if (!StringUtils.isMobileNO(mView?.getPhone()!!)) {
-            mContext?.showToast("手机号格式不正确")
+            mContext?.showToast(mContext!!.getString(R.string.phone_is_not_correct))
             return
         }
         mContext?.let {
@@ -156,10 +156,10 @@ class PhoneChangePresenter(context: Context, view: PhoneChangeView) : BasePresen
                                     }
                                 }
                                 400 -> {
-                                    NetCodeHelper.handleCommonCode(it,t.errorBody()!!.string())
+                                    NetCodeHelper.handleCommonCode(it, t.errorBody()!!.string())
                                 }
                                 401 -> {
-                                    mContext?.TsClickDialog("登录已过期", false)?.dialog_save?.setOnClickListener {
+                                    mContext?.TsClickDialog(it.getString(R.string.login_has_expired), false)?.dialog_save?.setOnClickListener {
                                         App.EDIT.putString(Constants.SP_TOKEN, "")?.commit()
                                         val intent = Intent(mContext, LoginActivity::class.java)
                                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
@@ -167,7 +167,7 @@ class PhoneChangePresenter(context: Context, view: PhoneChangeView) : BasePresen
                                     }
                                 }
                                 else -> {
-                                    mContext?.showToast("服务器异常")
+                                    mContext?.showToast(mContext!!.getString(R.string.abnormal_server))
 
                                 }
                             }
@@ -184,10 +184,10 @@ class PhoneChangePresenter(context: Context, view: PhoneChangeView) : BasePresen
      */
     fun updatePhoneNumber() {
         if (mView?.getCode()?.isEmpty()!!) {
-            mContext?.showToast("请填写完成后操作！")
+            mContext?.showToast(mContext!!.getString(R.string.please_fill_out_the_complete))
             return
         } else if (!StringUtils.isMobileNO(mView?.getPhone()!!)) {
-            mContext?.showToast("手机号格式不正确")
+            mContext?.showToast(mContext!!.getString(R.string.phone_is_not_correct))
             return
         }
         val map = LinkedHashMap<String, String>()
