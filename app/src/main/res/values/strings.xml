@@ -242,4 +242,11 @@
     <string name="please_enter_the_code">请输入验证码</string>
     <string name="change_phone_number">更换手机号码</string>
     <string name="next_step">下一步</string>
+    <string name="agreed">已同意</string>
+    <string name="refused">已拒绝</string>
+    <string name="ignored">已忽略</string>
+    <string name="expired">已过期</string>
+    <string name="untreated">未处理</string>
+    <string name="add_fail">添加失败</string>
+    <string name="add_exception">添加异常</string>
 </resources>

@@ -79,7 +79,7 @@
             android:layout_marginStart="@dimen/dimen_18"
             android:textColor="@color/text_gray"
             android:textSize="@dimen/text_common"
-            tools:text="支付宝"
+            tools:text="@string/alipay"
             />
 
     </FrameLayout>

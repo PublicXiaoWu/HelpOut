@@ -41,7 +41,7 @@
         android:background="@drawable/selector_item_white_to_gary"
         android:gravity="center_vertical"
         android:paddingStart="55dp"
-        android:text="支付宝"
+        android:text="@string/alipay"
         android:textColor="#ff666666"
         android:textSize="14sp"
         app:layout_constraintStart_toStartOf="parent"

@@ -80,9 +80,9 @@ class MoneyListAdapter(private val mContext: Context) : RecyclerView.Adapter<Mon
             val source = entity.source.toString()
             tv_money_list_money.text = entity.amount.toString()
             val payType = when (source) {
-                "ALIPAY" -> "支付宝"
-                "WE_CHAT_PAY" -> "微信支付"
-                else -> "其它"
+                "ALIPAY" -> mContext.getString(R.string.alipay)
+                "WE_CHAT_PAY" -> mContext.getString(R.string.weixin)
+                else -> "Other"
             }
             val typeStr = when (type) {
                 "SERVICE_CHARGE" -> {
@@ -101,7 +101,7 @@ class MoneyListAdapter(private val mContext: Context) : RecyclerView.Adapter<Mon
                     tv_money_list_money.setTextColor(resources.getColor(R.color.main_bottom_black))
                     "账户提现"
                 }
-                else -> "其它"
+                else -> "Other"
             }
             tv_money_list_type.text = typeStr
             tv_money_list_number.text = "订单编号：${entity.orderNumber}"

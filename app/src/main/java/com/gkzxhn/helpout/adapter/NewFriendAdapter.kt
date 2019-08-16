@@ -54,15 +54,15 @@ class NewFriendAdapter(datas: List<SystemMessage>?) : BaseQuickAdapter<SystemMes
 
     fun getVerifyNotificationDealResult(message: SystemMessage): String {
         return if (message.status == SystemMessageStatus.passed) {
-            "已同意"
+            mContext.getString(R.string.agreed)
         } else if (message.status == SystemMessageStatus.declined) {
-            "已拒绝"
+            mContext.getString(R.string.refused)
         } else if (message.status == SystemMessageStatus.ignored) {
-            "已忽略"
+            mContext.getString(R.string.ignored)
         } else if (message.status == SystemMessageStatus.expired) {
-            "已过期"
+            mContext.getString(R.string.untreated)
         } else {
-            "未处理"
+            mContext.getString(R.string.expired)
         }
     }
 
@@ -73,20 +73,20 @@ class NewFriendAdapter(datas: List<SystemMessage>?) : BaseQuickAdapter<SystemMes
                     onProcessSuccess(true, message!!)
                     helper?.setVisible(R.id.tv_new_friend_item_add, false)
                     helper?.setVisible(R.id.tv_new_friend_item_state, true)
-                    helper?.setText(R.id.tv_new_friend_item_state, "已同意")
+                    helper?.setText(R.id.tv_new_friend_item_state, mContext.getString(R.string.agreed))
                     val curUserName = JSONObject(message.content).getString("curUserName")
 
                     RxBus.instance.post(RxBusBean.AddFriendPass(curUserName, message.fromAccount))
                 }
 
                 override fun onFailed(p0: Int) {
-                    mContext.showToast("添加失败")
+                    mContext.showToast(mContext.getString(R.string.add_fail))
                     onProcessFailed(p0, message!!)
 
                 }
 
                 override fun onException(p0: Throwable?) {
-                    mContext.showToast("添加异常")
+                    mContext.showToast(mContext.getString(R.string.add_exception))
 
                 }
             })
